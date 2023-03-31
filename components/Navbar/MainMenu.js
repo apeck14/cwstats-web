@@ -23,10 +23,12 @@ const Item = styled.li({
 	listStyle: "none",
 	fontFamily: "SansPro600",
 	width: "fit-content",
+	margin: "0.5rem 0"
 })
 
 const Line = styled.hr({
 	borderTop: `1px ${gray["0"]}`,
+	margin: "0.25rem 0 0 0"
 })
 
 const LinkItem = styled.p({
@@ -62,13 +64,11 @@ export default function MainMenu({ displayMenu }) {
 					Daily
 				</LinkItem>
 			</Item>
-			<Line />
 			<Item>
 				<LinkItem onClick={() => handleClick("/leaderboard/war/global")}>
 					War
 				</LinkItem>
 			</Item>
-			<Line />
 			<Header onClick={() => handleClick("/records")} style={{
 				marginTop: "30px"
 			}}>
@@ -76,7 +76,7 @@ export default function MainMenu({ displayMenu }) {
 					marginRight: "5px",
 					color: pink
 				}} />
-				CW2 Records
+				CW2 Records - Coming Soon!
 			</Header>
 			<br />
 			<Header style={{
@@ -94,19 +94,16 @@ export default function MainMenu({ displayMenu }) {
 					Setup
 				</LinkItem>
 			</Item>
-			<Line />
 			<Item>
 				<LinkItem onClick={() => handleClick("/bot/docs")}>
 					Docs
 				</LinkItem>
 			</Item>
-			<Line />
 			<Item>
 				<LinkItem onClick={() => handleClick("/server/invite")}>
 					Support Server
 				</LinkItem>
 			</Item>
-			<Line />
 		</Container>
 	)
 }
