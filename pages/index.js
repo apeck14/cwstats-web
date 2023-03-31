@@ -344,7 +344,7 @@ export default function Home() {
 							</SearchButton>
 						</SearchBarContainer>
 					</SearchDiv>
-					<SearchDiv style={(width *  0.0625) < 50.875 ? {
+					<SearchDiv style={width < 905 ? {
 						marginTop: "1.5rem"
 					} : null}>
 						<SearchHeader>Clans</SearchHeader>
