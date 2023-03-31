@@ -172,7 +172,7 @@ export default function Navbar() {
 				<EdgeItem>
 					<Logo className="noselect" src="/assets/icons/logo.png" alt="logo" height={46.4} width={46.4} />
 					<TitleText className="noselect" href="/">
-						CW Stats
+						CWStats
 					</TitleText>
 				</EdgeItem>
 

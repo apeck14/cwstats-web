@@ -27,7 +27,7 @@ const TopHeader = styled.h1({
 	"textAlign": "center",
 
 	"@media (max-width: 480px)": {
-		fontSize: "3rem",
+		fontSize: "2.75rem",
 	},
 
 	"@media (max-width: 380px)": {
