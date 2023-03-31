@@ -331,7 +331,7 @@ export default function Home() {
 			<NextSeo
 				title= "CWStats - The trusted source for everything clan wars."
 				description= "Everything CW. The recommended source for war analytics, stats, projections, leaderboards & more!"
-				themeColor={pink}
+				themeColor={gray["75"]}
 				openGraph={{
 					type: "website",
 					url: "https://www.cwstats.com",
