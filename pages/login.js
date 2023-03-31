@@ -2,7 +2,7 @@ import styled from "styled-components"
 import { gray, orange, pink } from "../public/static/colors"
 import { signIn } from "next-auth/react"
 import { FaDiscord } from "react-icons/fa"
-import Head from "next/head"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	margin: "auto",
@@ -49,9 +49,7 @@ const DiscordIcon = styled(FaDiscord)({
 export default function Login() {
 	return (
 		<>
-			<Head>
-				<title>Login</title>
-			</Head>
+			<NextSeo title="Login" />
 			<Main>
 				<Header>You are not logged in.</Header>
 				<SubHeader>To access the full site, please login with Discord.</SubHeader>

@@ -7,7 +7,7 @@ import { BiSearchAlt } from "react-icons/bi"
 import Image from "next/image"
 import Link from "next/link"
 import { levenshtein } from "string-comparison"
-import Head from "next/head"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	"margin": "0 auto",
@@ -212,9 +212,7 @@ export default function ClanSearch () {
 	}
 
 	return <>
-		<Head>
-			<title>Clan Search</title>
-		</Head>
+		<NextSeo title="Clan Search" />
 		<Main>
 			<SearchBarContainer>
 				<SearchBar defaultValue={q} onChange={handleClanSearchChange} placeholder="Name or tag, e.g. 9U82JJ0Y" />

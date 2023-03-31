@@ -10,7 +10,7 @@ import useWindowSize from '../../../hooks/useWindowSize'
 import LocationsModal from '../../../components/Modals/Locations'
 import Locations from "../../../public/static/locations"
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs"
-import Head from "next/head"
+import { NextSeo } from 'next-seo'
 
 const Main = styled.div({
 	"margin": "0 auto",
@@ -303,9 +303,7 @@ export default function Leaderboard() {
 
 	return (
 		<>
-			<Head>
-				<title>War Leaderboard - {region.name}</title>
-			</Head>
+			<NextSeo title={`War Leaderboard - ${region?.name || "Region"}`} />
 			<Main>
 				{
 					region ?

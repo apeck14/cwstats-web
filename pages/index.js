@@ -9,8 +9,8 @@ import Link from "next/link"
 import LoginOverlay from "../components/Home/Saved/LoginWithDiscordOverlay"
 import { getClan, getDailyLeaderboard } from "../utils/services"
 import { useRouter } from "next/router"
-import Head from "next/head"
 import { handleCRError } from "../utils/functions"
+import { NextSeo } from "next-seo"
 
 const TopContainer = styled.div({
 	backgroundColor: gray["100"],
@@ -328,9 +328,7 @@ export default function Home() {
 
 	return (
 		<>
-			<Head>
-				<title>CWStats</title>
-			</Head>
+			<NextSeo title="CWStats" />
 
 			<TopContainer>
 				<TopHeader>Everything CW.</TopHeader>

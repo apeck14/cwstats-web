@@ -18,7 +18,7 @@ import {
 import ProgressBar from "../../../components/Race/ProgressBar"
 import RaceLeaderboard from "../../../components/Tables/RaceLeaderboard"
 import RaceNotFound from "../../../components/Race/NotFound"
-import Head from "next/head"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	"margin": "0 auto",
@@ -491,9 +491,7 @@ export default function ClanRace() {
 
 	return (
 		<>
-			<Head>
-				<title>{clan.name} - Race</title>
-			</Head>
+			<NextSeo title={`${clan.name || "Clan"} - Race`} />
 			<Main>
 				<HeaderDiv>
 

@@ -4,7 +4,7 @@ import { gray, orange, pink } from "../../public/static/colors"
 import { useSession } from "next-auth/react"
 import SavedItem from "../../components/Saved/Item"
 import { useRouter } from "next/router"
-import Head from "next/head"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	"width": "60%",
@@ -108,9 +108,7 @@ export default function Players() {
 
 	return (
 		<>
-			<Head>
-				<title>My Players</title>
-			</Head>
+			<NextSeo title="My Players" />
 			<Main>
 				<Header>My Players</Header>
 				<SubHeader>View all saved players.</SubHeader>

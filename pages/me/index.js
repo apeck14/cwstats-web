@@ -5,7 +5,7 @@ import { useSession, signOut } from "next-auth/react"
 import useWindowSize from "../../hooks/useWindowSize"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/router"
-import Head from "next/head"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	"width": "60%",
@@ -178,9 +178,7 @@ export default function Me() {
 
 	return (
 		<>
-			<Head>
-				<title>My CWStats</title>
-			</Head>
+			<NextSeo title="My CWStats" />
 			<Main>
 				<TopDiv>
 					<HeaderDiv>

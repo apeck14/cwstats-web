@@ -1,12 +1,10 @@
+import { NextSeo } from "next-seo"
 import ComingSoon from "../../../components/ComingSoon"
-import Head from "next/head"
 
 export default function ClanStats() {
 
 	return <>
-		<Head>
-			<title>Stats</title>
-		</Head>
+		<NextSeo title="Clan Stats" />
 		<ComingSoon />
 	</>
 }

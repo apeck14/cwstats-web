@@ -1,7 +1,7 @@
 import styled from "styled-components"
 import Spinner from "../components/Spinner"
 import { gray } from "../public/static/colors"
-import Head from "next/head"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	display: "flex",
@@ -32,9 +32,7 @@ const SubHeader = styled.h2({
 export default function Matchmaking() {
 	return (
 		<>
-			<Head>
-				<title>Matchmaking...</title>
-			</Head>
+			<NextSeo title="Matchmaking..." />
 			<Main>
 				<Spinner />
 				<Header>Matchmaking in progress.</Header>

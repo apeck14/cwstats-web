@@ -1,11 +1,9 @@
-import Head from "next/head"
 import ComingSoon from "../../components/ComingSoon"
+import { NextSeo } from "next-seo"
 
 export default function PlayerSearch() {
 	return <>
-		<Head>
-			<title>Player Search</title>
-		</Head>
+		<NextSeo title="Player Search" />
 		<ComingSoon />
 	</>
 }

@@ -14,7 +14,7 @@ import { formatClanType, handleCRError } from "../../../utils/functions"
 import MembersTable from "../../../components/Tables/ClanMembers"
 import { parseDate, relativeDateStr } from "../../../utils/date-time"
 import useWindowSize from "../../../hooks/useWindowSize"
-import Head from "next/head"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	"margin": "0 auto",
@@ -310,9 +310,7 @@ export default function ClanHome() {
 
 	return (
 		<>
-			<Head>
-				<title>- Home</title>
-			</Head>
+			<NextSeo title={`${clan.name || "Clan"} - Home`} />
 			<Main>
 				<HeaderDiv>
 

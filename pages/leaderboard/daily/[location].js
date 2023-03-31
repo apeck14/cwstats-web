@@ -13,7 +13,7 @@ import Link from 'next/link'
 import LocationsModal from '../../../components/Modals/Locations'
 import Locations from "../../../public/static/locations"
 import NotTracked from '../../../components/NotTracked'
-import Head from 'next/head'
+import { NextSeo } from 'next-seo'
 
 const Main = styled.div({
 	"margin": "0 auto",
@@ -365,18 +365,16 @@ export default function Leaderboard() {
 
 	return (
 		<>
-			<Head>
-				<title>Daily Leaderboard - {region?.name}</title>
-			</Head>
+			<NextSeo title={`Daily Leaderboard - ${region?.name || "Region"}`} />
 			<Main>
 				{
 					region ?
 						<HeaderDiv>
 							<Header>Top {region.name} Daily Rankings</Header>
 							<HeaderIcon
-								key={region?.key}
-								src={`/assets/flags/${region?.key}.png`} width={region?.name === "Global" ? globalIconPx : flagIconWidthPx}
-								height={region?.name === "Global" ? globalIconPx : flagIconHeightPx}
+								key={region.key}
+								src={`/assets/flags/${region.key}.png`} width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
+								height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
 								alt="Location"
 							/>
 						</HeaderDiv>
