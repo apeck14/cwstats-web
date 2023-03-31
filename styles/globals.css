@@ -1,16 +1,65 @@
-html,
+@font-face {
+	font-family: "SansPro600";
+	src: local("SansPro600"), url("../public/assets/fonts/source-sans-pro-v14-latin-600.woff2") format("woff2");
+}
+
+@font-face {
+	font-family: "SansPro700";
+	src: local("SansPro700"), url("../public/assets/fonts/source-sans-pro-v14-latin-700.woff2") format("woff2");
+}
+
+.noselect {
+	-webkit-touch-callout: none; /* iOS Safari */
+	-webkit-user-select: none; /* Safari */
+	-khtml-user-select: none; /* Konqueror HTML */
+	-moz-user-select: none; /* Old versions of Firefox */
+	-ms-user-select: none; /* Internet Explorer/Edge */
+	user-select: none; /* Non-prefixed version, currently
+                                  supported by Chrome, Edge, Opera and Firefox */
+}
+
 body {
-  padding: 0;
-  margin: 0;
-  font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
-    Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+	margin: 0;
+    background-color: #18191A;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
 }
 
-a {
-  color: inherit;
-  text-decoration: none;
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+ul,
+p {
+	margin: 0;
+	padding: 0;
 }
 
-* {
-  box-sizing: border-box;
+input {
+	border-width: 0;
+	outline: 0;
 }
+
+input:focus {
+	outline: none !important;
+}
+
+::placeholder {
+	/* Chrome, Firefox, Opera, Safari 10.1+ */
+	color: #b0b3b8;
+	opacity: 1; /* Firefox */
+}
+
+:-ms-placeholder {
+	/* Internet Explorer 10-11 */
+	color: #b0b3b8;
+}
+
+::-ms-placeholder {
+	/* Microsoft Edge */
+	color: #b0b3b8;
+}
+  
