@@ -348,7 +348,7 @@ export default function Home() {
 
 			<TopContainer>
 				<TopHeader>Everything CW.</TopHeader>
-				<TopSubHeader>Detailed race analysis, leaderboards, clan stats & more!</TopSubHeader>
+				<TopSubHeader>Detailed war analytics, leaderboards, stats & more!</TopSubHeader>
 
 				<SearchContainer>
 					<SearchDiv>
