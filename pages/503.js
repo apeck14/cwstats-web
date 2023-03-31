@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { gray, pink } from "../public/static/colors"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	"margin": "auto",
@@ -48,10 +49,14 @@ const SubHeader = styled.p({
 
 export default function Error503() {
 	return (
-		<Main>
-			<ErrorCode>503</ErrorCode>
-			<Header>Maintenance Break.</Header>
-			<SubHeader>Supercell&apos;s servers are currently under maintenance. Check back soon.</SubHeader>
-		</Main>
+		<>
+			<NextSeo title="503 Maintenance Break" />
+			<Main>
+				<ErrorCode>503</ErrorCode>
+				<Header>Maintenance Break.</Header>
+				<SubHeader>Supercell&apos;s servers are currently under maintenance. Check back soon.</SubHeader>
+			</Main>
+		</>
+
 	)
 }

@@ -328,7 +328,7 @@ export default function Home() {
 
 	return (
 		<>
-			<NextSeo title="CWStats" />
+			<NextSeo title="CWStats" description="Everything CW. The recommended source for race analytics, stats, projections, leaderboards & more!" />
 
 			<TopContainer>
 				<TopHeader>Everything CW.</TopHeader>

@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { gray, pink } from "../public/static/colors"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	"margin": "auto",
@@ -48,10 +49,14 @@ const SubHeader = styled.p({
 
 export default function Error500() {
 	return (
-		<Main>
-			<ErrorCode>500</ErrorCode>
-			<Header>Internal server error.</Header>
-			<SubHeader>Something went wrong, and we are working hard to get it fixed.</SubHeader>
-		</Main>
+		<>
+			<NextSeo title="500 Unknown Error" />
+			<Main>
+				<ErrorCode>500</ErrorCode>
+				<Header>Internal server error.</Header>
+				<SubHeader>Something went wrong, and we are working hard to get it fixed.</SubHeader>
+			</Main>
+		</>
+
 	)
 }

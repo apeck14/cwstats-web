@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { gray, pink } from "../public/static/colors"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	"margin": "auto",
@@ -48,10 +49,13 @@ const SubHeader = styled.p({
 
 export default function Error404() {
 	return (
-		<Main>
-			<ErrorCode>404</ErrorCode>
-			<Header>Oops! Not found.</Header>
-			<SubHeader>What you&apos;re looking for was deleted, or doesn&apos;t exist.</SubHeader>
-		</Main>
+		<>
+			<NextSeo title="404 Not Found" />
+			<Main>
+				<ErrorCode>404</ErrorCode>
+				<Header>Oops! Not found.</Header>
+				<SubHeader>What you&apos;re looking for was deleted, or doesn&apos;t exist.</SubHeader>
+			</Main>
+		</>
 	)
 }

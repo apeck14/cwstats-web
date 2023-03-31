@@ -1,5 +1,6 @@
 import styled from "styled-components"
 import { gray, pink } from "../public/static/colors"
+import { NextSeo } from "next-seo"
 
 const Main = styled.div({
 	"margin": "auto",
@@ -48,10 +49,14 @@ const SubHeader = styled.p({
 
 export default function Error429() {
 	return (
-		<Main>
-			<ErrorCode>429</ErrorCode>
-			<Header>Rate limit reached.</Header>
-			<SubHeader>There are too many requests being made at this time. Check back soon.</SubHeader>
-		</Main>
+		<>
+			<NextSeo title="429 Rate Limit" />
+			<Main>
+				<ErrorCode>429</ErrorCode>
+				<Header>Rate limit reached.</Header>
+				<SubHeader>There are too many requests being made at this time. Check back soon.</SubHeader>
+			</Main>
+		</>
+
 	)
 }
