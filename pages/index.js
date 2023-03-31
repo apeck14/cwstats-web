@@ -241,7 +241,7 @@ const ViewLbButton = styled.button({
 	"padding": "0.5rem",
 	"borderRadius": "0.25rem",
 	"fontFamily": "SansPro700",
-	"width": "8rem",
+	"fontSize": "1rem",
 
 	":hover, :active": {
 		backgroundColor: pink,
