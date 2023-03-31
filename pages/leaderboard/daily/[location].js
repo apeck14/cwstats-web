@@ -366,7 +366,7 @@ export default function Leaderboard() {
 	return (
 		<>
 			<Head>
-				<title>Daily Leaderboard - {region.name}</title>
+				<title>Daily Leaderboard - {region?.name}</title>
 			</Head>
 			<Main>
 				{
@@ -374,9 +374,9 @@ export default function Leaderboard() {
 						<HeaderDiv>
 							<Header>Top {region.name} Daily Rankings</Header>
 							<HeaderIcon
-								key={region.key}
-								src={`/assets/flags/${region?.key}.png`} width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
-								height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
+								key={region?.key}
+								src={`/assets/flags/${region?.key}.png`} width={region?.name === "Global" ? globalIconPx : flagIconWidthPx}
+								height={region?.name === "Global" ? globalIconPx : flagIconHeightPx}
 								alt="Location"
 							/>
 						</HeaderDiv>
