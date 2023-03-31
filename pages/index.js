@@ -328,7 +328,22 @@ export default function Home() {
 
 	return (
 		<>
-			<NextSeo title="CWStats" description="Everything CW. The recommended source for race analytics, stats, projections, leaderboards & more!" />
+			<NextSeo
+				title= "CWStats - Clash Royale war analytics, leaderboards, stats & more!"
+				description= "Everything CW. The recommended source for race analytics, stats, projections, leaderboards & more!"
+				openGraph={{
+					type: "website",
+					url: "https://www.cwstats.com",
+					title: "CWStats - Clash Royale war analytics, leaderboards, stats & more!",
+					description:"Everything CW. The recommended source for race analytics, stats, projections, leaderboards & more!",
+					images: [
+						{
+							url: "/assets/icons/logo.png",
+							alt: "CWStats Logo"
+						}
+					]
+				}}
+			/>
 
 			<TopContainer>
 				<TopHeader>Everything CW.</TopHeader>

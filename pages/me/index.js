@@ -178,7 +178,9 @@ export default function Me() {
 
 	return (
 		<>
-			<NextSeo title="My CWStats" />
+			<NextSeo
+				title="My CWStats"
+			/>
 			<Main>
 				<TopDiv>
 					<HeaderDiv>
