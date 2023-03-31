@@ -308,8 +308,6 @@ const supportedCodes = [
 export const handleCRError = (err, router) => {
 	const { status } = err
 
-	console.log(status)
-
 	if (supportedCodes.includes(status))
 		router.push(`/${status}`)
 	else if (status)

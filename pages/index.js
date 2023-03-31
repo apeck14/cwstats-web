@@ -296,8 +296,6 @@ export default function Home() {
 			const tagRegex = /^[A-Za-z0-9#]+$/
 			const meetsTagReq = !!(trimmedSearch.length >= 5 && trimmedSearch.length <= 9 && trimmedSearch.match(tagRegex))
 
-			console.log(trimmedSearch)
-
 			if (meetsTagReq) {
 				getClan(trimmedSearch)
 					.then(data => {

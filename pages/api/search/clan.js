@@ -10,9 +10,6 @@ export default async function getClansFromSearch (req, res) {
 		const db = client.db("General")
 		const clans = db.collection("Clans")
 
-		//console.log(new RegExp(`.*${q.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&')}*.`, 'i'))
-		console.log(new RegExp(`.*${q}*.`, 'i'))
-
 		const foundClans = await clans.find({
 			name: new RegExp(`.*${q}*.`, 'i')
 		}).limit(50).toArray()
