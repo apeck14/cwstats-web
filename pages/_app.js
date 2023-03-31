@@ -6,6 +6,7 @@ import Footer from '../components/Footer'
 import Head from 'next/head'
 import { gray } from '../public/static/colors'
 import { useRouter } from 'next/router'
+import { Analytics } from "@vercel/analytics/react"
 
 const Container = styled.div({
 	fontFamily: "SansPro600",
@@ -19,6 +20,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
 	return (
 		<SessionProvider session={session}>
+			<Analytics />
 			<Head>
 				<meta
 					name="viewport"
