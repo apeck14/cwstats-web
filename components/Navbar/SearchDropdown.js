@@ -30,16 +30,14 @@ const SearchBar = styled.input({
 	"backgroundColor": gray["75"],
 	"borderTopLeftRadius": "0.25rem",
 	"borderBottomLeftRadius": "0.25rem",
-	"height": "100%",
+	"height": "2.25rem",
 	"color": gray["0"],
 	"fontFamily": "SansPro600",
-	"padding": "0 0.5rem",
-	"fontSize": "0.9rem",
+	"padding": "0 0.6rem",
+	"fontSize": "1rem",
 
 	"@media (max-width: 480px)": {
 		width: "12rem",
-		fontSize: "0.8rem",
-
 	},
 
 	"::placeholder": {
@@ -48,7 +46,7 @@ const SearchBar = styled.input({
 })
 
 const SearchButton = styled.button({
-	"height": "100%",
+	"height": "2.25rem",
 	"borderWidth": "0",
 	"borderTopRightRadius": "0.25rem",
 	"borderBottomRightRadius": "0.25rem",
