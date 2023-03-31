@@ -311,7 +311,7 @@ export default function Leaderboard() {
 							<Header>Top {region.name} War Rankings</Header>
 							<HeaderIcon
 								key={region.key}
-								src={`/assets/flags/${region.key.toLowerCase()}.png`} width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
+								src={`/assets/flags/${region?.key?.toLowerCase()}.png`} width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
 								height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
 								alt="Location"
 							/>
