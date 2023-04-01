@@ -329,14 +329,14 @@ export default function Home() {
 	return (
 		<>
 			<NextSeo
-				title= "CWStats - The trusted source for everything clan wars."
-				description= "Everything CW. The recommended source for war analytics, stats, projections, leaderboards & more!"
+				title= "CWStats - Clash Royale Clan Wars Analytics, Leaderboards and Stats"
+				description= "The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks."
 				themeColor={gray["75"]}
 				openGraph={{
 					type: "website",
 					url: "https://www.cwstats.com",
-					title: "CWStats - The trusted source for everything clan wars.",
-					description:"Everything CW. The recommended source for war analytics, stats, projections, leaderboards & more!",
+					title: "CWStats - Clash Royale Clan Wars Analytics, Leaderboards and Stats",
+					description: "The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks.",
 					images: [
 						{
 							url: "/assets/icons/logo.png",
