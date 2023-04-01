@@ -5,11 +5,10 @@ export default function Records() {
 	return <>
 		<NextSeo
 			title= "CW2 Records"
-			description= "Matchmaking is currently underway for the specified clan. Check back soon."
+			description= "View all CW2 records, tracked by CWStats."
 			openGraph={{
-				url: "https://www.cwstats.com/records",
 				title: "CW2 Records",
-				description: "Matchmaking is currently underway for the specified clan. Check back soon."
+				description: "View all CW2 records, tracked by CWStats."
 			}}
 		/>
 		<ComingSoon />

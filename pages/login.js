@@ -53,7 +53,6 @@ export default function Login() {
 				title= "Login"
 				description= "Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers."
 				openGraph={{
-					url: "https://www.cwstats.com/login",
 					title: "Login",
 					description: "Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers."
 				}}

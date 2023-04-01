@@ -36,7 +36,6 @@ export default function Matchmaking() {
 				title= "Matchmaking..."
 				description= "Matchmaking is currently underway for the specified clan. Check back soon."
 				openGraph={{
-					url: "https://www.cwstats.com/matchmaking",
 					title: "Matchmaking...",
 					description: "Matchmaking is currently underway for the specified clan. Check back soon."
 				}}

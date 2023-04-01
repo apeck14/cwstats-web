@@ -28,14 +28,14 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 					content="minimum-scale=1, initial-scale=1, width=device-width"
 					key="viewport"
 				/>
-				<meta name="theme-color" content={gray["75"]} />
 			</Head>
 			<Container>
 				<DefaultSeo
 					description= "The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks."
+					themeColor={gray["75"]}
 					openGraph={{
 						type: "website",
-						url: "https://www.cwstats.com",
+						url: `https://www.cwstats.com${router.asPath}`,
 						siteName: "CWStats",
 						description: "The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks.",
 						images: [

@@ -108,7 +108,15 @@ export default function Players() {
 
 	return (
 		<>
-			<NextSeo title="My Players" />
+			<NextSeo
+				title= "My Players"
+				description= "View your saved players on CWStats."
+				openGraph={{
+					title: "My Players",
+					description: "View your saved players on CWStats."
+				}}
+			/>
+
 			<Main>
 				<Header>My Players</Header>
 				<SubHeader>View all saved players.</SubHeader>

@@ -303,7 +303,21 @@ export default function Leaderboard() {
 
 	return (
 		<>
-			<NextSeo title={`War Leaderboard - ${region?.name || "Region"}`} />
+			<NextSeo
+				title={`War Leaderboard - ${region?.name || ""}`}
+				description={`View the current war leaderboard (${region?.name || ""}).`}
+				openGraph={{
+					title: `War Leaderboard - ${region?.name || ""}`,
+					description: `View the current war leaderboard (${region?.name || ""}).`,
+					images: [
+						{
+							url: `/assets/flags/${region?.key?.toLowerCase()}.png`,
+							alt: "Region Icon"
+						}
+					]
+				}}
+			/>
+
 			<Main>
 				{
 					region ?

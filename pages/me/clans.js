@@ -108,7 +108,14 @@ export default function Clans() {
 
 	return (
 		<>
-			<NextSeo title="My Clans" />
+			<NextSeo
+				title= "My Clans"
+				description= "View your saved clans on CWStats."
+				openGraph={{
+					title: "My Clans",
+					description: "View your saved clans on CWStats."
+				}}
+			/>
 			<Main>
 				<Header>My Clans</Header>
 				<SubHeader>View all saved clans.</SubHeader>

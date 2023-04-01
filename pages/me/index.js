@@ -179,8 +179,14 @@ export default function Me() {
 	return (
 		<>
 			<NextSeo
-				title="My CWStats"
+				title= "My CWStats"
+				description= "View your saved players, clans, and customize CWStats Discord bot settings for your servers."
+				openGraph={{
+					title: "My CWStats",
+					description: "View your saved players, clans, and customize CWStats Discord bot settings for your servers."
+				}}
 			/>
+
 			<Main>
 				<TopDiv>
 					<HeaderDiv>
