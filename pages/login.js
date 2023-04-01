@@ -49,7 +49,16 @@ const DiscordIcon = styled(FaDiscord)({
 export default function Login() {
 	return (
 		<>
-			<NextSeo title="Login" />
+			<NextSeo
+				title= "Login"
+				description= "Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers."
+				openGraph={{
+					url: "https://www.cwstats.com/login",
+					title: "Login",
+					description: "Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers."
+				}}
+			/>
+
 			<Main>
 				<Header>You are not logged in.</Header>
 				<SubHeader>To access the full site, please login with Discord.</SubHeader>

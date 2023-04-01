@@ -7,6 +7,7 @@ import Head from 'next/head'
 import { gray } from '../public/static/colors'
 import { useRouter } from 'next/router'
 import { Analytics } from "@vercel/analytics/react"
+import { DefaultSeo } from 'next-seo'
 
 const Container = styled.div({
 	fontFamily: "SansPro600",
@@ -30,6 +31,21 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 				<meta name="theme-color" content={gray["75"]} />
 			</Head>
 			<Container>
+				<DefaultSeo
+					description= "The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks."
+					openGraph={{
+						type: "website",
+						url: "https://www.cwstats.com",
+						siteName: "CWStats",
+						description: "The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks.",
+						images: [
+							{
+								url: "/assets/icons/logo.png",
+								alt: "CWStats Logo"
+							}
+						]
+					}}
+				/>
 				<Navbar />
 				<Component {...pageProps} key={router.asPath} />
 				<Footer />

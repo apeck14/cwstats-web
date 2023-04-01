@@ -1,3 +1,4 @@
+import { NextSeo } from 'next-seo'
 import { useRouter } from 'next/navigation'
 import { useEffect } from 'react'
 
@@ -8,5 +9,13 @@ export default function ServerInvite() {
 		router.push("https://discord.com/invite/fFY3cnMmnH")
 	})
 
-	return null
+	return <>
+		<NextSeo
+			title= "Support Server Invite"
+			openGraph={{
+				title: "Support Server Invite",
+				url: "https://discord.com/invite/fFY3cnMmnH"
+			}}
+		/>
+	</>
 }
