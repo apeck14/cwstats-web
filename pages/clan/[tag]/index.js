@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { addClan, getClan, getUser, saveClan, unsaveClan } from "../../../utils/services"
+import { addClan, getClanFromSC, getUser, saveClan, unsaveClan } from "../../../utils/services"
 import { useRouter } from 'next/router'
 import { gray, orange, pink } from "../../../public/static/colors"
 import Image from 'next/image'
@@ -10,7 +10,7 @@ import { BiLinkExternal } from "react-icons/bi"
 import { useSession } from "next-auth/react"
 import useDebouncedCallback from "../../../hooks/useDebouncedCallback"
 import Link from "next/link"
-import { formatClanType, handleCRError } from "../../../utils/functions"
+import { formatClanType, formatTag, getCRErrorUrl, handleSCResponse } from "../../../utils/functions"
 import MembersTable from "../../../components/Tables/ClanMembers"
 import { parseDate, relativeDateStr } from "../../../utils/date-time"
 import useWindowSize from "../../../hooks/useWindowSize"
@@ -222,34 +222,16 @@ const StatsValue = styled.p({
 	},
 })
 
-export default function ClanHome() {
+export default function ClanHome({ clan }) {
 	const router = useRouter()
 	const { data: session, status } = useSession()
 	const { width } = useWindowSize()
-	const [clan, setClan] = useState({})
-	const [fetchedOnSession, setFetchedOnSession] = useState(false) //avoid constant calls to API on session
 	const [bookmarkHover, setBookmarkHover] = useState(false)
 	const [saved, setSaved] = useState(false)
-
-	const { tag } = router.query
 
 	const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
 	const locationKey = getCountryKeyById(clan.location?.id)
 	const clanType = formatClanType(clan.type)
-
-	useEffect(() => {
-		if (!fetchedOnSession && tag && router) {
-			getClan(tag)
-				.then(setClan)
-				.catch(err => handleCRError(err, router))
-
-			setFetchedOnSession(true)
-		}
-	}, [
-		tag,
-		fetchedOnSession,
-		router
-	])
 
 	useEffect(() => {
 		if (session && clan && router) {
@@ -310,7 +292,21 @@ export default function ClanHome() {
 
 	return (
 		<>
-			<NextSeo title={`${clan.name || "Clan"} - Home`} />
+			<NextSeo
+				title= {`${clan.name} | Home - CWStats`}
+				description= {clan.description}
+				openGraph={{
+					title: `${clan.name} | Home - CWStats`,
+					description: clan.description,
+					images: [
+						{
+							url: `/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.png`,
+							alt: "Clan Badge"
+						}
+					]
+				}}
+			/>
+
 			<Main>
 				<HeaderDiv>
 
@@ -324,7 +320,7 @@ export default function ClanHome() {
 										<Bookmark onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={toggleSavedItem} onTouchStart={toggleSavedItem} />
 								}
 							</IconDiv>
-							<InGameLink href={`https://link.clashroyale.com/?clanInfo?id=${clan?.tag?.substring(1)}`} target="_blank" rel="noopener noreferrer">
+							<InGameLink href={`https://link.clashroyale.com/?clanInfo?id=${clan.tag.substring(1)}`} target="_blank" rel="noopener noreferrer">
 								<InGameLinkIcon />
 							</InGameLink>
 						</TopHeaderDiv>
@@ -399,7 +395,7 @@ export default function ClanHome() {
 					</StatsRow>
 				</InfoDiv>
 
-				<MembersTable members={clan?.memberList?.map((m, index) => {
+				<MembersTable members={clan.memberList.map((m, index) => {
 					const lastSeenDate = parseDate(m.lastSeen)
 
 					return {
@@ -408,9 +404,34 @@ export default function ClanHome() {
 						lastSeenStr: relativeDateStr(lastSeenDate),
 						lastSeenDate
 					}
-				})} />
+				})}
+				/>
 			</Main>
 		</>
 
 	)
+}
+
+export async function getServerSideProps (context) {
+	const { tag } = context.params
+
+	try {
+		const res = await getClanFromSC(formatTag(tag, false))
+		const data = await handleSCResponse(res)
+
+		return {
+			props: {
+				clan: data
+			}
+		}
+	}
+	catch (err) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: getCRErrorUrl(err)
+			},
+			props: {}
+		}
+	}
 }

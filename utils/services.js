@@ -68,6 +68,15 @@ export const getWarLeaderboard = (id) =>
 		})
 	})
 
+export const getClanFromSC = (tag) =>
+	fetch(`https://proxy.royaleapi.dev/v1/clans/%23${tag}`, {
+		method: "GET",
+		headers: new Headers({
+			'Content-Type': 'application/json',
+			'Authorization': "Bearer " + process.env.NEXT_PUBLIC_CR_API_TOKEN
+		})
+	})
+
 export const getClan = (tag) => fetch(`/api/clan/${formatTag(tag, false)}`).then(handleSCResponse)
 
 export const getRace = (tag) => fetch(`/api/clan/${formatTag(tag, false)}/race`).then(handleSCResponse)
