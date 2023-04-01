@@ -7,7 +7,6 @@ export default function PlayerSearch() {
 			title= "Player Search"
 			description= "Search for players on CWStats."
 			openGraph={{
-				url: "https://www.cwstats.com/player/search",
 				title: "Player Search",
 				description: "Search for players on CWStats."
 			}}
