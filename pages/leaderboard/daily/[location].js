@@ -500,7 +500,7 @@ export async function getServerSideProps(context) {
 			fameAvg: -1,
 			rank: 1,
 			clanScore: -1
-		}).toArray(), statistics.findOne()
+		}).limit(0).toArray(), statistics.findOne()
 	])
 
 	return {
