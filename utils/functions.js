@@ -316,6 +316,17 @@ export const handleCRError = (err, router) => {
 	return null
 }
 
+export const getCRErrorUrl = (err) => {
+	const { status } = err
+
+	if (supportedCodes.includes(status))
+		return `/${status}`
+	else if (status)
+		return '/500'
+
+	return "/"
+}
+
 export const handleSCResponse = async (res) => {
 	const data = await res.json()
 

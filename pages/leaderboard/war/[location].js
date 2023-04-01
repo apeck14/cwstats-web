@@ -4,13 +4,14 @@ import { gray, orange, pink } from '../../../public/static/colors'
 import { IoCaretForward, IoCaretBack, IoCaretDown } from "react-icons/io5"
 import Image from "next/image.js"
 import { getClanBadgeFileName, getCountryKeyById, getRegionByKey } from '../../../utils/files'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 import { getWarLeaderboard } from '../../../utils/services'
 import useWindowSize from '../../../hooks/useWindowSize'
 import LocationsModal from '../../../components/Modals/Locations'
 import Locations from "../../../public/static/locations"
 import { BsArrowDownShort, BsArrowUpShort } from "react-icons/bs"
 import { NextSeo } from 'next-seo'
+import { getCRErrorUrl, handleSCResponse } from '../../../utils/functions'
 
 const Main = styled.div({
 	"margin": "0 auto",
@@ -252,19 +253,11 @@ const RankDiv = styled.div({
 	justifyContent: "center"
 })
 
-export default function Leaderboard() {
+export default function Leaderboard({ region, data }) {
 	const router = useRouter()
 	const { width } = useWindowSize()
-	const [region, setRegion] = useState({
-		name: "",
-		key: null
-	})
-	const [data, setData] = useState([])
-	const [fetchedOnSession, setFetchedOnSession] = useState(false) //avoid constant calls to api for session
 	const [page, setPage] = useState(1)
 	const [isModalOpen, setIsModalOpen] = useState(false)
-
-	const { location: key } = router.query
 
 	const totalPages = Math.floor(data.length / 100) + (data.length % 100 === 0 ? 0 : 1)
 
@@ -275,20 +268,6 @@ export default function Leaderboard() {
 	const decrementPage = () => {
 		if (page > 1) setPage(page - 1)
 	}
-
-	useEffect(() => {
-		const region = getRegionByKey(key)
-		setRegion(region)
-
-		if (!fetchedOnSession && key) {
-			getWarLeaderboard(region.id)
-				.then(res => res.json())
-				.then(data => setData(data.items || []))
-				.catch(() => {})
-
-			setFetchedOnSession(true)
-		}
-	}, [key, fetchedOnSession])
 
 	const start = 0 + ((page - 1) * 100)
 
@@ -304,14 +283,14 @@ export default function Leaderboard() {
 	return (
 		<>
 			<NextSeo
-				title={`War Leaderboard - ${region?.name || ""}`}
-				description={`View the current war leaderboard (${region?.name || ""}).`}
+				title={`War Leaderboard - ${region.name}`}
+				description={`View the current war leaderboard (${region.name}).`}
 				openGraph={{
-					title: `War Leaderboard - ${region?.name || ""}`,
-					description: `View the current war leaderboard (${region?.name || ""}).`,
+					title: `War Leaderboard - ${region.name || ""}`,
+					description: `View the current war leaderboard (${region.name}).`,
 					images: [
 						{
-							url: `/assets/flags/${region?.key?.toLowerCase()}.png`,
+							url: `/assets/flags/${region.key.toLowerCase()}.png`,
 							alt: "Region Icon"
 						}
 					]
@@ -319,27 +298,23 @@ export default function Leaderboard() {
 			/>
 
 			<Main>
-				{
-					region ?
-						<HeaderDiv>
-							<Header>Top {region.name} War Rankings</Header>
-							<HeaderIcon
-								key={region.key}
-								src={`/assets/flags/${region?.key?.toLowerCase()}.png`} width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
-								height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
-								alt="Location"
-							/>
-						</HeaderDiv>
-						: null
-				}
+				<HeaderDiv>
+					<Header>Top {region.name} War Rankings</Header>
+					<HeaderIcon
+						key={region.key}
+						src={`/assets/flags/${region?.key?.toLowerCase()}.png`} width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
+						height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
+						alt="Location"
+					/>
+				</HeaderDiv>
 				<ControlDiv>
 					<LeftControlDiv>
-						<ToggleDiv onClick={() => router.push(`/leaderboard/daily/${region?.key}`)}>Daily</ToggleDiv>
+						<ToggleDiv onClick={() => router.push(`/leaderboard/daily/${region.key}`)}>Daily</ToggleDiv>
 						<ToggleDiv style={{
 							borderBottom: `3px solid ${pink}`,
 							marginBottom: "-3px"
 						}}>War</ToggleDiv>
-						<RegionDropdown onClick={() => setIsModalOpen(true)}>{region?.name}<IoCaretDown style={{
+						<RegionDropdown onClick={() => setIsModalOpen(true)}>{region.name}<IoCaretDown style={{
 							marginLeft: "0.75rem"
 						}} /></RegionDropdown>
 					</LeftControlDiv>
@@ -419,4 +394,41 @@ export default function Leaderboard() {
 			}))} />
 		</>
 	)
+}
+
+export async function getServerSideProps (context) {
+	const { location: key } = context.query
+	const region = getRegionByKey(key)
+
+	if (!region) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: "/404"
+			},
+			props: {}
+		}
+	}
+
+	try {
+		const res = await getWarLeaderboard(region.id)
+		const data = await handleSCResponse(res)
+
+		return {
+			props: {
+				region,
+				data: data.items || []
+			}
+		}
+	}
+	catch (err) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: getCRErrorUrl(err)
+			},
+			props: {}
+		}
+	}
+
 }
