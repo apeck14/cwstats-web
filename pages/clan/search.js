@@ -212,7 +212,14 @@ export default function ClanSearch () {
 	}
 
 	return <>
-		<NextSeo title="Clan Search" />
+		<NextSeo
+			title= "Clan Search"
+			description= "Search for clans on CWStats."
+			openGraph={{
+				title: "Clan Search",
+				description: "Search for clans on CWStats."
+			}}
+		/>
 		<Main>
 			<SearchBarContainer>
 				<SearchBar defaultValue={q} onChange={handleClanSearchChange} placeholder="Name or tag, e.g. 9U82JJ0Y" />
