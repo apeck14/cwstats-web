@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { addClan, getClanFromSC, getUser, saveClan, unsaveClan } from "../../../utils/services"
+import { addClan, fetchClan, getUser, saveClan, unsaveClan } from "../../../utils/services"
 import { useRouter } from 'next/router'
 import { gray, orange, pink } from "../../../public/static/colors"
 import Image from 'next/image'
@@ -416,7 +416,7 @@ export async function getServerSideProps (context) {
 	const { tag } = context.params
 
 	try {
-		const res = await getClanFromSC(formatTag(tag, false))
+		const res = await fetchClan(formatTag(tag, false))
 		const data = await handleSCResponse(res)
 
 		return {

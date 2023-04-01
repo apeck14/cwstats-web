@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
-import { addClan, getClan, getRace, getUser, saveClan, unsaveClan } from "../../../utils/services"
+import { addClan, fetchClan, fetchRace, getUser, saveClan, unsaveClan } from "../../../utils/services"
 import { useRouter } from 'next/router'
 import { gray, orange, pink } from "../../../public/static/colors"
 import Image from 'next/image'
@@ -13,7 +13,8 @@ import Link from "next/link"
 import useWindowSize from "../../../hooks/useWindowSize"
 import RaceIcon from "../../../components/Race/RaceIcon"
 import {
-	getAvgFame, getBattlesRemaining, getBestPlace, getDuelsRemaining, getMaxFame, getMinFame, getProjFame, getProjPlace, getRaceDetails, getWorstPlace, handleCRError
+	formatTag,
+	getAvgFame, getBattlesRemaining, getBestPlace, getCRErrorUrl, getDuelsRemaining, getMaxFame, getMinFame, getProjFame, getProjPlace, getRaceDetails, getWorstPlace, handleSCResponse
 } from "../../../utils/functions"
 import ProgressBar from "../../../components/Race/ProgressBar"
 import RaceLeaderboard from "../../../components/Tables/RaceLeaderboard"
@@ -377,39 +378,14 @@ const StatsSubHeader = styled.p({
 	marginBottom: "1rem"
 })
 
-export default function ClanRace() {
+export default function ClanRace({ clan, race }) {
 	const router = useRouter()
 	const { data: session, status } = useSession()
 	const { width } = useWindowSize()
-	const [clan, setClan] = useState({})
-	const [race, setRace] = useState({})
-	const [fetchedOnSession, setFetchedOnSession] = useState(false) //avoid constant calls to API on session
 	const [bookmarkHover, setBookmarkHover] = useState(false)
 	const [saved, setSaved] = useState(false)
 
-	const { tag } = router.query
-
 	const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
-
-	useEffect(() => {
-		if (!fetchedOnSession && tag && router) {
-			const fetchData = async () => {
-				const [clanData, raceData] = await Promise.all([getClan(tag).catch(err => handleCRError(err, router)), getRace(tag).catch(err => handleCRError(err, router))])
-
-				if (clanData === null || raceData === null) return
-
-				setClan(clanData)
-				setRace(raceData)
-				setFetchedOnSession(true)
-			}
-
-			fetchData()
-		}
-	}, [
-		tag,
-		fetchedOnSession,
-		router
-	])
 
 	useEffect(() => {
 		if (session && clan) {
@@ -443,7 +419,7 @@ export default function ClanRace() {
 		else saveClan(clan.name, clan.tag, badgeName)
 	}, 1500)
 
-	if (fetchedOnSession && race.state === "matchmaking")
+	if (race.state === "matchmaking")
 		router.push("/matchmaking")
 
 	const onMouseEnter = () => {
@@ -472,9 +448,9 @@ export default function ClanRace() {
 	const iconPx = isMobile ? 16 : 20
 
 	const getShownParticipants = () => {
-		if (!clan?.memberList || !race?.clan?.participants) return []
+		if (!clan.memberList || !race.clan.participants) return []
 
-		return race?.clan?.participants
+		return race.clan.participants
 			.filter(p => clan.memberList.find(m => m.tag === p.tag) || p.fame > 0)
 			.sort((a, b) => {
 				if (a.fame === b.fame) return a.name.localeCompare(b.name)
@@ -487,11 +463,24 @@ export default function ClanRace() {
 			}))
 	}
 
-	const raceNotFound = fetchedOnSession && (!race.clans || race.clans.length === 0)
+	const raceNotFound = !race.clans || race.clans.length === 0
 
 	return (
 		<>
-			<NextSeo title={`${clan.name || "Clan"} - Race`} />
+			<NextSeo
+				title= {`${clan.name} | Race - CWStats`}
+				description= "View current river race stats and projections."
+				openGraph={{
+					title: `${clan.name} | Race - CWStats`,
+					description: "View current river race stats and projections.",
+					images: [
+						{
+							url: `/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.png`,
+							alt: "Clan Badge"
+						}
+					]
+				}}
+			/>
 			<Main>
 				<HeaderDiv>
 
@@ -505,7 +494,7 @@ export default function ClanRace() {
 										<Bookmark onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={toggleSavedItem} onTouchStart={toggleSavedItem} />
 								}
 							</IconDiv>
-							<InGameLink href={`https://link.clashroyale.com/?clanInfo?id=${clan?.tag?.substring(1)}`} target="_blank" rel="noopener noreferrer">
+							<InGameLink href={`https://link.clashroyale.com/?clanInfo?id=${clan.tag.substring(1)}`} target="_blank" rel="noopener noreferrer">
 								<InGameLinkIcon />
 							</InGameLink>
 						</TopHeaderDiv>
@@ -537,7 +526,7 @@ export default function ClanRace() {
 									const clanInRace = race.clans.find(cl => cl.tag === c.tag)
 
 									return showMobileView ?
-										<MobileClanDiv key={index} onClick={() => router.push(`/clan/${c.tag.substring(1)}/race`)} style={c.tag === clan?.tag ? {
+										<MobileClanDiv key={index} onClick={() => router.push(`/clan/${c.tag.substring(1)}/race`)} style={c.tag === clan.tag ? {
 											borderLeft: `3px solid ${pink}`
 										} : null}>
 											<MobileLeftDiv style={c.placement === Infinity && !c.crossedFinishLine ? {
@@ -585,7 +574,7 @@ export default function ClanRace() {
 
 										</MobileClanDiv>
 										:
-										<ClanDiv key={index} onClick={() => router.push(`/clan/${c.tag.substring(1)}/race`)} style={c.tag === clan?.tag ? {
+										<ClanDiv key={index} onClick={() => router.push(`/clan/${c.tag.substring(1)}/race`)} style={c.tag === clan.tag ? {
 											borderLeft: `3px solid ${pink}`
 										} : null}>
 
@@ -629,23 +618,23 @@ export default function ClanRace() {
 							<StatsSubHeader>All projections assume 100% participation.</StatsSubHeader>
 							<Stat>
 								<StatTitle>Total Battles Remaining</StatTitle>
-								<StatValue>{getBattlesRemaining(race?.clan?.participants || [])}</StatValue>
+								<StatValue>{getBattlesRemaining(race.clan.participants)}</StatValue>
 							</Stat>
 							<Stat>
 								<StatTitle>Duels Remaining</StatTitle>
-								<StatValue>{getDuelsRemaining(race?.clan?.participants || [])}</StatValue>
+								<StatValue>{getDuelsRemaining(race.clan.participants)}</StatValue>
 							</Stat>
 							<Stat>
 								<StatTitle>Projected Medals</StatTitle>
-								<StatValue>{getProjFame(race?.clan, isColosseum, dayOfWeek)}</StatValue>
+								<StatValue>{getProjFame(race.clan, isColosseum, dayOfWeek)}</StatValue>
 							</Stat>
 							<Stat>
 								<StatTitle>Maximum Possible Medals</StatTitle>
-								<StatValue>{getMaxFame(race?.clan, isColosseum, dayOfWeek)}</StatValue>
+								<StatValue>{getMaxFame(race.clan, isColosseum, dayOfWeek)}</StatValue>
 							</Stat>
 							<Stat>
 								<StatTitle>Minimum Possible Medals</StatTitle>
-								<StatValue>{getMinFame(race?.clan, isColosseum, dayOfWeek)}</StatValue>
+								<StatValue>{getMinFame(race.clan, isColosseum, dayOfWeek)}</StatValue>
 							</Stat>
 							<Stat>
 								<StatTitle>Projected Place</StatTitle>
@@ -667,6 +656,31 @@ export default function ClanRace() {
 
 			</Main>
 		</>
-
 	)
+}
+
+export async function getServerSideProps (context) {
+	const { tag } = context.params
+	const formattedTag = formatTag(tag, false)
+
+	try {
+		const [clanRes, raceRes] = await Promise.all([fetchClan(formattedTag), fetchRace(formattedTag)])
+		const [clan, race] = await Promise.all([handleSCResponse(clanRes), handleSCResponse(raceRes)])
+
+		return {
+			props: {
+				clan,
+				race
+			}
+		}
+	}
+	catch (err) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: getCRErrorUrl(err)
+			},
+			props: {}
+		}
+	}
 }
