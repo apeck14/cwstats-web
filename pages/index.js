@@ -331,7 +331,6 @@ export default function Home() {
 			<NextSeo
 				title= "CWStats - Clash Royale Clan Wars Analytics, Leaderboards and Stats"
 				description= "The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks."
-				themeColor={gray["75"]}
 				openGraph={{
 					type: "website",
 					url: "https://www.cwstats.com",
