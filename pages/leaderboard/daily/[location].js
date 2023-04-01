@@ -361,20 +361,23 @@ export default function Leaderboard() {
 
 	return (
 		<>
-			<NextSeo
-				title={`Daily Leaderboard - ${region?.name || ""}`}
-				description={`View the current daily leaderboard (${region?.name || ""}).`}
-				openGraph={{
-					title: `Daily Leaderboard - ${region?.name || ""}`,
-					description: `View the current daily leaderboard (${region?.name || ""}).`,
-					images: [
-						{
-							url: `/assets/flags/${region?.key?.toLowerCase()}.png`,
-							alt: "Region Icon"
-						}
-					]
-				}}
-			/>
+			{
+				region ?
+					<NextSeo
+						title={`Daily Leaderboard - ${region.name}`}
+						description={`View the current daily leaderboard (${region.name}).`}
+						openGraph={{
+							title: `Daily Leaderboard - ${region.name}`,
+							description: `View the current daily leaderboard (${region.name}).`,
+							images: [
+								{
+									url: `/assets/flags/${region.key.toLowerCase()}.png`,
+									alt: "Region Icon"
+								}
+							]
+						}}
+					/> : null
+			}
 
 			<Main>
 				{
