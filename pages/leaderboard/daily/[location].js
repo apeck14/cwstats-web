@@ -5,7 +5,6 @@ import { IoCaretForward, IoCaretBack, IoCaretDown } from "react-icons/io5"
 import Image from "next/image.js"
 import { getClanBadgeFileName, getCountryKeyById, getRegionByKey } from '../../../utils/files'
 import { useEffect, useState } from 'react'
-import { getDailyLeaderboard } from '../../../utils/services'
 import { FcGlobe } from 'react-icons/fc'
 import { diffInMins } from '../../../utils/date-time'
 import useWindowSize from '../../../hooks/useWindowSize'
@@ -14,6 +13,7 @@ import LocationsModal from '../../../components/Modals/Locations'
 import Locations from "../../../public/static/locations"
 import NotTracked from '../../../components/NotTracked'
 import { NextSeo } from 'next-seo'
+import clientPromise from '../../../lib/mongodb'
 
 const Main = styled.div({
 	"margin": "0 auto",
@@ -288,27 +288,20 @@ const TrophiesIcon = styled(Image)({})
 
 const AtksIcon = styled(Image)({})
 
-export default function Leaderboard() {
+export default function Leaderboard({ region, data }) {
 	const router = useRouter()
 	const { width } = useWindowSize()
-	const [data, setData] = useState({
-		lbLastUpdated: null,
-		dailyLbArr: []
-	})
-	const [fetchedOnSession, setFetchedOnSession] = useState(false) //avoid constant calls to DB for session
 	const [page, setPage] = useState(1)
 	const [lastUpdated, setLastUpdated] = useState()
 	const [isModalOpen, setIsModalOpen] = useState(false)
-	const [isTracked, setIsTracked] = useState(true)
 
 	const { location: key, league } = router.query
-
-	const region = getRegionByKey(key)
 
 	if (league && (league !== "5000" && league !== "4000"))
 		router.push(`/leaderboard/daily/${key}`)
 
 	const totalPages = Math.floor(data.dailyLbArr.length / 100) + (data.dailyLbArr.length % 100 === 0 ? 0 : 1)
+	const isTracked = region.isAdded || region.key === "global"
 
 	const incrementPage = () => {
 		if (page < totalPages) setPage(page + 1)
@@ -325,28 +318,8 @@ export default function Leaderboard() {
 	}
 
 	useEffect(() => {
-		if (!fetchedOnSession && region) {
-			setIsTracked(region.isAdded || region.key === 'global')
-			setFetchedOnSession(true)
-
-			getDailyLeaderboard({
-				id: region.id,
-				minTrophies: Number(league),
-				maxTrophies: league === "4000" ? 4999 : null
-			})
-				.then(res => res.json())
-				.then(setData)
-				.catch(() => {})
-		}
-	}, [
-		region,
-		league,
-		fetchedOnSession
-	])
-
-	useEffect(() => {
 		setLastUpdated(data.lbLastUpdated ? diffInMins(data.lbLastUpdated) : 0)
-	}, [data])
+	}, [data.lbLastUpdated])
 
 	const start = 0 + ((page - 1) * 100)
 
@@ -361,38 +334,31 @@ export default function Leaderboard() {
 
 	return (
 		<>
-			{
-				region ?
-					<NextSeo
-						title={`Daily Leaderboard - ${region.name}`}
-						description={`View the current daily leaderboard (${region.name}).`}
-						openGraph={{
-							title: `Daily Leaderboard - ${region.name}`,
-							description: `View the current daily leaderboard (${region.name}).`,
-							images: [
-								{
-									url: `/assets/flags/${region.key.toLowerCase()}.png`,
-									alt: "Region Icon"
-								}
-							]
-						}}
-					/> : null
-			}
+			<NextSeo
+				title={`Daily Leaderboard - ${region.name}`}
+				description={`View the current daily leaderboard (${region.name}).`}
+				openGraph={{
+					title: `Daily Leaderboard - ${region.name}`,
+					description: `View the current daily leaderboard (${region.name}).`,
+					images: [
+						{
+							url: `/assets/flags/${region.key.toLowerCase()}.png`,
+							alt: "Region Icon"
+						}
+					]
+				}}
+			/>
 
 			<Main>
-				{
-					region ?
-						<HeaderDiv>
-							<Header>Top {region.name} Daily Rankings</Header>
-							<HeaderIcon
-								key={region.key}
-								src={`/assets/flags/${region?.key?.toLowerCase()}.png`} width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
-								height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
-								alt="Location"
-							/>
-						</HeaderDiv>
-						: null
-				}
+				<HeaderDiv>
+					<Header>Top {region.name} Daily Rankings</Header>
+					<HeaderIcon
+						key={region.key}
+						src={`/assets/flags/${region.key.toLowerCase()}.png`} width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
+						height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
+						alt="Location"
+					/>
+				</HeaderDiv>
 				<ControlDiv>
 					<LeftControlDiv>
 						<ToggleDiv style={{
@@ -400,7 +366,7 @@ export default function Leaderboard() {
 							marginBottom: "-3px"
 						}}>Daily</ToggleDiv>
 						<ToggleDiv onClick={() => router.push(`/leaderboard/war/${region.key}`)}>War</ToggleDiv>
-						<RegionDropdown onClick={() => setIsModalOpen(true)}>{region?.name}<IoCaretDown style={{
+						<RegionDropdown onClick={() => setIsModalOpen(true)}>{region.name}<IoCaretDown style={{
 							marginLeft: "0.75rem"
 						}} /></RegionDropdown>
 
@@ -494,4 +460,56 @@ export default function Leaderboard() {
 			}))} />
 		</>
 	)
+}
+
+export async function getServerSideProps(context) {
+	const { location: key, league } = context.query
+	const region = getRegionByKey(key)
+
+	if (!region) {
+		return {
+			redirect: {
+				permanent: false,
+				destination: "/404"
+			},
+			props: {}
+		}
+	}
+
+	const { id } = region
+	const minTrophies = Number(league) || null
+	const maxTrophies = league === "4000" ? 4999 : null
+
+	const client = await clientPromise
+	const db = client.db("General")
+	const dailyLb = db.collection("Daily Clan Leaderboard")
+	const statistics = db.collection("Statistics")
+
+	const dailyLbQuery = id === "global" ? {} : {
+		"location.id": id,
+	}
+
+	const [dailyLbArr, statsData] = await Promise.all([
+		dailyLb.find({
+			...dailyLbQuery,
+			clanScore: {
+				$gte: Number(minTrophies) || 0,
+				$lte: Number(maxTrophies) || 10000
+			}
+		}).sort({
+			fameAvg: -1,
+			rank: 1,
+			clanScore: -1
+		}).toArray(), statistics.findOne()
+	])
+
+	return {
+		props: {
+			region,
+			data: {
+				dailyLbArr: JSON.parse(JSON.stringify(dailyLbArr)),
+				lbLastUpdated: statsData.lbLastUpdated
+			}
+		}
+	}
 }

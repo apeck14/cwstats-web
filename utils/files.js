@@ -44,6 +44,8 @@ export const getCountryKeyById = (countryId) => {
 }
 
 export const getRegionByKey = (key) => {
+	if (!key) return false
+
 	return locations.find((l) => l.key === key)
 }
 
