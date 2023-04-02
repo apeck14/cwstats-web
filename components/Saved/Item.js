@@ -112,32 +112,22 @@ const Bookmark = styled(FaBookmark)({})
 const BookmarkFill = styled(FaRegBookmark)({})
 
 export default function SavedItem({ name, tag, badge, links, isPlayer }) {
-	const [hover, setHover] = useState(false)
-	const [saved, setSaved] = useState(true)
+	const [isSaved, setIsSaved] = useState(true)
 	const { width } = useWindowSize()
 
 	const updateSavedItem = useDebouncedCallback(() => {
 		if (isPlayer) {
-			if (saved) unsavePlayer(tag)
+			if (isSaved) unsavePlayer(tag)
 			else savePlayer(name, tag)
 		}
 		else {
-			if (saved) unsaveClan(tag)
+			if (isSaved) unsaveClan(tag)
 			else saveClan(name, tag, badge)
 		}
 	}, 1500)
 
-	const onMouseEnter = () => {
-		setHover(saved)
-	}
-
-	const onMouseLeave = () => {
-		setHover(!saved)
-	}
-
 	const toggleSavedItem = () => {
-		setSaved(!saved)
-		setHover(saved)
+		setIsSaved(!isSaved)
 		updateSavedItem()
 	}
 
@@ -168,9 +158,9 @@ export default function SavedItem({ name, tag, badge, links, isPlayer }) {
 					})
 				}
 			</RightDiv>
-			<BookmarkDiv onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={toggleSavedItem}>
+			<BookmarkDiv onClick={toggleSavedItem}>
 				{
-					hover ? <BookmarkFill /> : <Bookmark />
+					isSaved ? <Bookmark /> : <BookmarkFill />
 				}
 			</BookmarkDiv>
 		</ContentItem>

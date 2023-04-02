@@ -382,8 +382,7 @@ export default function ClanRace({ clan, race }) {
 	const router = useRouter()
 	const { data: session, status } = useSession()
 	const { width } = useWindowSize()
-	const [bookmarkHover, setBookmarkHover] = useState(false)
-	const [saved, setSaved] = useState(false)
+	const [isSaved, setIsSaved] = useState(false)
 
 	const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
 
@@ -391,12 +390,11 @@ export default function ClanRace({ clan, race }) {
 		if (session && clan) {
 			getUser()
 				.then(data => {
-					const isSaved = !!(data?.savedClans || []).find(c => c.tag === clan.tag)
+					const saved = !!(data?.savedClans || []).find(c => c.tag === clan.tag)
 
-					setSaved(isSaved)
-					setBookmarkHover(isSaved)
+					setIsSaved(saved)
 
-					return true
+					return saved
 				})
 				.catch(() => {})
 		}
@@ -410,31 +408,25 @@ export default function ClanRace({ clan, race }) {
 
 	}, [clan, badgeName])
 
+	const updateSavedItem = useDebouncedCallback(() => {
+		if (isSaved) unsaveClan(clan.tag)
+		else saveClan(clan.name, clan.tag, badgeName)
+	}, 1500)
+
+	if (race.state === "matchmaking") {
+		router.push("/matchmaking")
+
+		return
+	}
+
 	const isColosseum = race.periodType === "colosseum"
 	const dayOfWeek = race.periodIndex % 7
 	const raceClans = getRaceDetails(race.clans, isColosseum)
 
-	const updateSavedItem = useDebouncedCallback(() => {
-		if (saved) unsaveClan(clan.tag)
-		else saveClan(clan.name, clan.tag, badgeName)
-	}, 1500)
-
-	if (race.state === "matchmaking")
-		router.push("/matchmaking")
-
-	const onMouseEnter = () => {
-		setBookmarkHover(!saved)
-	}
-
-	const onMouseLeave = () => {
-		setBookmarkHover(saved)
-	}
-
 	const toggleSavedItem = () => {
 		if (status === "authenticated") {
-			setBookmarkHover(!saved)
 			updateSavedItem()
-			setSaved(!saved)
+			setIsSaved(!isSaved)
 		}
 		else
 			router.push("/login")
@@ -489,9 +481,9 @@ export default function ClanRace({ clan, race }) {
 							<Name>{clan.name}</Name>
 							<IconDiv>
 								{
-									bookmarkHover ?
-										<BookmarkFill onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={toggleSavedItem} onTouchStart={toggleSavedItem} /> :
-										<Bookmark onMouseEnter={onMouseEnter} onMouseLeave={onMouseLeave} onClick={toggleSavedItem} onTouchStart={toggleSavedItem} />
+									isSaved ?
+										<BookmarkFill onClick={toggleSavedItem} /> :
+										<Bookmark onClick={toggleSavedItem} />
 								}
 							</IconDiv>
 							<InGameLink href={`https://link.clashroyale.com/?clanInfo?id=${clan.tag.substring(1)}`} target="_blank" rel="noopener noreferrer">
