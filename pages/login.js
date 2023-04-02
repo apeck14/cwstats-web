@@ -60,7 +60,7 @@ export default function Login() {
 
 			<Main>
 				<Header>You are not logged in.</Header>
-				<SubHeader>To access the full site, please login with Discord.</SubHeader>
+				<SubHeader>To access the full site, please log in with Discord.</SubHeader>
 				<LoginBtn onClick={() => signIn("discord", {
 					callbackUrl: "/"
 				})}><DiscordIcon />Log In</LoginBtn>
