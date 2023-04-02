@@ -42,7 +42,6 @@ const Row = styled.tr({
 const Cell = styled.td({
 	"height": "2.5rem",
 	"padding": "0 1rem",
-	"backgroundColor": gray["75"],
 	"fontFamily": "SansPro600",
 	"borderTop": `1px solid ${gray["50"]}`,
 

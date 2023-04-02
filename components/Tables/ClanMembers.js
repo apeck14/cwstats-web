@@ -41,7 +41,6 @@ const Row = styled.tr({
 const Cell = styled.td({
 	"height": "3.5rem",
 	"padding": "0 0.75rem",
-	"backgroundColor": gray["75"],
 	"fontFamily": "SansPro600",
 	"borderTop": `1px solid ${gray["50"]}`,
 
@@ -73,7 +72,9 @@ const CenterCell = styled(Cell)({
 	textAlign: "center"
 })
 
-const Arena = styled(Image)({})
+const Arena = styled(Image)({
+	verticalAlign: "middle"
+})
 
 const DownArrow = styled(IoCaretDown)({
 	float: "right"
@@ -230,46 +231,63 @@ export default function MembersTable({ members }) {
 
 			<tbody>
 				{
-					sortedItems.map((m, index) => (
-						<Row key={index}>
-							<CenterCell>{m.rank}</CenterCell>
-							<CenterCell>
-								<Arena src={`/assets/arenas/${getArenaFileName(m.trophies)}.png`} height={32} width={32} alt="Arena" />
-							</CenterCell>
-							<CenterCell>{m.trophies}</CenterCell>
-							{
-								isMobile ?
-									<MobileNameCell>
-										<TopMobileDiv>
-											<Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>{m.name}</Name>
-										</TopMobileDiv>
-										<BottomMobileDiv>
-											<span style={{
-												marginRight: "0.25rem",
-												color: gray["25"]
-											}}>{formatRole(m.role)}</span>
-											<span style={{
-												color: gray["50"]
-											}}>{m.lastSeenStr}</span>
-										</BottomMobileDiv>
-									</MobileNameCell> :
-									<>
-										<Cell>
-											<Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>{m.name}</Name>
-										</Cell>
-										<CenterCell style={{
-											color: gray["25"]
-										}}>{m.lastSeenStr}</CenterCell>
-										<CenterCell style={{
-											color: gray["25"]
-										}}>{formatRole(m.role)}</CenterCell>
-									</>
-							}
-							<CenterCell style={{
-								color: gray["25"]
-							}}>{m.expLevel}</CenterCell>
-						</Row>
-					))
+					sortedItems.map((m, index) => {
+						const backgroundColor = index % 2 === 0 ? "#2e2f30" : gray["75"]
+
+						return (
+							<Row key={index}>
+								<CenterCell style={{
+									backgroundColor
+								}}>{m.rank}</CenterCell>
+								<CenterCell style={{
+									backgroundColor
+								}}>
+									<Arena src={`/assets/arenas/${getArenaFileName(m.trophies)}.png`} height={32} width={32} alt="Arena" />
+								</CenterCell>
+								<CenterCell style={{
+									backgroundColor
+								}}>{m.trophies}</CenterCell>
+								{
+									isMobile ?
+										<MobileNameCell style={{
+											backgroundColor
+										}}>
+											<TopMobileDiv>
+												<Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>{m.name}</Name>
+											</TopMobileDiv>
+											<BottomMobileDiv>
+												<span style={{
+													marginRight: "0.25rem",
+													color: gray["25"]
+												}}>{formatRole(m.role)}</span>
+												<span style={{
+													color: gray["50"]
+												}}>{m.lastSeenStr}</span>
+											</BottomMobileDiv>
+										</MobileNameCell> :
+										<>
+											<Cell style={{
+												backgroundColor
+											}}>
+												<Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>{m.name}</Name>
+											</Cell>
+											<CenterCell style={{
+												color: gray["25"],
+												backgroundColor
+											}}>{m.lastSeenStr}</CenterCell>
+											<CenterCell style={{
+												color: gray["25"],
+												backgroundColor
+											}}>{formatRole(m.role)}</CenterCell>
+										</>
+								}
+								<CenterCell style={{
+									color: gray["25"],
+									backgroundColor
+								}}>{m.expLevel}</CenterCell>
+							</Row>
+						)
+					})
 				}
 			</tbody>
 		</Table>
