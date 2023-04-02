@@ -217,27 +217,31 @@ export default function RaceLeaderboard({ participants }) {
 
 			<tbody>
 				{
-					sortedItems.map((m, index) => (
-						<Row key={index}>
-							<Cell style={!m.inClan ? {
-								backgroundColor: red
-							} : null}>
-								<Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>{m.name}</Name>
-							</Cell>
-							<CenterCell style={!m.inClan ? {
-								backgroundColor: red
-							} : null}>{m.decksUsedToday}</CenterCell>
-							<CenterCell style={!m.inClan ? {
-								backgroundColor: red
-							} : null}>{m.decksUsed}</CenterCell>
-							<CenterCell style={!m.inClan ? {
-								backgroundColor: red
-							} : null}>{m.boatAttacks}</CenterCell>
-							<CenterCell style={!m.inClan ? {
-								backgroundColor: red
-							} : null}>{m.fame}</CenterCell>
-						</Row>
-					))
+					sortedItems.map((m, index) => {
+						const backgroundColor = !m.inClan ? red : (index % 2 === 0 ? "#2e2f30" : gray["75"])
+
+						return (
+							<Row key={index}>
+								<Cell style={{
+									backgroundColor
+								}}>
+									<Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>{m.name}</Name>
+								</Cell>
+								<CenterCell style={{
+									backgroundColor
+								}}>{m.decksUsedToday}</CenterCell>
+								<CenterCell style={{
+									backgroundColor
+								}}>{m.decksUsed}</CenterCell>
+								<CenterCell style={{
+									backgroundColor
+								}}>{m.boatAttacks}</CenterCell>
+								<CenterCell style={{
+									backgroundColor
+								}}>{m.fame}</CenterCell>
+							</Row>
+						)
+					})
 				}
 			</tbody>
 		</Table>
