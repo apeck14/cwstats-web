@@ -147,7 +147,7 @@ const SavedContainer = styled.div({
 	flexWrap: "wrap",
 	justifyContent: "space-evenly",
 	backgroundColor: gray["75"],
-	padding: "2.25rem 0",
+	padding: "2.25rem 0"
 })
 
 const SavedDiv = styled.div({
@@ -170,14 +170,25 @@ const SavedHeader = styled.p({
 })
 
 const SavedContent = styled.div({
-	minHeight: "21.125rem",
-	backgroundColor: gray["50"],
-	margin: "0.75rem 1.5rem 0.25rem 1.5rem",
-	borderRadius: "0.3rem",
+	"minHeight": "21.125rem",
+	"backgroundColor": gray["50"],
+	"margin": "0.75rem 1.5rem 0.25rem 1.5rem",
+	"borderRadius": "0.5rem",
+	"padding": "0.5rem",
+
+	"@media (max-width: 480px)": {
+		padding: "0.25rem"
+	},
 })
 
 const SavedItem = styled.div({
-	padding: "0.75rem 1.5rem",
+	"padding": "1rem",
+	"background": `linear-gradient(3600deg, ${gray["100"]} 10%, ${gray["75"]} 80%)`,
+	"borderRadius": "0.5rem",
+
+	":not(:first-child)": {
+		marginTop: "0.25rem"
+	}
 })
 
 const SavedItemTopDiv = styled.div({})
