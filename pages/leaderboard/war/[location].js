@@ -182,7 +182,6 @@ const THead = styled.th({
 
 const Cell = styled.td({
 	"padding": "0.75rem",
-	"backgroundColor": gray["75"],
 	"fontFamily": "SansPro600",
 	"borderTop": `1px solid ${gray["50"]}`,
 
@@ -233,7 +232,9 @@ const ClanBadge = styled(Image)({
 	height: "auto"
 })
 
-const Flag = styled(Image)({})
+const Flag = styled(Image)({
+	verticalAlign: "middle"
+})
 
 const TrophiesIcon = styled(Image)({})
 
@@ -346,6 +347,7 @@ export default function Leaderboard({ region, data }) {
 							data.slice(start, start + 100).map((c, index) => {
 								const badgeName = getClanBadgeFileName(c.badgeId, c.clanScore)
 								const rankDiff = c.previousRank - c.rank
+								const backgroundColor = index % 2 === 0 ? "#2e2f30" : gray["75"]
 
 								const rankContent = () => {
 									if (c.previousRank === -1 || rankDiff === 0) {
@@ -361,9 +363,13 @@ export default function Leaderboard({ region, data }) {
 								}
 
 								return <Row key={index}>
-									<CenterCell>{c.rank}</CenterCell>
+									<CenterCell style={{
+										backgroundColor
+									}}>{c.rank}</CenterCell>
 
-									<Cell>
+									<Cell style={{
+										backgroundColor
+									}}>
 										<ClanBadgeDiv>
 											<ClanBadge
 												src={`/assets/badges/${badgeName}.png`}
@@ -373,14 +379,22 @@ export default function Leaderboard({ region, data }) {
 										</ClanBadgeDiv>
 
 									</Cell>
-									<Cell>
+									<Cell style={{
+										backgroundColor
+									}}>
 										<Name onClick={() => router.push(`/clan/${c.tag.substring(1)}`)}>{c.name}</Name>
 									</Cell>
-									<Cell>
+									<Cell style={{
+										backgroundColor
+									}}>
 										<Flag src={`/assets/flags/${getCountryKeyById(c.location.id)}.png`} height={flagHeightPx} width={flagWidthPx} alt="Flag" />
 									</Cell>
-									<CenterCell>{rankContent()}</CenterCell>
-									<CenterCell>{c.clanScore}</CenterCell>
+									<CenterCell style={{
+										backgroundColor
+									}}>{rankContent()}</CenterCell>
+									<CenterCell style={{
+										backgroundColor
+									}}>{c.clanScore}</CenterCell>
 								</Row>
 							})
 						}

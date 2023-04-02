@@ -211,7 +211,6 @@ const THead = styled.th({
 
 const Cell = styled.td({
 	"padding": "0.75rem",
-	"backgroundColor": gray["75"],
 	"fontFamily": "SansPro600",
 	"borderTop": `1px solid ${gray["50"]}`,
 
@@ -280,7 +279,9 @@ const ClanBadge = styled(Image)({
 	height: "auto"
 })
 
-const Flag = styled(Image)({})
+const Flag = styled(Image)({
+	verticalAlign: "middle"
+})
 
 const GlobeIcon = styled(FcGlobe)({})
 
@@ -417,10 +418,15 @@ export default function Leaderboard({ region, data }) {
 						{
 							data.dailyLbArr.slice(start, start + 100).map((c, index) => {
 								const badgeName = getClanBadgeFileName(c.badgeId, c.clanScore)
+								const backgroundColor = index % 2 === 0 ? "#2e2f30" : gray["75"]
 
 								return <Row key={index}>
-									<CenterCell>{index + 1 + start}</CenterCell>
-									<Cell>
+									<CenterCell style={{
+										backgroundColor
+									}}>{index + 1 + start}</CenterCell>
+									<Cell style={{
+										backgroundColor
+									}}>
 										<ClanBadgeDiv>
 											<ClanBadge
 												src={`/assets/badges/${badgeName}.png`}
@@ -430,17 +436,28 @@ export default function Leaderboard({ region, data }) {
 										</ClanBadgeDiv>
 
 									</Cell>
-									<Cell>
+									<Cell style={{
+										backgroundColor
+									}}>
 										<Name href={`/clan/${c?.tag?.substring(1)}/race`}>{c.name}</Name>
 									</Cell>
-									<Cell>
+									<Cell style={{
+										backgroundColor
+									}}>
 										<Flag src={`/assets/flags/${getCountryKeyById(c.location.id)}.png`} height={flagHeightPx} width={flagWidthPx} alt="Flag" />
 									</Cell>
 									<CenterCell style={c.rank === "N/A" ? {
-										color: gray["50"]
-									} : null}>{`${c.rank === "N/A" ? '' : "#"}${c.rank}`}</CenterCell>
-									<CenterCell>{c.clanScore}</CenterCell>
-									<CenterCell>{c.decksRemaining}</CenterCell>
+										color: gray["50"],
+										backgroundColor
+									} : {
+										backgroundColor
+									}}>{`${c.rank === "N/A" ? '' : "#"}${c.rank}`}</CenterCell>
+									<CenterCell style={{
+										backgroundColor
+									}}>{c.clanScore}</CenterCell>
+									<CenterCell style={{
+										backgroundColor
+									}}>{c.decksRemaining}</CenterCell>
 									<FameCell>{c.fameAvg.toFixed(2)}</FameCell>
 								</Row>
 							})
