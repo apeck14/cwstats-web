@@ -6,7 +6,9 @@ import Item from "./Item.js"
 import { useEffect, useState } from "react"
 
 const Container = styled.div({
-	"backgroundColor": gray["50"],
+	"background": gray["50"],
+	// eslint-disable-next-line no-dupe-keys
+	"background": "linear-gradient(0deg, #242526, #242526, #262728, #28292a, #2a2b2c, #2d2e2f, #303132, #333435, #363738, #38393a, #393a3b, #3a3b3c)",
 	"color": gray["0"],
 	"padding": "2rem",
 

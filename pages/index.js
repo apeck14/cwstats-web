@@ -135,7 +135,7 @@ const SearchIcon = styled(BiSearchAlt)({
 })
 
 const BottomContainer = styled.div({
-	backgroundColor: gray["50"],
+	backgroundColor: gray["75"],
 	display: 'flex',
 	paddingBottom: "2rem",
 	marginBottom: "2rem",
@@ -147,8 +147,7 @@ const SavedContainer = styled.div({
 	flexWrap: "wrap",
 	justifyContent: "space-evenly",
 	backgroundColor: gray["75"],
-	padding: "2.25rem 0 3.5rem 0",
-
+	padding: "2.25rem 0",
 })
 
 const SavedDiv = styled.div({
