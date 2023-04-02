@@ -22,15 +22,24 @@ const Main = styled.div({
 	},
 })
 
-const SearchBarContainer = styled.div({
-	"display": "flex",
-	"alignItems": "center",
-	"justifyContent": "center",
-	"marginTop": "5rem",
+const MainHeader = styled.h1({
+	"color": gray["0"],
+	"fontSize": "4rem",
+	"fontFamily": "SansPro700",
+	"textAlign": "center",
+	"marginTop": "3rem",
 
 	"@media (max-width: 480px)": {
-		marginTop: "2rem"
+		marginTop: "2rem",
+		fontSize: "2.5rem"
 	},
+})
+
+const SearchBarContainer = styled.div({
+	display: "flex",
+	alignItems: "center",
+	justifyContent: "center",
+	marginTop: "1.5rem"
 })
 
 const SearchBar = styled.input({
@@ -221,6 +230,7 @@ export default function ClanSearch () {
 			}}
 		/>
 		<Main>
+			<MainHeader>Clan Search</MainHeader>
 			<SearchBarContainer>
 				<SearchBar defaultValue={q} onChange={handleClanSearchChange} placeholder="Name or tag, e.g. 9U82JJ0Y" />
 				<SearchButton onClick={handleClanSubmit}>
