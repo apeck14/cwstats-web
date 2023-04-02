@@ -34,21 +34,12 @@ const ClanBadge = styled(Image)({
 const ClanName = styled.p({
 	"fontSize": "1.1rem",
 
-	":hover, :active": {
-		color: pink,
-	},
-
 	"@media (max-width: 450px)": {
 		fontSize: "1rem",
 	},
 })
 
-const Flag = styled(Image)({
-	":hover, :active": {
-		filter: "brightness(60%)",
-		cursor: 'pointer',
-	},
-})
+const Flag = styled(Image)({})
 
 const EarthIcon = styled(FcGlobe)({
 	fontSize: "28px",
@@ -130,11 +121,7 @@ const MobileSubDiv = styled.div({
 	alignItems: "center"
 })
 
-const MobileFlag = styled(Image)({
-	":hover, :active": {
-		filter: "brightness(60%)",
-	},
-})
+const MobileFlag = styled(Image)({})
 
 const MobileEarthIcon = styled(FcGlobe)({
 	fontSize: "0.875",
@@ -146,7 +133,7 @@ const MobileClanBadge = styled(Image)({
 
 	"@media (max-width: 450px)": {
 		margin: "0px 0px 0px 8px",
-		height: "2.2rem",
+		height: "1.9rem",
 		width: "auto"
 	},
 })
@@ -191,10 +178,10 @@ export default function Item({ index, clan, isTablet, isMobile }) {
 
 				<MobileLeftSubDivContainer>
 					<MobileSubDiv>
-						<ClanName onClick={() => router.replace(`/clan/${clan.tag.substring(1)}`)}>{clan.name}</ClanName>
+						<ClanName>{clan.name}</ClanName>
 					</MobileSubDiv>
 					<MobileSubDiv>
-						<MobileFlag onClick={() => router.replace(`/leaderboard/daily/${countryKey.toUpperCase()}`)} src={flagUrl} alt="region flag" height={12} width={20} />
+						<MobileFlag src={flagUrl} alt="region flag" height={12} width={20} />
 						<MobileEarthIcon />
 						<Rank>#{clan.rank}</Rank>
 					</MobileSubDiv>
@@ -213,12 +200,12 @@ export default function Item({ index, clan, isTablet, isMobile }) {
 			<LeftItemSubDiv>
 				<RankIcon number={index + 1} size="24px" />
 				<ClanBadge src={clanBadgeUrl} alt="clan badge" height={40} width={40} />
-				<ClanName onClick={() => router.replace(`/clan/${clan.tag.substring(1)}`)}>{clan.name}</ClanName>
+				<ClanName>{clan.name}</ClanName>
 			</LeftItemSubDiv>
 
 			<CenterItemSubDiv>
 				<SubDiv>
-					<Flag onClick={() => router.replace(`/leaderboard/daily/${countryKey.toUpperCase()}`)} src={flagUrl} alt="region flag" height={25.6} width={43.2} />
+					<Flag src={flagUrl} alt="region flag" height={25.6} width={43.2} />
 				</SubDiv>
 				<SubDiv>
 					<EarthIcon />
