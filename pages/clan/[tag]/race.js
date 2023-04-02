@@ -449,8 +449,9 @@ export default function ClanRace({ clan, race }) {
 
 				return b.fame - a.fame
 			})
-			.map(p => ({
+			.map((p, index) => ({
 				...p,
+				rank: index + 1,
 				inClan: !!(clan.memberList.find(m => m.tag === p.tag))
 			}))
 	}

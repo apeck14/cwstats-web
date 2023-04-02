@@ -98,7 +98,7 @@ const sortFunctionsAscending = {
 		return a.boatAttacks - b.boatAttacks
 	},
 	fame: (a, b) => {
-		return a.fame - b.fame
+		return b.rank - a.rank
 	},
 }
 
@@ -116,7 +116,7 @@ const sortFunctionsDescending = {
 		return b.boatAttacks - a.boatAttacks
 	},
 	fame: (a, b) => {
-		return b.fame - a.fame
+		return a.rank - b.rank
 	},
 }
 
@@ -175,6 +175,9 @@ export default function RaceLeaderboard({ participants }) {
 		<Table>
 			<thead>
 				<Row>
+					<TH>
+						<span>#</span>
+					</TH>
 					<SortTh key="name" onClick={() => toggleSort("name")}>
 						<span>Player</span>
 						{ showArrow("name") }
@@ -221,6 +224,9 @@ export default function RaceLeaderboard({ participants }) {
 
 						return (
 							<Row key={index}>
+								<CenterCell style={{
+									backgroundColor
+								}}>{m.rank}</CenterCell>
 								<Cell style={{
 									backgroundColor
 								}}>
