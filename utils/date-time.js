@@ -18,6 +18,8 @@ export const parseDate = (date) => {
 }
 
 export const relativeDateStr = (date) => {
+	if (!(date instanceof Date)) return ""
+
 	const now = new Date()
 
 	let diffMs = now.getTime() - date.getTime()
