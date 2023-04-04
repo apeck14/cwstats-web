@@ -386,7 +386,7 @@ export default function ClanHome({ clan }) {
 				</InfoDiv>
 
 				<MembersTable members={clan.memberList.map((m, index) => {
-					const lastSeenDate = parseDate(m.lastSeen)
+					const lastSeenDate = m.lastSeen ? parseDate(m.lastSeen) : ""
 
 					return {
 						...m,
