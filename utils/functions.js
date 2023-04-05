@@ -1,3 +1,5 @@
+import { parseDate } from "./date-time"
+
 export const formatClanType = (type) => {
 	if (type === "inviteOnly") return "Invite Only"
 	if (type === "open") return "Open"
@@ -42,6 +44,19 @@ export const getAvgFame = (clan, isColosseum, dayOfWeek) => {
 	if (attacksCompletedToday === 0) return 0
 
 	return currentFame / attacksCompletedToday
+}
+
+export const getAvgFameOfLog = (clan, weekEnd, finishTime) => {
+	const weekEndDate = parseDate(weekEnd)
+	const finishDate = parseDate(finishTime)
+
+	weekEndDate.setUTCDate(weekEndDate.getUTCDate() - 1)
+
+	const threeDayFinish = weekEndDate.getUTCDate() === finishDate.getUTCDate()
+
+	const totalFame = clan.participants.reduce((a, b) => a + b.fame, 0)
+
+	return totalFame / (threeDayFinish ? 600 : 800)
 }
 
 export const getProjFame = (clan, isColosseum, dayOfWeek) => {
@@ -330,7 +345,7 @@ export const getCRErrorUrl = (err) => {
 export const handleSCResponse = async (res) => {
 	const data = await res.json()
 
-	if (res.ok) return data
+	if (res.ok) return data.items || data
 	else {
 		throw {
 			status: res.status,

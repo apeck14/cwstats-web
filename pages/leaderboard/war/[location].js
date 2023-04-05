@@ -431,7 +431,7 @@ export async function getServerSideProps (context) {
 		return {
 			props: {
 				region,
-				data: data.items || []
+				data
 			}
 		}
 	}

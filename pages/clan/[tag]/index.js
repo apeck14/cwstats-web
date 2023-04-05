@@ -407,11 +407,11 @@ export async function getServerSideProps (context) {
 
 	try {
 		const res = await fetchClan(formatTag(tag, false))
-		const data = await handleSCResponse(res)
+		const clan = await handleSCResponse(res)
 
 		return {
 			props: {
-				clan: data
+				clan
 			}
 		}
 	}
