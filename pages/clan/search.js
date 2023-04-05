@@ -239,7 +239,7 @@ export default function ClanSearch () {
 			</SearchBarContainer>
 
 			<HeaderDiv>
-				<Text>Showing top 50 search results. Search by tag if you cannot find clan by name.</Text>
+				<Text>Showing top 50 search results. Search by tag if you cannot find clan by name. The clan will then be saved for future searches.</Text>
 			</HeaderDiv>
 
 			<Content>
