@@ -13,8 +13,8 @@
     "lodash": "^4.17.21",
     "mongodb": "^4.1.1",
     "next": "13.2.4",
-    "next-auth": "^4.20.1",
-    "next-seo": "^5.15.0",
+    "next-auth": "^4.21.1",
+    "next-seo": "^6.0.0",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-icons": "^4.8.0",
@@ -22,16 +22,11 @@
     "styled-components": "^5.3.9"
   },
   "devDependencies": {
-    "@svgr/webpack": "^7.0.0",
     "eslint": "^8.37.0",
     "eslint-config-next": "13.2.4",
-    "eslint-plugin-next": "^0.0.0",
     "eslint-plugin-promise": "^6.1.1",
     "eslint-plugin-react": "^7.32.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-sonarjs": "^0.19.0",
-    "eslint-plugin-unicorn": "^46.0.0",
-    "stylelint": "^15.3.0",
-    "stylelint-config-standard": "^31.0.0"
+    "eslint-plugin-sonarjs": "^0.19.0"
   }
 }
