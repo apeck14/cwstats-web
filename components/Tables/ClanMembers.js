@@ -261,7 +261,7 @@ export default function MembersTable({ members }) {
 													color: gray["25"]
 												}}>{formatRole(m.role)}</span>
 												<span style={{
-													color: gray["50"]
+													color: gray["25"]
 												}}>{m.lastSeenStr}</span>
 											</BottomMobileDiv>
 										</MobileNameCell> :

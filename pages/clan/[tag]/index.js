@@ -391,7 +391,7 @@ export default function ClanHome({ clan }) {
 					return {
 						...m,
 						rank: index + 1,
-						lastSeenStr: relativeDateStr(lastSeenDate),
+						lastSeenStr: relativeDateStr(lastSeenDate, false),
 						lastSeenDate
 					}
 				})}

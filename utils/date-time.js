@@ -17,7 +17,7 @@ export const parseDate = (date) => {
 		))
 }
 
-export const relativeDateStr = (date) => {
+export const relativeDateStr = (date, showSeconds = true) => {
 	if (!(date instanceof Date)) return ""
 
 	const now = new Date()
@@ -40,6 +40,10 @@ export const relativeDateStr = (date) => {
 		diffMs -= diffDays * (1000 * 60 * 60 * 24)
 	}
 
+	//return '1w 3d'
+	if (diffWeeks >= 1)
+		return str.trim()
+
 	//check for hours
 	const diffHours = parseInt(diffMs / (1000 * 60 * 60))
 	if (diffHours) {
@@ -53,6 +57,9 @@ export const relativeDateStr = (date) => {
 		str += `${diffMins}m `
 		diffMs -= diffMins * (1000 * 60)
 	}
+
+	if (!showSeconds)
+		return str.trim()
 
 	//check for mins
 	const diffSecs = parseInt(diffMs / 1000)
