@@ -5,37 +5,37 @@
 		"node": true
 	},
 	"extends": [
-        "next/core-web-vitals",
+		"next",
+		"next/core-web-vitals",
 		"plugin:promise/recommended",
 		"eslint:recommended",
 		"plugin:sonarjs/recommended",
 		"plugin:react/recommended",
-		"plugin:react-hooks/recommended"
+		"plugin:react-hooks/recommended",
+		"prettier"
 	],
-	"plugins": [
-		"sonarjs",
-		"promise",
-        "react",
-        "react-hooks"
-	],
+	"plugins": ["sonarjs", "promise", "react", "react-hooks"],
 	"parserOptions": {
 		"ecmaVersion": "latest",
 		"sourceType": "module"
 	},
 	"rules": {
 		"array-bracket-newline": [
-			"error", {
+			"error",
+			{
 				"multiline": true
 			}
 		],
 		"array-element-newline": [
-			"error", {
+			"error",
+			{
 				"minItems": 3
 			}
 		],
 		"brace-style": ["error", "stroustrup"],
 		"comma-dangle": [
-			"error", {
+			"error",
+			{
 				"arrays": "never",
 				"objects": "only-multiline",
 				"imports": "never",
@@ -47,13 +47,15 @@
 		"eol-last": ["error", "never"],
 		"indent": ["error", "tab"],
 		"keyword-spacing": [
-			"error", {
+			"error",
+			{
 				"after": true
 			}
 		],
 		"no-mixed-spaces-and-tabs": ["error", "smart-tabs"],
 		"no-multiple-empty-lines": [
-			"error", {
+			"error",
+			{
 				"max": 1,
 				"maxEOF": 0,
 				"maxBOF": 0
@@ -61,13 +63,15 @@
 		],
 		"no-trailing-spaces": "error",
 		"no-unused-vars": [
-			"error", {
+			"error",
+			{
 				"vars": "all",
 				"args": "none"
 			}
 		],
 		"object-curly-newline": [
-			"error", {
+			"error",
+			{
 				"ObjectExpression": {
 					"minProperties": 1
 				},
@@ -84,12 +88,14 @@
 		],
 		"object-curly-spacing": ["error", "always"],
 		"object-property-newline": [
-			"error", {
+			"error",
+			{
 				"allowAllPropertiesOnSameLine": false
 			}
 		],
 		"padding-line-between-statements": [
-			"error", {
+			"error",
+			{
 				"blankLine": "always",
 				"prev": "*",
 				"next": "return"
@@ -99,7 +105,7 @@
 		"quote-props": ["error", "consistent-as-needed"],
 		"sonarjs/cognitive-complexity": "off",
 		"sonarjs/no-duplicate-string": "off",
-        "react/react-in-jsx-scope": "off",
-        "react/prop-types": "off"
+		"react/react-in-jsx-scope": "off",
+		"react/prop-types": "off"
 	}
 }
