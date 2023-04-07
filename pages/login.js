@@ -1,71 +1,80 @@
+import { signIn } from "next-auth/react"
+import { NextSeo } from "next-seo"
+import { FaDiscord } from "react-icons/fa"
 import styled from "styled-components"
 import { gray, orange, pink } from "../public/static/colors"
-import { signIn } from "next-auth/react"
-import { FaDiscord } from "react-icons/fa"
-import { NextSeo } from "next-seo"
 
 const Main = styled.div({
-	margin: "auto",
-	maxWidth: "90%",
-	fontFamily: "SansPro600",
-	textAlign: "center",
+    margin: "auto",
+    maxWidth: "90%",
+    fontFamily: "SansPro600",
+    textAlign: "center",
 })
 
 const Header = styled.h1({
-	color: gray["0"]
+    color: gray["0"],
 })
 
 const SubHeader = styled.h2({
-	color: gray["25"],
-	fontSize: "1rem",
-	fontWeight: 500,
-	marginTop: "0.5rem"
+    color: gray["25"],
+    fontSize: "1rem",
+    fontWeight: 500,
+    marginTop: "0.5rem",
 })
 
 const LoginBtn = styled.button({
-	"display": "flex",
-	"alignItems": "center",
-	"margin": "0 auto",
-	"marginTop": "1rem",
-	"borderRadius": "1rem",
-	"borderWidth": "0",
-	"backgroundColor": pink,
-	"color": gray["0"],
-	"padding": "0.5rem 1rem",
-	"fontWeight": 500,
-	"fontFamily": "inherit",
+    display: "flex",
+    alignItems: "center",
+    margin: "0 auto",
+    marginTop: "1rem",
+    borderRadius: "1rem",
+    borderWidth: "0",
+    backgroundColor: pink,
+    color: gray["0"],
+    padding: "0.5rem 1rem",
+    fontWeight: 500,
+    fontFamily: "inherit",
 
-	":hover, :active": {
-		cursor: "pointer",
-		backgroundColor: orange
-	}
+    ":hover, :active": {
+        cursor: "pointer",
+        backgroundColor: orange,
+    },
 })
 
 const DiscordIcon = styled(FaDiscord)({
-	fontSize: "1rem",
-	paddingRight: "0.4rem"
+    fontSize: "1rem",
+    paddingRight: "0.4rem",
 })
 
 export default function Login() {
-	return (
-		<>
-			<NextSeo
-				title= "Login"
-				description= "Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers."
-				openGraph={{
-					title: "Login",
-					description: "Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers."
-				}}
-			/>
+    return (
+        <>
+            <NextSeo
+                title="Login"
+                description="Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers."
+                openGraph={{
+                    title: "Login",
+                    description:
+                        "Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers.",
+                }}
+            />
 
-			<Main>
-				<Header>You are not logged in.</Header>
-				<SubHeader>To access the full site, please log in with Discord.</SubHeader>
-				<LoginBtn onClick={() => signIn("discord", {
-					callbackUrl: "/"
-				})}><DiscordIcon />Log In</LoginBtn>
-			</Main>
-		</>
-
-	)
+            <Main>
+                <Header>You are not logged in.</Header>
+                <SubHeader>
+                    To access the full site, please log in with Discord.
+                </SubHeader>
+                <LoginBtn
+                    onClick={() =>
+                        signIn("discord", {
+                            callbackUrl: "/",
+                        })
+                    }
+                >
+                    <DiscordIcon />
+                    Log In
+                </LoginBtn>
+            </Main>
+        </>
+    )
 }
