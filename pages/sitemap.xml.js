@@ -21,7 +21,7 @@ export async function getServerSideProps({ res }) {
   const db = client.db("General")
   const clans = db.collection("Clans")
 
-  const allClans = await clans.find({}).toArray()
+  const allClans = await clans.find({}).limit(50000).toArray()
 
   for (const c of allClans) {
     includedPages.push(`/clan/${c.tag.substring(1)}`)
