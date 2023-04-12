@@ -12,6 +12,8 @@ const Main = styled.div`
   border-radius: 0.25rem;
   padding: 1rem;
   margin-bottom: 0.5rem;
+  //box-shadow: ${gray["100"]} 0px 2px 8px 0px;
+  box-shadow: ${gray["100"]} 0px 3px 8px;
 
   @media (max-width: 528px) {
     height: 17.5rem;
