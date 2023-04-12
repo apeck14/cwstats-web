@@ -6,7 +6,7 @@ import Hr from "../../Hr"
 import SavedItem from "./SavedItem"
 
 const Main = styled.div`
-  height: 22rem;
+  height: 22.5rem;
   width: 30rem;
   background-color: ${gray["100"]};
   border-radius: 0.25rem;
@@ -14,7 +14,7 @@ const Main = styled.div`
   margin-bottom: 0.5rem;
 
   @media (max-width: 528px) {
-    height: 17rem;
+    height: 17.5rem;
     width: 85vw;
   }
 `
