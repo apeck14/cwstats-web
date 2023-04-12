@@ -341,10 +341,10 @@ export default function Leaderboard({ region, data }) {
   return (
     <>
       <NextSeo
-        title={`Daily Leaderboard - ${region.name}`}
+        title={`Daily War Leaderboard - ${region.name} | CWStats - Clash Royale`}
         description={`View the current daily leaderboard (${region.name}).`}
         openGraph={{
-          title: `Daily Leaderboard - ${region.name}`,
+          title: `Daily War Leaderboard - ${region.name} | CWStats - Clash Royale`,
           description: `View the current daily leaderboard (${region.name}).`,
           images: [
             {
