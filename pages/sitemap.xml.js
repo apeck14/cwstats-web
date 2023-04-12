@@ -5,7 +5,7 @@ const locations = require("../public/static/locations")
 export async function getServerSideProps({ res }) {
   const baseUrl = {
     development: "http://localhost:3000",
-    production: "https://cwstats.com",
+    production: "https://www.cwstats.com",
   }[process.env.NODE_ENV]
 
   const includedPages = ["/", "/bot/docs", "/bot/setup"]
