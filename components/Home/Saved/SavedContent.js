@@ -2,6 +2,7 @@ import Link from "next/link"
 import styled from "styled-components"
 
 import { gray, orange } from "../../../public/static/colors"
+import Hr from "../../Hr"
 import SavedItem from "./SavedItem"
 
 const Main = styled.div`
@@ -21,12 +22,6 @@ const Main = styled.div`
 const NoneSaved = styled.p`
   font-style: italic;
   color: ${gray["25"]};
-`
-
-const HR = styled.hr`
-  margin: 0;
-  color: ${gray["75"]};
-  border-top: 1px solid ${gray["75"]};
 `
 
 const ViewAll = styled(Link)`
@@ -54,7 +49,7 @@ export default function SavedContent({ isPlayers, items }) {
             items.slice(0, lastIndex).map((e, index) => (
               <>
                 <SavedItem key={e.tag} data={e} isPlayer={isPlayers} />
-                {index !== lastIndex - 1 ? <HR /> : null}
+                {index !== lastIndex - 1 ? <Hr /> : null}
               </>
             ))
           )}
@@ -72,7 +67,7 @@ export default function SavedContent({ isPlayers, items }) {
       {[1, 2, 3, 4, 5].map((e, index) => (
         <>
           <SavedItem key={e} skeleton />
-          {index !== 4 ? <HR /> : null}
+          {index !== 4 ? <Hr /> : null}
         </>
       ))}
     </Main>
