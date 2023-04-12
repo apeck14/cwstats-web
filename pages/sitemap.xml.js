@@ -54,4 +54,4 @@ export async function getServerSideProps({ res }) {
   }
 }
 
-export default () => {}
+export default function Sitemap() {}
