@@ -78,8 +78,8 @@ export default function ClanLogsOverview({ clanTag, log }) {
 
   return Object.keys(groupedLogsBySeason)
     .reverse()
-    .map((sId, sIndex) => (
-      <SeasonTable key={sIndex}>
+    .map((sId) => (
+      <SeasonTable key={sId}>
         <thead>
           <Row isHeader>
             <TH align="left">Season {sId}</TH>
@@ -110,7 +110,7 @@ export default function ClanLogsOverview({ clanTag, log }) {
           </Row>
         </thead>
         <tbody>
-          {groupedLogsBySeason[sId].map((w, index) => {
+          {groupedLogsBySeason[sId].map((w) => {
             const clan = w.standings.find((c) => c.clan.tag === clanTag)
             const trophyChange = `${clan.trophyChange < 0 ? "" : "+"}${
               clan.trophyChange
@@ -118,7 +118,7 @@ export default function ClanLogsOverview({ clanTag, log }) {
 
             return (
               <Row
-                key={index}
+                key={`${w.seasonId}${w.sectionIndex}`}
                 onClick={() => handleClickScroll(w.seasonId, w.sectionIndex)}
               >
                 <Cell>W{w.sectionIndex + 1}</Cell>

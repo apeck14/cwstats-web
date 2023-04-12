@@ -123,9 +123,9 @@ export default function Clans() {
           {clans.length === 0 ? (
             <NoneText>No clans saved!</NoneText>
           ) : (
-            clans.slice(0, numShown).map((c, index) => (
+            clans.slice(0, numShown).map((c) => (
               <SavedItem
-                key={index}
+                key={c.tag}
                 name={c.name}
                 tag={c.tag}
                 badge={c.badge}

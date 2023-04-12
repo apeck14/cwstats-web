@@ -160,8 +160,8 @@ export default function SavedItem({ name, tag, badge, links, isPlayer }) {
         {width <= 1024 ? null : <Tag>{tag}</Tag>}
       </LeftDiv>
       <RightDiv>
-        {links.map((l, index) => (
-          <ContentLink key={index} href={l.url}>
+        {links.map((l) => (
+          <ContentLink key={tag} href={l.url}>
             {l.name}
           </ContentLink>
         ))}

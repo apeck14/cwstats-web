@@ -1,4 +1,4 @@
-import Image from "next/image.js"
+import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
 import { NextSeo } from "next-seo"
@@ -491,7 +491,7 @@ export default function Leaderboard({ region, data }) {
               const backgroundColor = index % 2 === 0 ? "#2e2f30" : gray["75"]
 
               return (
-                <Row key={index}>
+                <Row key={c.tag}>
                   <CenterCell
                     style={{
                       backgroundColor,

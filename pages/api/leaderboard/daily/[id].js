@@ -1,5 +1,5 @@
-import clientPromise from "../../../../lib/mongodb.js"
-import locations from "../../../../public/static/locations.js"
+import clientPromise from "../../../../lib/mongodb"
+import locations from "../../../../public/static/locations"
 
 // /api/leaderboard/daily/:id
 export default async function getDailyLeaderboard(req, res) {

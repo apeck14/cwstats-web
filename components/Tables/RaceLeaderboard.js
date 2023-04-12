@@ -224,7 +224,7 @@ export default function RaceLeaderboard({ participants }) {
             : gray["75"]
 
           return (
-            <Row key={index}>
+            <Row key={m.tag}>
               <CenterCell
                 style={{
                   backgroundColor,

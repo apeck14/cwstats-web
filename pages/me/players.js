@@ -124,9 +124,9 @@ export default function Players() {
           {players.length === 0 ? (
             <NoneText>No players saved!</NoneText>
           ) : (
-            players.slice(0, numShown).map((p, index) => (
+            players.slice(0, numShown).map((p) => (
               <SavedItem
-                key={index}
+                key={p.tag}
                 name={p.name}
                 tag={p.tag}
                 isPlayer

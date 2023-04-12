@@ -1,4 +1,4 @@
-import Image from "next/image.js"
+import Image from "next/image"
 import { useRouter } from "next/router"
 import { NextSeo } from "next-seo"
 import { useState } from "react"
@@ -405,7 +405,7 @@ export default function Leaderboard({ region, data }) {
               }
 
               return (
-                <Row key={index}>
+                <Row key={c.tag}>
                   <CenterCell
                     style={{
                       backgroundColor,
