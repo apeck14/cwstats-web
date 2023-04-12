@@ -6,15 +6,15 @@ import Hr from "../../Hr"
 import SavedItem from "./SavedItem"
 
 const Main = styled.div`
-  height: 20rem;
+  height: 22rem;
   width: 30rem;
   background-color: ${gray["100"]};
   border-radius: 0.25rem;
   padding: 1rem;
   margin-bottom: 0.5rem;
 
-  @media (max-width: 33rem) {
-    height: 15rem;
+  @media (max-width: 528px) {
+    height: 17rem;
     width: 85vw;
   }
 `
@@ -49,7 +49,7 @@ export default function SavedContent({ isPlayers, items }) {
             items.slice(0, lastIndex).map((e, index) => (
               <>
                 <SavedItem key={e.tag} data={e} isPlayer={isPlayers} />
-                {index !== lastIndex - 1 ? <Hr /> : null}
+                {index !== lastIndex - 1 ? <Hr margin="0.25rem 0" /> : null}
               </>
             ))
           )}

@@ -11,7 +11,7 @@ const Main = styled.div`
   display: flex;
   align-items: center;
 
-  @media (max-width: 33rem) {
+  @media (max-width: 528px) {
     height: 3rem;
   }
 `
