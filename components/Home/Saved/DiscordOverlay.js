@@ -5,7 +5,7 @@ import styled from "styled-components"
 import { gray, pink } from "../../../public/static/colors"
 
 const Main = styled.div`
-  height: 20rem;
+  height: 22.5rem;
   width: 30rem;
   border-radius: 0.5rem;
   border-width: 0.4rem;
@@ -24,7 +24,7 @@ const Main = styled.div`
   }
 
   @media (max-width: 33rem) {
-    height: 15rem;
+    height: 17.5rem;
     width: 85vw;
   }
 `
