@@ -30,7 +30,7 @@ export async function getServerSideProps({ res }) {
   const sitemap = `<?xml version="1.0" encoding="UTF-8"?>
     <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
       ${includedPages
-        .slice(50000) // max urls per sitemap
+        .slice(0, 50000) // max urls per sitemap
         .map(
           (url) => `
             <url>
