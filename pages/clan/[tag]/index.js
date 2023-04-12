@@ -1,427 +1,495 @@
-import { useEffect, useState } from "react"
-import styled from "styled-components"
-import { addClan, fetchClan, getUser, saveClan, unsaveClan } from "../../../utils/services"
-import { useRouter } from 'next/router'
-import { gray, orange, pink } from "../../../public/static/colors"
-import Image from 'next/image'
-import { getClanBadgeFileName, getCountryKeyById } from "../../../utils/files"
-import { FaBookmark, FaRegBookmark } from "react-icons/fa"
-import { BiLinkExternal } from "react-icons/bi"
-import { useSession } from "next-auth/react"
-import useDebouncedCallback from "../../../hooks/useDebouncedCallback"
+import Image from "next/image"
 import Link from "next/link"
-import { formatClanType, formatTag, getCRErrorUrl, handleSCResponse } from "../../../utils/functions"
-import MembersTable from "../../../components/Tables/ClanMembers"
-import { parseDate, relativeDateStr } from "../../../utils/date-time"
-import useWindowSize from "../../../hooks/useWindowSize"
+import { useRouter } from "next/router"
+import { useSession } from "next-auth/react"
 import { NextSeo } from "next-seo"
+import { useEffect, useState } from "react"
+import { BiLinkExternal } from "react-icons/bi"
+import { FaBookmark, FaRegBookmark } from "react-icons/fa"
+import styled from "styled-components"
 
-const Main = styled.div({
-	"margin": "0 auto",
-	"width": "70rem",
+import MembersTable from "../../../components/Tables/ClanMembers"
+import useDebouncedCallback from "../../../hooks/useDebouncedCallback"
+import useWindowSize from "../../../hooks/useWindowSize"
+import { gray, orange, pink } from "../../../public/static/colors"
+import { parseDate, relativeDateStr } from "../../../utils/date-time"
+import { getClanBadgeFileName, getCountryKeyById } from "../../../utils/files"
+import {
+  formatClanType,
+  formatTag,
+  getCRErrorUrl,
+  handleSCResponse,
+} from "../../../utils/functions"
+import {
+  addClan,
+  fetchClan,
+  getUser,
+  saveClan,
+  unsaveClan,
+} from "../../../utils/services"
 
-	"@media (max-width: 1200px)": {
-		width: "80%"
-	},
-
-	"@media (max-width: 1024px)": {
-		width: "100%"
-	},
-})
+const Main = styled.div({})
 
 const HeaderDiv = styled.div({
-	"background": gray["50"],
-	// eslint-disable-next-line no-dupe-keys
-	"background": `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
-	"padding": "2rem",
-	"color": gray["0"],
-	"display": "flex",
-	"justifyContent": "space-between",
-	"alignItems": "center",
+  background: gray["50"],
+  // eslint-disable-next-line no-dupe-keys
+  background: `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
+  padding: "2rem",
+  color: gray["0"],
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center",
 
-	"@media (max-width: 480px)": {
-		padding: "1rem"
-	},
+  "@media (max-width: 480px)": {
+    padding: "1rem",
+  },
 })
 
 const LeftDiv = styled.div({})
 
 const TopHeaderDiv = styled.div({
-	display: "flex",
-	alignItems: "center"
+  display: "flex",
+  alignItems: "center",
 })
 
 const BottomHeaderDiv = styled.div({
-	"display": "flex",
-	"marginTop": "1rem",
-	"alignItems": "center",
+  display: "flex",
+  marginTop: "1rem",
+  alignItems: "center",
 
-	"@media (max-width: 480px)": {
-		marginTop: "0.5rem",
-		fontSize: "0.75rem"
-	},
+  "@media (max-width: 480px)": {
+    marginTop: "0.5rem",
+    fontSize: "0.75rem",
+  },
 })
 
 const Name = styled.h1({
-	"fontSize": "2.25rem",
+  fontSize: "2.25rem",
 
-	"@media (max-width: 480px)": {
-		fontSize: "1.5rem"
-	},
+  "@media (max-width: 480px)": {
+    fontSize: "1.5rem",
+  },
 })
 
 const Tag = styled.p({
-	color: gray["25"]
+  color: gray["25"],
 })
 
 const Trophy = styled(Image)({
-	"marginLeft": "1.5rem",
-	"marginRight": "0.5rem",
+  marginLeft: "1.5rem",
+  marginRight: "0.5rem",
 
-	"@media (max-width: 480px)": {
-		marginRight: "0.25rem",
-	},
+  "@media (max-width: 480px)": {
+    marginRight: "0.25rem",
+  },
 })
 
 const WarTrophy = styled(Image)({
-	"marginLeft": "1.5rem",
-	"marginRight": "0.5rem",
+  marginLeft: "1.5rem",
+  marginRight: "0.5rem",
 
-	"@media (max-width: 480px)": {
-		marginRight: "0.25rem",
-	},
+  "@media (max-width: 480px)": {
+    marginRight: "0.25rem",
+  },
 })
 
 const Badge = styled(Image)({})
 
 const IconDiv = styled.div({
-	"display": "flex",
-	"alignItems": "center",
-	"backgroundColor": gray["75"],
-	"padding": "0.5rem",
-	"borderRadius": "0.4rem",
-	"marginLeft": "0.75rem",
+  display: "flex",
+  alignItems: "center",
+  backgroundColor: gray["75"],
+  padding: "0.5rem",
+  borderRadius: "0.4rem",
+  marginLeft: "0.75rem",
 
-	"@media (max-width: 480px)": {
-		padding: "0.4rem",
-	},
+  "@media (max-width: 480px)": {
+    padding: "0.4rem",
+  },
 })
 
 const InGameLink = styled(Link)({
-	"display": "flex",
-	"alignItems": "center",
-	"backgroundColor": gray["75"],
-	"padding": "0.5rem",
-	"borderRadius": "0.4rem",
-	"marginLeft": "0.5rem",
+  display: "flex",
+  alignItems: "center",
+  backgroundColor: gray["75"],
+  padding: "0.5rem",
+  borderRadius: "0.4rem",
+  marginLeft: "0.5rem",
 
-	"@media (max-width: 480px)": {
-		padding: "0.4rem",
-	},
+  "@media (max-width: 480px)": {
+    padding: "0.4rem",
+  },
 })
 
 const BookmarkFill = styled(FaBookmark)({
-	"color": pink,
+  color: pink,
 
-	":hover, :active": {
-		cursor: "pointer"
-	}
+  ":hover, :active": {
+    cursor: "pointer",
+  },
 })
 
 const Bookmark = styled(FaRegBookmark)({
-	"color": pink,
+  color: pink,
 
-	":hover, :active": {
-		cursor: "pointer"
-	}
+  ":hover, :active": {
+    cursor: "pointer",
+  },
 })
 
 const InGameLinkIcon = styled(BiLinkExternal)({
-	"color": gray["25"],
+  color: gray["25"],
 
-	":hover, :active": {
-		cursor: "pointer",
-		color: orange
-	}
+  ":hover, :active": {
+    cursor: "pointer",
+    color: orange,
+  },
 })
 
 const NavDiv = styled.div({
-	display: "flex",
-
+  display: "flex",
 })
 
 const NavItem = styled.div({
-	"color": gray["0"],
-	"padding": "0.5rem 1rem",
+  color: gray["0"],
+  padding: "0.5rem 1rem",
 
-	":hover, :active": {
-		cursor: "pointer",
-	},
+  ":hover, :active": {
+    cursor: "pointer",
+  },
 
-	"@media (max-width: 480px)": {
-		fontSize: "0.9rem",
-	},
+  "@media (max-width: 480px)": {
+    fontSize: "0.9rem",
+  },
 })
 
 const InfoDiv = styled.div({
-	"margin": "1.5rem 0",
-	"padding": "0 1rem",
+  margin: "1.5rem 0",
+  padding: "0 1rem",
 
-	"@media (max-width: 480px)": {
-		margin: '1rem 0'
-	},
+  "@media (max-width: 480px)": {
+    margin: "1rem 0",
+  },
 })
 
 const Description = styled.p({
-	"color": gray["25"],
+  color: gray["25"],
 
-	"@media (max-width: 480px)": {
-		fontSize: "0.85rem",
-	},
+  "@media (max-width: 480px)": {
+    fontSize: "0.85rem",
+  },
 })
 
 const StatsRow = styled.div({
-	display: "flex",
-	marginTop: "1rem"
+  display: "flex",
+  marginTop: "1rem",
 })
 
 const StatsItem = styled.div({
-	display: "flex",
-	alignItems: "center",
-	width: "33.3%",
+  display: "flex",
+  alignItems: "center",
+  width: "33.3%",
 })
 
 const StatsIcon = styled(Image)({
-	"marginRight": "1rem",
+  marginRight: "1rem",
 
-	"@media (max-width: 480px)": {
-		marginRight: "0.5rem",
-	},
+  "@media (max-width: 480px)": {
+    marginRight: "0.5rem",
+  },
 })
 
 const FlagIcon = styled(StatsIcon)({
-	borderRadius: "1rem"
+  borderRadius: "1rem",
 })
 
 const StatsInfo = styled.div({})
 
 const StatsTitle = styled.p({
-	"color": gray["25"],
+  color: gray["25"],
 
-	"@media (max-width: 480px)": {
-		fontSize: "0.75rem",
-	},
+  "@media (max-width: 480px)": {
+    fontSize: "0.75rem",
+  },
 })
 
 const StatsValue = styled.p({
-	"color": gray["0"],
-	"fontSize": "0.9rem",
+  color: gray["0"],
+  fontSize: "0.9rem",
 
-	"@media (max-width: 480px)": {
-		fontSize: "0.7rem",
-	},
+  "@media (max-width: 480px)": {
+    fontSize: "0.7rem",
+  },
 })
 
 export default function ClanHome({ clan }) {
-	const router = useRouter()
-	const { data: session, status } = useSession()
-	const { width } = useWindowSize()
-	const [isSaved, setIsSaved] = useState(false)
+  const router = useRouter()
+  const { data: session, status } = useSession()
+  const { width } = useWindowSize()
+  const [isSaved, setIsSaved] = useState(false)
 
-	const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
+  const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
 
-	useEffect(() => {
-		if (session && clan && router) {
-			getUser()
-				.then((data) => {
-					const saved = !!(data?.savedClans || []).find(c => c.tag === clan.tag)
+  useEffect(() => {
+    if (session && clan && router) {
+      getUser()
+        .then((data) => {
+          const saved = !!(data?.savedClans || []).find(
+            (c) => c.tag === clan.tag
+          )
 
-					setIsSaved(saved)
+          setIsSaved(saved)
 
-					return saved
-				})
-				.catch(() => {})
-		}
-	}, [
-		session,
-		clan,
-		router
-	])
+          return saved
+        })
+        .catch(() => {})
+    }
+  }, [session, clan, router])
 
-	useEffect(() => {
-		if (clan && badgeName !== 'no_clan')
-			addClan(clan.name, clan.tag, badgeName)
+  useEffect(() => {
+    if (clan && badgeName !== "no_clan") addClan(clan.name, clan.tag, badgeName)
 
-		return () => {}
+    return () => {}
+  }, [clan, badgeName])
 
-	}, [clan, badgeName])
+  const updateSavedItem = useDebouncedCallback(() => {
+    if (isSaved) unsaveClan(clan.tag)
+    else saveClan(clan.name, clan.tag, badgeName)
+  }, 1500)
 
-	const updateSavedItem = useDebouncedCallback(() => {
-		if (isSaved) unsaveClan(clan.tag)
-		else saveClan(clan.name, clan.tag, badgeName)
-	}, 1500)
+  const toggleSavedItem = () => {
+    if (status === "authenticated") {
+      updateSavedItem()
+      setIsSaved(!isSaved)
+    } else router.push("/login")
+  }
 
-	const toggleSavedItem = () => {
-		if (status === "authenticated"){
-			updateSavedItem()
-			setIsSaved(!isSaved)
-		}
-		else
-			router.push("/login")
-	}
+  const locationKey = getCountryKeyById(clan.location?.id)
+  const clanType = formatClanType(clan.type)
 
-	const locationKey = getCountryKeyById(clan.location?.id)
-	const clanType = formatClanType(clan.type)
+  const badgeHeightPx = width <= 480 ? 44 : 66
+  const badgeWidthPx = width <= 480 ? 32 : 48
 
-	const badgeHeightPx = width <= 480 ? 44 : 66
-	const badgeWidthPx = width <= 480 ? 32 : 48
+  const iconPx = width <= 480 ? 16 : 20
 
-	const iconPx = width <= 480 ? 16 : 20
+  const infoIconPx = width <= 480 ? 24 : 30
 
-	const infoIconPx = width <= 480 ? 24 : 30
+  return (
+    <>
+      <NextSeo
+        title={`${clan.name} | Home - CWStats`}
+        description={clan.description}
+        openGraph={{
+          title: `${clan.name} | Home - CWStats`,
+          description: clan.description,
+          images: [
+            {
+              url: `/assets/badges/${getClanBadgeFileName(
+                clan.badgeId,
+                clan.clanWarTrophies
+              )}.png`,
+              alt: "Clan Badge",
+            },
+          ],
+        }}
+      />
 
-	return (
-		<>
-			<NextSeo
-				title= {`${clan.name} | Home - CWStats`}
-				description= {clan.description}
-				openGraph={{
-					title: `${clan.name} | Home - CWStats`,
-					description: clan.description,
-					images: [
-						{
-							url: `/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.png`,
-							alt: "Clan Badge"
-						}
-					]
-				}}
-			/>
+      <Main>
+        <HeaderDiv>
+          <LeftDiv>
+            <TopHeaderDiv>
+              <Name>{clan.name}</Name>
+              <IconDiv>
+                {isSaved ? (
+                  <BookmarkFill onClick={toggleSavedItem} />
+                ) : (
+                  <Bookmark onClick={toggleSavedItem} />
+                )}
+              </IconDiv>
+              <InGameLink
+                href={`https://link.clashroyale.com/?clanInfo?id=${clan.tag.substring(
+                  1
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
+                <InGameLinkIcon />
+              </InGameLink>
+            </TopHeaderDiv>
 
-			<Main>
-				<HeaderDiv>
+            <BottomHeaderDiv>
+              <Tag>{clan.tag}</Tag>
+              <Trophy
+                src="/assets/icons/trophy.png"
+                height={iconPx}
+                width={iconPx}
+                alt="Trophy"
+              />
+              {clan.clanScore}
+              <WarTrophy
+                src="/assets/icons/cw-trophy.png"
+                height={iconPx}
+                width={iconPx}
+                alt="War Trophy"
+              />
+              {clan.clanWarTrophies}
+            </BottomHeaderDiv>
+          </LeftDiv>
 
-					<LeftDiv>
-						<TopHeaderDiv>
-							<Name>{clan.name}</Name>
-							<IconDiv>
-								{
-									isSaved ?
-										<BookmarkFill onClick={toggleSavedItem} /> :
-										<Bookmark onClick={toggleSavedItem} />
-								}
-							</IconDiv>
-							<InGameLink href={`https://link.clashroyale.com/?clanInfo?id=${clan.tag.substring(1)}`} target="_blank" rel="noopener noreferrer">
-								<InGameLinkIcon />
-							</InGameLink>
-						</TopHeaderDiv>
+          <Badge
+            src={`/assets/badges/${badgeName}.png`}
+            height={badgeHeightPx}
+            width={badgeWidthPx}
+            alt="Badge"
+          />
+        </HeaderDiv>
 
-						<BottomHeaderDiv>
-							<Tag>{clan.tag}</Tag>
-							<Trophy src="/assets/icons/trophy.png" height={iconPx} width={iconPx} alt="Trophy" />{clan.clanScore}
-							<WarTrophy src="/assets/icons/cw-trophy.png" height={iconPx} width={iconPx} alt="War Trophy" />{clan.clanWarTrophies}
-						</BottomHeaderDiv>
-					</LeftDiv>
+        <NavDiv>
+          <NavItem
+            style={{
+              borderBottom: `3px solid ${pink}`,
+            }}
+          >
+            Home
+          </NavItem>
+          <NavItem
+            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/race`)}
+          >
+            Race
+          </NavItem>
+          <NavItem
+            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/log`)}
+          >
+            Log
+          </NavItem>
+          <NavItem
+            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/stats`)}
+          >
+            Stats
+          </NavItem>
+        </NavDiv>
 
-					<Badge src={`/assets/badges/${badgeName}.png`} height={badgeHeightPx} width={badgeWidthPx} alt="Badge" />
-				</HeaderDiv>
+        <InfoDiv>
+          <Description>{clan.description}</Description>
 
-				<NavDiv>
-					<NavItem style={{
-						borderBottom: `3px solid ${pink}`
-					}}>Home</NavItem>
-					<NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/race`)}>Race</NavItem>
-					<NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/log`)}>Log</NavItem>
-					<NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/stats`)}>Stats</NavItem>
-				</NavDiv>
+          <StatsRow>
+            <StatsItem>
+              <StatsIcon
+                src="/assets/icons/trophy-ribbon.png"
+                height={infoIconPx}
+                width={infoIconPx}
+                alt="Trophies"
+              />
+              <StatsInfo>
+                <StatsTitle>Trophies</StatsTitle>
+                <StatsValue>{clan.clanScore}</StatsValue>
+              </StatsInfo>
+            </StatsItem>
+            <StatsItem>
+              <StatsIcon
+                src="/assets/icons/trophy.png"
+                height={infoIconPx}
+                width={infoIconPx}
+                alt="Required Trophies"
+              />
+              <StatsInfo>
+                <StatsTitle>
+                  {width <= 480 ? "Req. Trophies" : "Required Trophies"}
+                </StatsTitle>
+                <StatsValue>{clan.requiredTrophies}</StatsValue>
+              </StatsInfo>
+            </StatsItem>
+            <StatsItem>
+              <StatsIcon
+                src="/assets/icons/cards.png"
+                height={infoIconPx}
+                width={infoIconPx}
+                alt="Weekly Donations"
+              />
+              <StatsInfo>
+                <StatsTitle>
+                  {width <= 480 ? "Donations" : "Weekly Donations"}
+                </StatsTitle>
+                <StatsValue>{clan.donationsPerWeek}</StatsValue>
+              </StatsInfo>
+            </StatsItem>
+          </StatsRow>
+          <StatsRow>
+            <StatsItem>
+              <StatsIcon
+                src="/assets/icons/social.png"
+                height={infoIconPx * 1.2}
+                width={infoIconPx}
+                alt="Members"
+              />
+              <StatsInfo>
+                <StatsTitle>Members</StatsTitle>
+                <StatsValue>{clan.members} / 50</StatsValue>
+              </StatsInfo>
+            </StatsItem>
+            <StatsItem>
+              <StatsIcon
+                src="/assets/icons/players.png"
+                height={infoIconPx}
+                width={infoIconPx}
+                alt="Type"
+              />
+              <StatsInfo>
+                <StatsTitle>Type</StatsTitle>
+                <StatsValue>{clanType}</StatsValue>
+              </StatsInfo>
+            </StatsItem>
+            <StatsItem>
+              <FlagIcon
+                src={`/assets/flags/${locationKey}.png`}
+                height={infoIconPx}
+                width={infoIconPx}
+                alt="Region"
+              />
+              <StatsInfo>
+                <StatsTitle>Region</StatsTitle>
+                <StatsValue>{clan.location?.name}</StatsValue>
+              </StatsInfo>
+            </StatsItem>
+          </StatsRow>
+        </InfoDiv>
 
-				<InfoDiv>
-					<Description>{clan.description}</Description>
+        <MembersTable
+          members={clan.memberList.map((m, index) => {
+            const lastSeenDate = m.lastSeen ? parseDate(m.lastSeen) : ""
 
-					<StatsRow>
-						<StatsItem>
-							<StatsIcon src="/assets/icons/trophy-ribbon.png" height={infoIconPx} width={infoIconPx} alt="Trophies" />
-							<StatsInfo>
-								<StatsTitle>Trophies</StatsTitle>
-								<StatsValue>{clan.clanScore}</StatsValue>
-							</StatsInfo>
-						</StatsItem>
-						<StatsItem>
-							<StatsIcon src="/assets/icons/trophy.png" height={infoIconPx} width={infoIconPx} alt="Required Trophies" />
-							<StatsInfo>
-								<StatsTitle>{width <= 480 ? 'Req. Trophies' : "Required Trophies"}</StatsTitle>
-								<StatsValue>{clan.requiredTrophies}</StatsValue>
-							</StatsInfo>
-						</StatsItem>
-						<StatsItem>
-							<StatsIcon src="/assets/icons/cards.png" height={infoIconPx} width={infoIconPx} alt="Weekly Donations" />
-							<StatsInfo>
-								<StatsTitle>{width <= 480 ? 'Donations' : "Weekly Donations"}</StatsTitle>
-								<StatsValue>{clan.donationsPerWeek}</StatsValue>
-							</StatsInfo>
-						</StatsItem>
-					</StatsRow>
-					<StatsRow>
-						<StatsItem>
-							<StatsIcon src="/assets/icons/social.png" height={infoIconPx * 1.2} width={infoIconPx} alt="Members" />
-							<StatsInfo>
-								<StatsTitle>Members</StatsTitle>
-								<StatsValue>{clan.members} / 50</StatsValue>
-							</StatsInfo>
-						</StatsItem>
-						<StatsItem>
-							<StatsIcon src="/assets/icons/players.png" height={infoIconPx} width={infoIconPx} alt="Type" />
-							<StatsInfo>
-								<StatsTitle>Type</StatsTitle>
-								<StatsValue>{clanType}</StatsValue>
-							</StatsInfo>
-						</StatsItem>
-						<StatsItem>
-							<FlagIcon src={`/assets/flags/${locationKey}.png`} height={infoIconPx} width={infoIconPx} alt="Region" />
-							<StatsInfo>
-								<StatsTitle>Region</StatsTitle>
-								<StatsValue>{clan.location?.name}</StatsValue>
-							</StatsInfo>
-						</StatsItem>
-					</StatsRow>
-				</InfoDiv>
-
-				<MembersTable members={clan.memberList.map((m, index) => {
-					const lastSeenDate = m.lastSeen ? parseDate(m.lastSeen) : ""
-
-					return {
-						...m,
-						rank: index + 1,
-						lastSeenStr: relativeDateStr(lastSeenDate, false),
-						lastSeenDate
-					}
-				})}
-				/>
-			</Main>
-		</>
-
-	)
+            return {
+              ...m,
+              rank: index + 1,
+              lastSeenStr: relativeDateStr(lastSeenDate, false),
+              lastSeenDate,
+            }
+          })}
+        />
+      </Main>
+    </>
+  )
 }
 
-export async function getServerSideProps (context) {
-	const { tag } = context.params
+export async function getServerSideProps(context) {
+  const { tag } = context.params
 
-	try {
-		const res = await fetchClan(formatTag(tag, false))
-		const clan = await handleSCResponse(res)
+  try {
+    const res = await fetchClan(formatTag(tag, false))
+    const clan = await handleSCResponse(res)
 
-		return {
-			props: {
-				clan
-			}
-		}
-	}
-	catch (err) {
-		return {
-			redirect: {
-				permanent: false,
-				destination: getCRErrorUrl(err)
-			},
-			props: {}
-		}
-	}
+    return {
+      props: {
+        clan,
+      },
+    }
+  } catch (err) {
+    return {
+      redirect: {
+        permanent: false,
+        destination: getCRErrorUrl(err),
+      },
+      props: {},
+    }
+  }
 }

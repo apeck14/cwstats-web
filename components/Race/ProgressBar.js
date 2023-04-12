@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import styled from "styled-components"
+
 import { gray, orange, pink } from "../../public/static/colors"
 
 const Main = styled.div({

@@ -1,6 +1,7 @@
-//get all guilds for a user
+// get all guilds for a user
 import { ObjectId } from "mongodb"
 import { getServerSession } from "next-auth/next"
+
 import clientPromise from "../../../lib/mongodb"
 import { authOptions } from "../auth/[...nextauth]"
 

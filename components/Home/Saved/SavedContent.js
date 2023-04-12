@@ -1,0 +1,80 @@
+import Link from "next/link"
+import styled from "styled-components"
+
+import { gray, orange } from "../../../public/static/colors"
+import SavedItem from "./SavedItem"
+
+const Main = styled.div`
+  height: 20rem;
+  width: 30rem;
+  background-color: ${gray["100"]};
+  border-radius: 0.25rem;
+  padding: 1rem;
+  margin-bottom: 0.5rem;
+
+  @media (max-width: 33rem) {
+    height: 15rem;
+    width: 85vw;
+  }
+`
+
+const NoneSaved = styled.p`
+  font-style: italic;
+  color: ${gray["25"]};
+`
+
+const HR = styled.hr`
+  margin: 0;
+  color: ${gray["75"]};
+  border-top: 1px solid ${gray["75"]};
+`
+
+const ViewAll = styled(Link)`
+  color: ${orange};
+  text-decoration: none;
+
+  :hover,
+  :active {
+    text-decoration: underline;
+  }
+`
+
+export default function SavedContent({ isPlayers, items }) {
+  const itemsLoaded = Array.isArray(items)
+
+  if (itemsLoaded) {
+    const lastIndex = itemsLoaded.length < 5 ? itemsLoaded.length : 5
+
+    return (
+      <>
+        <Main>
+          {itemsLoaded.length === 0 ? (
+            <NoneSaved>No {isPlayers ? "players" : "clans"} saved!</NoneSaved>
+          ) : (
+            items.slice(0, lastIndex).map((e, index) => (
+              <>
+                <SavedItem key={e.tag} data={e} isPlayer={isPlayers} />
+                {index !== lastIndex - 1 ? <HR /> : null}
+              </>
+            ))
+          )}
+        </Main>
+        {items.length > 5 ? (
+          <ViewAll href={isPlayers ? "/me/players" : "/me/clans"}>
+            View All...
+          </ViewAll>
+        ) : null}
+      </>
+    )
+  }
+  return (
+    <Main>
+      {[1, 2, 3, 4, 5].map((e, index) => (
+        <>
+          <SavedItem key={e} skeleton />
+          {index !== 4 ? <HR /> : null}
+        </>
+      ))}
+    </Main>
+  )
+}

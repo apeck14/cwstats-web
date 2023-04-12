@@ -1,7 +1,4 @@
 {
-    "trailingComma": "es5",
-    "tabWidth": 4,
-    "semi": false,
-    "singleQuote": false,
-    "organizeImportsSkipDestructiveCodeActions": true
+  "singleQuote": false,
+  "semi": false
 }

@@ -1,6 +1,7 @@
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import NextAuth from "next-auth/next"
 import DiscordProvider from "next-auth/providers/discord"
+
 import clientPromise from "../../../lib/mongodb"
 
 const scope = ["identify guilds"].join(" ")
@@ -19,7 +20,7 @@ export const authOptions = {
     ],
     callbacks: {
         signIn: async ({ user }) => {
-            //if user doesnt exist in DB (aka never used /link before) then create user
+            // if user doesnt exist in DB (aka never used /link before) then create user
             try {
                 const client = await clientPromise
                 const db = client.db("General")

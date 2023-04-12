@@ -1,6 +1,7 @@
 import Image from "next/image"
 import { useRouter } from "next/router"
 import styled from "styled-components"
+
 import useWindowSize from "../../hooks/useWindowSize"
 import { gray } from "../../public/static/colors"
 import { parseDate } from "../../utils/date-time"
@@ -169,7 +170,7 @@ export default function ClanLogs({ clanTag, log }) {
                                         </ClanItemText>
                                         <ClanItemText
                                             flex={0.5}
-                                            alignRight={true}
+                                            alignRight
                                         >
                                             {c.clan.fame}
                                             <ClanIcon
@@ -180,7 +181,7 @@ export default function ClanLogs({ clanTag, log }) {
                                         </ClanItemText>
                                         <ClanItemText
                                             flex={0.5}
-                                            alignRight={true}
+                                            alignRight
                                         >
                                             <TrophyChange>
                                                 {changeVal}

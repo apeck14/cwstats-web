@@ -11,7 +11,7 @@ export default async function getRace(req, res) {
                 headers: new Headers({
                     "Content-Type": "application/json",
                     Authorization:
-                        "Bearer " + process.env.NEXT_PUBLIC_CR_API_TOKEN,
+                        `Bearer ${  process.env.NEXT_PUBLIC_CR_API_TOKEN}`,
                 }),
             }
         )

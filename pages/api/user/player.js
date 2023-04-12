@@ -1,5 +1,6 @@
 import { ObjectId } from "mongodb"
 import { getServerSession } from "next-auth/next"
+
 import clientPromise from "../../../lib/mongodb"
 import { authOptions } from "../auth/[...nextauth]"
 
@@ -69,7 +70,7 @@ export default async function SavedPlayer(req, res) {
             )
 
             return res.status(200).send({})
-        } else if (method === "DELETE") {
+        } if (method === "DELETE") {
             linkedAccounts.updateOne(
                 {
                     discordID: user.providerAccountId,

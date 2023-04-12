@@ -1,4 +1,4 @@
-//get all guilds for a user
+// get all guilds for a user
 import clientPromise from "../../../lib/mongodb"
 
 export default async function getClansFromSearch(req, res) {
