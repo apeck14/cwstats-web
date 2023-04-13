@@ -1,159 +1,53 @@
-import Image from "next/image"
-import Link from "next/link"
 import { useRouter } from "next/router"
 import { NextSeo } from "next-seo"
 import { useEffect, useState } from "react"
-import { BiSearchAlt } from "react-icons/bi"
-import { levenshtein } from "string-comparison"
+import { lcs } from "string-comparison"
 import styled from "styled-components"
 
-import { gray, orange, pink } from "../../public/static/colors"
-import { getClan, getClanSearchResults } from "../../utils/services"
+import SearchContent from "../../components/Clan/Search/SearchContent"
+import SearchBar from "../../components/Home/SearchBar"
+import { gray, orange } from "../../public/static/colors"
+import { getClanSearchResults } from "../../utils/services"
 
-const Main = styled.div({
-  margin: "0 auto",
-  width: "70rem",
+const Header = styled.h1`
+  color: ${gray["0"]};
+  font-size: 3.5rem;
+  text-align: center;
+  margin-top: 3rem;
 
-  "@media (max-width: 1200px)": {
-    width: "80%",
-  },
+  @media (max-width: 480px) {
+    margin-top: 2rem;
+    font-size: 2.5rem;
+  }
+`
 
-  "@media (max-width: 1024px)": {
-    width: "100%",
-  },
-})
+const SearchBarDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 1.5rem;
+`
 
-const MainHeader = styled.h1({
-  color: gray["0"],
-  fontSize: "4rem",
-  textAlign: "center",
-  marginTop: "3rem",
+const HeaderDiv = styled.div`
+  background-color: ${gray["75"]};
+  padding: 1rem;
+  margin-top: 2rem;
+  border-bottom: 2px solid ${orange};
+  border-radius: 0.5rem 0.5rem 0 0;
+`
 
-  "@media (max-width: 480px)": {
-    marginTop: "2rem",
-    fontSize: "2.5rem",
-  },
-})
+const Text = styled.p`
+  color: ${gray["0"]};
 
-const SearchBarContainer = styled.div({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  marginTop: "1.5rem",
-})
-
-const SearchBar = styled.input({
-  padding: "0.8rem 1.5rem",
-  lineHeight: "1.4rem",
-  fontSize: "1rem",
-  borderTopLeftRadius: "1.5rem",
-  borderBottomLeftRadius: "1.5rem",
-  borderTopRightRadius: "0",
-  borderBottomRightRadius: "0",
-  color: gray["50"],
-  fontWeight: 700,
-
-  "@media (max-width: 380px)": {
-    padding: "0.8rem 1.1rem",
-    fontSize: "0.9rem",
-    lineHeight: "1.3rem",
-  },
-
-  "@media (max-width: 450px)": {
-    "::placeholder": {
-      fontSize: "0.9rem",
-    },
-  },
-})
-
-const SearchButton = styled.button({
-  display: "inline-flex",
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: pink,
-  border: "none",
-  padding: "0.8rem 1.5rem",
-  borderTopRightRadius: "1.5rem",
-  borderBottomRightRadius: "1.5rem",
-
-  "&:hover, &:active": {
-    cursor: "pointer",
-    backgroundColor: orange,
-  },
-
-  "@media (max-width: 380px)": {
-    padding: "0.8rem 1.1rem",
-  },
-})
-
-const SearchIcon = styled(BiSearchAlt)({
-  color: gray["0"],
-  fontSize: "1.4rem",
-
-  "@media (max-width: 380px)": {
-    fontSize: "1.3rem",
-  },
-})
-
-const HeaderDiv = styled.div({
-  backgroundColor: gray["75"],
-  padding: "1rem",
-  marginTop: "2rem",
-  borderBottom: `2px solid ${orange}`,
-})
-
-const Content = styled.div({
-  backgroundColor: gray["75"],
-  minHeight: "20rem",
-  padding: "1rem",
-  marginBottom: "1rem",
-})
-
-const Text = styled.p({
-  color: gray["0"],
-
-  "@media (max-width: 480px)": {
-    fontSize: "0.8rem",
-  },
-})
-
-const Item = styled.div({
-  backgroundColor: gray["50"],
-  borderRadius: "0.25rem",
-  padding: "1rem",
-  display: "flex",
-  marginBottom: "0.25rem",
-})
-
-const Badge = styled(Image)({})
-
-const InfoDiv = styled.div({
-  marginLeft: "1rem",
-})
-
-const Name = styled(Link)({
-  textDecoration: "none",
-  color: gray["0"],
-  fontWeight: 700,
-
-  ":hover, :active": {
-    color: pink,
-  },
-})
-
-const Tag = styled.p({
-  color: gray["25"],
-})
-
-const NoClans = styled.p({
-  color: gray["25"],
-  fontStyle: "italic",
-})
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+`
 
 export default function ClanSearch() {
   const router = useRouter()
   const [clans, setClans] = useState([])
-  const [clanSearch, setClanSearch] = useState("")
+  const [isLoaded, setIsLoaded] = useState(false)
   const { q } = router.query
 
   useEffect(() => {
@@ -163,7 +57,7 @@ export default function ClanSearch() {
       if (trimmedQuery.length > 0 && router) {
         getClanSearchResults(trimmedQuery)
           .then((data) => {
-            const sorted = levenshtein
+            const sorted = lcs
               .sortMatch(
                 trimmedQuery,
                 data.map((c) => c.name)
@@ -172,6 +66,7 @@ export default function ClanSearch() {
               .map((c) => data.find((cl) => cl.name === c.member))
 
             setClans(sorted)
+            setIsLoaded(true)
 
             return true
           })
@@ -181,45 +76,6 @@ export default function ClanSearch() {
       }
     }
   }, [q, router])
-
-  const handleClanSearchChange = (e) => {
-    setClanSearch(e.target.value)
-  }
-
-  const handleClanSubmit = async () => {
-    const trimmedClanSearch = clanSearch.trim()
-
-    if (trimmedClanSearch.length > 0) {
-      const tagRegex = /^[A-Za-z0-9#]+$/
-      const meetsTagReq =
-        trimmedClanSearch.length >= 5 &&
-        trimmedClanSearch.length <= 9 &&
-        trimmedClanSearch.match(tagRegex)
-
-      if (meetsTagReq) {
-        try {
-          const res = await getClan(trimmedClanSearch)
-          const data = await res.json()
-
-          router.push(`/clan/${data.tag.substring(1)}`)
-        } catch {
-          router.push({
-            pathname: "/clan/search",
-            query: {
-              q: trimmedClanSearch,
-            },
-          })
-        }
-      } else {
-        router.push({
-          pathname: "/clan/search",
-          query: {
-            q: trimmedClanSearch,
-          },
-        })
-      }
-    }
-  }
 
   return (
     <>
@@ -231,47 +87,22 @@ export default function ClanSearch() {
           description: "Search for clans on CWStats.",
         }}
       />
-      <Main>
-        <MainHeader>Clan Search</MainHeader>
-        <SearchBarContainer>
-          <SearchBar
-            defaultValue={q}
-            onChange={handleClanSearchChange}
-            placeholder="Name or tag, e.g. 9U82JJ0Y"
-          />
-          <SearchButton onClick={handleClanSubmit}>
-            <SearchIcon />
-          </SearchButton>
-        </SearchBarContainer>
 
-        <HeaderDiv>
-          <Text>
-            Showing top 50 search results. Search by tag if you cannot find clan
-            by name. The clan will then be saved for future searches.
-          </Text>
-        </HeaderDiv>
+      <Header>Clan Search</Header>
 
-        <Content>
-          {clans.length > 0 ? (
-            clans.map((c) => (
-              <Item key={c.tag}>
-                <Badge
-                  src={`/assets/badges/${c.badge}.png`}
-                  width={28}
-                  height={38.5}
-                  alt="Badge"
-                />
-                <InfoDiv>
-                  <Name href={`/clan/${c.tag.substring(1)}`}>{c.name}</Name>
-                  <Tag>{c.tag}</Tag>
-                </InfoDiv>
-              </Item>
-            ))
-          ) : (
-            <NoClans>No clans found</NoClans>
-          )}
-        </Content>
-      </Main>
+      <SearchBarDiv>
+        <SearchBar defaultValue={q} placeholder="Name or tag, e.g. 9U82JJ0Y" />
+      </SearchBarDiv>
+
+      <HeaderDiv>
+        <Text>
+          Showing top {clans.length} search result(s). Search by tag if you
+          cannot find clan by name, the clan will then be saved for future
+          searches.
+        </Text>
+      </HeaderDiv>
+
+      <SearchContent clans={clans} skeleton={!isLoaded} />
     </>
   )
 }

@@ -54,7 +54,11 @@ const Icon = styled(BiSearchAlt)`
   }
 `
 
-export default function SearchBar({ placeholder, isPlayerSearch }) {
+export default function SearchBar({
+  placeholder,
+  isPlayerSearch,
+  defaultValue,
+}) {
   const router = useRouter()
   const [search, setSearch] = useState("")
   const [showSpinner, setShowSpinner] = useState(false)
@@ -70,6 +74,8 @@ export default function SearchBar({ placeholder, isPlayerSearch }) {
       const trimmedSearch = search.trim()
 
       if (trimmedSearch.length > 0) {
+        if (defaultValue && defaultValue === trimmedSearch) return
+
         setShowSpinner(true)
 
         const tagRegex = /^[A-Za-z0-9#]+$/
@@ -110,7 +116,11 @@ export default function SearchBar({ placeholder, isPlayerSearch }) {
 
   return (
     <Main>
-      <InputBar placeholder={placeholder} onChange={handleChange} />
+      <InputBar
+        placeholder={placeholder}
+        onChange={handleChange}
+        defaultValue={defaultValue}
+      />
       <Submit
         onClick={handleSubmit}
         aria-label={`${isPlayerSearch ? "Player" : "Clan"} Search`}

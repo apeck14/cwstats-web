@@ -9,7 +9,7 @@ const Main = styled.div`
   height: 22.5rem;
   width: 30rem;
   background-color: ${gray["100"]};
-  border-radius: 0.25rem;
+  border-radius: 0.5rem;
   padding: 1rem;
   margin-bottom: 0.5rem;
   box-shadow: ${gray["100"]} 0px 3px 8px;
@@ -63,6 +63,7 @@ export default function SavedContent({ isPlayers, items }) {
       </>
     )
   }
+
   return (
     <Main>
       {[1, 2, 3, 4, 5].map((e, index) => (

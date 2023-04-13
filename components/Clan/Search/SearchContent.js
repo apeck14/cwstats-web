@@ -1,0 +1,32 @@
+import styled from "styled-components"
+
+import { gray } from "../../../public/static/colors"
+import SearchItem from "./SearchItem"
+
+const Main = styled.div`
+  background-color: ${gray["75"]};
+  min-height: 20rem;
+  padding: 1rem;
+  margin-bottom: 1rem;
+`
+
+const NoClans = styled.p`
+  color: ${gray["25"]};
+  font-style: italic;
+`
+
+export default function SearchContent({ clans, skeleton }) {
+  if (skeleton) {
+    return [1, 2, 3, 4, 5].map((n) => <SearchItem key={n} skeleton />)
+  }
+
+  return (
+    <Main>
+      {clans.length > 0 ? (
+        clans.map((c) => <SearchItem key={c.tag} clan={c} />)
+      ) : (
+        <NoClans>No clans found</NoClans>
+      )}
+    </Main>
+  )
+}
