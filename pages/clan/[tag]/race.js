@@ -815,10 +815,23 @@ export async function getServerSideProps(context) {
       fetchClan(formattedTag),
       fetchRace(formattedTag),
     ])
-    const [clan, race] = await Promise.all([
-      handleSCResponse(clanRes),
-      handleSCResponse(raceRes),
-    ])
+
+    let clan
+    let race
+
+    // clan exists but not in race currently
+    if (clanRes.ok && raceRes.status === 404) {
+      clan = await handleSCResponse(clanRes)
+      race = []
+    } else {
+      const [clanData, raceData] = await Promise.all([
+        handleSCResponse(clanRes),
+        handleSCResponse(raceRes),
+      ])
+
+      clan = clanData
+      race = raceData
+    }
 
     return {
       props: {
