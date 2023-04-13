@@ -6,6 +6,7 @@ import styled from "styled-components"
 import { gray, orange, pink } from "../../public/static/colors"
 import { handleCRError } from "../../utils/functions"
 import { getClan } from "../../utils/services"
+import LoadingSpinner from "../LoadingSpinner"
 
 const Main = styled.div`
   display: flex;
@@ -55,6 +56,7 @@ const Icon = styled(BiSearchAlt)`
 export default function SearchBar({ placeholder, isPlayerSearch }) {
   const router = useRouter()
   const [search, setSearch] = useState("")
+  const [showSpinner, setShowSpinner] = useState(false)
 
   const handleChange = (e) => {
     setSearch(e.target.value)
@@ -66,6 +68,8 @@ export default function SearchBar({ placeholder, isPlayerSearch }) {
       const trimmedSearch = search.trim()
 
       if (trimmedSearch.length > 0) {
+        setShowSpinner(true)
+
         const tagRegex = /^[A-Za-z0-9#]+$/
         const meetsTagReq = !!(
           trimmedSearch.length >= 5 &&
@@ -109,7 +113,11 @@ export default function SearchBar({ placeholder, isPlayerSearch }) {
         onClick={handleSubmit}
         aria-label={`${isPlayerSearch ? "Player" : "Clan"} Search`}
       >
-        <Icon />
+        {showSpinner ? (
+          <LoadingSpinner size="1.4rem" lineWidth={3} />
+        ) : (
+          <Icon />
+        )}
       </Submit>
     </Main>
   )

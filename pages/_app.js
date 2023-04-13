@@ -11,6 +11,7 @@ import styled from "styled-components"
 
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar/index"
+import usePageLoading from "../hooks/usePageLoading"
 import { gray } from "../public/static/colors"
 
 const SourceSans3 = Source_Sans_3({ subsets: ["latin"] })
@@ -39,6 +40,7 @@ export default function App({
   pageProps: { session, ...pageProps },
 }) {
   const router = useRouter()
+  const { isPageLoading } = usePageLoading()
 
   return (
     <SessionProvider session={session}>
@@ -72,7 +74,11 @@ export default function App({
         />
         <Navbar />
         <Content>
-          <Component {...pageProps} key={router.asPath} />
+          <Component
+            {...pageProps}
+            key={router.asPath}
+            isLoading={isPageLoading}
+          />
         </Content>
         <Footer />
       </Container>
