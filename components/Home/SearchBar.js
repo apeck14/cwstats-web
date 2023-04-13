@@ -3,6 +3,7 @@ import { useState } from "react"
 import { BiSearchAlt } from "react-icons/bi"
 import styled from "styled-components"
 
+import useWindowSize from "../../hooks/useWindowSize"
 import { gray, orange, pink } from "../../public/static/colors"
 import { handleCRError } from "../../utils/functions"
 import { getClan } from "../../utils/services"
@@ -57,6 +58,7 @@ export default function SearchBar({ placeholder, isPlayerSearch }) {
   const router = useRouter()
   const [search, setSearch] = useState("")
   const [showSpinner, setShowSpinner] = useState(false)
+  const { width } = useWindowSize()
 
   const handleChange = (e) => {
     setSearch(e.target.value)
@@ -114,7 +116,10 @@ export default function SearchBar({ placeholder, isPlayerSearch }) {
         aria-label={`${isPlayerSearch ? "Player" : "Clan"} Search`}
       >
         {showSpinner ? (
-          <LoadingSpinner size="1.4rem" lineWidth={3} />
+          <LoadingSpinner
+            size={width <= 380 ? "1.3rem" : "1.4rem"}
+            lineWidth={3}
+          />
         ) : (
           <Icon />
         )}
