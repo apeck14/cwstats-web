@@ -69,7 +69,7 @@ export default function SavedContent({ isPlayers, items }) {
       {[1, 2, 3, 4, 5].map((e, index) => (
         <>
           <SavedItem key={e} skeleton />
-          {index !== 4 ? <Hr /> : null}
+          {index !== 4 ? <Hr margin="0.25rem 0" /> : null}
         </>
       ))}
     </Main>
