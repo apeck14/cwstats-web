@@ -10,7 +10,7 @@ const Main = styled.div`
   width: 30rem;
   background-color: ${gray["100"]};
   border-radius: 0.5rem;
-  padding: 1rem;
+  padding: 1.25rem;
   margin-bottom: 0.5rem;
   box-shadow: ${gray["100"]} 0px 3px 8px;
 

@@ -6,7 +6,7 @@ import styled from "styled-components"
 import { gray, orange, pink } from "../public/static/colors"
 
 const Main = styled.div({
-  margin: "auto",
+  margin: "15% auto",
   maxWidth: "90%",
   textAlign: "center",
 })

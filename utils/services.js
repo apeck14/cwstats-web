@@ -98,6 +98,13 @@ export const fetchLog = (tag) =>
     }),
   })
 
+export const fetchGuilds = (accessToken) =>
+  fetch("https://discordapp.com/api/users/@me/guilds", {
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  })
+
 export const getClan = (tag) =>
   fetch(`/api/clan/${formatTag(tag, false)}`).then(handleSCResponse)
 
