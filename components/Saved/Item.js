@@ -20,9 +20,6 @@ const ContentItem = styled.div({
   alignItems: "center",
   backgroundColor: gray["50"],
   borderRadius: "0.25rem",
-  borderWidth: "2px",
-  borderColor: gray["50"],
-  borderStyle: "solid",
   padding: "0.75rem 1rem",
   color: gray["0"],
   marginBottom: "0.25rem",
@@ -117,9 +114,11 @@ const Bookmark = styled(FaBookmark)({})
 
 const BookmarkFill = styled(FaRegBookmark)({})
 
-export default function SavedItem({ name, tag, badge, links, isPlayer }) {
+export default function SavedItem({ data, links, isPlayer }) {
   const [isSaved, setIsSaved] = useState(true)
   const { width } = useWindowSize()
+
+  const { name, tag, badge } = data
 
   const updateSavedItem = useDebouncedCallback(() => {
     if (isPlayer) {

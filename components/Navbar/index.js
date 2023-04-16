@@ -226,7 +226,7 @@ export default function Navbar() {
               }
               items={[
                 {
-                  url: "/me/servers",
+                  url: "/me",
                   title: "Setup",
                 },
                 {

@@ -70,7 +70,7 @@ const ProfileUsername = styled.p`
   }
 `
 
-export default function MeHeader() {
+export default function MeHeader({ title, description }) {
   const { data: session } = useSession()
   const { width } = useWindowSize()
 
@@ -80,11 +80,9 @@ export default function MeHeader() {
   return (
     <Main>
       <HeaderDiv>
-        <Header>My CWStats</Header>
+        <Header>{title}</Header>
 
-        <SubHeader>
-          Manage your Discord servers, saved clans, and players!
-        </SubHeader>
+        <SubHeader>{description}</SubHeader>
       </HeaderDiv>
 
       <ProfileDiv>

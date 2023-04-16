@@ -1,7 +1,5 @@
 import Link from "next/link"
-import { useRouter } from "next/router"
 import { getServerSession } from "next-auth"
-import { useSession } from "next-auth/react"
 import { NextSeo } from "next-seo"
 import styled from "styled-components"
 
@@ -41,13 +39,6 @@ const Here = styled(Link)`
 `
 
 export default function Me({ guilds }) {
-  const { status } = useSession()
-  const router = useRouter()
-
-  if (status === "unauthenticated") {
-    router.push("/login")
-  }
-
   return (
     <>
       <NextSeo
@@ -60,7 +51,10 @@ export default function Me({ guilds }) {
         }}
       />
 
-      <Header />
+      <Header
+        title="My CWStats"
+        description="Manage your Discord servers, saved clans, and players!"
+      />
       <SubNav />
       <Content>
         {guilds.length === 0 ? (
@@ -79,16 +73,12 @@ export default function Me({ guilds }) {
   )
 }
 
-export async function getServerSideProps(context) {
-  // eslint-disable-next-line global-require
-  const { ObjectId } = require("mongodb")
-
+export async function getServerSideProps({ req, res }) {
   try {
-    const session = await getServerSession(
-      context.req,
-      context.res,
-      authOptions
-    )
+    // eslint-disable-next-line global-require
+    const { ObjectId } = require("mongodb")
+
+    const session = await getServerSession(req, res, authOptions)
 
     if (!session) {
       return {
@@ -138,7 +128,7 @@ export async function getServerSideProps(context) {
         guilds: filteredGuilds,
       },
     }
-  } catch (err) {
+  } catch {
     return {
       redirect: {
         permanent: false,

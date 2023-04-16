@@ -17,7 +17,7 @@ const NoClans = styled.p`
 
 export default function SearchContent({ clans, skeleton }) {
   if (skeleton) {
-    return [1, 2, 3, 4, 5].map((n) => <SearchItem key={n} skeleton />)
+    return [1, 2, 3].map((n) => <SearchItem key={n} skeleton />)
   }
 
   return (
