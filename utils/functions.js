@@ -391,3 +391,10 @@ export const getBackgroundColor = (rank) => {
 
   return gray["50"]
 }
+
+export const redirect = (destination, permanent = false) => ({
+  redirect: {
+    destination,
+    permanent,
+  },
+})
