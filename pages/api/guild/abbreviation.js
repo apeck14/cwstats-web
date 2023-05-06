@@ -1,39 +1,78 @@
 import clientPromise from "../../../lib/mongodb"
+import { formatTag, handleSCResponse } from "../../../utils/functions"
+import { fetchClan } from "../../../utils/services"
 
-export default async function addClan(req, res) {
+export default async function putAbbreviation(req, res) {
   try {
-    const { method, body } = req
-    const { serverId, abbr, clanTag, clanName } = body
-
-    if (method !== "PUT" && method !== "DELETE") {
-      return res.status(405).send({
-        message: "Wrong method. PUT & DELETE only accepted.",
-      })
-    }
+    const { body } = req
+    const { abbr, serverId, clanTag } = body
 
     const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
+    const guildExists = await guilds.findOne({
+      guildID: serverId,
+    })
+
+    if (!guildExists)
+      return res.status(404).json({ message: "Server not found." })
+
+    const { abbreviations } = guildExists
+
+    if (abbreviations.length >= 15) {
+      return res
+        .status(400)
+        .json({ message: "Max number of abbreviations reached." })
+    }
+
+    if (abbr.length > 4) {
+      return res.status(400).json({
+        message: "Abbreviation cannot be larger than 4 characters.",
+      })
+    }
+
+    if (!abbr.match(/^[0-9a-zA-Z]+$/)) {
+      return res
+        .status(400)
+        .json({ message: "Abbreviation must be alphanumeric." })
+    }
+
+    const uppercaseAbbr = abbr.toUpperCase()
+
+    if (abbreviations.find((a) => a.abbr.toUpperCase() === uppercaseAbbr)) {
+      return res.status(400).json({
+        message: "This abbreviation is already in use.",
+      })
+    }
+
+    const formattedTag = formatTag(clanTag, true)
+
+    if (abbreviations.find((a) => a.tag === formattedTag))
+      return res.status(500).json({
+        message: "This clan is already in use.",
+      })
+
+    const clan = await fetchClan(formattedTag.substr(1)).then(handleSCResponse)
+
     await guilds.updateOne(
       {
-        guildID: i.guildId,
+        guildID: serverId,
       },
       {
         $push: {
           abbreviations: {
-            abbr: abbreviation,
+            abbr,
             tag: clan.tag,
             name: clan.name,
           },
         },
       }
     )
-
-    return res.status(200).json({})
+    return res.status(200).json({ success: true, name: clan.name })
   } catch (err) {
-    return res.status(500).json({
-      message: err.message,
+    return res.status(err.status || 500).json({
+      message: err.message || "Unexpected error. Please try again.",
     })
   }
 }

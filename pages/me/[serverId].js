@@ -1,19 +1,29 @@
 import { getServerSession } from "next-auth"
+import { NextSeo } from "next-seo"
 import { useState } from "react"
 import styled from "styled-components"
 
 import Abbreviations from "../../components/Me/Server/Content/Abbreviations"
+import Channels from "../../components/Me/Server/Content/Channels"
 import ServerHeader from "../../components/Me/Server/Header"
 import SubNav from "../../components/Me/Server/SubNav"
 import clientPromise from "../../lib/mongodb"
 import { gray } from "../../public/static/colors"
 import { redirect } from "../../utils/functions"
-import { fetchGuilds } from "../../utils/services"
+import { fetchGuildChannels, fetchGuilds } from "../../utils/services"
 import { authOptions } from "../api/auth/[...nextauth]"
 
 const SubHeader = styled.h2`
   font-size: 1.25rem;
   color: ${gray["25"]};
+
+  @media (max-width: 1024px) {
+    padding: 0 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `
 
 const TabContent = styled.div`
@@ -22,13 +32,28 @@ const TabContent = styled.div`
   min-height: 20rem;
   padding: 2rem;
   margin: 2rem 0;
+
+  @media (max-width: 1024px) {
+    padding: 1rem;
+    margin: 1rem 0;
+  }
 `
 
-export default function ServerPage({ guild }) {
+export default function ServerPage({ guild, channels }) {
   const [tab, setTab] = useState("abbreviations")
 
   return (
     <>
+      <NextSeo
+        title={`CWStats - ${guild.name}`}
+        description="Customize CW2 Stats Discord bot settings for your server!"
+        noindex
+        openGraph={{
+          title: `CWStats - ${guild.name}`,
+          description:
+            "Customize CW2 Stats Discord bot settings for your server!",
+        }}
+      />
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
 
       <SubHeader>
@@ -39,7 +64,12 @@ export default function ServerPage({ guild }) {
 
       <TabContent>
         {tab === "abbreviations" ? (
-          <Abbreviations data={guild.abbreviations} />
+          <Abbreviations
+            abbrList={guild.abbreviations}
+            defaultClan={guild.defaultClan}
+          />
+        ) : tab === "channels" ? (
+          <Channels allChannels={channels} setChannels={guild.channels} />
         ) : null}
       </TabContent>
     </>
@@ -71,15 +101,23 @@ export async function getServerSideProps({ req, res, params }) {
       userId,
     })
 
-    const [guild, guildsRes] = await Promise.all([
+    const [guild, guildsRes, channelsRes] = await Promise.all([
       guilds.findOne({ guildID: serverId }),
       fetchGuilds(user.access_token),
+      fetchGuildChannels(serverId, user.access_token),
     ])
 
     if (!guild) return redirect("/404")
-    if (!guildsRes.ok) throw new Error()
+    if (!guildsRes.ok || !channelsRes.ok) throw new Error()
 
-    const guildsData = await guildsRes.json()
+    const [guildsData, channelsData] = await Promise.all([
+      guildsRes.json(),
+      channelsRes.json(),
+    ])
+
+    const textChannels = channelsData
+      .filter((c) => c.type === 0)
+      .map(({ id, name }) => ({ id, name }))
 
     const guildFound = guildsData.find((g) => g.id === serverId)
 
@@ -96,9 +134,10 @@ export async function getServerSideProps({ req, res, params }) {
             name,
           })
         ),
+        channels: textChannels,
       },
     }
-  } catch {
+  } catch (err) {
     return redirect("/500")
   }
 }

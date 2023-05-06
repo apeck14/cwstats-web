@@ -66,7 +66,7 @@ export default function Me({ guilds }) {
             .
           </NoGuilds>
         ) : (
-          guilds.map((g) => <Item guild={g} />)
+          guilds.map((g) => <Item key={g.id} guild={g} />)
         )}
       </Content>
     </>
@@ -118,10 +118,13 @@ export async function getServerSideProps({ req, res }) {
       )
     }
 
-    const filteredGuilds = rawGuilds.filter(
-      (g) =>
-        (g.owner || hasPermissions(g.permissions)) && botGuildIds.includes(g.id)
-    )
+    const filteredGuilds = rawGuilds
+      .filter(
+        (g) =>
+          (g.owner || hasPermissions(g.permissions)) &&
+          botGuildIds.includes(g.id)
+      )
+      .sort((a, b) => a.name.localeCompare(b.name))
 
     return {
       props: {

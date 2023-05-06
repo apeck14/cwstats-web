@@ -9,6 +9,10 @@ const Main = styled.div`
   justify-content: space-between;
   align-items: center;
   margin-top: 1rem;
+
+  @media (max-width: 1024px) {
+    padding: 0 1rem;
+  }
 `
 
 const Back = styled.button`
@@ -26,11 +30,19 @@ const Back = styled.button`
 const Icon = styled(FaHome)`
   color: ${gray["0"]};
   font-size: 1.25rem;
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `
 
 const Nav = styled.div`
   display: flex;
   gap: 1rem;
+
+  @media (max-width: 480px) {
+    gap: 0.5rem;
+  }
 `
 
 const Item = styled.div`
@@ -48,6 +60,10 @@ const Text = styled.p`
   color: ${gray["0"]};
   font-size: 1.2rem;
   font-weight: 600;
+
+  @media (max-width: 480px) {
+    font-size: 1rem;
+  }
 `
 
 export default function SubNav({ tab, setTab }) {

@@ -16,4 +16,5 @@ module.exports = {
   bronzeOrange: "#b97852",
   discordPrimary: "#7289da",
   red: "#9B1003",
+  errorRed: "#ff0033",
 }
