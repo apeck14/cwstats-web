@@ -71,7 +71,7 @@ export default function Item({ guild }) {
   const iconSize = width > 480 ? 80 : 90
 
   return (
-    <Main onClick={() => router.push(`/me/${guild.id}`)}>
+    <Main onClick={() => router.push(`/me/${guild.id}/abbreviations`)}>
       <Background>
         {guild.icon ? (
           <Icon

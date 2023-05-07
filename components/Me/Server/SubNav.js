@@ -66,16 +66,18 @@ const Text = styled.p`
   }
 `
 
-export default function SubNav({ tab, setTab }) {
+export default function SubNav() {
   const router = useRouter()
 
   const handleBack = () => {
     router.push("/me")
   }
 
-  const handleClick = (e) => {
-    setTab(e.currentTarget.id)
+  const handleClick = (url) => {
+    router.push(`/me/${router.query.serverId}${url}`)
   }
+
+  const currentTab = router.asPath.slice(router.asPath.lastIndexOf("/") + 1)
 
   return (
     <Main>
@@ -85,28 +87,25 @@ export default function SubNav({ tab, setTab }) {
 
       <Nav>
         <Item
-          id="abbreviations"
-          onClick={handleClick}
-          isActive={tab === "abbreviations"}
+          onClick={() => handleClick(`/abbreviations`)}
           className="noselect"
+          isActive={currentTab === "abbreviations"}
         >
           <Text>Abbreviations</Text>
         </Item>
         <Item
-          id="channels"
-          onClick={handleClick}
-          isActive={tab === "channels"}
+          onClick={() => handleClick("/channels")}
           className="noselect"
+          isActive={currentTab === "channels"}
         >
           <Text>Channels</Text>
         </Item>
         <Item
-          id="report"
-          onClick={handleClick}
-          isActive={tab === "report"}
+          onClick={() => handleClick("/nudges")}
           className="noselect"
+          isActive={currentTab === "nudges"}
         >
-          <Text>Daily Report</Text>
+          <Text>Nudges</Text>
         </Item>
       </Nav>
     </Main>
