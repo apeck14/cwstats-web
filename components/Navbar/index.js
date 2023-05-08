@@ -226,7 +226,7 @@ export default function Navbar() {
               }
               items={[
                 {
-                  url: "/bot/setup",
+                  url: "/me",
                   title: "Setup",
                 },
                 {

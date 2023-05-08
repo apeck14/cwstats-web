@@ -391,3 +391,16 @@ export const getBackgroundColor = (rank) => {
 
   return gray["50"]
 }
+
+export const redirect = (destination, permanent = false) => ({
+  redirect: {
+    destination,
+    permanent,
+  },
+})
+
+export const arraysAreEqual = (a, b) =>
+  Array.isArray(a) &&
+  Array.isArray(b) &&
+  a.length === b.length &&
+  a.every((val, index) => val === b[index])

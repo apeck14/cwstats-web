@@ -101,7 +101,7 @@ export default function MainMenu({ displayMenu }) {
       </Header>
       <Line />
       <Item>
-        <LinkItem onClick={() => handleClick("/bot/setup")}>Setup</LinkItem>
+        <LinkItem onClick={() => handleClick("/me")}>Setup</LinkItem>
       </Item>
       <Item>
         <LinkItem onClick={() => handleClick("/bot/docs")}>Docs</LinkItem>

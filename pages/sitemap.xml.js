@@ -8,7 +8,7 @@ export async function getServerSideProps({ res }) {
     production: "https://www.cwstats.com",
   }[process.env.NODE_ENV]
 
-  const includedPages = ["/", "/bot/docs", "/bot/setup"]
+  const includedPages = ["/", "/bot/docs"]
 
   // add all leaderboards
   for (const l of locations) {

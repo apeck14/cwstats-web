@@ -1,187 +1,44 @@
-import Image from "next/image"
-import { useRouter } from "next/router"
-import { signOut, useSession } from "next-auth/react"
+import Link from "next/link"
+import { getServerSession } from "next-auth"
 import { NextSeo } from "next-seo"
-import { useEffect, useState } from "react"
 import styled from "styled-components"
 
-import useWindowSize from "../../hooks/useWindowSize"
-import { gray, orange, pink } from "../../public/static/colors"
+import Header from "../../components/Me/Header"
+import Item from "../../components/Me/Servers/Item"
+import SubNav from "../../components/Me/SubNav"
+import clientPromise from "../../lib/mongodb"
+import { gray, pink } from "../../public/static/colors"
+import { fetchGuilds } from "../../utils/services"
+import { authOptions } from "../api/auth/[...nextauth]"
 
-const Main = styled.div({
-  width: "60%",
-  margin: "0 auto",
-  padding: "3rem 0",
+const Content = styled.div`
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
+  margin: 2rem 0;
+  padding: 2rem 0;
+  background-color: ${gray["75"]};
+  justify-content: space-evenly;
+  border-radius: 0.5rem;
+  min-height: 12rem;
+`
 
-  "@media (max-width: 480px)": {
-    width: "90%",
-  },
-})
+const NoGuilds = styled.p`
+  color: ${gray["25"]};
+  margin: auto;
+`
 
-const TopDiv = styled.div({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  marginBottom: "2.5rem",
+const Here = styled(Link)`
+  text-decoration: none;
+  color: ${pink};
 
-  "@media (max-width: 1024px)": {
-    marginBottom: "1.5rem",
-  },
-})
-
-const HeaderDiv = styled.div({})
-
-const ProfileDiv = styled.div({
-  marginLeft: "1rem",
-})
-
-const Header = styled.h1({
-  color: gray["0"],
-  fontSize: "3rem",
-
-  "@media (max-width: 1024px)": {
-    fontSize: "2.75rem",
-  },
-
-  "@media (max-width: 480px)": {
-    fontSize: "2rem",
-  },
-})
-
-const SubHeader = styled.h2({
-  color: gray["25"],
-  fontSize: "1.1rem",
-  fontWeight: 500,
-
-  "@media (max-width: 1024px)": {
-    fontSize: "1rem",
-  },
-
-  "@media (max-width: 480px)": {
-    fontSize: "0.9rem",
-  },
-})
-
-const ProfilePicture = styled(Image)({
-  borderRadius: "50%",
-  borderWidth: "2px",
-  borderColor: pink,
-  borderStyle: "solid",
-})
-
-const ProfileUsername = styled.p({
-  color: gray["25"],
-  textAlign: "center",
-
-  "@media (max-width: 480px)": {
-    fontSize: "0.9rem",
-  },
-})
-
-const ContentDiv = styled.div({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  backgroundColor: gray["50"],
-  borderRadius: "0.15rem",
-  borderWidth: "2px",
-  borderColor: gray["50"],
-  borderStyle: "solid",
-  margin: "1rem 0",
-  padding: "1rem",
-  color: gray["0"],
-
-  ":hover, :active": {
-    borderWidth: "2px",
-    borderColor: pink,
-    borderStyle: "solid",
-    cursor: "pointer",
-  },
-})
-
-const ContentTitle = styled.p({
-  fontSize: "1.4rem",
-})
-
-const ContentNumber = styled.p({
-  backgroundColor: gray["75"],
-  borderRadius: "0.5rem",
-  borderColor: orange,
-  borderStyle: "solid",
-  borderWidth: "0.15rem",
-  padding: "0.2rem 0.4rem",
-  fontSize: "1.1rem",
-  fontWeight: 600,
-})
-
-const SignOutBtn = styled.button({
-  backgroundColor: pink,
-  color: gray["0"],
-  borderRadius: "0.25rem",
-  borderWidth: 0,
-  padding: "0.5rem 0.75rem",
-  fontSize: "0.8rem",
-  marginTop: "1rem",
-  fontWeight: 600,
-
-  ":hover, :active": {
-    cursor: "pointer",
-    backgroundColor: orange,
-  },
-})
-
-export default function Me() {
-  const { data: session, status } = useSession()
-  const router = useRouter()
-  const { width } = useWindowSize()
-  const [fetchedOnSession, setFetchedOnSession] = useState(false) // avoid constant calls to DB for session
-  const [totalGuilds, setGuilds] = useState(0)
-  const [savedData, setSavedData] = useState({
-    savedClans: [],
-    savedPlayers: [],
-  })
-
-  const profilePicSize = width > 480 ? 65 : 50
-  const defaultImage = "https://imgur.com/a/aQ3wFBL"
-
-  useEffect(() => {
-    if (session && !fetchedOnSession) {
-      fetch(`/api/discord/guilds`)
-        .then((res) => res.json())
-        .then((data) => {
-          setGuilds(data.length || 0)
-          setFetchedOnSession(true)
-
-          return true
-        })
-        .catch(() => {
-          setGuilds("N/A")
-        })
-
-      fetch(`/api/user`)
-        .then((res) => res.json())
-        .then((data) => {
-          setSavedData(
-            data || {
-              savedClans: [],
-              savedPlayers: [],
-            }
-          )
-          setFetchedOnSession(true)
-
-          return true
-        })
-        .catch(() => {})
-    }
-  }, [session, fetchedOnSession])
-
-  if (status === "loading") return null
-  if (status === "unauthenticated") {
-    router.push("/login")
-
-    return
+  :hover,
+  :active {
+    text-decoration: underline;
   }
+`
 
+export default function Me({ guilds }) {
   return (
     <>
       <NextSeo
@@ -194,50 +51,93 @@ export default function Me() {
         }}
       />
 
-      <Main>
-        <TopDiv>
-          <HeaderDiv>
-            <Header>My CWStats</Header>
-            <SubHeader>
-              Manage Discord servers, or view saved clans and players!
-            </SubHeader>
-          </HeaderDiv>
-          <ProfileDiv>
-            <ProfilePicture
-              src={session ? session.user.image : defaultImage}
-              alt="Discord Profile"
-              height={profilePicSize}
-              width={profilePicSize}
-            />
-            <ProfileUsername>
-              {session ? session.user.name : "Not Found"}
-            </ProfileUsername>
-          </ProfileDiv>
-        </TopDiv>
-
-        <ContentDiv onClick={() => router.push("/bot/setup")}>
-          <ContentTitle>Servers</ContentTitle>
-          <ContentNumber>{totalGuilds}</ContentNumber>
-        </ContentDiv>
-        <ContentDiv onClick={() => router.push("/me/clans")}>
-          <ContentTitle>Clans</ContentTitle>
-          <ContentNumber>{savedData.savedClans.length}</ContentNumber>
-        </ContentDiv>
-        <ContentDiv onClick={() => router.push("/me/players")}>
-          <ContentTitle>Players</ContentTitle>
-          <ContentNumber>{savedData.savedPlayers.length}</ContentNumber>
-        </ContentDiv>
-
-        <SignOutBtn
-          onClick={() =>
-            signOut({
-              callbackUrl: "/",
-            })
-          }
-        >
-          Sign Out
-        </SignOutBtn>
-      </Main>
+      <Header
+        title="My CWStats"
+        description="Manage your Discord servers, saved clans, and players!"
+      />
+      <SubNav />
+      <Content>
+        {guilds.length === 0 ? (
+          <NoGuilds>
+            No servers to manage! Invite the bot{" "}
+            <Here href="https://discord.com/api/oauth2/authorize?client_id=869761158763143218&permissions=2147764224&scope=bot%20applications.commands">
+              here
+            </Here>
+            .
+          </NoGuilds>
+        ) : (
+          guilds.map((g) => <Item key={g.id} guild={g} />)
+        )}
+      </Content>
     </>
   )
+}
+
+export async function getServerSideProps({ req, res }) {
+  try {
+    // eslint-disable-next-line global-require
+    const { ObjectId } = require("mongodb")
+
+    const session = await getServerSession(req, res, authOptions)
+
+    if (!session) {
+      return {
+        redirect: {
+          destination: "/login",
+          permanent: false,
+        },
+      }
+    }
+
+    const client = await clientPromise
+    const db = client.db("General")
+    const accounts = db.collection("accounts")
+    const guilds = db.collection("Guilds")
+
+    const userId = new ObjectId(session.user.id)
+
+    const user = await accounts.findOne({
+      userId,
+    })
+
+    const guildsRes = await fetchGuilds(user.access_token)
+    const rawGuilds = await guildsRes.json()
+
+    if (!Array.isArray(rawGuilds)) {
+      throw new Error()
+    }
+
+    const botGuildIds = await guilds.distinct("guildID")
+
+    const hasPermissions = (permissions) => {
+      const ADMIN = 0x8
+      const MANAGE = 0x20 // MANAGE_GUILD
+
+      return (
+        (permissions & MANAGE) === MANAGE || (permissions & ADMIN) === ADMIN
+      )
+    }
+
+    const filteredGuilds = rawGuilds
+      .filter(
+        (g) =>
+          (g.owner || hasPermissions(g.permissions)) &&
+          botGuildIds.includes(g.id)
+      )
+      .sort((a, b) => a.name.localeCompare(b.name))
+
+    return {
+      props: {
+        guilds: filteredGuilds,
+      },
+    }
+  } catch {
+    return {
+      redirect: {
+        permanent: false,
+        destination: "/500",
+      },
+      props: {},
+    }
+  }
 }

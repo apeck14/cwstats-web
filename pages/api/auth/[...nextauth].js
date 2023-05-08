@@ -4,7 +4,7 @@ import DiscordProvider from "next-auth/providers/discord"
 
 import clientPromise from "../../../lib/mongodb"
 
-const scope = ["identify guilds"].join(" ")
+const scope = ["identify guilds guilds.members.read"].join(" ")
 
 export const authOptions = {
   providers: [
