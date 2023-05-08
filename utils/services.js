@@ -184,3 +184,15 @@ export const removeDefaultClan = (serverId) =>
       "Content-Type": "application/json",
     }),
   })
+
+export const setGuildChannels = (channels, serverId) =>
+  fetch(`/api/guild/channels`, {
+    method: "POST",
+    body: JSON.stringify({
+      serverId,
+      channels,
+    }),
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })

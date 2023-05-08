@@ -1,27 +1,26 @@
 import { useEffect, useRef, useState } from "react"
 import styled from "styled-components"
 
-import { gray, pink } from "../../../../../public/static/colors"
+import { gray, orange } from "../../../../../public/static/colors"
 
 const Dropdown = styled.div`
   position: relative;
   display: inline-block;
-  min-width: 12rem;
+  width: 12rem;
 `
 
 const DropdownButton = styled.button`
-  background-color: ${gray["50"]};
+  background-color: ${gray["75"]};
   color: ${gray["0"]};
   border: none;
   padding: 0.625rem 1.25rem;
   font-size: 1rem;
   min-width: 100%;
-  border-radius: 0.5rem 0.5rem 0 0;
   font-weight: 600;
-  box-shadow: 0 0.5rem 1rem 0 rgba(0, 0, 0, 0.2);
+  border-radius: 0.25rem 0.25rem 0 0;
 
   :hover {
-    background-color: ${pink};
+    background-color: ${gray["100"]};
     cursor: pointer;
   }
 `
@@ -38,11 +37,14 @@ const DropdownMenu = styled.ul`
   margin: 0;
   max-height: 10rem;
   overflow-y: auto;
+  border-radius: 0 0 0.25rem 0.25rem;
 `
 
 const DropdownItem = styled.li`
-  padding: 0.75rem 1rem;
+  padding: 0.5rem 1rem;
   color: ${gray["0"]};
+  font-weight: 600;
+  background-color: ${({ isSelected }) => (isSelected ? gray["75"] : null)};
 
   &:hover {
     cursor: pointer;
@@ -50,9 +52,24 @@ const DropdownItem = styled.li`
   }
 `
 
-export default function DropdownMenuComponent({ allChannels }) {
+const Hashtag = styled.span`
+  color: ${orange};
+  margin-right: 0.25rem;
+  font-weight: 600;
+`
+
+export default function DropdownMenuComponent({
+  type,
+  allChannels,
+  initialChannelID,
+  handleChange,
+}) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedChannel, setSelectedChannel] = useState(null)
+  const [selectedChannel, setSelectedChannel] = useState(
+    allChannels.find((c) =>
+      c.id ? c.id === initialChannelID : c.name === "None"
+    )
+  )
   const dropdownRef = useRef(null)
 
   useEffect(() => {
@@ -75,21 +92,29 @@ export default function DropdownMenuComponent({ allChannels }) {
   const handleChannelSelection = (channel) => {
     setSelectedChannel(channel)
     setIsOpen(false)
+    handleChange(channel, type)
   }
 
   return (
     <Dropdown ref={dropdownRef}>
       <DropdownButton onClick={handleToggle}>
-        {selectedChannel ? selectedChannel.name : "None"}
+        {selectedChannel.id && <Hashtag>#</Hashtag>}
+        {selectedChannel.name}
       </DropdownButton>
 
       {isOpen && (
         <DropdownMenu>
           {allChannels.map((channel) => (
             <DropdownItem
-              key={channel.id}
-              onClick={() => handleChannelSelection(channel)}
+              key={channel.id || channel.name}
+              onClick={() => handleChannelSelection(channel, type)}
+              isSelected={
+                selectedChannel.id
+                  ? selectedChannel.id === channel.id
+                  : selectedChannel.name === channel.name
+              }
             >
+              {channel.id ? <Hashtag>#</Hashtag> : null}
               {channel.name}
             </DropdownItem>
           ))}

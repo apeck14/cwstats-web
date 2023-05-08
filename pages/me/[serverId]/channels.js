@@ -1,69 +1,166 @@
+import { useRouter } from "next/router"
 import { getServerSession } from "next-auth"
 import { NextSeo } from "next-seo"
+import { useState } from "react"
 import styled from "styled-components"
 
-import Abbreviations from "../../../components/Me/Server/Content/Abbreviations"
+import ChannelCard from "../../../components/Me/Server/Content/Channels/ChannelCard"
+import UnsavedChangesModal from "../../../components/Me/Server/Content/Channels/UnsavedChangesModal"
+import TabContent from "../../../components/Me/Server/Content/TabContent"
 import ServerHeader from "../../../components/Me/Server/Header"
-import SubNav from "../../../components/Me/Server/SubNav"
 import clientPromise from "../../../lib/mongodb"
 import { gray } from "../../../public/static/colors"
-import { redirect } from "../../../utils/functions"
-import { fetchGuildChannels, fetchGuilds } from "../../../utils/services"
+import { arraysAreEqual, redirect } from "../../../utils/functions"
+import {
+  fetchGuildChannels,
+  fetchGuilds,
+  setGuildChannels,
+} from "../../../utils/services"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
-const SubHeader = styled.h2`
-  font-size: 1.25rem;
-  color: ${gray["25"]};
-
-  @media (max-width: 1024px) {
-    padding: 0 1rem;
-  }
-
-  @media (max-width: 480px) {
-    font-size: 1rem;
-  }
+const Header = styled.h2`
+  color: ${gray["0"]};
+  margin-bottom: 1rem;
 `
 
-const TabContent = styled.div`
-  background-color: ${gray["75"]};
-  border-radius: 0.5rem;
-  min-height: 20rem;
-  padding: 2rem;
-  margin: 2rem 0;
-
-  @media (max-width: 1024px) {
-    padding: 1rem;
-    margin: 1rem 0;
-  }
+const SingleDiv = styled.div`
+  display: flex;
+  gap: 2rem;
+  flex-wrap: wrap;
 `
 
-export default function ServerPage({ guild }) {
+const typeToProp = {
+  Applications: "applicationsChannelID",
+  Apply: "applyChannelID",
+  Commands: "commandChannelIDs",
+  "War Report": "reportChannelID",
+}
+
+export default function ServerPage({ guild, channels }) {
+  const router = useRouter()
+  const [showModal, setShowModal] = useState(false)
+  const [showSaveSpinner, setShowSaveSpinner] = useState(false)
+  const [saveError, setSaveError] = useState(null)
+  const [savedChannels, setSavedChannels] = useState(guild.channels)
+  const [unsavedChannels, setUnsavedChannels] = useState(guild.channels)
+
+  const { applicationsChannelID, applyChannelID, reportChannelID } =
+    guild.channels
+
+  const handleChange = (channel, type) => {
+    const newProp = typeToProp[type]
+
+    const unsavedObj = { ...unsavedChannels }
+
+    if (type === "Commands") {
+      if (unsavedObj[newProp].includes(channel.id)) {
+        unsavedObj[newProp] = unsavedObj[newProp].filter(
+          (id) => id !== channel.id
+        )
+      } else {
+        unsavedObj[newProp] = [...unsavedObj[newProp], channel.id]
+      }
+    } else unsavedObj[newProp] = channel.id
+
+    setUnsavedChannels({ ...unsavedObj })
+
+    // check for differences in saved and unsaved to determine showModal
+    for (const key of Object.keys(unsavedObj)) {
+      const value = unsavedObj[key]
+
+      if (key === "commandChannelIDs") {
+        if (
+          !arraysAreEqual(unsavedObj[key].sort(), savedChannels[key].sort())
+        ) {
+          setShowModal(true)
+          return
+        }
+      } else if (value !== savedChannels[key]) {
+        setShowModal(true)
+        return
+      }
+
+      setShowModal(false)
+    }
+  }
+
+  const handleSave = () => {
+    setShowSaveSpinner(true)
+
+    setGuildChannels(unsavedChannels, router.query.serverId).then(
+      async (res) => {
+        const { success, message } = await res.json()
+
+        if (success) {
+          setSavedChannels(unsavedChannels)
+          setSaveError(null)
+          setShowModal(false)
+        } else {
+          setSaveError(message)
+        }
+
+        setShowSaveSpinner(false)
+      }
+    )
+  }
+
   return (
     <>
       <NextSeo
-        title={`CWStats - ${guild.name}`}
+        title={`CWStats - ${guild.name} | Channels`}
         description="Customize CW2 Stats Discord bot settings for your server!"
         noindex
         openGraph={{
-          title: `CWStats - ${guild.name}`,
+          title: `CWStats - ${guild.name} | Channels`,
           description:
             "Customize CW2 Stats Discord bot settings for your server!",
         }}
       />
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
 
-      <SubHeader>
-        Customize CW2 Stats Discord bot settings for your server!
-      </SubHeader>
-
-      <SubNav />
-
       <TabContent>
-        <Abbreviations
-          abbrList={guild.abbreviations}
-          defaultClan={guild.defaultClan}
+        <Header>Channels</Header>
+
+        <SingleDiv>
+          <ChannelCard
+            title="Applications"
+            description="The channel where all applications will be posted. Typically this would be a private channel."
+            initialChannelID={applicationsChannelID}
+            allChannels={channels}
+            handleChange={handleChange}
+          />
+          <ChannelCard
+            title="Apply"
+            description="The channel where users will be able to apply from using /apply. Typically this would be a public channel."
+            initialChannelID={applyChannelID}
+            allChannels={channels}
+            handleChange={handleChange}
+          />
+          <ChannelCard
+            title="War Report"
+            description="The channel where all war reports will be posted by the bot. Typically this would be a quiet channel."
+            initialChannelID={reportChannelID}
+            allChannels={channels}
+            handleChange={handleChange}
+          />
+        </SingleDiv>
+
+        <ChannelCard
+          title="Commands"
+          description="The channel(s) where commands are allowed to be used."
+          activeChannelIDs={unsavedChannels.commandChannelIDs}
+          allChannels={channels}
+          handleChange={handleChange}
+          marginTop="2rem"
         />
       </TabContent>
+
+      <UnsavedChangesModal
+        isOpen={showModal}
+        onSave={handleSave}
+        isLoading={showSaveSpinner}
+        error={saveError}
+      />
     </>
   )
 }
@@ -96,7 +193,7 @@ export async function getServerSideProps({ req, res, params }) {
     const [guild, guildsRes, channelsRes] = await Promise.all([
       guilds.findOne({ guildID: serverId }),
       fetchGuilds(user.access_token),
-      fetchGuildChannels(serverId, user.access_token),
+      fetchGuildChannels(serverId),
     ])
 
     if (!guild) return redirect("/404")
@@ -110,6 +207,9 @@ export async function getServerSideProps({ req, res, params }) {
     const textChannels = channelsData
       .filter((c) => c.type === 0)
       .map(({ id, name }) => ({ id, name }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+
+    textChannels.unshift({ name: "None" })
 
     const guildFound = guildsData.find((g) => g.id === serverId)
 
@@ -130,6 +230,7 @@ export async function getServerSideProps({ req, res, params }) {
       },
     }
   } catch (err) {
+    console.log(err)
     return redirect("/500")
   }
 }
