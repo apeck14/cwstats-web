@@ -62,7 +62,11 @@ export default function ChannelCard({
         ) : (
           <DropdownMenuComponent
             allChannels={allChannels}
-            initialChannelID={initialChannelID}
+            initialChannel={
+              initialChannelID
+                ? allChannels.find((c) => c.id === initialChannelID)
+                : allChannels[0]
+            }
             type={title}
             handleChange={handleChange}
           />

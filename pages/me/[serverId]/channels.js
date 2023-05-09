@@ -147,7 +147,7 @@ export default function ServerPage({ guild, channels }) {
 
         <ChannelCard
           title="Commands"
-          description="The channel(s) where commands are allowed to be used."
+          description="The channel(s) where commands are allowed to be used. By default, commands are allowed in every channel."
           activeChannelIDs={unsavedChannels.commandChannelIDs}
           allChannels={channels}
           handleChange={handleChange}

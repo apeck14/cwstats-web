@@ -61,14 +61,12 @@ const Hashtag = styled.span`
 export default function DropdownMenuComponent({
   type,
   allChannels,
-  initialChannelID,
+  initialChannel,
   handleChange,
 }) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedChannel, setSelectedChannel] = useState(
-    allChannels.find((c) =>
-      c.id ? c.id === initialChannelID : c.name === "None"
-    )
+    initialChannel || allChannels[0]
   )
   const dropdownRef = useRef(null)
 
