@@ -30,7 +30,8 @@ const Abbr = styled.input`
   padding: 0.5rem;
   background-color: ${gray["100"]};
   color: ${gray["0"]};
-  font-weight: 700;
+  font-weight: 600;
+  font-size: 1rem;
 `
 
 const Tag = styled(Abbr)`
