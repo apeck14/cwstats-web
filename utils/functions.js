@@ -26,7 +26,10 @@ export const formatRole = (role) => {
 
 // convert all O's to 0, remove all non-alphanumeric
 export const formatTag = (tag, withHashtag = false) => {
-  const newTag = tag.replace(/[^A-Za-z0-9]/g, "").replace(/O/g, "0")
+  const newTag = tag
+    .replace(/[^A-Za-z0-9]/g, "")
+    .replace(/O/g, "0")
+    .toUpperCase()
 
   if (withHashtag) return `#${newTag}`
 

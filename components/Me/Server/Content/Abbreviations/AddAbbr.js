@@ -7,6 +7,7 @@ import {
   orange,
   pink,
 } from "../../../../../public/static/colors"
+import { formatTag } from "../../../../../utils/functions"
 import { addAbbreviation } from "../../../../../utils/services"
 import LoadingSpinner from "../../../../LoadingSpinner"
 
@@ -82,7 +83,10 @@ export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
       const { success, name, message } = await res.json()
 
       if (success) {
-        setAbbreviations([...abbreviations, { name, abbr, tag }])
+        setAbbreviations([
+          ...abbreviations,
+          { name, abbr, tag: formatTag(tag, true) },
+        ])
         setError(null)
         setTag("")
         setAbbr("")
