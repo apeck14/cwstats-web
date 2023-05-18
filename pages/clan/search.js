@@ -74,6 +74,8 @@ export default function ClanSearch() {
             router.push("/500")
           })
       }
+    } else {
+      setIsLoaded(true)
     }
   }, [q, router])
 
