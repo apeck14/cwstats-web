@@ -121,7 +121,7 @@ export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
       />
       <Tag
         placeholder="#CLANTAG"
-        maxLength={10}
+        maxLength={9}
         onChange={handleTagChange}
         value={tag}
       />

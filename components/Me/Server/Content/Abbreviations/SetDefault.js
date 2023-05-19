@@ -165,7 +165,7 @@ export default function SetDefault({ defaultClan, serverId }) {
           placeholder="#CLANTAG"
           onChange={handleChange}
           value={tag}
-          maxLength={10}
+          maxLength={9}
         />
         <Set onClick={handleSet}>
           {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Set"}
