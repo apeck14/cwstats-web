@@ -1,13 +1,27 @@
 import { getServerSession } from "next-auth"
 import { NextSeo } from "next-seo"
+import styled from "styled-components"
 
-import ComingSoon from "../../../components/ComingSoon"
+import Hr from "../../../components/Hr"
+import Checkbox from "../../../components/Me/Server/Content/Nudges/Checkbox"
+import CustomMessage from "../../../components/Me/Server/Content/Nudges/CustomMessage"
 import TabContent from "../../../components/Me/Server/Content/TabContent"
 import ServerHeader from "../../../components/Me/Server/Header"
 import clientPromise from "../../../lib/mongodb"
+import { gray } from "../../../public/static/colors"
 import { redirect } from "../../../utils/functions"
 import { fetchGuilds } from "../../../utils/services"
 import { authOptions } from "../../api/auth/[...nextauth]"
+
+const Header = styled.h2`
+  color: ${gray["0"]};
+  margin-bottom: 1rem;
+`
+
+const SubHeader = styled.h3`
+  color: ${gray["0"]};
+  margin: 1rem 0;
+`
 
 export default function ServerPage({ guild }) {
   return (
@@ -25,7 +39,11 @@ export default function ServerPage({ guild }) {
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
 
       <TabContent>
-        <ComingSoon />
+        <Header>Nudges</Header>
+        <Checkbox />
+        <SubHeader>Custom Message</SubHeader>
+        <CustomMessage />
+        <Hr color={gray["50"]} margin="1.5rem 0" />
       </TabContent>
     </>
   )
