@@ -65,6 +65,10 @@ const TagInput = styled.input`
   color: ${gray["0"]};
   font-weight: 600;
   font-size: 1rem;
+
+  ::placeholder {
+    color: ${gray["50"]};
+  }
 `
 
 const Set = styled.button`
