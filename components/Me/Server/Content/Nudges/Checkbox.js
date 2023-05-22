@@ -58,7 +58,7 @@ export default function Checkbox() {
         onChange={handleCheckboxChange}
       />
       <CheckboxStyled checked={checked} />
-      <CheckboxLabel>Ignore Co-Leaders</CheckboxLabel>
+      <CheckboxLabel>Ignore Co-Leaders & Leaders</CheckboxLabel>
     </CheckboxContainer>
   )
 }

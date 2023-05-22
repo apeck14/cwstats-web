@@ -21,6 +21,7 @@ import { authOptions } from "../../api/auth/[...nextauth]"
 const Header = styled.h2`
   color: ${gray["0"]};
   margin-bottom: 1rem;
+  font-size: 1.8rem;
 `
 
 const SingleDiv = styled.div`

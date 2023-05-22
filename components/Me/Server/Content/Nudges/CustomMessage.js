@@ -23,7 +23,7 @@ const TextBox = styled.textarea`
 export default function CustomMessage() {
   return (
     <TextBox
-      placeholder="**You have remaining attacks.** Please get them in before the deadline!"
+      placeholder="**You have attacks remaining.** Please get them in before the deadline!"
       maxLength={200}
     />
   )

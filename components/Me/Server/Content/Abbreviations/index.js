@@ -12,6 +12,7 @@ import SetDefault from "./SetDefault"
 const Header = styled.h2`
   color: ${gray["0"]};
   margin-bottom: 0.5rem;
+  font-size: 1.8rem;
 `
 
 const None = styled.p`
