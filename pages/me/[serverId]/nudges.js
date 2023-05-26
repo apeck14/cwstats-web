@@ -16,6 +16,7 @@ import { authOptions } from "../../api/auth/[...nextauth]"
 const Header = styled.h2`
   color: ${gray["0"]};
   margin-bottom: 1rem;
+  font-size: 1.8rem;
 `
 
 const SubHeader = styled.h3`
@@ -39,11 +40,12 @@ export default function ServerPage({ guild }) {
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
 
       <TabContent>
-        <Header>Nudges</Header>
+        <Header>Settings</Header>
         <Checkbox />
         <SubHeader>Custom Message</SubHeader>
         <CustomMessage />
         <Hr color={gray["50"]} margin="1.5rem 0" />
+        <Header>Automated Nudges</Header>
       </TabContent>
     </>
   )
