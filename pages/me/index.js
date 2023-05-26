@@ -93,9 +93,7 @@ export async function getServerSideProps({ req, res }) {
     const client = await clientPromise
     const db = client.db("General")
     const accounts = db.collection("accounts")
-    const sessions = db.collection("sessions")
     const guilds = db.collection("Guilds")
-    const users = db.collection("users")
 
     const userId = new ObjectId(session.user.id)
 
@@ -110,8 +108,6 @@ export async function getServerSideProps({ req, res }) {
       if (typeof rawGuilds === "object") {
         if (rawGuilds?.message === "401: Unauthorized") {
           accounts.deleteOne(user)
-          sessions.deleteOne({ userId })
-          users.deleteOne({ _id: userId })
 
           return redirect("/login")
         }
