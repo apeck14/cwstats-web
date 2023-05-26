@@ -108,7 +108,6 @@ export async function getServerSideProps({ req, res }) {
 
     if (!Array.isArray(rawGuilds)) {
       if (typeof rawGuilds === "object") {
-        console.log(rawGuilds)
         if (rawGuilds?.message === "401: Unauthorized") {
           accounts.deleteOne(user)
           sessions.deleteOne({ userId })
