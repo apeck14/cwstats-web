@@ -8,6 +8,7 @@ import Item from "../../components/Me/Servers/Item"
 import SubNav from "../../components/Me/SubNav"
 import clientPromise from "../../lib/mongodb"
 import { gray, pink } from "../../public/static/colors"
+import { redirect } from "../../utils/functions"
 import { fetchGuilds } from "../../utils/services"
 import { authOptions } from "../api/auth/[...nextauth]"
 
@@ -92,7 +93,9 @@ export async function getServerSideProps({ req, res }) {
     const client = await clientPromise
     const db = client.db("General")
     const accounts = db.collection("accounts")
+    const sessions = db.collection("sessions")
     const guilds = db.collection("Guilds")
+    const users = db.collection("users")
 
     const userId = new ObjectId(session.user.id)
 
@@ -100,11 +103,22 @@ export async function getServerSideProps({ req, res }) {
       userId,
     })
 
-    const guildsRes = await fetchGuilds(user.access_token)
+    const guildsRes = await fetchGuilds(user?.access_token)
     const rawGuilds = await guildsRes.json()
 
     if (!Array.isArray(rawGuilds)) {
-      throw new Error()
+      if (typeof rawGuilds === "object") {
+        console.log(rawGuilds)
+        if (rawGuilds?.message === "401: Unauthorized") {
+          accounts.deleteOne(user)
+          sessions.deleteOne({ userId })
+          users.deleteOne({ _id: userId })
+
+          return redirect("/login")
+        }
+      }
+
+      return redirect("/500")
     }
 
     const botGuildIds = await guilds.distinct("guildID")
@@ -132,12 +146,6 @@ export async function getServerSideProps({ req, res }) {
       },
     }
   } catch {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/500",
-      },
-      props: {},
-    }
+    return redirect("/500")
   }
 }
