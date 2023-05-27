@@ -1,3 +1,5 @@
+import { tz, utc } from "moment-timezone"
+
 export const diffInMins = (timeInteger) => {
   const now = Date.now()
 
@@ -69,4 +71,12 @@ export const relativeDateStr = (date, showSeconds = true) => {
   }
 
   return str.trim()
+}
+
+export const getTimeFromOffset = (hour) => {
+  const usersTimezone = tz.guess()
+
+  const date = utc(`2000-1-1 ${hour}:00`).tz(usersTimezone)
+
+  return date.format("h:mm A z")
 }
