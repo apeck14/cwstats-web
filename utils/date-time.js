@@ -73,6 +73,13 @@ export const relativeDateStr = (date, showSeconds = true) => {
   return str.trim()
 }
 
+export const getUsersTimezone = () => {
+  const timezone = tz.guess()
+  const offset = tz(timezone).format("Z")
+
+  return { timezone, offset }
+}
+
 export const getTimeFromOffset = (hour) => {
   const usersTimezone = tz.guess()
 
