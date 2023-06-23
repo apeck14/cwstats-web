@@ -1,4 +1,3 @@
-import React, { useState } from "react"
 import styled from "styled-components"
 
 import { gray, pink } from "../../../../../public/static/colors"
@@ -19,15 +18,15 @@ const CheckboxStyled = styled.span`
   display: inline-block;
   width: 1.25rem;
   height: 1.25rem;
-  background-color: ${(props) => (props.checked ? pink : gray["50"])};
+  background-color: ${({ checked }) => (checked ? pink : gray["50"])};
   border-radius: 0.25rem;
   transition: background-color 0.15s ease;
   position: relative;
 
   ::after {
-    content: ${(props) => (props.checked ? "'\\2714'" : "''")};
+    content: ${({ checked }) => (checked ? "'\\2714'" : "''")};
     position: absolute;
-    display: ${(props) => (props.checked ? "block" : "none")};
+    display: ${({ checked }) => (checked ? "block" : "none")};
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
@@ -43,21 +42,15 @@ const CheckboxLabel = styled.span`
   margin-left: 0.5rem;
 `
 
-export default function Checkbox() {
-  const [checked, setChecked] = useState(false)
-
-  const handleCheckboxChange = () => {
-    setChecked(!checked)
-  }
-
+export default function Checkbox({ isChecked, handleCheckboxChange }) {
   return (
     <CheckboxContainer>
       <CheckboxInput
         type="checkbox"
-        checked={checked}
+        checked={isChecked}
         onChange={handleCheckboxChange}
       />
-      <CheckboxStyled checked={checked} />
+      <CheckboxStyled checked={isChecked} />
       <CheckboxLabel>Ignore Co-Leaders & Leaders</CheckboxLabel>
     </CheckboxContainer>
   )

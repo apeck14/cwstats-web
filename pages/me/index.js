@@ -122,16 +122,12 @@ export async function getServerSideProps({ req, res }) {
       const ADMIN = 0x8
       const MANAGE = 0x20 // MANAGE_GUILD
 
-      return (
-        (permissions & MANAGE) === MANAGE || (permissions & ADMIN) === ADMIN
-      )
+      return (permissions & MANAGE) === MANAGE || (permissions & ADMIN) === ADMIN
     }
 
     const filteredGuilds = rawGuilds
       .filter(
-        (g) =>
-          (g.owner || hasPermissions(g.permissions)) &&
-          botGuildIds.includes(g.id)
+        (g) => (g.owner || hasPermissions(g.permissions)) && botGuildIds.includes(g.id)
       )
       .sort((a, b) => a.name.localeCompare(b.name))
 

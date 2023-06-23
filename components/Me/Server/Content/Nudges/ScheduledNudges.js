@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import { useEffect, useState } from "react"
 import { FaTrashAlt } from "react-icons/fa"
 import styled from "styled-components"
@@ -5,6 +6,7 @@ import styled from "styled-components"
 import useWindowSize from "../../../../../hooks/useWindowSize"
 import { gray, orange, pink } from "../../../../../public/static/colors"
 import { getTimeFromOffset } from "../../../../../utils/date-time"
+import { removeScheduledNudge } from "../../../../../utils/services"
 
 const Container = styled.div`
   display: flex;
@@ -17,14 +19,25 @@ const Nudge = styled.div`
   background-color: ${gray["50"]};
   padding: 1rem;
   display: flex;
-  justify-content: space-between;
   box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
   align-items: center;
+  column-gap: 0.5rem;
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    padding: 0.75rem;
+    column-gap: 0.25rem;
+  }
+
+  p:not(:first-child) {
+    text-align: center;
+  }
 `
 
 const Text = styled.p`
   color: ${gray["0"]};
   font-weight: 600;
+  flex: 1;
 `
 
 const GrayText = styled(Text)`
@@ -51,7 +64,8 @@ const Delete = styled(FaTrashAlt)`
   }
 `
 
-export default function ScheduledNudges({ nudges, channels }) {
+export default function ScheduledNudges({ nudges, setNudges, channels }) {
+  const router = useRouter()
   const { width } = useWindowSize()
   const [hydrated, setHydrated] = useState(false)
 
@@ -65,18 +79,28 @@ export default function ScheduledNudges({ nudges, channels }) {
 
   if (!hydrated) return null
 
+  const handleDelete = (tag, hour) => {
+    setNudges(nudges.filter((n) => n.clanTag !== tag || n.scheduledHourUTC !== hour))
+
+    removeScheduledNudge({
+      clanTag: tag,
+      scheduledHourUTC: hour,
+      serverId: router.query.serverId,
+    })
+  }
+
   return (
     <Container>
       {nudges.map((n) => (
-        <Nudge>
+        <Nudge key={`${n.clanTag}${n.scheduledHourUTC}`}>
           <Text>{n.clanName}</Text>
           {width >= 768 && <GrayText>{n.clanTag}</GrayText>}
-          <Text>{getTimeFromOffset(n.scheduledHour)}</Text>
+          <Text>{getTimeFromOffset(n.scheduledHourUTC)}</Text>
           <GrayText>
             <Orange>#</Orange>
             {channels.find((c) => c.id === n.channelID).name}
           </GrayText>
-          <Delete />
+          <Delete onClick={() => handleDelete(n.clanTag, n.scheduledHourUTC)} />
         </Nudge>
       ))}
     </Container>

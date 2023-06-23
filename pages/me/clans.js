@@ -88,9 +88,7 @@ export default function Clans({ clans }) {
         )}
         {clans.length > numShown ? (
           <LoadMoreDiv>
-            <LoadMore onClick={() => setNumShown(numShown + 15)}>
-              Load More...
-            </LoadMore>
+            <LoadMore onClick={() => setNumShown(numShown + 15)}>Load More...</LoadMore>
           </LoadMoreDiv>
         ) : null}
       </Content>

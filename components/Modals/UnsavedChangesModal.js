@@ -1,12 +1,7 @@
 import styled from "styled-components"
 
-import {
-  errorRed,
-  gray,
-  orange,
-  pink,
-} from "../../../../../public/static/colors"
-import LoadingSpinner from "../../../../LoadingSpinner"
+import { errorRed, gray, orange, pink } from "../../public/static/colors"
+import LoadingSpinner from "../LoadingSpinner"
 
 const ModalWrapper = styled.div`
   position: fixed;
@@ -72,25 +67,14 @@ const Error = styled.p`
   }
 `
 
-export default function UnsavedChangesModal({
-  isOpen,
-  onSave,
-  isLoading,
-  error,
-}) {
+export default function UnsavedChangesModal({ isOpen, onSave, isLoading, error }) {
   return (
     <ModalWrapper isOpen={isOpen}>
       <Modal>
         <Content>
-          <Text>
-            You have unsaved changes. Would you like to save these changes?
-          </Text>
+          <Text>You have unsaved changes. Would you like to save these changes?</Text>
           <SaveButton onClick={onSave}>
-            {isLoading ? (
-              <LoadingSpinner size="0.75rem" lineWidth={2} />
-            ) : (
-              "Save"
-            )}
+            {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Save"}
           </SaveButton>
         </Content>
 

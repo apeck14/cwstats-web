@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import { getServerSession } from "next-auth"
 import { NextSeo } from "next-seo"
 import { useState } from "react"
@@ -7,14 +8,21 @@ import styled from "styled-components"
 import Hr from "../../../components/Hr"
 import Checkbox from "../../../components/Me/Server/Content/Nudges/Checkbox"
 import CustomMessage from "../../../components/Me/Server/Content/Nudges/CustomMessage"
+import LinkAccountForm from "../../../components/Me/Server/Content/Nudges/LinkAccountForm"
 import ScheduledNudges from "../../../components/Me/Server/Content/Nudges/ScheduledNudges"
 import TabContent from "../../../components/Me/Server/Content/TabContent"
 import ServerHeader from "../../../components/Me/Server/Header"
 import ScheduledNudgeFormModal from "../../../components/Modals/ScheduledNudgeForm"
+import UnsavedChangesModal from "../../../components/Modals/UnsavedChangesModal"
+import LinkedAccountsTable from "../../../components/Tables/LinkedAccounts"
 import clientPromise from "../../../lib/mongodb"
 import { gray, orange, pink } from "../../../public/static/colors"
 import { redirect } from "../../../utils/functions"
-import { fetchGuildChannels, fetchGuilds } from "../../../utils/services"
+import {
+  fetchGuildChannels,
+  fetchGuilds,
+  updateNudgeSettings,
+} from "../../../utils/services"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
 const Header = styled.h2`
@@ -50,23 +58,73 @@ const Plus = styled(BiPlus)`
   font-size: 1.25rem;
 `
 
-const testNudges = [
-  {
-    clanTag: "#ABC123",
-    clanName: "TheAddictedOnes",
-    scheduledHour: 6,
-    channelID: "1105282610265067531",
-  },
-  {
-    clanTag: "#ABC123",
-    clanName: "TheAddictedOnes",
-    scheduledHour: 6,
-    channelID: "1105282610265067531",
-  },
-]
+const LinksRemaining = styled.p`
+  color: ${gray["0"]};
+  margin-top: 1rem;
+  text-align: right;
+`
 
-export default function ServerPage({ guild, channels }) {
+export default function ServerPage({
+  guild,
+  channels,
+  nudges,
+  ignoreLeaders,
+  message,
+  links,
+}) {
+  const router = useRouter()
   const [showScheduledNudgeModal, setShowScheduledNudgeModal] = useState(false)
+  const [scheduledNudges, setScheduledNudges] = useState(nudges)
+  const [showSaveModal, setShowSaveModal] = useState(false)
+  const [showSaveSpinner, setShowSaveSpinner] = useState(false)
+  const [saveError, setSaveError] = useState(null)
+  const [savedSettings, setSavedSettings] = useState({
+    ignoreLeaders,
+    message: message || "",
+  })
+  const [unsavedSettings, setUnsavedSettings] = useState({
+    ignoreLeaders,
+    message: message || "",
+  })
+  const [linkedAccounts, setLinkedAccounts] = useState(links)
+
+  const handleMessageChange = (e) => {
+    setUnsavedSettings({
+      ...unsavedSettings,
+      message: e.target.value || "",
+    })
+
+    setShowSaveModal(e.target.value !== savedSettings.message)
+  }
+
+  const handleCheckboxChange = (e) => {
+    setUnsavedSettings({
+      ...unsavedSettings,
+      ignoreLeaders: e.target.checked,
+    })
+
+    setShowSaveModal(e.target.checked !== savedSettings.ignoreLeaders)
+  }
+
+  const handleSave = async () => {
+    setShowSaveSpinner(true)
+
+    const resp = await updateNudgeSettings({
+      serverId: router.query.serverId,
+      ...unsavedSettings,
+    })
+    const { success, message: errMessage } = await resp.json()
+
+    if (success) {
+      setSavedSettings(unsavedSettings)
+      setSaveError(null)
+      setShowSaveModal(false)
+    } else {
+      setSaveError(errMessage)
+    }
+
+    setShowSaveSpinner(false)
+  }
 
   return (
     <>
@@ -76,24 +134,33 @@ export default function ServerPage({ guild, channels }) {
         noindex
         openGraph={{
           title: `CWStats - ${guild.name} | Nudges`,
-          description:
-            "Customize CW2 Stats Discord bot settings for your server!",
+          description: "Customize CW2 Stats Discord bot settings for your server!",
         }}
       />
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
 
       <TabContent>
         <Header>Settings</Header>
-        <Checkbox />
+        <Checkbox
+          isChecked={unsavedSettings.ignoreLeaders}
+          handleCheckboxChange={handleCheckboxChange}
+        />
         <SubHeader>Custom Message</SubHeader>
-        <CustomMessage />
+        <CustomMessage
+          value={unsavedSettings.message}
+          handleChange={handleMessageChange}
+        />
 
         <Hr color={gray["50"]} margin="1.5rem 0" />
 
         <Header>Scheduled Nudges</Header>
-        <ScheduledNudges nudges={testNudges} channels={channels} />
+        <ScheduledNudges
+          nudges={scheduledNudges}
+          setNudges={setScheduledNudges}
+          channels={channels}
+        />
 
-        {testNudges.length < 5 && (
+        {scheduledNudges.length < 5 && (
           <AddScheduledNudge onClick={() => setShowScheduledNudgeModal(true)}>
             <Plus />
           </AddScheduledNudge>
@@ -102,12 +169,27 @@ export default function ServerPage({ guild, channels }) {
         <Hr color={gray["50"]} margin="1.5rem 0" />
 
         <Header>Linked Accounts</Header>
+        <LinkAccountForm accounts={linkedAccounts} setAccounts={setLinkedAccounts} />
+        <LinksRemaining>
+          {linkedAccounts.length}/300
+          <span style={{ color: gray["25"] }}> Accounts Linked</span>
+        </LinksRemaining>
+        <LinkedAccountsTable accounts={linkedAccounts} setAccounts={setLinkedAccounts} />
       </TabContent>
 
       <ScheduledNudgeFormModal
         isOpen={showScheduledNudgeModal}
         setIsOpen={setShowScheduledNudgeModal}
         channels={channels}
+        setScheduledNudges={setScheduledNudges}
+        scheduledNudges={scheduledNudges}
+      />
+
+      <UnsavedChangesModal
+        isOpen={showSaveModal}
+        onSave={handleSave}
+        isLoading={showSaveSpinner}
+        error={saveError}
       />
     </>
   )
@@ -173,6 +255,10 @@ export async function getServerSideProps({ req, res, params }) {
           })
         ),
         channels: textChannels,
+        nudges: guild?.nudges?.scheduled || [],
+        ignoreLeaders: !!guild?.nudges?.ignoreLeaders,
+        message: guild?.nudges?.message || null,
+        links: guild?.nudges?.links || [],
       },
     }
   } catch (err) {

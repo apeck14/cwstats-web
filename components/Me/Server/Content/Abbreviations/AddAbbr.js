@@ -1,12 +1,7 @@
 import { useState } from "react"
 import styled from "styled-components"
 
-import {
-  errorRed,
-  gray,
-  orange,
-  pink,
-} from "../../../../../public/static/colors"
+import { errorRed, gray, orange, pink } from "../../../../../public/static/colors"
 import { formatTag } from "../../../../../utils/functions"
 import { addAbbreviation } from "../../../../../utils/services"
 import LoadingSpinner from "../../../../LoadingSpinner"
@@ -35,6 +30,7 @@ const Abbr = styled.input`
 
   ::placeholder {
     color: ${gray["50"]};
+    font-size: 0.9rem;
   }
 `
 
@@ -88,10 +84,7 @@ export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
       const { success, name, message } = await res.json()
 
       if (success) {
-        setAbbreviations([
-          ...abbreviations,
-          { name, abbr, tag: formatTag(tag, true) },
-        ])
+        setAbbreviations([...abbreviations, { name, abbr, tag: formatTag(tag, true) }])
         setError(null)
         setTag("")
         setAbbr("")
@@ -113,18 +106,8 @@ export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
 
   return (
     <Main>
-      <Abbr
-        placeholder="abbr"
-        maxLength={4}
-        onChange={handleAbbrChange}
-        value={abbr}
-      />
-      <Tag
-        placeholder="#CLANTAG"
-        maxLength={9}
-        onChange={handleTagChange}
-        value={tag}
-      />
+      <Abbr placeholder="abbr" maxLength={4} onChange={handleAbbrChange} value={abbr} />
+      <Tag placeholder="#CLANTAG" maxLength={9} onChange={handleTagChange} value={tag} />
       <Add onClick={handleClick}>
         {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Add"}
       </Add>

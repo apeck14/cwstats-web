@@ -65,9 +65,13 @@ const Hashtag = styled.span`
 
 const Arrow = styled(RiArrowDropDownLine)``
 
-export default function DropdownMenuComponent({ isChannels, values }) {
+export default function DropdownMenuComponent({
+  isChannels,
+  values,
+  currentItem,
+  setCurrentItem,
+}) {
   const [isOpen, setIsOpen] = useState(false)
-  const [currentItem, setCurrentItem] = useState(values[0])
   const dropdownRef = useRef(null)
 
   useEffect(() => {
@@ -96,8 +100,12 @@ export default function DropdownMenuComponent({ isChannels, values }) {
     <Dropdown ref={dropdownRef} isChannels={isChannels}>
       <DropdownButton onClick={handleToggle}>
         <div>
-          {isChannels && <Hashtag>#</Hashtag>}
-          {isChannels ? currentItem.name : currentItem}
+          {isChannels && values.length > 0 && <Hashtag>#</Hashtag>}
+          {isChannels
+            ? values.length === 0
+              ? "No Channels"
+              : currentItem?.name
+            : currentItem}
         </div>
         <Arrow />
       </DropdownButton>

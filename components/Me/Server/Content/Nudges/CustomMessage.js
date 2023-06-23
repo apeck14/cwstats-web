@@ -16,15 +16,17 @@ const TextBox = styled.textarea`
   box-sizing: border-box;
   padding: 0.75rem;
   outline: none;
-  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande",
-    "Lucida Sans", Arial, sans-serif;
+  font-family: "Trebuchet MS", "Lucida Sans Unicode", "Lucida Grande", "Lucida Sans",
+    Arial, sans-serif;
 `
 
-export default function CustomMessage() {
+export default function CustomMessage({ handleChange, value }) {
   return (
     <TextBox
       placeholder="**You have attacks remaining.** Please get them in before the deadline!"
       maxLength={200}
+      onChange={handleChange}
+      value={value}
     />
   )
 }

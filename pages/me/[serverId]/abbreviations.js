@@ -18,17 +18,13 @@ export default function ServerPage({ guild }) {
         noindex
         openGraph={{
           title: `CWStats - ${guild.name} | Abbreviations`,
-          description:
-            "Customize CW2 Stats Discord bot settings for your server!",
+          description: "Customize CW2 Stats Discord bot settings for your server!",
         }}
       />
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
 
       <TabContent>
-        <Abbreviations
-          abbrList={guild.abbreviations}
-          defaultClan={guild.defaultClan}
-        />
+        <Abbreviations abbrList={guild.abbreviations} defaultClan={guild.defaultClan} />
       </TabContent>
     </>
   )

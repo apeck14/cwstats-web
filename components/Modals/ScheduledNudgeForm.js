@@ -1,8 +1,13 @@
+import { useRouter } from "next/router"
+import { useState } from "react"
 import styled from "styled-components"
 
 import useToggleBodyScroll from "../../hooks/useToggleBodyScroll"
-import { gray, orange, pink } from "../../public/static/colors"
-import { getUsersTimezone } from "../../utils/date-time"
+import { errorRed, gray, orange, pink } from "../../public/static/colors"
+import { convertHourToUTC, getUsersTimezone } from "../../utils/date-time"
+import { formatTag } from "../../utils/functions"
+import { addScheduledNudge } from "../../utils/services"
+import LoadingSpinner from "../LoadingSpinner"
 import DropdownMenuComponent from "../Me/Server/Content/Nudges/Dropdown"
 
 const Background = styled.div`
@@ -75,9 +80,24 @@ const Row = styled.div`
 const Footer = styled.div`
   border-radius: 0 0 0.5rem 0.5rem;
   background-color: ${gray["75"]};
-  padding: 0.75rem;
+  padding: 1rem;
   display: flex;
-  justify-content: flex-end;
+  justify-content: space-between;
+  align-items: center;
+  column-gap: 0.5rem;
+`
+
+const Error = styled.p`
+  color: ${errorRed};
+  font-weight: 600;
+
+  @media (max-width: 480px) {
+    font-size: 0.9rem;
+  }
+`
+
+const ButtonDiv = styled.div`
+  display: flex;
   column-gap: 0.5rem;
 `
 
@@ -103,20 +123,99 @@ const Button = styled.button`
   color: ${gray["0"]};
   font-weight: 700;
 
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+    padding: 0.5rem 0.9rem;
+  }
+
   :hover,
   :active {
     cursor: pointer;
-    background-color: ${({ color }) =>
-      color === gray["100"] ? gray["50"] : orange};
+    background-color: ${({ color }) => (color === gray["100"] ? gray["50"] : orange)};
   }
 `
+
+const AMPM = ["A.M.", "P.M."]
+const HOURS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
 export default function ScheduledNudgeFormModal({
   isOpen,
   setIsOpen,
   channels,
+  scheduledNudges,
+  setScheduledNudges,
 }) {
+  const router = useRouter()
+  const [error, setError] = useState("")
+  const [isLoading, setIsLoading] = useState(false)
+  const [tag, setTag] = useState("")
+  const [selectedChannel, setSelectedChannel] = useState(channels[0] || null)
+  const [selectedAmPm, setSelectedAmPm] = useState(AMPM[0])
+  const [selectedHour, setSelectedHour] = useState(HOURS[0])
   useToggleBodyScroll(!isOpen)
+
+  const validateForm = () => {
+    if (channels.length === 0) {
+      setError("No text channel selected.")
+      return false
+    }
+
+    if (!tag) {
+      setError("No tag set.")
+      return false
+    }
+
+    const validTag = tag.match(/^[A-Za-z0-9#]+$/)
+    if (!validTag || tag.length < 5) {
+      setError("Invalid tag format.")
+      return false
+    }
+
+    return true
+  }
+
+  const handleSubmit = async () => {
+    if (!validateForm()) return
+
+    setIsLoading(true)
+
+    const newScheduledNudge = {
+      clanTag: formatTag(tag, true),
+      scheduledHourUTC: convertHourToUTC(selectedHour, selectedAmPm),
+      channelID: selectedChannel.id,
+      serverId: router.query.serverId,
+    }
+
+    const resp = await addScheduledNudge(newScheduledNudge)
+    const { success, clanName, message } = await resp.json()
+
+    if (success) {
+      setScheduledNudges([...scheduledNudges, { ...newScheduledNudge, clanName }])
+      setIsOpen(false)
+      setError("")
+      setTag("")
+      setSelectedAmPm(AMPM[0])
+      setSelectedHour(HOURS[0])
+    } else {
+      setError(message)
+    }
+
+    setIsLoading(false)
+  }
+
+  const handleCancel = () => {
+    setError("")
+    setIsOpen(false)
+    setSelectedChannel(channels[0] || null)
+    setSelectedAmPm(AMPM[0])
+    setSelectedHour(HOURS[0])
+    setTag("")
+    setIsLoading(false)
+  }
+
+  const handleTagChange = (e) => {
+    setTag(e.target.value)
+  }
 
   const { timezone, offset } = getUsersTimezone()
 
@@ -129,25 +228,41 @@ export default function ScheduledNudgeFormModal({
             <SubHeader>
               Clan Tag <Gray>(#ABC123)</Gray>
             </SubHeader>
-            <Input maxLength={9} />
+            <Input maxLength={9} onChange={handleTagChange} />
             <SubHeader>Time</SubHeader>
             <Timezone>
               Timezone: {timezone} ({offset})
             </Timezone>
             <Row>
               <DropdownMenuComponent
-                values={[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]}
+                values={HOURS}
+                currentItem={selectedHour}
+                setCurrentItem={setSelectedHour}
               />
-              <DropdownMenuComponent values={["A.M.", "P.M."]} />
+              <DropdownMenuComponent
+                values={AMPM}
+                currentItem={selectedAmPm}
+                setCurrentItem={setSelectedAmPm}
+              />
             </Row>
             <SubHeader>Channel</SubHeader>
-            <DropdownMenuComponent values={channels} isChannels />
+            <DropdownMenuComponent
+              values={channels}
+              currentItem={selectedChannel}
+              setCurrentItem={setSelectedChannel}
+              isChannels
+            />
           </Content>
           <Footer>
-            <Button color={gray["100"]} onClick={() => setIsOpen(false)}>
-              Cancel
-            </Button>
-            <Button color={pink}>Add</Button>
+            <Error>{error}</Error>
+            <ButtonDiv>
+              <Button color={gray["100"]} onClick={handleCancel}>
+                Cancel
+              </Button>
+              <Button color={pink} onClick={handleSubmit}>
+                {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Add"}
+              </Button>
+            </ButtonDiv>
           </Footer>
         </Modal>
       </Background>
