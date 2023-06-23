@@ -32,7 +32,7 @@ const Modal = styled.div`
   }
 
   @media (max-width: 480px) {
-    width: 85%;
+    width: 90%;
     margin: 25% auto;
   }
 `

@@ -30,12 +30,12 @@ export default async function scheduledNudge(req, res) {
         return res.status(403).json({ message: "Max linked accounts reached." })
       }
 
-      const duplicateExists = guildExists?.nudges?.links?.some(
-        (la) => la.tag === formattedTag && la.discordID === discordID
-      )
+      const tagExists = guildExists?.nudges?.links?.some((la) => la.tag === formattedTag)
 
-      if (duplicateExists) {
-        return res.status(409).json({ message: "No duplicate linked accounts." })
+      if (tagExists) {
+        return res
+          .status(409)
+          .json({ message: "This tag is already linked to a Discord user." })
       }
 
       const player = await fetchPlayer(formattedTag.substring(1)).then(handleSCResponse)
