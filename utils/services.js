@@ -80,6 +80,15 @@ export const fetchClan = (tag) =>
     }),
   })
 
+export const fetchPlayer = (tag) =>
+  fetch(`https://proxy.royaleapi.dev/v1/players/%23${tag}`, {
+    method: "GET",
+    headers: new Headers({
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_CR_API_TOKEN}`,
+    }),
+  })
+
 export const fetchRace = (tag) =>
   fetch(`https://proxy.royaleapi.dev/v1/clans/%23${tag}/currentriverrace`, {
     method: "GET",
@@ -154,9 +163,7 @@ export const addAbbreviation = (serverId, abbr, clanTag) =>
 
 export const removeAbbreviation = (serverId, abbr) =>
   fetch(
-    `/api/guild/abbreviation/${encodeURIComponent(
-      serverId
-    )}/${encodeURIComponent(abbr)}`,
+    `/api/guild/abbreviation/${encodeURIComponent(serverId)}/${encodeURIComponent(abbr)}`,
     {
       method: "DELETE",
       headers: new Headers({
@@ -191,6 +198,80 @@ export const setGuildChannels = (channels, serverId) =>
     body: JSON.stringify({
       serverId,
       channels,
+    }),
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })
+
+export const addScheduledNudge = ({ clanTag, scheduledHourUTC, channelID, serverId }) =>
+  fetch(`/api/nudges/scheduled`, {
+    method: "PUT",
+    body: JSON.stringify({
+      clanTag,
+      scheduledHourUTC,
+      channelID,
+      serverId,
+    }),
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })
+
+export const removeScheduledNudge = ({ clanTag, scheduledHourUTC, serverId }) =>
+  fetch(`/api/nudges/scheduled`, {
+    method: "POST",
+    body: JSON.stringify({
+      clanTag,
+      scheduledHourUTC,
+      serverId,
+    }),
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })
+
+export const updateNudgeSettings = ({ serverId, ignoreLeaders, message }) =>
+  fetch(`/api/nudges/settings`, {
+    method: "POST",
+    body: JSON.stringify({
+      ignoreLeaders,
+      message,
+      serverId,
+    }),
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })
+
+export const searchGuildMembers = ({ serverId, query }) =>
+  fetch(`/api/discord/search?serverId=${serverId}&&query=${encodeURIComponent(query)}`, {
+    method: "GET",
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })
+
+export const addLinkedAccount = ({ tag, serverId, discordID }) =>
+  fetch(`/api/nudges/linkedAccount`, {
+    method: "PUT",
+    body: JSON.stringify({
+      tag,
+      discordID,
+      serverId,
+    }),
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })
+
+export const removeLinkedAccount = ({ tag, serverId, discordID }) =>
+  fetch(`/api/nudges/linkedAccount`, {
+    method: "POST",
+    body: JSON.stringify({
+      tag,
+      discordID,
+      serverId,
     }),
     headers: new Headers({
       "Content-Type": "application/json",

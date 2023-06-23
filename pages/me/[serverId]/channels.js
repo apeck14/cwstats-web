@@ -5,22 +5,19 @@ import { useState } from "react"
 import styled from "styled-components"
 
 import ChannelCard from "../../../components/Me/Server/Content/Channels/ChannelCard"
-import UnsavedChangesModal from "../../../components/Me/Server/Content/Channels/UnsavedChangesModal"
 import TabContent from "../../../components/Me/Server/Content/TabContent"
 import ServerHeader from "../../../components/Me/Server/Header"
+import UnsavedChangesModal from "../../../components/Modals/UnsavedChangesModal"
 import clientPromise from "../../../lib/mongodb"
 import { gray } from "../../../public/static/colors"
 import { arraysAreEqual, redirect } from "../../../utils/functions"
-import {
-  fetchGuildChannels,
-  fetchGuilds,
-  setGuildChannels,
-} from "../../../utils/services"
+import { fetchGuildChannels, fetchGuilds, setGuildChannels } from "../../../utils/services"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
 const Header = styled.h2`
   color: ${gray["0"]};
   margin-bottom: 1rem;
+  font-size: 1.8rem;
 `
 
 const SingleDiv = styled.div`
@@ -44,8 +41,7 @@ export default function ServerPage({ guild, channels }) {
   const [savedChannels, setSavedChannels] = useState(guild.channels)
   const [unsavedChannels, setUnsavedChannels] = useState(guild.channels)
 
-  const { applicationsChannelID, applyChannelID, reportChannelID } =
-    guild.channels
+  const { applicationsChannelID, applyChannelID, reportChannelID } = guild.channels
 
   const handleChange = (channel, type) => {
     const newProp = typeToProp[type]
@@ -54,9 +50,7 @@ export default function ServerPage({ guild, channels }) {
 
     if (type === "Commands") {
       if (unsavedObj[newProp].includes(channel.id)) {
-        unsavedObj[newProp] = unsavedObj[newProp].filter(
-          (id) => id !== channel.id
-        )
+        unsavedObj[newProp] = unsavedObj[newProp].filter((id) => id !== channel.id)
       } else {
         unsavedObj[newProp] = [...unsavedObj[newProp], channel.id]
       }
@@ -69,9 +63,7 @@ export default function ServerPage({ guild, channels }) {
       const value = unsavedObj[key]
 
       if (key === "commandChannelIDs") {
-        if (
-          !arraysAreEqual(unsavedObj[key].sort(), savedChannels[key].sort())
-        ) {
+        if (!arraysAreEqual(unsavedObj[key].sort(), savedChannels[key].sort())) {
           setShowModal(true)
           return
         }
@@ -87,21 +79,19 @@ export default function ServerPage({ guild, channels }) {
   const handleSave = () => {
     setShowSaveSpinner(true)
 
-    setGuildChannels(unsavedChannels, router.query.serverId).then(
-      async (res) => {
-        const { success, message } = await res.json()
+    setGuildChannels(unsavedChannels, router.query.serverId).then(async (res) => {
+      const { success, message } = await res.json()
 
-        if (success) {
-          setSavedChannels(unsavedChannels)
-          setSaveError(null)
-          setShowModal(false)
-        } else {
-          setSaveError(message)
-        }
-
-        setShowSaveSpinner(false)
+      if (success) {
+        setSavedChannels(unsavedChannels)
+        setSaveError(null)
+        setShowModal(false)
+      } else {
+        setSaveError(message)
       }
-    )
+
+      setShowSaveSpinner(false)
+    })
   }
 
   return (
@@ -112,8 +102,7 @@ export default function ServerPage({ guild, channels }) {
         noindex
         openGraph={{
           title: `CWStats - ${guild.name} | Channels`,
-          description:
-            "Customize CW2 Stats Discord bot settings for your server!",
+          description: "Customize CW2 Stats Discord bot settings for your server!",
         }}
       />
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
@@ -199,10 +188,7 @@ export async function getServerSideProps({ req, res, params }) {
     if (!guild) return redirect("/404")
     if (!guildsRes.ok || !channelsRes.ok) throw new Error()
 
-    const [guildsData, channelsData] = await Promise.all([
-      guildsRes.json(),
-      channelsRes.json(),
-    ])
+    const [guildsData, channelsData] = await Promise.all([guildsRes.json(), channelsRes.json()])
 
     const textChannels = channelsData
       .filter((c) => c.type === 0)

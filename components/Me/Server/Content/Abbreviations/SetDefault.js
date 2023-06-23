@@ -2,17 +2,9 @@ import { useState } from "react"
 import { FaTrashAlt } from "react-icons/fa"
 import styled from "styled-components"
 
-import {
-  errorRed,
-  gray,
-  orange,
-  pink,
-} from "../../../../../public/static/colors"
+import { errorRed, gray, orange, pink } from "../../../../../public/static/colors"
 import { formatTag } from "../../../../../utils/functions"
-import {
-  removeDefaultClan,
-  setDefaultClan,
-} from "../../../../../utils/services"
+import { removeDefaultClan, setDefaultClan } from "../../../../../utils/services"
 import LoadingSpinner from "../../../../LoadingSpinner"
 
 const Container = styled.div`
@@ -30,8 +22,7 @@ const ClanDiv = styled.div`
   gap: 1rem;
   border-radius: 0.25rem;
   margin-top: 0.25rem;
-  outline: ${({ isClanSet }) =>
-    isClanSet ? null : `2px dashed ${gray["50"]}`};
+  outline: ${({ isClanSet }) => (isClanSet ? null : `2px dashed ${gray["50"]}`)};
   box-shadow: ${({ isClanSet }) =>
     isClanSet ? "rgba(0, 0, 0, 0.24) 0px 3px 8px" : null};
 `
@@ -68,6 +59,7 @@ const TagInput = styled.input`
 
   ::placeholder {
     color: ${gray["50"]};
+    font-size: 0.9rem;
   }
 `
 

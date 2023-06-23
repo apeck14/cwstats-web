@@ -1,3 +1,5 @@
+import moment, { tz, utc } from "moment-timezone"
+
 export const diffInMins = (timeInteger) => {
   const now = Date.now()
 
@@ -69,4 +71,55 @@ export const relativeDateStr = (date, showSeconds = true) => {
   }
 
   return str.trim()
+}
+
+export const getUsersTimezone = () => {
+  const timezone = tz.guess()
+  const offset = tz(timezone).format("Z")
+
+  return { timezone, offset }
+}
+
+export const getTimeFromOffset = (hour) => {
+  const usersTimezone = tz.guess()
+
+  const now = moment().tz(usersTimezone)
+  const year = now.year()
+  const month = now.month()
+  const day = now.date()
+
+  const hourInteger = Math.floor(hour)
+  const decimalOver = hour % Math.floor(hour)
+
+  const date = utc(
+    `${year}-${month < 10 ? `0${month}` : month}-${
+      day < 10 ? `0${day}` : day
+    }T${hourInteger < 10 ? `0${hourInteger}` : hourInteger}:${
+      decimalOver === 0 ? "00" : 60 * decimalOver
+    }:00`
+  ).tz(usersTimezone)
+
+  return date.format("h:mm A z")
+}
+
+export const convertHourToUTC = (hour, amPm) => {
+  const hourIn24Time = amPm === "P.M." ? hour + 12 : hour
+  const timezone = tz.guess()
+
+  const now = moment().tz(timezone)
+  const year = now.year()
+  const month = now.month()
+  const day = now.date()
+
+  const date = tz(
+    `${year}-${month < 10 ? `0${month}` : month}-${
+      day < 10 ? `0${day}` : day
+    }T${hourIn24Time < 10 ? `0${hourIn24Time}` : hourIn24Time}:00:00`,
+    timezone
+  ).utc()
+
+  const hourUTC = date.hour()
+  const minuteUTC = date.minute()
+
+  return Number(hourUTC + minuteUTC / 60)
 }

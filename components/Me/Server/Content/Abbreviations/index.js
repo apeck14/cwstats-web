@@ -12,6 +12,7 @@ import SetDefault from "./SetDefault"
 const Header = styled.h2`
   color: ${gray["0"]};
   margin-bottom: 0.5rem;
+  font-size: 1.8rem;
 `
 
 const None = styled.p`
@@ -56,17 +57,11 @@ export default function Abbreviations({ abbrList, defaultClan }) {
         abbreviations
           .sort((a, b) => a.abbr.localeCompare(b.abbr))
           .map((a, index) => (
-            <Item
-              key={a.abbr}
-              abbr={a}
-              index={index}
-              handleDelete={handleDelete}
-            />
+            <Item key={a.abbr} abbr={a} index={index} handleDelete={handleDelete} />
           ))
       )}
       <Remaining>
-        You have <RemNum>{15 - abbreviations.length}</RemNum> abbreviations
-        left.
+        You have <RemNum>{15 - abbreviations.length}</RemNum> abbreviations left.
       </Remaining>
       <AddAbbr
         abbreviations={abbreviations}
