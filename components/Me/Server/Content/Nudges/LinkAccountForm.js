@@ -124,7 +124,7 @@ export default function LinkAccountForm({ accounts, setAccounts }) {
         onChange={handleTagChange}
         value={tag}
         placeholder="#PLAYERTAG"
-        maxLength={9}
+        maxLength={10}
       />
       <Add onClick={handleSubmit}>
         {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Add"}

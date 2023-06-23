@@ -228,7 +228,7 @@ export default function ScheduledNudgeFormModal({
             <SubHeader>
               Clan Tag <Gray>(#ABC123)</Gray>
             </SubHeader>
-            <Input maxLength={9} onChange={handleTagChange} />
+            <Input maxLength={10} onChange={handleTagChange} />
             <SubHeader>Time</SubHeader>
             <Timezone>
               Timezone: {timezone} ({offset})
