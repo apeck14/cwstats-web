@@ -107,7 +107,7 @@ export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
   return (
     <Main>
       <Abbr placeholder="abbr" maxLength={4} onChange={handleAbbrChange} value={abbr} />
-      <Tag placeholder="#CLANTAG" maxLength={9} onChange={handleTagChange} value={tag} />
+      <Tag placeholder="#CLANTAG" maxLength={10} onChange={handleTagChange} value={tag} />
       <Add onClick={handleClick}>
         {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Add"}
       </Add>
