@@ -1,17 +1,18 @@
 import "../styles/globals.css"
 
-// eslint-disable-next-line import/no-unresolved
-import { Analytics } from "@vercel/analytics/react"
 import { Source_Sans_3 } from "next/font/google"
 import Head from "next/head"
 import { useRouter } from "next/router"
+import Script from "next/script"
 import { SessionProvider } from "next-auth/react"
 import { DefaultSeo } from "next-seo"
+import { useEffect } from "react"
 import styled from "styled-components"
 
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar/index"
 import usePageLoading from "../hooks/usePageLoading"
+import { pageview } from "../lib/gtag"
 import { gray } from "../public/static/colors"
 
 const SourceSans3 = Source_Sans_3({ subsets: ["latin"] })
@@ -35,16 +36,21 @@ const Content = styled.div`
   }
 `
 
-export default function App({
-  Component,
-  pageProps: { session, ...pageProps },
-}) {
+export default function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter()
   const { isPageLoading } = usePageLoading()
 
+  // Google Analytics
+  useEffect(() => {
+    router.events.on("routeChangeComplete", pageview)
+
+    return () => {
+      router.events.off("routeChangeComplete", pageview)
+    }
+  }, [router.events])
+
   return (
     <SessionProvider session={session}>
-      <Analytics />
       <Head>
         <meta
           name="viewport"
@@ -52,6 +58,27 @@ export default function App({
           key="viewport"
         />
       </Head>
+
+      {/* Google Analytics */}
+      <Script
+        strategy="afterInteractive"
+        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.GOOGLE_ANALYTICS_TRACKING_ID}`}
+      />
+      <Script
+        id="google-analytics"
+        strategy="afterInteractive"
+        dangerouslySetInnerHTML={{
+          __html: `
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){dataLayer.push(arguments);}
+          gtag('js', new Date());
+          gtag('config', ${process.env.GOOGLE_ANALYTICS_TRACKING_ID}, {
+            page_path: window.location.pathname,
+          });
+        `,
+        }}
+      />
+
       <Container className={SourceSans3.className}>
         <DefaultSeo
           title="CWStats"
@@ -74,11 +101,7 @@ export default function App({
         />
         <Navbar />
         <Content>
-          <Component
-            {...pageProps}
-            key={router.asPath}
-            isLoading={isPageLoading}
-          />
+          <Component {...pageProps} key={router.asPath} isLoading={isPageLoading} />
         </Content>
         <Footer />
       </Container>
