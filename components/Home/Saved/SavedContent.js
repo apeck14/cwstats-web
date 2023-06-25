@@ -50,14 +50,14 @@ export default function SavedContent({ isPlayers, items }) {
             items.slice(0, lastIndex).map((e, index) => (
               <>
                 <SavedItem key={e.tag} data={e} isPlayer={isPlayers} />
-                {index !== lastIndex - 1 ? <Hr margin="0.25rem 0" /> : null}
+                {index !== lastIndex - 1 && <Hr margin="0.25rem 0" />}
               </>
             ))
           )}
         </Main>
-        {items.length > 5 ? (
+        {items.length > 5 && (
           <ViewAll href={isPlayers ? "/me/players" : "/me/clans"}>View All...</ViewAll>
-        ) : null}
+        )}
       </>
     )
   }
