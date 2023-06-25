@@ -10,6 +10,7 @@ import { IoPodiumOutline } from "react-icons/io5"
 import { TbBrandDiscord } from "react-icons/tb"
 import styled from "styled-components"
 
+import useToggleBodyScroll from "../../hooks/useToggleBodyScroll"
 import useWindowSize from "../../hooks/useWindowSize"
 import { gray, orange, pink } from "../../public/static/colors"
 import HamburgerMenu from "./HamburgerMenu"
@@ -29,6 +30,7 @@ const Nav = styled.nav`
   position: sticky;
   top: 0;
   z-index: 100;
+  -webkit-tap-highlight-color: transparent;
 `
 
 const Section = styled.div`
@@ -137,6 +139,8 @@ export default function Navbar() {
   const { data: session } = useSession()
   const router = useRouter()
 
+  useToggleBodyScroll(!showMenu)
+
   const profilePicSize = width < 365 ? 26 : 30
   const logoSize = 40
 
@@ -192,14 +196,14 @@ export default function Navbar() {
           {width < mainBreakpoint && (
             <HamburgerMenu isOpen={showMenu} setIsOpen={setShowMenu} />
           )}
+          {showSearch && (
+            <SearchDropdown showSearch={showSearch} setShowSearch={setShowSearch} />
+          )}
         </Section>
       </Nav>
 
       {showMenu && width < mainBreakpoint && (
         <MobileMenu isOpen={setShowMenu} setIsOpen={setShowMenu} />
-      )}
-      {showSearch && (
-        <SearchDropdown showSearch={showSearch} setShowSearch={setShowSearch} />
       )}
     </>
   )

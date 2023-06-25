@@ -3,6 +3,13 @@ import { useState } from "react"
 import styled from "styled-components"
 
 import { gray, orange } from "../../public/static/colors"
+import {
+  DAILY_LEADERBOARD_NAV_DESC,
+  DISCORD_BOT_INVITE_LINK,
+  INVITE_BOT_NAV_DESC,
+  JOIN_SUPPORT_SERVER_NAV_DESC,
+  WAR_LEADERBOARD_NAV_DESC,
+} from "../../utils/constants"
 
 const Container = styled.div`
   position: relative;
@@ -99,29 +106,23 @@ export default function NavItem({ children, isActive, type }) {
         >
           <Item onClick={() => handleClick("/leaderboard/daily/global")}>
             <Title>Daily</Title>
-            <Description>View the top daily clan war performances!</Description>
+            <Description>{DAILY_LEADERBOARD_NAV_DESC}</Description>
           </Item>
           <Item onClick={() => handleClick("/leaderboard/war/global")}>
             <Title>War</Title>
-            <Description>View the current war leaderboards!</Description>
+            <Description>{WAR_LEADERBOARD_NAV_DESC}</Description>
           </Item>
         </Menu>
       )}
       {showSubMenu && type === "invite" && (
         <Menu>
-          <Item
-            onClick={() =>
-              handleClick(
-                "https://discord.com/api/oauth2/authorize?client_id=869761158763143218&permissions=2147764224&scope=bot%20applications.commands"
-              )
-            }
-          >
+          <Item onClick={() => handleClick(DISCORD_BOT_INVITE_LINK)}>
             <Title>Add To Server</Title>
-            <Description>Invite the CWStats Discord bot to your server.</Description>
+            <Description>{INVITE_BOT_NAV_DESC}</Description>
           </Item>
           <Item onClick={() => handleClick("/server/invite")}>
             <Title>Support Server</Title>
-            <Description>Need help? Join the Suppoet Server!</Description>
+            <Description>{JOIN_SUPPORT_SERVER_NAV_DESC}</Description>
           </Item>
         </Menu>
       )}
