@@ -3,7 +3,8 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { signIn, useSession } from "next-auth/react"
 import { useState } from "react"
-import { BiMenu, BiSearchAlt, BiTrophy } from "react-icons/bi"
+import { BiSearchAlt } from "react-icons/bi"
+import { CgLoadbarDoc } from "react-icons/cg"
 import { FaDiscord } from "react-icons/fa"
 import { IoPodiumOutline } from "react-icons/io5"
 import { TbBrandDiscord } from "react-icons/tb"
@@ -11,150 +12,123 @@ import styled from "styled-components"
 
 import useWindowSize from "../../hooks/useWindowSize"
 import { gray, orange, pink } from "../../public/static/colors"
-import Dropdown from "./Dropdown"
-import MainMenu from "./MainMenu"
+import HamburgerMenu from "./HamburgerMenu"
+import MobileMenu from "./MobileMenu"
+import NavItem from "./NavItem"
 import SearchDropdown from "./SearchDropdown"
 
 const mainBreakpoint = 840
 
-const Nav = styled.nav({
-  backgroundColor: gray["75"],
-  width: "100%",
-  height: "4.4rem",
-  display: "inline-flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  color: gray["25"],
+const Nav = styled.nav`
+  background-color: ${gray["75"]};
+  width: 100%;
+  height: 4rem;
+  display: flex;
+  justify-content: space-between;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.2);
+  position: sticky;
+  top: 0;
+  z-index: 100;
+`
 
-  "& > div:last-of-type": {
-    justifyContent: "flex-end",
-  },
-})
+const Section = styled.div`
+  display: flex;
+  align-items: center;
+  column-gap: 1rem;
+  padding: 0 1rem;
 
-const TitleText = styled(Link)({
-  color: gray["0"],
-  textDecoration: "none",
-  fontSize: "1.6rem",
-  fontWeight: "700",
+  @media (max-width: 480px) {
+    column-gap: 0.5rem;
+  }
+`
 
-  "@media (max-width: 365px)": {
-    fontSize: "1.4rem",
-  },
-})
+const MenuOptions = styled.div`
+  display: flex;
+  column-gap: 1rem;
+  margin-left: 1rem;
+  height: 100%;
+`
 
-const Logo = styled(Image)({
-  padding: "0px 10px 0px 15px",
+const Title = styled.h1`
+  color: ${gray["0"]};
+  text-decoration: none;
+  font-size: 1.6rem;
+  font-weight: 700;
+  margin-left: 0.5rem;
 
-  "&:hover": {
-    cursor: "pointer",
-  },
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
+`
 
-  "@media (max-width: 365px)": {
-    height: "2.5rem",
-    width: "2.5rem",
-    padding: "0px 5px 0px 10px",
-  },
-})
+const Logo = styled(Image)``
 
-const EdgeItem = styled.div({
-  display: "inline-flex",
-  alignItems: "center",
-  flex: 1,
-  height: "100%",
-})
+const LinkWrapper = styled(Link)`
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+`
 
-const SearchIcon = styled(BiSearchAlt)({
-  fontSize: "1.5rem",
-  paddingRight: "15px",
+const SearchIcon = styled(BiSearchAlt)`
+  font-size: 1.5rem;
+  color: ${gray["25"]};
 
-  "&:hover, &:active": {
-    color: pink,
-    cursor: "pointer",
-  },
+  :hover,
+  :active {
+    color: ${pink};
+    cursor: pointer;
+  }
+`
 
-  "@media (max-width: 365px)": {
-    fontSize: "1.4rem",
-    paddingRight: "8px",
-  },
-})
+const DocIcon = styled(CgLoadbarDoc)`
+  color: ${pink};
+  font-size: 1.25rem;
+`
 
-const MenuHeader = styled(Link)({
-  textDecoration: "none",
-  display: "inline-flex",
-  alignItems: "center",
-  fontSize: "1.1rem",
-  padding: "0px 20px",
-  height: "100%",
-  color: gray["0"],
-  fontWeight: "600",
+const LeaderboardIcon = styled(IoPodiumOutline)`
+  color: ${pink};
+`
 
-  "&:hover": {
-    color: pink,
-    cursor: "pointer",
-  },
-})
+const DiscordIcon = styled(TbBrandDiscord)`
+  color: ${pink};
+  font-size: 1.25rem;
+`
 
-const LoginButton = styled.button({
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  marginRight: "15px",
-  borderRadius: "50%",
-  height: "2.4rem",
-  width: "2.5rem",
-  borderWidth: "0",
-  backgroundColor: pink,
-  color: gray["0"],
+const LoginButton = styled.button`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  height: 2.4rem;
+  width: 2.5rem;
+  border-width: 0;
+  background-color: ${pink};
+  color: ${gray["0"]};
 
-  "&:hover, &:active": {
-    cursor: "pointer",
-    backgroundColor: orange,
-  },
+  :hover,
+  :active {
+    cursor: pointer;
+    background-color: ${orange};
+  }
 
-  "@media (max-width: 365px)": {
-    marginRight: "8px",
-    height: "2.2rem",
-    width: "2.3rem",
-  },
-})
+  @media (max-width: 480px) {
+    height: 2.2rem;
+    width: 2.3rem;
+  }
+`
 
-const ProfilePicture = styled(Image)({
-  borderRadius: "50%",
-  borderColor: pink,
-  borderWidth: "2px",
-  borderStyle: "solid",
-  marginRight: "15px",
+const ProfilePicture = styled(Image)`
+  border-radius: 50%;
+  border-color: ${pink};
+  border-width: 2px;
+  border-style: solid;
 
-  "&:hover, &:active": {
-    cursor: "pointer",
-    borderColor: orange,
-  },
-
-  "@media (max-width: 365px)": {
-    marginRight: "8px",
-  },
-})
-
-const MainDiv = styled.div({
-  height: "100%",
-  display: "flex",
-  alignItems: "center",
-})
-
-const MenuIcon = styled(BiMenu)({
-  fontSize: "2.5rem",
-  marginRight: "15px",
-
-  "&:hover, &:active": {
-    cursor: "pointer",
-    filter: "brightness(85%)",
-  },
-
-  "@media (max-width: 365px)": {
-    fontSize: "2.1rem",
-    marginRight: "10px",
-  },
-})
+  :hover,
+  :active {
+    cursor: pointer;
+    border-color: ${orange};
+  }
+`
 
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false)
@@ -163,86 +137,44 @@ export default function Navbar() {
   const { data: session } = useSession()
   const router = useRouter()
 
-  const loginBtnSize = width < 365 ? 20 : 24
   const profilePicSize = width < 365 ? 26 : 30
+  const logoSize = 40
 
   return (
     <>
-      <Nav>
-        <EdgeItem>
-          <Logo
-            className="noselect"
-            src="/assets/icons/logo.png"
-            alt="logo"
-            height={46.4}
-            width={46.4}
-          />
-          <TitleText className="noselect" href="/">
-            CWStats
-          </TitleText>
-        </EdgeItem>
-
-        {width >= mainBreakpoint ? (
-          <MainDiv>
-            <Dropdown
-              header="Leaderboards"
-              items={[
-                {
-                  url: "/leaderboard/daily/global",
-                  title: "Daily ",
-                },
-                {
-                  url: "/leaderboard/war/global",
-                  title: "War",
-                },
-              ]}
-              icon={
-                <IoPodiumOutline
-                  style={{
-                    marginRight: "5px",
-                    color: pink,
-                  }}
-                />
-              }
+      <Nav className="noselect">
+        <Section>
+          <LinkWrapper href="/">
+            <Logo
+              src="/assets/icons/logo.png"
+              alt="logo"
+              height={logoSize}
+              width={logoSize}
             />
-            <MenuHeader href="/records">
-              <BiTrophy
-                style={{
-                  marginRight: "5px",
-                  color: pink,
-                }}
-              />
-              Records
-            </MenuHeader>
-            <Dropdown
-              header="Discord Bot"
-              icon={
-                <TbBrandDiscord
-                  style={{
-                    marginRight: "5px",
-                    color: pink,
-                  }}
-                />
-              }
-              items={[
-                {
-                  url: "/me",
-                  title: "Setup",
-                },
-                {
-                  url: "/bot/docs",
-                  title: "Docs",
-                },
-                {
-                  url: "/server/invite",
-                  title: "Support Server",
-                },
-              ]}
-            />
-          </MainDiv>
-        ) : null}
+            <Title>CWStats</Title>
+          </LinkWrapper>
+          {width >= mainBreakpoint && (
+            <MenuOptions>
+              <NavItem
+                type="leaderboards"
+                isActive={router.asPath.includes("/leaderboard")}
+              >
+                <LeaderboardIcon />
+                Leaderboards
+              </NavItem>
+              <NavItem isActive={router.asPath.includes("/docs")}>
+                <DocIcon />
+                Docs
+              </NavItem>
+              <NavItem type="invite">
+                <DiscordIcon />
+                Invite
+              </NavItem>
+            </MenuOptions>
+          )}
+        </Section>
 
-        <EdgeItem>
+        <Section>
           <SearchIcon onClick={() => setShowSearch(!showSearch)} />
           {session ? (
             <ProfilePicture
@@ -254,21 +186,21 @@ export default function Navbar() {
             />
           ) : (
             <LoginButton onClick={() => signIn("discord")}>
-              <FaDiscord size={loginBtnSize} />
+              <FaDiscord size={24} />
             </LoginButton>
           )}
-          {width < mainBreakpoint ? (
-            <MenuIcon onClick={() => setShowMenu(!showMenu)} />
-          ) : null}
-        </EdgeItem>
+          {width < mainBreakpoint && (
+            <HamburgerMenu isOpen={showMenu} setIsOpen={setShowMenu} />
+          )}
+        </Section>
       </Nav>
 
-      {showMenu && width < mainBreakpoint ? (
-        <MainMenu displayMenu={setShowMenu} />
-      ) : null}
-      {showSearch ? (
+      {showMenu && width < mainBreakpoint && (
+        <MobileMenu isOpen={setShowMenu} setIsOpen={setShowMenu} />
+      )}
+      {showSearch && (
         <SearchDropdown showSearch={showSearch} setShowSearch={setShowSearch} />
-      ) : null}
+      )}
     </>
   )
 }
