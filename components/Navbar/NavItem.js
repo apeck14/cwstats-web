@@ -8,6 +8,7 @@ import {
   DISCORD_BOT_INVITE_LINK,
   INVITE_BOT_NAV_DESC,
   JOIN_SUPPORT_SERVER_NAV_DESC,
+  SUPPORT_SERVER_INVITE_LINK,
   WAR_LEADERBOARD_NAV_DESC,
 } from "../../utils/constants"
 
@@ -120,7 +121,7 @@ export default function NavItem({ children, isActive, type }) {
             <Title>Add To Server</Title>
             <Description>{INVITE_BOT_NAV_DESC}</Description>
           </Item>
-          <Item onClick={() => handleClick("/server/invite")}>
+          <Item onClick={() => handleClick(SUPPORT_SERVER_INVITE_LINK)}>
             <Title>Support Server</Title>
             <Description>{JOIN_SUPPORT_SERVER_NAV_DESC}</Description>
           </Item>

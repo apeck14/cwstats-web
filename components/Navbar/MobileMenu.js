@@ -10,6 +10,7 @@ import {
   DISCORD_BOT_INVITE_LINK,
   INVITE_BOT_NAV_DESC,
   JOIN_SUPPORT_SERVER_NAV_DESC,
+  SUPPORT_SERVER_INVITE_LINK,
   WAR_LEADERBOARD_NAV_DESC,
 } from "../../utils/constants"
 
@@ -60,7 +61,7 @@ const DiscordIcon = styled(TbBrandDiscord)`
 
 const Item = styled.div`
   padding: 0.5rem;
-  margin: 0.25rem 0;
+  margin-top: 0.25rem;
   border-radius: 0.25rem;
 
   :hover,
@@ -113,7 +114,7 @@ export default function MobileMenu({ isOpen, setIsOpen }) {
         <ItemTitle>Add To Server</ItemTitle>
         <Description>{INVITE_BOT_NAV_DESC}</Description>
       </Item>
-      <Item onClick={() => handleClick("/server/invite")}>
+      <Item onClick={() => handleClick(SUPPORT_SERVER_INVITE_LINK)}>
         <ItemTitle>Support Server</ItemTitle>
         <Description>{JOIN_SUPPORT_SERVER_NAV_DESC}</Description>
       </Item>
