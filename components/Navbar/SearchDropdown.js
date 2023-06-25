@@ -3,74 +3,76 @@ import { useState } from "react"
 import { BiSearchAlt } from "react-icons/bi"
 import styled from "styled-components"
 
-import { gray, pink } from "../../public/static/colors"
+import { gray, orange } from "../../public/static/colors"
 import { getClan } from "../../utils/services"
 
-const Main = styled.div({
-  backgroundColor: gray["50"],
-  borderTop: `2px solid ${pink}`,
-  borderBottomLeftRadius: "0.5rem",
-  borderBottomRightRadius: "0.5rem",
-  position: "absolute",
-  right: 0,
-  top: "4.4rem",
-  padding: "2rem",
-  zIndex: 1,
-})
+const Main = styled.div`
+  background-color: ${gray["50"]};
+  border-top: 2px solid ${orange};
+  border-radius: 0 0 0.5rem 0.5rem;
+  position: absolute;
+  right: 0;
+  top: 100%;
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+  padding: 2rem;
+  z-index: 1;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+`
 
-const SearchDiv = styled.div({})
+const SearchDiv = styled.div``
 
-const SearchBarDiv = styled.div({
-  height: "2rem",
-  display: "flex",
-  alignItems: "center",
-})
+const SearchBarDiv = styled.div`
+  display: flex;
+  align-items: center;
+`
 
-const SearchBar = styled.input({
-  width: "15rem",
-  backgroundColor: gray["75"],
-  borderTopLeftRadius: "0.25rem",
-  borderBottomLeftRadius: "0.25rem",
-  height: "2.25rem",
-  color: gray["0"],
-  padding: "0 0.6rem",
-  fontSize: "1rem",
+const SearchBar = styled.input`
+  width: 15rem;
+  background-color: ${gray["75"]};
+  border-radius: 0.25rem 0 0 0.25rem;
+  height: 2.25rem;
+  color: ${gray["0"]};
+  padding: 0 0.5rem;
+  font-size: 1rem;
 
-  "@media (max-width: 480px)": {
-    width: "12rem",
-  },
+  @media (max-width: 480px) {
+    width: 14rem;
+  }
 
-  "::placeholder": {
-    color: gray["25"],
-  },
-})
+  ::placeholder {
+    color: ${gray["25"]};
+    font-weight: 500;
+  }
+`
 
-const SearchButton = styled.button({
-  height: "2.25rem",
-  borderWidth: "0",
-  borderTopRightRadius: "0.25rem",
-  borderBottomRightRadius: "0.25rem",
-  backgroundColor: gray["25"],
-  display: "inline-flex",
-  alignItems: "center",
-  padding: "0.5rem",
+const SearchButton = styled.button`
+  border: 0;
+  border-radius: 0 0.25rem 0.25rem 0;
+  background-color: ${gray["25"]};
+  display: flex;
+  align-items: center;
+  padding: 0.5rem;
 
-  ":hover, :active": {
-    backgroundColor: gray["0"],
-    cursor: "pointer",
-  },
-})
+  &:hover,
+  &:active {
+    background-color: ${gray["0"]};
+    cursor: pointer;
+  }
+`
 
-const Text = styled.p({
-  color: gray["0"],
-  fontSize: "1.1rem",
-  marginBottom: "0.5rem",
-})
+const Text = styled.p`
+  color: ${gray["0"]};
+  font-size: 1.2rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+`
 
-const SearchIcon = styled(BiSearchAlt)({
-  color: gray["100"],
-  fontSize: "1.25rem",
-})
+const SearchIcon = styled(BiSearchAlt)`
+  color: ${gray["100"]};
+  font-size: 1.25rem;
+`
 
 export default function SearchDropdown({ showSearch, setShowSearch }) {
   const router = useRouter()
@@ -87,9 +89,7 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
       // check if input is exact tag
       const tagRegex = /^[A-Za-z0-9#]+$/
       const meetsTagReq =
-        clanSearch.length >= 5 &&
-        clanSearch.length <= 9 &&
-        clanSearch.match(tagRegex)
+        clanSearch.length >= 5 && clanSearch.length <= 9 && clanSearch.match(tagRegex)
 
       if (meetsTagReq) {
         try {
@@ -133,11 +133,7 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
         </SearchBarDiv>
       </SearchDiv>
 
-      <SearchDiv
-        style={{
-          marginTop: "1rem",
-        }}
-      >
+      <SearchDiv>
         <Text>Clans</Text>
         <SearchBarDiv>
           <SearchBar

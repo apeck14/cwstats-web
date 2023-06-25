@@ -1,0 +1,122 @@
+import { useRouter } from "next/router"
+import { CgLoadbarDoc } from "react-icons/cg"
+import { IoPodiumOutline } from "react-icons/io5"
+import { TbBrandDiscord } from "react-icons/tb"
+import styled from "styled-components"
+
+import { gray, pink } from "../../public/static/colors"
+import {
+  DAILY_LEADERBOARD_NAV_DESC,
+  DISCORD_BOT_INVITE_LINK,
+  INVITE_BOT_NAV_DESC,
+  JOIN_SUPPORT_SERVER_NAV_DESC,
+  WAR_LEADERBOARD_NAV_DESC,
+} from "../../utils/constants"
+
+const SlideMenu = styled.nav`
+  position: fixed;
+  height: 100%;
+  width: 75vw;
+  top: 4rem;
+  right: 0;
+  background-color: ${gray["75"]};
+  padding: 1rem;
+  display: flex;
+  flex-direction: column;
+  z-index: 999;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  transition: transform 0.3s ease-in-out;
+  transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(100%)")};
+
+  h3:nth-of-type(2) {
+    margin: 0.75rem 0;
+  }
+`
+
+const Title = styled.h3`
+  color: ${gray["0"]};
+  font-size: 1.2rem;
+  display: inline-flex;
+  align-items: center;
+  column-gap: 0.25rem;
+  background-color: ${gray["50"]};
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.25rem;
+`
+
+const DocIcon = styled(CgLoadbarDoc)`
+  color: ${pink};
+  font-size: 1.25rem;
+`
+
+const LeaderboardIcon = styled(IoPodiumOutline)`
+  color: ${pink};
+`
+
+const DiscordIcon = styled(TbBrandDiscord)`
+  color: ${pink};
+  font-size: 1.25rem;
+`
+
+const Item = styled.div`
+  padding: 0.5rem;
+  margin: 0.25rem 0;
+  border-radius: 0.25rem;
+
+  :hover,
+  :active {
+    background-color: ${gray["50"]};
+  }
+`
+
+const ItemTitle = styled.h4`
+  color: ${gray["0"]};
+  font-size: 1.1rem;
+`
+
+const Description = styled.p`
+  color: ${gray["25"]};
+  font-size: 0.9rem;
+`
+
+export default function MobileMenu({ isOpen, setIsOpen }) {
+  const router = useRouter()
+
+  const handleClick = (url) => {
+    setIsOpen(false)
+    router.push(url)
+  }
+
+  return (
+    <SlideMenu isOpen={isOpen}>
+      <Title>
+        <LeaderboardIcon />
+        Leaderboards
+      </Title>
+      <Item onClick={() => handleClick("/leaderboard/daily/global")}>
+        <ItemTitle>Daily</ItemTitle>
+        <Description>{DAILY_LEADERBOARD_NAV_DESC}</Description>
+      </Item>
+      <Item onClick={() => handleClick("/leaderboard/war/global")}>
+        <ItemTitle>War</ItemTitle>
+        <Description>{WAR_LEADERBOARD_NAV_DESC}</Description>
+      </Item>
+      <Title onClick={() => handleClick("/docs")}>
+        <DocIcon />
+        Docs
+      </Title>
+      <Title onClick={() => handleClick("/leaderboard/daily/global")}>
+        <DiscordIcon />
+        Invite
+      </Title>
+      <Item onClick={() => handleClick(DISCORD_BOT_INVITE_LINK)}>
+        <ItemTitle>Add To Server</ItemTitle>
+        <Description>{INVITE_BOT_NAV_DESC}</Description>
+      </Item>
+      <Item onClick={() => handleClick("/server/invite")}>
+        <ItemTitle>Support Server</ItemTitle>
+        <Description>{JOIN_SUPPORT_SERVER_NAV_DESC}</Description>
+      </Item>
+    </SlideMenu>
+  )
+}

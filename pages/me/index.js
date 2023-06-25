@@ -8,6 +8,7 @@ import Item from "../../components/Me/Servers/Item"
 import SubNav from "../../components/Me/SubNav"
 import clientPromise from "../../lib/mongodb"
 import { gray, pink } from "../../public/static/colors"
+import { DISCORD_BOT_INVITE_LINK } from "../../utils/constants"
 import { redirect } from "../../utils/functions"
 import { fetchGuilds } from "../../utils/services"
 import { authOptions } from "../api/auth/[...nextauth]"
@@ -61,10 +62,7 @@ export default function Me({ guilds }) {
         {guilds.length === 0 ? (
           <NoGuilds>
             No servers to manage! Invite the bot{" "}
-            <Here href="https://discord.com/api/oauth2/authorize?client_id=869761158763143218&permissions=2147764224&scope=bot%20applications.commands">
-              here
-            </Here>
-            .
+            <Here href={DISCORD_BOT_INVITE_LINK}>here</Here>.
           </NoGuilds>
         ) : (
           guilds.map((g) => <Item key={g.id} guild={g} />)
