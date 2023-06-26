@@ -207,7 +207,7 @@ export async function getServerSideProps({ req, res, params }) {
 
     const session = await getServerSession(req, res, authOptions)
 
-    if (!session) return redirect("/login")
+    if (!session) return redirect(`/login?callback=${serverId}/nudges`)
 
     const client = await clientPromise
     const db = client.db("General")

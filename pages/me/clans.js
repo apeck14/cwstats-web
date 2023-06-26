@@ -8,6 +8,7 @@ import SubNav from "../../components/Me/SubNav"
 import SavedItem from "../../components/Saved/Item"
 import clientPromise from "../../lib/mongodb"
 import { gray, orange, pink } from "../../public/static/colors"
+import { redirect } from "../../utils/functions"
 import { authOptions } from "../api/auth/[...nextauth]"
 
 const Content = styled.div`
@@ -103,14 +104,7 @@ export async function getServerSideProps({ req, res }) {
 
     const session = await getServerSession(req, res, authOptions)
 
-    if (!session) {
-      return {
-        redirect: {
-          destination: "/login",
-          permanent: false,
-        },
-      }
-    }
+    if (!session) return redirect(`/login?callback=/me/clans`)
 
     const client = await clientPromise
     const db = client.db("General")
@@ -133,12 +127,6 @@ export async function getServerSideProps({ req, res }) {
       },
     }
   } catch {
-    return {
-      redirect: {
-        permanent: false,
-        destination: "/500",
-      },
-      props: {},
-    }
+    return redirect("/500")
   }
 }

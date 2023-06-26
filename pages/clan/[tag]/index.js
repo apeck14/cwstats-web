@@ -234,9 +234,7 @@ export default function ClanHome({ clan }) {
     if (session && clan && router) {
       getUser()
         .then((data) => {
-          const saved = !!(data?.savedClans || []).find(
-            (c) => c.tag === clan.tag
-          )
+          const saved = !!(data?.savedClans || []).find((c) => c.tag === clan.tag)
 
           setIsSaved(saved)
 
@@ -261,7 +259,7 @@ export default function ClanHome({ clan }) {
     if (status === "authenticated") {
       updateSavedItem()
       setIsSaved(!isSaved)
-    } else router.push("/login")
+    } else router.push(`/login?callback=${router.asPath}`)
   }
 
   const locationKey = getCountryKeyById(clan.location?.id)
@@ -352,19 +350,13 @@ export default function ClanHome({ clan }) {
           >
             Home
           </NavItem>
-          <NavItem
-            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/race`)}
-          >
+          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/race`)}>
             Race
           </NavItem>
-          <NavItem
-            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/log`)}
-          >
+          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/log`)}>
             Log
           </NavItem>
-          <NavItem
-            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/stats`)}
-          >
+          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/stats`)}>
             Stats
           </NavItem>
         </NavDiv>
@@ -407,9 +399,7 @@ export default function ClanHome({ clan }) {
                 alt="Weekly Donations"
               />
               <StatsInfo>
-                <StatsTitle>
-                  {width <= 480 ? "Donations" : "Weekly Donations"}
-                </StatsTitle>
+                <StatsTitle>{width <= 480 ? "Donations" : "Weekly Donations"}</StatsTitle>
                 <StatsValue>{clan.donationsPerWeek}</StatsValue>
               </StatsInfo>
             </StatsItem>

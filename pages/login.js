@@ -1,3 +1,4 @@
+import { useRouter } from "next/router"
 import { signIn } from "next-auth/react"
 import { NextSeo } from "next-seo"
 import { FaDiscord } from "react-icons/fa"
@@ -46,6 +47,7 @@ const DiscordIcon = styled(FaDiscord)({
 })
 
 export default function Login() {
+  const router = useRouter()
   return (
     <>
       <NextSeo
@@ -60,13 +62,11 @@ export default function Login() {
 
       <Main>
         <Header>You are not logged in.</Header>
-        <SubHeader>
-          To access the full site, please log in with Discord.
-        </SubHeader>
+        <SubHeader>To access the full site, please log in with Discord.</SubHeader>
         <LoginBtn
           onClick={() =>
             signIn("discord", {
-              callbackUrl: "/",
+              callbackUrl: router.query.callback || "/",
             })
           }
         >

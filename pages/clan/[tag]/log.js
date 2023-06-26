@@ -14,11 +14,7 @@ import useDebouncedCallback from "../../../hooks/useDebouncedCallback"
 import useWindowSize from "../../../hooks/useWindowSize"
 import { gray, orange, pink } from "../../../public/static/colors"
 import { getClanBadgeFileName } from "../../../utils/files"
-import {
-  formatTag,
-  getCRErrorUrl,
-  handleSCResponse,
-} from "../../../utils/functions"
+import { formatTag, getCRErrorUrl, handleSCResponse } from "../../../utils/functions"
 import {
   addClan,
   fetchClan,
@@ -175,9 +171,7 @@ export default function ClanLog({ clan, log }) {
     if (session && clan && router) {
       getUser()
         .then((data) => {
-          const saved = !!(data?.savedClans || []).find(
-            (c) => c.tag === clan.tag
-          )
+          const saved = !!(data?.savedClans || []).find((c) => c.tag === clan.tag)
 
           setIsSaved(saved)
 
@@ -202,7 +196,7 @@ export default function ClanLog({ clan, log }) {
     if (status === "authenticated") {
       updateSavedItem()
       setIsSaved(!isSaved)
-    } else router.push("/login")
+    } else router.push(`/login?callback=${router.asPath}`)
   }
 
   const badgeHeightPx = width <= 480 ? 44 : 66
@@ -281,14 +275,10 @@ export default function ClanLog({ clan, log }) {
         </HeaderDiv>
 
         <NavDiv>
-          <NavItem
-            onClick={() => router.push(`/clan/${clan.tag.substring(1)}`)}
-          >
+          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}`)}>
             Home
           </NavItem>
-          <NavItem
-            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/race`)}
-          >
+          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/race`)}>
             Race
           </NavItem>
           <NavItem
@@ -298,9 +288,7 @@ export default function ClanLog({ clan, log }) {
           >
             Log
           </NavItem>
-          <NavItem
-            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/stats`)}
-          >
+          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/stats`)}>
             Stats
           </NavItem>
         </NavDiv>

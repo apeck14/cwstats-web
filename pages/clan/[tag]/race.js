@@ -398,9 +398,7 @@ export default function ClanRace({ clan, race }) {
     if (session && clan) {
       getUser()
         .then((data) => {
-          const saved = !!(data?.savedClans || []).find(
-            (c) => c.tag === clan.tag
-          )
+          const saved = !!(data?.savedClans || []).find((c) => c.tag === clan.tag)
 
           setIsSaved(saved)
 
@@ -435,7 +433,7 @@ export default function ClanRace({ clan, race }) {
     if (status === "authenticated") {
       updateSavedItem()
       setIsSaved(!isSaved)
-    } else router.push("/login")
+    } else router.push(`/login?callback=${router.asPath}`)
   }
 
   const isMobile = width <= 480
@@ -534,9 +532,7 @@ export default function ClanRace({ clan, race }) {
         </HeaderDiv>
 
         <NavDiv>
-          <NavItem
-            onClick={() => router.push(`/clan/${clan.tag.substring(1)}`)}
-          >
+          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}`)}>
             Home
           </NavItem>
           <NavItem
@@ -546,14 +542,10 @@ export default function ClanRace({ clan, race }) {
           >
             Race
           </NavItem>
-          <NavItem
-            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/log`)}
-          >
+          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/log`)}>
             Log
           </NavItem>
-          <NavItem
-            onClick={() => router.push(`/clan/${clan.tag.substring(1)}/stats`)}
-          >
+          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/stats`)}>
             Stats
           </NavItem>
         </NavDiv>
@@ -569,9 +561,7 @@ export default function ClanRace({ clan, race }) {
                 return showMobileView ? (
                   <MobileClanDiv
                     key={c.tag}
-                    onClick={() =>
-                      router.push(`/clan/${c.tag.substring(1)}/race`)
-                    }
+                    onClick={() => router.push(`/clan/${c.tag.substring(1)}/race`)}
                     style={
                       c.tag === clan.tag
                         ? {
@@ -590,17 +580,10 @@ export default function ClanRace({ clan, race }) {
                           : null
                       }
                     >
-                      <RaceIcon
-                        place={c.placement}
-                        isFinished={c.crossedFinishLine}
-                      />
+                      <RaceIcon place={c.placement} isFinished={c.crossedFinishLine} />
                       {c.placement === Infinity ? null : (
                         <FameAvg>
-                          {getAvgFame(
-                            clanInRace,
-                            isColosseum,
-                            dayOfWeek
-                          ).toFixed(2)}
+                          {getAvgFame(clanInRace, isColosseum, dayOfWeek).toFixed(2)}
                         </FameAvg>
                       )}
                     </MobileLeftDiv>
@@ -666,9 +649,7 @@ export default function ClanRace({ clan, race }) {
                 ) : (
                   <ClanDiv
                     key={c.tag}
-                    onClick={() =>
-                      router.push(`/clan/${c.tag.substring(1)}/race`)
-                    }
+                    onClick={() => router.push(`/clan/${c.tag.substring(1)}/race`)}
                     style={
                       c.tag === clan.tag
                         ? {
@@ -678,10 +659,7 @@ export default function ClanRace({ clan, race }) {
                     }
                   >
                     <LeftClanDiv>
-                      <RaceIcon
-                        place={c.placement}
-                        isFinished={c.crossedFinishLine}
-                      />
+                      <RaceIcon place={c.placement} isFinished={c.crossedFinishLine} />
                       <LeftInfoDiv>
                         <LeftTopDiv>
                           <ClanBadge
@@ -705,11 +683,7 @@ export default function ClanRace({ clan, race }) {
                         <ProgressBar
                           fame={c.fame}
                           isColosseum={isColosseum}
-                          projectedFame={getProjFame(
-                            clanInRace,
-                            isColosseum,
-                            dayOfWeek
-                          )}
+                          projectedFame={getProjFame(clanInRace, isColosseum, dayOfWeek)}
                         />
                       </LeftInfoDiv>
                     </LeftClanDiv>
@@ -724,19 +698,13 @@ export default function ClanRace({ clan, race }) {
                         {c.boatPoints}
                       </RightInfoDiv>
                       <RightInfoDiv>
-                        <RaceImg
-                          src="/assets/icons/fame.png"
-                          height={24}
-                          width={18}
-                        />
+                        <RaceImg src="/assets/icons/fame.png" height={24} width={18} />
                         {c.fame}
                       </RightInfoDiv>
                     </RightClanDiv>
 
                     <FameAvg>
-                      {getAvgFame(clanInRace, isColosseum, dayOfWeek).toFixed(
-                        2
-                      )}
+                      {getAvgFame(clanInRace, isColosseum, dayOfWeek).toFixed(2)}
                     </FameAvg>
                   </ClanDiv>
                 )
@@ -745,56 +713,38 @@ export default function ClanRace({ clan, race }) {
 
             <StatsDiv>
               <StatsHeader>Stats & Projections</StatsHeader>
-              <StatsSubHeader>
-                All projections assume 100% participation.
-              </StatsSubHeader>
+              <StatsSubHeader>All projections assume 100% participation.</StatsSubHeader>
               <Stat>
                 <StatTitle>Total Battles Remaining</StatTitle>
-                <StatValue>
-                  {getBattlesRemaining(race.clan.participants)}
-                </StatValue>
+                <StatValue>{getBattlesRemaining(race.clan.participants)}</StatValue>
               </Stat>
               <Stat>
                 <StatTitle>Duels Remaining</StatTitle>
-                <StatValue>
-                  {getDuelsRemaining(race.clan.participants)}
-                </StatValue>
+                <StatValue>{getDuelsRemaining(race.clan.participants)}</StatValue>
               </Stat>
               <Stat>
                 <StatTitle>Projected Medals</StatTitle>
-                <StatValue>
-                  {getProjFame(race.clan, isColosseum, dayOfWeek)}
-                </StatValue>
+                <StatValue>{getProjFame(race.clan, isColosseum, dayOfWeek)}</StatValue>
               </Stat>
               <Stat>
                 <StatTitle>Maximum Possible Medals</StatTitle>
-                <StatValue>
-                  {getMaxFame(race.clan, isColosseum, dayOfWeek)}
-                </StatValue>
+                <StatValue>{getMaxFame(race.clan, isColosseum, dayOfWeek)}</StatValue>
               </Stat>
               <Stat>
                 <StatTitle>Minimum Possible Medals</StatTitle>
-                <StatValue>
-                  {getMinFame(race.clan, isColosseum, dayOfWeek)}
-                </StatValue>
+                <StatValue>{getMinFame(race.clan, isColosseum, dayOfWeek)}</StatValue>
               </Stat>
               <Stat>
                 <StatTitle>Projected Place</StatTitle>
-                <StatValue>
-                  {getProjPlace(race, isColosseum, dayOfWeek)}
-                </StatValue>
+                <StatValue>{getProjPlace(race, isColosseum, dayOfWeek)}</StatValue>
               </Stat>
               <Stat>
                 <StatTitle>Best Possible Place</StatTitle>
-                <StatValue>
-                  {getBestPlace(race, isColosseum, dayOfWeek)}
-                </StatValue>
+                <StatValue>{getBestPlace(race, isColosseum, dayOfWeek)}</StatValue>
               </Stat>
               <Stat>
                 <StatTitle>Worst Possible Place</StatTitle>
-                <StatValue>
-                  {getWorstPlace(race, isColosseum, dayOfWeek)}
-                </StatValue>
+                <StatValue>{getWorstPlace(race, isColosseum, dayOfWeek)}</StatValue>
               </Stat>
             </StatsDiv>
 

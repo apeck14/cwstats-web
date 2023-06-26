@@ -11,7 +11,11 @@ import UnsavedChangesModal from "../../../components/Modals/UnsavedChangesModal"
 import clientPromise from "../../../lib/mongodb"
 import { gray } from "../../../public/static/colors"
 import { arraysAreEqual, redirect } from "../../../utils/functions"
-import { fetchGuildChannels, fetchGuilds, setGuildChannels } from "../../../utils/services"
+import {
+  fetchGuildChannels,
+  fetchGuilds,
+  setGuildChannels,
+} from "../../../utils/services"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
 const Header = styled.h2`
@@ -166,7 +170,7 @@ export async function getServerSideProps({ req, res, params }) {
 
     const session = await getServerSession(req, res, authOptions)
 
-    if (!session) return redirect("/login")
+    if (!session) return redirect(`/login?callback=${serverId}/channels`)
 
     const client = await clientPromise
     const db = client.db("General")
@@ -188,7 +192,10 @@ export async function getServerSideProps({ req, res, params }) {
     if (!guild) return redirect("/404")
     if (!guildsRes.ok || !channelsRes.ok) throw new Error()
 
-    const [guildsData, channelsData] = await Promise.all([guildsRes.json(), channelsRes.json()])
+    const [guildsData, channelsData] = await Promise.all([
+      guildsRes.json(),
+      channelsRes.json(),
+    ])
 
     const textChannels = channelsData
       .filter((c) => c.type === 0)

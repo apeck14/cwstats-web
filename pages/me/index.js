@@ -80,12 +80,7 @@ export async function getServerSideProps({ req, res }) {
     const session = await getServerSession(req, res, authOptions)
 
     if (!session) {
-      return {
-        redirect: {
-          destination: "/login",
-          permanent: false,
-        },
-      }
+      return redirect(`/login?callback=/me`)
     }
 
     const client = await clientPromise
@@ -107,7 +102,7 @@ export async function getServerSideProps({ req, res }) {
         if (rawGuilds?.message === "401: Unauthorized") {
           accounts.deleteOne(user)
 
-          return redirect("/login")
+          return redirect(`/login?callback=/me`)
         }
       }
 
