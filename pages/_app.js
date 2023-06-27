@@ -59,18 +59,16 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
           content="minimum-scale=1, initial-scale=1, width=device-width"
           key="viewport"
         />
-      </Head>
-
-      {/* Google Analytics */}
-      <Script
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}`}
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
+        {/* Google Analytics */}
+        <Script
+          strategy="afterInteractive"
+          src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}`}
+        />
+        <Script
+          id="google-analytics"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
           gtag('js', new Date());
@@ -78,8 +76,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
             page_path: window.location.pathname,
           });
         `,
-        }}
-      />
+          }}
+        />
+      </Head>
 
       <Container className={SourceSans3.className}>
         <DefaultSeo
