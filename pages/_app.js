@@ -42,10 +42,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
   // Google Analytics
   useEffect(() => {
-    router.events.on("routeChangeComplete", pageview)
-
+    const handleRouteChange = (url) => {
+      pageview(url)
+    }
+    router.events.on("routeChangeComplete", handleRouteChange)
     return () => {
-      router.events.off("routeChangeComplete", pageview)
+      router.events.off("routeChangeComplete", handleRouteChange)
     }
   }, [router.events])
 
