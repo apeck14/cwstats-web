@@ -3,9 +3,9 @@ import "../styles/globals.css"
 import { Source_Sans_3 } from "next/font/google"
 import Head from "next/head"
 import { useRouter } from "next/router"
-import Script from "next/script"
 import { SessionProvider } from "next-auth/react"
 import { DefaultSeo } from "next-seo"
+import { GoogleAnalytics } from "nextjs-google-analytics"
 import { useEffect } from "react"
 import styled from "styled-components"
 
@@ -61,25 +61,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
         />
       </Head>
 
-      {/* Google Analytics */}
-      <Script
-        async
-        strategy="afterInteractive"
-        src={`https://www.googletagmanager.com/gtag/js?id=${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}`}
-      />
-      <Script
-        id="google-analytics"
-        strategy="afterInteractive"
-        dangerouslySetInnerHTML={{
-          __html: `
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
-          gtag('js', new Date());
-          gtag('config', ${process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}, {
-            page_path: window.location.pathname,
-          });
-        `,
-        }}
+      <GoogleAnalytics
+        gaMeasurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}
+        trackPageViews
       />
 
       <Container className={SourceSans3.className}>
