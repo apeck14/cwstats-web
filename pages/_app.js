@@ -6,13 +6,11 @@ import { useRouter } from "next/router"
 import { SessionProvider } from "next-auth/react"
 import { DefaultSeo } from "next-seo"
 import { GoogleAnalytics } from "nextjs-google-analytics"
-import { useEffect } from "react"
 import styled from "styled-components"
 
 import Footer from "../components/Footer"
 import Navbar from "../components/Navbar/index"
 import usePageLoading from "../hooks/usePageLoading"
-import { pageview } from "../lib/gtag"
 import { gray } from "../public/static/colors"
 
 const SourceSans3 = Source_Sans_3({ subsets: ["latin"] })
@@ -39,17 +37,6 @@ const Content = styled.div`
 export default function App({ Component, pageProps: { session, ...pageProps } }) {
   const router = useRouter()
   const { isPageLoading } = usePageLoading()
-
-  // Google Analytics
-  useEffect(() => {
-    const handleRouteChange = (url) => {
-      pageview(url)
-    }
-    router.events.on("routeChangeComplete", handleRouteChange)
-    return () => {
-      router.events.off("routeChangeComplete", handleRouteChange)
-    }
-  }, [router.events])
 
   return (
     <SessionProvider session={session}>
