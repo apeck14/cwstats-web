@@ -1,274 +1,93 @@
 import Image from "next/image"
-import Link from "next/link"
-import { useRouter } from "next/router"
-import { useSession } from "next-auth/react"
+import { getServerSession } from "next-auth"
 import { NextSeo } from "next-seo"
-import { useEffect, useState } from "react"
-import { BiLinkExternal } from "react-icons/bi"
-import { FaBookmark, FaRegBookmark } from "react-icons/fa"
 import styled from "styled-components"
 
+import ClanHeader from "../../../components/Clan/Header"
+import SubNav from "../../../components/Clan/SubNav"
 import MembersTable from "../../../components/Tables/ClanMembers"
-import useDebouncedCallback from "../../../hooks/useDebouncedCallback"
 import useWindowSize from "../../../hooks/useWindowSize"
-import { gray, orange, pink } from "../../../public/static/colors"
-import { parseDate, relativeDateStr } from "../../../utils/date-time"
+import clientPromise from "../../../lib/mongodb"
+import { gray } from "../../../public/static/colors"
+import { getLastSeenColor, parseDate, relativeDateStr } from "../../../utils/date-time"
 import { getClanBadgeFileName, getCountryKeyById } from "../../../utils/files"
 import {
   formatClanType,
   formatTag,
   getCRErrorUrl,
   handleSCResponse,
+  redirect,
 } from "../../../utils/functions"
-import {
-  addClan,
-  fetchClan,
-  getUser,
-  saveClan,
-  unsaveClan,
-} from "../../../utils/services"
+import { fetchClan } from "../../../utils/services"
+import { addClan } from "../../api/add/clan"
+import { authOptions } from "../../api/auth/[...nextauth]"
 
-const Main = styled.div({})
+const Main = styled.div``
 
-const HeaderDiv = styled.div({
-  background: gray["50"],
-  // eslint-disable-next-line no-dupe-keys
-  background: `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
-  padding: "2rem",
-  color: gray["0"],
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
+const InfoDiv = styled.div`
+  margin: 1.5rem 0;
+  padding: 0 1rem;
 
-  "@media (max-width: 480px)": {
-    padding: "1rem",
-  },
-})
-
-const LeftDiv = styled.div({})
-
-const TopHeaderDiv = styled.div({
-  display: "flex",
-  alignItems: "center",
-})
-
-const BottomHeaderDiv = styled.div({
-  display: "flex",
-  marginTop: "1rem",
-  alignItems: "center",
-
-  "@media (max-width: 480px)": {
-    marginTop: "0.5rem",
-    fontSize: "0.75rem",
-  },
-})
-
-const Name = styled.h1({
-  fontSize: "2.25rem",
-
-  "@media (max-width: 480px)": {
-    fontSize: "1.5rem",
-  },
-})
-
-const Tag = styled.p({
-  color: gray["25"],
-})
-
-const Trophy = styled(Image)({
-  marginLeft: "1.5rem",
-  marginRight: "0.5rem",
-
-  "@media (max-width: 480px)": {
-    marginRight: "0.25rem",
-  },
-})
-
-const WarTrophy = styled(Image)({
-  marginLeft: "1.5rem",
-  marginRight: "0.5rem",
-
-  "@media (max-width: 480px)": {
-    marginRight: "0.25rem",
-  },
-})
-
-const Badge = styled(Image)({})
-
-const IconDiv = styled.div({
-  display: "flex",
-  alignItems: "center",
-  backgroundColor: gray["75"],
-  padding: "0.5rem",
-  borderRadius: "0.4rem",
-  marginLeft: "0.75rem",
-
-  "@media (max-width: 480px)": {
-    padding: "0.4rem",
-  },
-})
-
-const InGameLink = styled(Link)({
-  display: "flex",
-  alignItems: "center",
-  backgroundColor: gray["75"],
-  padding: "0.5rem",
-  borderRadius: "0.4rem",
-  marginLeft: "0.5rem",
-
-  "@media (max-width: 480px)": {
-    padding: "0.4rem",
-  },
-})
-
-const BookmarkFill = styled(FaBookmark)({
-  color: pink,
-
-  ":hover, :active": {
-    cursor: "pointer",
-  },
-})
-
-const Bookmark = styled(FaRegBookmark)({
-  color: pink,
-
-  ":hover, :active": {
-    cursor: "pointer",
-  },
-})
-
-const InGameLinkIcon = styled(BiLinkExternal)({
-  color: gray["25"],
-
-  ":hover, :active": {
-    cursor: "pointer",
-    color: orange,
-  },
-})
-
-const NavDiv = styled.div({
-  display: "flex",
-})
-
-const NavItem = styled.div({
-  color: gray["0"],
-  padding: "0.5rem 1rem",
-
-  ":hover, :active": {
-    cursor: "pointer",
-  },
-
-  "@media (max-width: 480px)": {
-    fontSize: "0.9rem",
-  },
-})
-
-const InfoDiv = styled.div({
-  margin: "1.5rem 0",
-  padding: "0 1rem",
-
-  "@media (max-width: 480px)": {
-    margin: "1rem 0",
-  },
-})
-
-const Description = styled.p({
-  color: gray["25"],
-
-  "@media (max-width: 480px)": {
-    fontSize: "0.85rem",
-  },
-})
-
-const StatsRow = styled.div({
-  display: "flex",
-  marginTop: "1rem",
-})
-
-const StatsItem = styled.div({
-  display: "flex",
-  alignItems: "center",
-  width: "33.3%",
-})
-
-const StatsIcon = styled(Image)({
-  marginRight: "1rem",
-
-  "@media (max-width: 480px)": {
-    marginRight: "0.5rem",
-  },
-})
-
-const FlagIcon = styled(StatsIcon)({
-  borderRadius: "1rem",
-})
-
-const StatsInfo = styled.div({})
-
-const StatsTitle = styled.p({
-  color: gray["25"],
-
-  "@media (max-width: 480px)": {
-    fontSize: "0.75rem",
-  },
-})
-
-const StatsValue = styled.p({
-  color: gray["0"],
-  fontSize: "0.9rem",
-
-  "@media (max-width: 480px)": {
-    fontSize: "0.7rem",
-  },
-})
-
-export default function ClanHome({ clan }) {
-  const router = useRouter()
-  const { data: session, status } = useSession()
-  const { width } = useWindowSize()
-  const [isSaved, setIsSaved] = useState(false)
-
-  const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
-
-  useEffect(() => {
-    if (session && clan && router) {
-      getUser()
-        .then((data) => {
-          const saved = !!(data?.savedClans || []).find((c) => c.tag === clan.tag)
-
-          setIsSaved(saved)
-
-          return saved
-        })
-        .catch(() => {})
-    }
-  }, [session, clan, router])
-
-  useEffect(() => {
-    if (clan && badgeName !== "no_clan") addClan(clan.name, clan.tag, badgeName)
-
-    return () => {}
-  }, [clan, badgeName])
-
-  const updateSavedItem = useDebouncedCallback(() => {
-    if (isSaved) unsaveClan(clan.tag)
-    else saveClan(clan.name, clan.tag, badgeName)
-  }, 1500)
-
-  const toggleSavedItem = () => {
-    if (status === "authenticated") {
-      updateSavedItem()
-      setIsSaved(!isSaved)
-    } else router.push(`/login?callback=${router.asPath}`)
+  @media (max-width: 480px) {
+    margin: 1rem 0;
   }
+`
+
+const Description = styled.p`
+  color: ${gray["25"]};
+
+  @media (max-width: 480px) {
+    font-size: 0.85rem;
+  }
+`
+
+const StatsRow = styled.div`
+  display: flex;
+  margin-top: 1rem;
+`
+
+const StatsItem = styled.div`
+  display: flex;
+  align-items: center;
+  width: 33.3%;
+`
+
+const StatsIcon = styled(Image)`
+  margin-right: 1rem;
+
+  @media (max-width: 480px) {
+    margin-right: 0.5rem;
+  }
+`
+
+const FlagIcon = styled(StatsIcon)`
+  border-radius: 1rem;
+`
+
+const StatsInfo = styled.div``
+
+const StatsTitle = styled.p`
+  color: ${gray["25"]};
+
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+  }
+`
+
+const StatsValue = styled.p`
+  color: ${gray["0"]};
+  font-size: 0.9rem;
+
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+  }
+`
+
+export default function ClanHome({ clan, members, badgeName, saved }) {
+  const { width } = useWindowSize()
 
   const locationKey = getCountryKeyById(clan.location?.id)
   const clanType = formatClanType(clan.type)
-
-  const badgeHeightPx = width <= 480 ? 44 : 66
-  const badgeWidthPx = width <= 480 ? 32 : 48
-
-  const iconPx = width <= 480 ? 16 : 20
 
   const infoIconPx = width <= 480 ? 24 : 30
 
@@ -282,85 +101,18 @@ export default function ClanHome({ clan }) {
           description: clan.description,
           images: [
             {
-              url: `/assets/badges/${getClanBadgeFileName(
-                clan.badgeId,
-                clan.clanWarTrophies
-              )}.png`,
+              url: `/assets/badges/${badgeName}.png`,
               alt: "Clan Badge",
             },
           ],
         }}
       />
 
+      <ClanHeader clan={clan} badgeName={badgeName} saved={saved} />
+
+      <SubNav />
+
       <Main>
-        <HeaderDiv>
-          <LeftDiv>
-            <TopHeaderDiv>
-              <Name>{clan.name}</Name>
-              <IconDiv>
-                {isSaved ? (
-                  <BookmarkFill onClick={toggleSavedItem} />
-                ) : (
-                  <Bookmark onClick={toggleSavedItem} />
-                )}
-              </IconDiv>
-              <InGameLink
-                href={`https://link.clashroyale.com/?clanInfo?id=${clan.tag.substring(
-                  1
-                )}`}
-                target="_blank"
-                rel="noopener noreferrer"
-              >
-                <InGameLinkIcon />
-              </InGameLink>
-            </TopHeaderDiv>
-
-            <BottomHeaderDiv>
-              <Tag>{clan.tag}</Tag>
-              <Trophy
-                src="/assets/icons/trophy.png"
-                height={iconPx}
-                width={iconPx}
-                alt="Trophy"
-              />
-              {clan.clanScore}
-              <WarTrophy
-                src="/assets/icons/cw-trophy.png"
-                height={iconPx}
-                width={iconPx}
-                alt="War Trophy"
-              />
-              {clan.clanWarTrophies}
-            </BottomHeaderDiv>
-          </LeftDiv>
-
-          <Badge
-            src={`/assets/badges/${badgeName}.png`}
-            height={badgeHeightPx}
-            width={badgeWidthPx}
-            alt="Badge"
-          />
-        </HeaderDiv>
-
-        <NavDiv>
-          <NavItem
-            style={{
-              borderBottom: `3px solid ${pink}`,
-            }}
-          >
-            Home
-          </NavItem>
-          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/race`)}>
-            Race
-          </NavItem>
-          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/log`)}>
-            Log
-          </NavItem>
-          <NavItem onClick={() => router.push(`/clan/${clan.tag.substring(1)}/stats`)}>
-            Stats
-          </NavItem>
-        </NavDiv>
-
         <InfoDiv>
           <Description>{clan.description}</Description>
 
@@ -438,48 +190,79 @@ export default function ClanHome({ clan }) {
               />
               <StatsInfo>
                 <StatsTitle>Region</StatsTitle>
-                <StatsValue>{clan.location?.name}</StatsValue>
+                <StatsValue>{clan.location.name}</StatsValue>
               </StatsInfo>
             </StatsItem>
           </StatsRow>
         </InfoDiv>
 
-        <MembersTable
-          members={clan.memberList.map((m, index) => {
-            const lastSeenDate = m.lastSeen ? parseDate(m.lastSeen) : ""
-
-            return {
-              ...m,
-              rank: index + 1,
-              lastSeenStr: relativeDateStr(lastSeenDate, false),
-              lastSeenDate,
-            }
-          })}
-        />
+        <MembersTable members={members} />
       </Main>
     </>
   )
 }
 
-export async function getServerSideProps(context) {
-  const { tag } = context.params
+export async function getServerSideProps({ req, res, params }) {
+  const { tag } = params
 
   try {
-    const res = await fetchClan(formatTag(tag, false))
-    const clan = await handleSCResponse(res)
+    // eslint-disable-next-line global-require
+    const { ObjectId } = require("mongodb")
+
+    const promises = [fetchClan(formatTag(tag, false))]
+
+    const session = await getServerSession(req, res, authOptions)
+
+    if (session) {
+      const client = await clientPromise
+      const db = client.db("General")
+      const accounts = db.collection("accounts")
+      const linkedAccounts = db.collection("Linked Accounts")
+
+      const userId = new ObjectId(session.user.id)
+
+      const user = await accounts.findOne({
+        userId,
+      })
+
+      promises.push(
+        linkedAccounts.findOne({
+          discordID: user.providerAccountId,
+        })
+      )
+    }
+
+    const [clanResp, userResp] = await Promise.all(promises)
+
+    const clan = await handleSCResponse(clanResp)
+
+    let saved = false
+
+    if (userResp) saved = !!(userResp.savedClans || []).find((c) => c.tag === clan.tag)
+
+    const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
+    addClan({ name: clan.name, tag: clan.tag, badge: badgeName })
+
+    const members = clan?.memberList?.map((m) => {
+      const lastSeenDate = m.lastSeen ? parseDate(m.lastSeen) : ""
+
+      return {
+        ...m,
+        lastSeenStr: relativeDateStr(lastSeenDate, false),
+        color: getLastSeenColor(lastSeenDate),
+        lastSeenDate: lastSeenDate.getTime(),
+      }
+    })
 
     return {
       props: {
         clan,
+        members: members || [],
+        saved,
+        badgeName,
       },
     }
   } catch (err) {
-    return {
-      redirect: {
-        permanent: false,
-        destination: getCRErrorUrl(err),
-      },
-      props: {},
-    }
+    return redirect(getCRErrorUrl(err))
   }
 }

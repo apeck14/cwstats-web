@@ -1,38 +1,35 @@
 import clientPromise from "../../../lib/mongodb"
 
-export default async function addClan(req, res) {
+export async function addClan({ name, tag, badge }) {
   try {
-    const { body } = req
-    const { name, tag, badge } = body
-
     const client = await clientPromise
     const db = client.db("General")
     const clans = db.collection("Clans")
 
-    const clanExists = await clans.findOne({
-      tag,
-    })
+    const query = { tag }
+    const update = { $set: { name, tag, badge } }
+    const options = { upsert: true }
 
-    if (!clanExists) {
-      clans.insertOne({
-        name,
-        tag,
-        badge,
-      })
-    } else if (clanExists.name !== name || clanExists.badge !== badge) {
-      clans.updateOne(clanExists, {
-        $set: {
-          name,
-          tag,
-          badge,
-        },
-      })
-    }
+    await clans.updateOne(query, update, options)
+
+    return { success: true }
+  } catch (err) {
+    return { error: true, message: err.message }
+  }
+}
+
+export default async function handler(req, res) {
+  try {
+    const { body } = req
+
+    const { error, message } = await addClan(body)
+
+    if (error) throw message
 
     return res.status(200).json({})
-  } catch (err) {
+  } catch (message) {
     return res.status(500).json({
-      message: err.message,
+      message,
     })
   }
 }

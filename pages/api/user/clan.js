@@ -10,16 +10,16 @@ export default async function SavedClan(req, res) {
 
     if (!session) {
       return res.status(401).send({
-        message: "You must be logged in.",
+        message: "No active session.",
       })
     }
 
     const { method, body } = req
     const { name, tag, badge } = body
 
-    if (method !== "PUT" && method !== "DELETE") {
+    if (method !== "PUT" && method !== "POST") {
       return res.status(405).send({
-        message: "Wrong method. PUT & DELETE only accepted.",
+        message: "Wrong method. PUT & POST only accepted.",
       })
     }
 
@@ -72,7 +72,7 @@ export default async function SavedClan(req, res) {
 
       return res.status(200).send({})
     }
-    if (method === "DELETE") {
+    if (method === "POST") {
       linkedAccounts.updateOne(
         {
           discordID: user.providerAccountId,

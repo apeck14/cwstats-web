@@ -1,5 +1,7 @@
 import moment, { tz, utc } from "moment-timezone"
 
+import { gray, orange, red } from "../public/static/colors"
+
 export const diffInMins = (timeInteger) => {
   const now = Date.now()
 
@@ -73,6 +75,21 @@ export const relativeDateStr = (date, showSeconds = true) => {
   return str.trim()
 }
 
+export const getLastSeenColor = (date) => {
+  if (!date) return gray["25"]
+
+  const diffMins = diffInMins(date)
+
+  // < 1 day (default)
+  if (diffMins < 1440) return gray["25"]
+
+  // < 7 days
+  if (diffMins < 10080) return orange
+
+  // >= 7 days
+  return red
+}
+
 export const getUsersTimezone = () => {
   const timezone = tz.guess()
   const offset = tz(timezone).format("Z")
@@ -92,11 +109,9 @@ export const getTimeFromOffset = (hour) => {
   const decimalOver = hour % Math.floor(hour)
 
   const date = utc(
-    `${year}-${month < 10 ? `0${month}` : month}-${
-      day < 10 ? `0${day}` : day
-    }T${hourInteger < 10 ? `0${hourInteger}` : hourInteger}:${
-      decimalOver === 0 ? "00" : 60 * decimalOver
-    }:00`
+    `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}T${
+      hourInteger < 10 ? `0${hourInteger}` : hourInteger
+    }:${decimalOver === 0 ? "00" : 60 * decimalOver}:00`
   ).tz(usersTimezone)
 
   return date.format("h:mm A z")
@@ -112,9 +127,9 @@ export const convertHourToUTC = (hour, amPm) => {
   const day = now.date()
 
   const date = tz(
-    `${year}-${month < 10 ? `0${month}` : month}-${
-      day < 10 ? `0${day}` : day
-    }T${hourIn24Time < 10 ? `0${hourIn24Time}` : hourIn24Time}:00:00`,
+    `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}T${
+      hourIn24Time < 10 ? `0${hourIn24Time}` : hourIn24Time
+    }:00:00`,
     timezone
   ).utc()
 
