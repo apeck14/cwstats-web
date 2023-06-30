@@ -1,6 +1,21 @@
 module.exports = [
   {
     name: "Legendary Arena",
+    trophyLimit: 9000,
+    arena: 23,
+  },
+  {
+    name: "PANCAKES!",
+    trophyLimit: 8500,
+    arena: 22,
+  },
+  {
+    name: "Clash Fest",
+    trophyLimit: 8000,
+    arena: 21,
+  },
+  {
+    name: "Boot Camp",
     trophyLimit: 7500,
     arena: 20,
   },

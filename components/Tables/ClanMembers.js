@@ -9,93 +9,107 @@ import { gray, pink } from "../../public/static/colors"
 import { getArenaFileName } from "../../utils/files"
 import { formatRole } from "../../utils/functions"
 
-const Table = styled.table({
-  width: "100%",
-  borderCollapse: "collapse",
-  marginBottom: "1rem",
-})
+const Table = styled.table`
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+`
 
-const TH = styled.th({
-  color: gray["25"],
-  borderBottom: `2px solid ${pink}`,
-  padding: "0.5rem 0.75rem",
+const TH = styled.th`
+  color: ${gray["25"]};
+  border-bottom: 2px solid ${pink};
+  padding: 0.5rem 0.75rem;
 
-  "@media (max-width: 480px)": {
-    padding: "0.25rem 0.4rem",
-    fontSize: "0.75rem",
-  },
-})
+  @media (max-width: 480px) {
+    padding: 0.25rem 0.4rem;
+    font-size: 0.75rem;
+  }
+`
 
-const SortTh = styled(TH)({
-  ":hover, :active": {
-    cursor: "pointer",
-    backgroundColor: gray["75"],
-    borderTopLeftRadius: "0.4rem",
-    borderTopRightRadius: "0.4rem",
-  },
-})
+const SortTh = styled(TH)`
+  :hover,
+  :active {
+    cursor: pointer;
+    background-color: ${gray["75"]};
+    border-top-left-radius: 0.4rem;
+    border-top-right-radius: 0.4rem;
+  }
+`
 
-const Row = styled.tr({
-  color: gray["0"],
-})
+const ThDiv = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  column-gap: 0.5rem;
+`
 
-const Cell = styled.td({
-  height: "3.5rem",
-  padding: "0 0.75rem",
-  borderTop: `1px solid ${gray["50"]}`,
+const Row = styled.tr`
+  color: ${gray["0"]};
+`
 
-  "@media (max-width: 1024px)": {
-    padding: "0 0.5rem",
-    fontSize: "0.8rem",
-  },
+const Cell = styled.td`
+  height: 3.5rem;
+  padding: 0 0.75rem;
+  border-top: 1px solid ${gray["50"]};
+  background-color: ${({ backgroundColor }) => backgroundColor};
+  color: ${({ color }) => color || gray["0"]};
 
-  "@media (max-width: 480px)": {
-    padding: "0 0.4rem",
-    fontSize: "0.7rem",
-  },
-})
+  @media (max-width: 1024px) {
+    padding: 0 0.5rem;
+    font-size: 0.8rem;
+  }
 
-const Name = styled.span({
-  fontSize: "1rem",
+  @media (max-width: 480px) {
+    padding: 0 0.4rem;
+    font-size: 0.7rem;
+  }
+`
 
-  ":hover, :active": {
-    cursor: "pointer",
-    color: pink,
-  },
+const Name = styled.span`
+  font-size: 1rem;
 
-  "@media (max-width: 480px)": {
-    fontSize: "0.8rem",
-  },
-})
+  :hover,
+  :active {
+    cursor: pointer;
+    color: ${pink};
+  }
 
-const CenterCell = styled(Cell)({
-  textAlign: "center",
-})
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+`
 
-const Arena = styled(Image)({
-  verticalAlign: "middle",
-})
+const CenterCell = styled(Cell)`
+  text-align: center;
+`
 
-const DownArrow = styled(IoCaretDown)({
-  float: "right",
-})
+const Arena = styled(Image)`
+  vertical-align: middle;
+`
 
-const UpArrow = styled(IoCaretUp)({
-  float: "right",
-})
+const DownArrow = styled(IoCaretDown)`
+  float: right;
+`
 
-const ThIcon = styled(Image)({})
+const UpArrow = styled(IoCaretUp)`
+  float: right;
+`
 
-const MobileNameCell = styled(Cell)({})
+const ThIcon = styled(Image)``
 
-const TopMobileDiv = styled.div({})
+const MobileRow = styled.div`
+  display: flex;
+  column-gap: 0.5rem;
+`
 
-const BottomMobileDiv = styled.div({})
+const Text = styled.p`
+  color: ${({ color }) => color || gray["25"]};
+`
 
 const roles = ["leader", "coLeader", "elder", "member"]
 
 const sortFunctionsAscending = {
-  rank: (a, b) => b.rank - a.rank,
+  rank: (a, b) => b.clanRank - a.clanRank,
   trophies: (a, b) => a.trophies - b.trophies,
   name: (a, b) => b.name.localeCompare(a.name),
   lastSeen: (a, b) => a.lastSeenDate - b.lastSeenDate,
@@ -104,7 +118,7 @@ const sortFunctionsAscending = {
 }
 
 const sortFunctionsDescending = {
-  rank: (a, b) => a.rank - b.rank,
+  rank: (a, b) => a.clanRank - b.clanRank,
   trophies: (a, b) => b.trophies - a.trophies,
   name: (a, b) => a.name.localeCompare(b.name),
   lastSeen: (a, b) => b.lastSeenDate - a.lastSeenDate,
@@ -167,45 +181,50 @@ export default function MembersTable({ members }) {
       <thead>
         <Row>
           <SortTh key="rank" onClick={() => toggleSort("rank")}>
-            <span>#</span>
-            {showArrow("rank")}
+            <ThDiv>#{showArrow("rank")}</ThDiv>
           </SortTh>
           <TH />
           <SortTh key="trophies" onClick={() => toggleSort("trophies")}>
-            <span>
+            <ThDiv>
               {isMobile ? (
                 <ThIcon src="/assets/icons/trophy.png" width={12} height={12} />
               ) : (
                 "Trophies"
               )}
-            </span>
-            {showArrow("trophies")}
+              {showArrow("trophies")}
+            </ThDiv>
           </SortTh>
           <SortTh key="name" onClick={() => toggleSort("name")}>
-            <span>Name</span>
-            {showArrow("name")}
+            <ThDiv>
+              Name
+              {showArrow("name")}
+            </ThDiv>
           </SortTh>
-          {isMobile ? null : (
+          {!isMobile && (
             <>
               <SortTh key="lastSeen" onClick={() => toggleSort("lastSeen")}>
-                <span>Last Seen</span>
-                {showArrow("lastSeen")}
+                <ThDiv>
+                  Last Seen
+                  {showArrow("lastSeen")}
+                </ThDiv>
               </SortTh>
               <SortTh key="role" onClick={() => toggleSort("role")}>
-                <span>Role</span>
-                {showArrow("role")}
+                <ThDiv>
+                  Role
+                  {showArrow("role")}
+                </ThDiv>
               </SortTh>
             </>
           )}
           <SortTh key="level" onClick={() => toggleSort("level")}>
-            <span>
+            <ThDiv>
               {isMobile ? (
                 <ThIcon src="/assets/icons/level.png" width={12} height={12} />
               ) : (
                 "Level"
               )}
-            </span>
-            {showArrow("level")}
+              {showArrow("level")}
+            </ThDiv>
           </SortTh>
         </Row>
       </thead>
@@ -216,18 +235,8 @@ export default function MembersTable({ members }) {
 
           return (
             <Row key={m.tag}>
-              <CenterCell
-                style={{
-                  backgroundColor,
-                }}
-              >
-                {m.rank}
-              </CenterCell>
-              <CenterCell
-                style={{
-                  backgroundColor,
-                }}
-              >
+              <CenterCell backgroundColor={backgroundColor}>{m.clanRank}</CenterCell>
+              <CenterCell backgroundColor={backgroundColor}>
                 <Arena
                   src={`/assets/arenas/${getArenaFileName(m.trophies)}.png`}
                   height={32}
@@ -235,85 +244,35 @@ export default function MembersTable({ members }) {
                   alt="Arena"
                 />
               </CenterCell>
-              <CenterCell
-                style={{
-                  backgroundColor,
-                }}
-              >
-                {m.trophies}
-              </CenterCell>
+              <CenterCell backgroundColor={backgroundColor}>{m.trophies}</CenterCell>
               {isMobile ? (
-                <MobileNameCell
-                  style={{
-                    backgroundColor,
-                  }}
-                >
-                  <TopMobileDiv>
-                    <Name
-                      onClick={() =>
-                        router.push(`/player/${m.tag.substring(1)}`)
-                      }
-                    >
+                <Cell backgroundColor={backgroundColor}>
+                  <MobileRow>
+                    <Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>
                       {m.name}
                     </Name>
-                  </TopMobileDiv>
-                  <BottomMobileDiv>
-                    <span
-                      style={{
-                        marginRight: "0.25rem",
-                        color: gray["25"],
-                      }}
-                    >
-                      {formatRole(m.role)}
-                    </span>
-                    <span
-                      style={{
-                        color: gray["25"],
-                      }}
-                    >
-                      {m.lastSeenStr}
-                    </span>
-                  </BottomMobileDiv>
-                </MobileNameCell>
+                  </MobileRow>
+                  <MobileRow>
+                    <Text>{formatRole(m.role)}</Text>
+                    <Text color={m.color}>{m.lastSeenStr}</Text>
+                  </MobileRow>
+                </Cell>
               ) : (
                 <>
-                  <Cell
-                    style={{
-                      backgroundColor,
-                    }}
-                  >
-                    <Name
-                      onClick={() =>
-                        router.push(`/player/${m.tag.substring(1)}`)
-                      }
-                    >
+                  <Cell backgroundColor={backgroundColor}>
+                    <Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>
                       {m.name}
                     </Name>
                   </Cell>
-                  <CenterCell
-                    style={{
-                      color: gray["25"],
-                      backgroundColor,
-                    }}
-                  >
+                  <CenterCell backgroundColor={backgroundColor} color={m.color}>
                     {m.lastSeenStr}
                   </CenterCell>
-                  <CenterCell
-                    style={{
-                      color: gray["25"],
-                      backgroundColor,
-                    }}
-                  >
+                  <CenterCell backgroundColor={backgroundColor} color={gray["25"]}>
                     {formatRole(m.role)}
                   </CenterCell>
                 </>
               )}
-              <CenterCell
-                style={{
-                  color: gray["25"],
-                  backgroundColor,
-                }}
-              >
+              <CenterCell backgroundColor={backgroundColor} color={gray["25"]}>
                 {m.expLevel}
               </CenterCell>
             </Row>

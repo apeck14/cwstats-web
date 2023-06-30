@@ -38,7 +38,7 @@ export const saveClan = (name, tag, badge) =>
 
 export const unsaveClan = (tag) =>
   fetch(`/api/user/clan`, {
-    method: "DELETE",
+    method: "POST",
     body: JSON.stringify({
       tag,
     }),

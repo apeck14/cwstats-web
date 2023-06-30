@@ -36,6 +36,14 @@ export const formatTag = (tag, withHashtag = false) => {
   return newTag
 }
 
+export const formatRaceIndex = (type, periodIndex) => {
+  const dayType = type === "training" ? "Training" : "Battle"
+  const dayOfWeek = (periodIndex % 7) + 1
+  const dayInterval = type === "training" ? dayOfWeek : dayOfWeek - 3
+
+  return `${dayType} Day ${dayInterval}`
+}
+
 export const getBattleDaysCompleted = (isColosseum, dayOfWeek) => {
   if (!isColosseum || dayOfWeek <= 3) return 0
   return dayOfWeek - 3
@@ -186,8 +194,7 @@ export const getRaceDetails = (race, isColosseum) => {
   }
 
   return newRace.sort((a, b) => {
-    if (a.crossedFinishLine === b.crossedFinishLine)
-      return a.placement - b.placement
+    if (a.crossedFinishLine === b.crossedFinishLine) return a.placement - b.placement
 
     return b.crossedFinishLine - a.crossedFinishLine
   })
@@ -269,8 +276,7 @@ export const getMinFame = (clan, isColosseum, dayOfWeek) => {
     200 - clan.participants.reduce((a, b) => a + b.decksUsedToday, 0)
 
   if (isColosseum)
-    totalAttacksRemaining +=
-      200 * (3 - getBattleDaysCompleted(isColosseum, dayOfWeek))
+    totalAttacksRemaining += 200 * (3 - getBattleDaysCompleted(isColosseum, dayOfWeek))
 
   return fame + totalAttacksRemaining * 100
 }
