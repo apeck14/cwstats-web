@@ -106,6 +106,11 @@ const ShowParticipantsBtn = styled.button`
   height: 2rem;
   margin-top: 0.5rem;
 
+  @media (max-width: 480px) {
+    height: 1.75rem;
+    width: 8rem;
+  }
+
   :hover,
   :active {
     cursor: pointer;

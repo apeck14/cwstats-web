@@ -118,7 +118,7 @@ export async function getServerSideProps({ req, res, params }) {
 
     let saved
 
-    if (userResp) saved = !!(userResp?.savedClans || []).find((c) => c.tag === clan.tag)
+    if (userResp) saved = (userResp?.savedClans || []).find((c) => c.tag === clan.tag)
 
     const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
     addClan({ name: clan.name, tag: clan.tag, badge: badgeName })
@@ -132,7 +132,7 @@ export async function getServerSideProps({ req, res, params }) {
           clanWarTrophies: clan.clanWarTrophies,
         },
         log,
-        saved, // not sure :)
+        saved: !!saved, // not sure :)
         badgeName,
       },
     }
