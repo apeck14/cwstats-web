@@ -1,11 +1,13 @@
 import { getServerSession } from "next-auth"
 import { NextSeo } from "next-seo"
+import styled from "styled-components"
 
 import ClanHeader from "../../../components/Clan/Header"
+import ClanLogItem from "../../../components/Clan/Log/ClanLog"
 import SubNav from "../../../components/Clan/SubNav"
-import ClanLogs from "../../../components/Tables/ClanLogs"
 import ClanLogsOverview from "../../../components/Tables/ClanLogsOverview"
 import clientPromise from "../../../lib/mongodb"
+import { gray } from "../../../public/static/colors"
 import { getClanBadgeFileName } from "../../../utils/files"
 import {
   formatTag,
@@ -16,6 +18,16 @@ import {
 import { fetchClan, fetchLog } from "../../../utils/services"
 import { addClan } from "../../api/add/clan"
 import { authOptions } from "../../api/auth/[...nextauth]"
+
+const Header = styled.h2`
+  color: ${gray["0"]};
+  margin-top: 2rem;
+  text-align: center;
+
+  @media (max-width: 480px) {
+    font-size: 1.5rem;
+  }
+`
 
 export default function ClanLog({ clan, log, saved, badgeName }) {
   return (
@@ -43,7 +55,14 @@ export default function ClanLog({ clan, log, saved, badgeName }) {
       <SubNav />
 
       <ClanLogsOverview clanTag={clan.tag} log={log} />
-      <ClanLogs clanTag={clan.tag} log={log} />
+
+      <Header>Logs</Header>
+
+      {log.map((w) => {
+        const clanInWeek = w.standings.find((c) => c.clan.tag === clan.tag)
+
+        return <ClanLogItem week={w} clan={clanInWeek} />
+      })}
     </>
   )
 }

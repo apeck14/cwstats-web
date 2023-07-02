@@ -169,6 +169,7 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
                     )}.png`}
                     height={showMobileView ? 24 : 32}
                     width={showMobileView ? 18 : 24}
+                    alt={c.name}
                   />
                   <Name>{c.name}</Name>
                 </Column>
@@ -180,6 +181,7 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
                       src="/assets/icons/cw-trophy.png"
                       height={showMobileView ? 18 : 20}
                       width={showMobileView ? 18 : 20}
+                      alt="War Trophies"
                     />
                   </Column>
                 )}
@@ -190,6 +192,7 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
                     src="/assets/icons/boat-movement.png"
                     height={showMobileView ? 18 : 20}
                     width={showMobileView ? 22 : 24}
+                    alt="Boat Points"
                   />
                 </Column>
 
@@ -199,6 +202,7 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
                     src="/assets/icons/fame.png"
                     height={showMobileView ? 18 : 20}
                     width={showMobileView ? 13 : 15}
+                    alt="Fame"
                   />
                 </Column>
               </Row>
