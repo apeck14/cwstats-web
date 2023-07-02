@@ -1,13 +1,7 @@
 import { FaDiscord, FaHeart } from "react-icons/fa"
 import styled from "styled-components"
 
-import {
-  discordPrimary,
-  gray,
-  orange,
-  pink,
-  silver,
-} from "../public/static/colors"
+import { discordPrimary, gray, orange, pink, silver } from "../public/static/colors"
 
 const Main = styled.div({
   backgroundColor: gray["75"],
@@ -127,13 +121,10 @@ export default function Footer() {
   return (
     <Main>
       <TopDiv>
-        <IconButton onClick={discordHandleClick}>
+        <IconButton aria-label="Join Discord Support Server" onClick={discordHandleClick}>
           <DiscordIcon />
         </IconButton>
-        <DonateButton
-          aria-label="Donate to CWStats"
-          onClick={paypalHandleClick}
-        >
+        <DonateButton aria-label="Donate to CWStats" onClick={paypalHandleClick}>
           <HeartIcon />
           Donate
         </DonateButton>
@@ -141,9 +132,9 @@ export default function Footer() {
       <Hr />
       <BottomDiv>
         <ContentPolicy>
-          This content is not affiliated with, endorsed, sponsored, or
-          specifically approved by Supercell and Supercell is not responsible
-          for it. For more information see Supercell’s Fan Content Policy.
+          This content is not affiliated with, endorsed, sponsored, or specifically
+          approved by Supercell and Supercell is not responsible for it. For more
+          information see Supercell’s Fan Content Policy.
         </ContentPolicy>
         <Copyright>©2023 CWStats. All rights reserved.</Copyright>
       </BottomDiv>
