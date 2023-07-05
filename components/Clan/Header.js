@@ -109,8 +109,8 @@ const InGameLink = styled(Link)`
 const BookmarkFill = styled(FaBookmark)`
   color: ${pink};
 
-  &:hover,
-  &:active {
+  :hover,
+  :active {
     cursor: pointer;
   }
 `
@@ -118,8 +118,8 @@ const BookmarkFill = styled(FaBookmark)`
 const Bookmark = styled(FaRegBookmark)`
   color: ${pink};
 
-  &:hover,
-  &:active {
+  :hover,
+  :active {
     cursor: pointer;
   }
 `
@@ -127,8 +127,8 @@ const Bookmark = styled(FaRegBookmark)`
 const InGameLinkIcon = styled(BiLinkExternal)`
   color: ${gray["25"]};
 
-  &:hover,
-  &:active {
+  :hover,
+  :active {
     cursor: pointer;
     color: ${orange};
   }
