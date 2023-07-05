@@ -140,6 +140,18 @@ export const addClan = (name, tag, badge) =>
     }),
   })
 
+export const addPlayer = (name, tag) =>
+  fetch(`/api/add/player`, {
+    method: "PUT",
+    body: JSON.stringify({
+      name,
+      tag,
+    }),
+    headers: new Headers({
+      "Content-Type": "application/json",
+    }),
+  })
+
 export const getClanSearchResults = (query) =>
   fetch(`/api/search/clan?q=${encodeURIComponent(query)}`, {
     method: "GET",
