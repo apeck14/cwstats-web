@@ -4,7 +4,7 @@ import { BiSearchAlt } from "react-icons/bi"
 import styled from "styled-components"
 
 import { gray, orange } from "../../public/static/colors"
-import { getClan } from "../../utils/services"
+import { getClan, getPlayer } from "../../utils/services"
 
 const Main = styled.div`
   background-color: ${gray["50"]};
@@ -77,9 +77,14 @@ const SearchIcon = styled(BiSearchAlt)`
 export default function SearchDropdown({ showSearch, setShowSearch }) {
   const router = useRouter()
   const [clanSearch, setClanSearch] = useState("")
+  const [playerSearch, setPlayerSearch] = useState("")
 
   const handleClanSearchChange = (e) => {
     setClanSearch(e.target.value)
+  }
+
+  const handlePlayerSearchChange = (e) => {
+    setPlayerSearch(e.target.value)
   }
 
   const handleClanSubmit = async () => {
@@ -116,9 +121,40 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
     }
   }
 
-  const handlePlayerSubmit = () => {
-    setShowSearch(false)
-    router.push(`/player/search`)
+  const handlePlayerSubmit = async () => {
+    if (playerSearch.length > 0) {
+      setShowSearch(false)
+
+      // check if input is exact tag
+      const tagRegex = /^[A-Za-z0-9#]+$/
+      const meetsTagReq =
+        playerSearch.length >= 5 &&
+        playerSearch.length <= 10 &&
+        playerSearch.match(tagRegex)
+
+      if (meetsTagReq) {
+        try {
+          const res = await getPlayer(playerSearch)
+          const data = await res.json()
+
+          router.push(`/clan/${data.tag.substring(1)}`)
+        } catch {
+          router.push({
+            pathname: "/player/search",
+            query: {
+              q: playerSearch,
+            },
+          })
+        }
+      } else {
+        router.push({
+          pathname: "/player/search",
+          query: {
+            q: playerSearch,
+          },
+        })
+      }
+    }
   }
 
   return showSearch ? (
@@ -126,7 +162,10 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
       <SearchDiv>
         <Text>Players</Text>
         <SearchBarDiv>
-          <SearchBar placeholder="Name or tag, e.g. VGRQ9CVG" />
+          <SearchBar
+            placeholder="Name or tag, e.g. VGRQ9CVG"
+            onChange={handlePlayerSearchChange}
+          />
           <SearchButton onClick={handlePlayerSubmit}>
             <SearchIcon />
           </SearchButton>
