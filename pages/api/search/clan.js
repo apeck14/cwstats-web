@@ -1,26 +1,36 @@
-// get all guilds for a user
-import clientPromise from "../../../lib/mongodb"
-
-export default async function getClansFromSearch(req, res) {
+export async function getClansFromSearch(q, limit) {
   try {
-    const { query } = req
-    const { q } = query
+    const resp = await fetch(
+      `https://proxy.royaleapi.dev/v1/clans?name=${encodeURIComponent(q)}&limit=50`,
+      {
+        method: "GET",
+        headers: new Headers({
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_CR_API_TOKEN}`,
+        }),
+      }
+    )
 
-    const client = await clientPromise
-    const db = client.db("General")
-    const clans = db.collection("Clans")
+    const data = await resp.json()
 
-    const foundClans = await clans
-      .find({
-        name: new RegExp(`.*${q}*.`, "i"),
-      })
-      .limit(50)
-      .toArray()
+    data?.items?.sort((a, b) => b.clanWarTrophies - a.clanWarTrophies)
 
-    return res.status(200).json(foundClans)
+    return { clans: data?.items?.slice(0, limit || 50) || [] }
   } catch (err) {
-    res.status(500).json({
-      message: err.message,
+    return { error: true, message: err.message }
+  }
+}
+
+export default async function handler(req, res) {
+  try {
+    const { error, message, clans } = await getClansFromSearch(req)
+
+    if (error) throw message
+
+    return res.status(200).json(clans)
+  } catch ({ message }) {
+    return res.status(500).json({
+      message,
     })
   }
 }

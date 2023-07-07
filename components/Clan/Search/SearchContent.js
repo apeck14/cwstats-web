@@ -15,17 +15,19 @@ const NoClans = styled.p`
   font-style: italic;
 `
 
-export default function SearchContent({ clans, skeleton }) {
+export default function SearchContent({ results, skeleton, isPlayers }) {
   if (skeleton) {
     return [1, 2, 3].map((n) => <SearchItem key={n} skeleton />)
   }
 
   return (
     <Main>
-      {clans.length > 0 ? (
-        clans.map((c) => <SearchItem key={c.tag} clan={c} />)
+      {results.length > 0 ? (
+        results.map((item) => (
+          <SearchItem key={item.tag} item={item} isPlayer={isPlayers} />
+        ))
       ) : (
-        <NoClans>No clans found</NoClans>
+        <NoClans>No {isPlayers ? "players" : "clans"} found</NoClans>
       )}
     </Main>
   )

@@ -357,12 +357,11 @@ const supportedCodes = [
 ]
 
 export const handleCRError = (err, router) => {
+  console.log(err)
   const { status } = err
 
   if (supportedCodes.includes(status)) router.push(`/${status}`)
-  else if (status) router.push("/500")
-
-  return null
+  else router.push("/500")
 }
 
 export const getCRErrorUrl = (err) => {

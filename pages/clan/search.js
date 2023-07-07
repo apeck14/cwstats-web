@@ -1,13 +1,12 @@
 import { useRouter } from "next/router"
 import { NextSeo } from "next-seo"
-import { useEffect, useState } from "react"
-import { lcs } from "string-comparison"
 import styled from "styled-components"
 
 import SearchContent from "../../components/Clan/Search/SearchContent"
 import SearchBar from "../../components/Home/SearchBar"
 import { gray, orange } from "../../public/static/colors"
-import { getClanSearchResults } from "../../utils/services"
+import { redirect } from "../../utils/functions"
+import { getClansFromSearch } from "../api/search/clan"
 
 const Header = styled.h1`
   color: ${gray["0"]};
@@ -44,40 +43,13 @@ const Text = styled.p`
   }
 `
 
-export default function ClanSearch() {
+const Gray = styled.span`
+  color: ${gray["25"]};
+`
+
+export default function ClanSearch({ results }) {
   const router = useRouter()
-  const [clans, setClans] = useState([])
-  const [isLoaded, setIsLoaded] = useState(false)
   const { q } = router.query
-
-  useEffect(() => {
-    if (q) {
-      const trimmedQuery = q.trim()
-
-      if (trimmedQuery.length > 0 && router) {
-        getClanSearchResults(trimmedQuery)
-          .then((data) => {
-            const sorted = lcs
-              .sortMatch(
-                trimmedQuery,
-                data.map((c) => c.name)
-              )
-              .sort((a, b) => b.rating - a.rating)
-              .map((c) => data.find((cl) => cl.name === c.member))
-
-            setClans(sorted)
-            setIsLoaded(true)
-
-            return true
-          })
-          .catch(() => {
-            router.push("/500")
-          })
-      }
-    } else {
-      setIsLoaded(true)
-    }
-  }, [q, router])
 
   return (
     <>
@@ -98,13 +70,28 @@ export default function ClanSearch() {
 
       <HeaderDiv>
         <Text>
-          Showing top {clans.length} search result(s). Search by tag if you
-          cannot find clan by name, the clan will then be saved for future
-          searches.
+          Showing top {results.length} search result(s).{" "}
+          <Gray>Search by tag if you cannot find clan by name.</Gray>
         </Text>
       </HeaderDiv>
 
-      <SearchContent clans={clans} skeleton={!isLoaded} />
+      <SearchContent results={results} />
     </>
   )
+}
+
+export async function getServerSideProps({ query }) {
+  try {
+    const { q } = query || {}
+
+    const { clans } = await getClansFromSearch(q)
+
+    return {
+      props: {
+        results: JSON.parse(JSON.stringify(clans || [])),
+      },
+    }
+  } catch (err) {
+    return redirect("/500")
+  }
 }

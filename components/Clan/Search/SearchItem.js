@@ -3,6 +3,7 @@ import Link from "next/link"
 import styled from "styled-components"
 
 import { gray, pink } from "../../../public/static/colors"
+import { getClanBadgeFileName } from "../../../utils/files"
 import Skeleton from "../../Skeleton"
 
 const Main = styled.div`
@@ -11,9 +12,11 @@ const Main = styled.div`
   padding: 1rem;
   display: flex;
   margin-bottom: 0.25rem;
+  display: flex;
+  align-items: center;
 `
 
-const Badge = styled(Image)``
+const Icon = styled(Image)``
 
 const InfoDiv = styled.div`
   margin-left: 1rem;
@@ -23,6 +26,8 @@ const Name = styled(Link)`
   text-decoration: none;
   color: ${gray["0"]};
   font-weight: 700;
+  display: flex;
+  column-gap: 0.5rem;
 
   :hover,
   :active {
@@ -30,11 +35,14 @@ const Name = styled(Link)`
   }
 `
 
-const Tag = styled.p`
+const Gray = styled.p`
   color: ${gray["25"]};
 `
 
-export default function SearchItem({ clan, skeleton }) {
+export default function SearchItem({ item, skeleton, isPlayer }) {
+  const clanBadgeWidth = 38 * 0.75
+  const kingWidth = 38 * 0.85
+
   if (skeleton) {
     return (
       <Main>
@@ -49,15 +57,26 @@ export default function SearchItem({ clan, skeleton }) {
 
   return (
     <Main>
-      <Badge
-        src={`/assets/badges/${clan.badge}.png`}
-        width={28}
-        height={38.5}
+      <Icon
+        src={
+          isPlayer
+            ? "/assets/icons/king-pink.png"
+            : `/assets/badges/${getClanBadgeFileName(
+                item.badgeId,
+                item.clanWarTrophies
+              )}.png`
+        }
+        width={isPlayer ? kingWidth : clanBadgeWidth}
+        height={38}
         alt="Badge"
       />
+
       <InfoDiv>
-        <Name href={`/clan/${clan.tag.substring(1)}`}>{clan.name}</Name>
-        <Tag>{clan.tag}</Tag>
+        <Name href={`/${isPlayer ? "player" : "clan"}/${item.tag.substring(1)}`}>
+          {item.name}
+          {isPlayer && <Gray> ({item.tag})</Gray>}
+        </Name>
+        <Gray>{isPlayer ? item.clanName : item.tag}</Gray>
       </InfoDiv>
     </Main>
   )

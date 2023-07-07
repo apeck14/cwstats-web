@@ -124,6 +124,9 @@ export const fetchGuildChannels = (serverId) =>
 export const getClan = (tag) =>
   fetch(`/api/clan/${formatTag(tag, false)}`).then(handleSCResponse)
 
+export const getPlayer = (tag) =>
+  fetch(`/api/player/${formatTag(tag, false)}`).then(handleSCResponse)
+
 export const getRace = (tag) =>
   fetch(`/api/clan/${formatTag(tag, false)}/race`).then(handleSCResponse)
 
@@ -151,14 +154,6 @@ export const addPlayer = (name, tag) =>
       "Content-Type": "application/json",
     }),
   })
-
-export const getClanSearchResults = (query) =>
-  fetch(`/api/search/clan?q=${encodeURIComponent(query)}`, {
-    method: "GET",
-    headers: new Headers({
-      "Content-Type": "application/json",
-    }),
-  }).then((res) => res.json())
 
 export const addAbbreviation = (serverId, abbr, clanTag) =>
   fetch(`/api/guild/abbreviation`, {
@@ -287,5 +282,14 @@ export const removeLinkedAccount = ({ tag, serverId, discordID }) =>
     }),
     headers: new Headers({
       "Content-Type": "application/json",
+    }),
+  })
+
+export const getPlayersFromSearch = (q, limit) =>
+  fetch(`/api/search/player?q=${encodeURIComponent(q)}&limit=${limit || 50}`, {
+    method: "GET",
+    headers: new Headers({
+      "Content-Type": "application/json",
+      Authorization: `Bearer ${process.env.NEXT_PUBLIC_CR_API_TOKEN}`,
     }),
   })
