@@ -1,6 +1,6 @@
 import Image from "next/image"
 import { useRouter } from "next/router"
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useId, useRef, useState } from "react"
 import { BiSearchAlt } from "react-icons/bi"
 import styled from "styled-components"
 
@@ -124,6 +124,7 @@ export default function SearchBar({
   const resultsRef = useRef(null)
   const debouncedSearchTerm = useDebounce(search, 1200)
   const initialRender = useRef(true)
+  const inputId = useId()
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -168,9 +169,8 @@ export default function SearchBar({
     }
   }, [debouncedSearchTerm])
 
-  const handleSubmit = () => {
-    if (showSpinner) return
-    const trimmedSearch = search.trim()
+  const handleSubmit = (onEnterKeyValue) => {
+    const trimmedSearch = onEnterKeyValue ? onEnterKeyValue.trim() : search.trim()
 
     if (!trimmedSearch || (defaultValue && defaultValue === trimmedSearch)) return
 
@@ -210,6 +210,24 @@ export default function SearchBar({
     }
   }
 
+  // on Enter key press
+  useEffect(() => {
+    const keyDownHandler = (event) => {
+      if (event.key === "Enter") {
+        event.preventDefault()
+
+        const input = document.getElementById(inputId)
+        handleSubmit(input.value)
+      }
+    }
+
+    document.addEventListener("keydown", keyDownHandler)
+
+    return () => {
+      document.removeEventListener("keydown", keyDownHandler)
+    }
+  }, [])
+
   const handleClick = (tag) =>
     router.push(`/${isPlayerSearch ? "player" : "clan"}/${tag.substring(1)}`)
 
@@ -217,6 +235,7 @@ export default function SearchBar({
     <Container ref={resultsRef}>
       <Main>
         <InputBar
+          id={inputId}
           placeholder={placeholder}
           onChange={handleChange}
           defaultValue={defaultValue}
