@@ -4,7 +4,7 @@ import { useEffect, useRef, useState } from "react"
 import { BiSearchAlt } from "react-icons/bi"
 import styled from "styled-components"
 
-import useDebouncedCallback from "../../hooks/useDebouncedCallback"
+import useDebounce from "../../hooks/useDebounce"
 import useWindowSize from "../../hooks/useWindowSize"
 import { getClansFromSearch } from "../../pages/api/search/clan"
 import { gray, orange, pink } from "../../public/static/colors"
@@ -69,8 +69,7 @@ const Icon = styled(BiSearchAlt)`
 const Results = styled.div`
   position: absolute;
   top: 2.75rem;
-  width: 15rem;
-  right: 3.75rem;
+  width: 80%;
   background: ${gray["50"]};
   border-radius: 0.25rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
@@ -122,8 +121,9 @@ export default function SearchBar({
   const [results, setResults] = useState([])
   const [showSpinner, setShowSpinner] = useState(false)
   const { width } = useWindowSize()
-
   const resultsRef = useRef(null)
+  const debouncedSearchTerm = useDebounce(search, 1200)
+  const initialRender = useRef(true)
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -138,38 +138,35 @@ export default function SearchBar({
     }
   }, [resultsRef])
 
-  const updateSearchResults = useDebouncedCallback(async (query) => {
-    try {
-      if (isPlayerSearch) {
-        const data = await getPlayersFromSearch(query, 4)
-        const { players } = await data.json()
+  const handleChange = (e) => {
+    setSearch(e.target.value)
+  }
 
-        setResults(players)
-      } else {
-        const { clans } = await getClansFromSearch(query, 4)
-        setResults(clans)
-      }
-    } catch {
+  const updateSearchResults = async () => {
+    setShowSpinner(true)
+
+    if (!debouncedSearchTerm) {
       setResults([])
+    } else if (isPlayerSearch) {
+      const data = await getPlayersFromSearch(debouncedSearchTerm, 4)
+      const { players } = await data.json()
+
+      setResults(players)
+    } else {
+      const { clans } = await getClansFromSearch(debouncedSearchTerm, 4)
+      setResults(clans)
     }
 
     setShowSpinner(false)
-  }, 1250)
-
-  const handleChange = (e) => {
-    setSearch(e.target.value)
-
-    if (!e.target.value) {
-      setResults([])
-      setShowSpinner(false)
-      return
-    }
-
-    if (showLiveResults) {
-      setShowSpinner(true)
-      updateSearchResults(e.target.value)
-    }
   }
+
+  useEffect(() => {
+    if (!initialRender.current) {
+      if (showLiveResults) updateSearchResults()
+    } else {
+      initialRender.current = false
+    }
+  }, [debouncedSearchTerm])
 
   const handleSubmit = () => {
     if (showSpinner) return
