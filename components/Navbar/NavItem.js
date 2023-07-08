@@ -77,19 +77,19 @@ const Description = styled.p`
   font-weight: 700;
 `
 
-export default function NavItem({ children, isActive, type }) {
+export default function NavItem({ children, isActive, type, url }) {
   const router = useRouter()
   const [showSubMenu, setShowSubMenu] = useState(false)
 
   const handleHeaderClick = () => {
     if (type === "invite" || type === "leaderboards") return
 
-    router.push("/docs")
+    router.push(url)
   }
 
-  const handleClick = (url) => {
+  const handleClick = (link) => {
     setShowSubMenu(false)
-    router.push(url)
+    router.push(link)
   }
 
   return (

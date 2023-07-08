@@ -4,14 +4,13 @@ import { useEffect, useId, useRef, useState } from "react"
 import { BiSearchAlt } from "react-icons/bi"
 import styled from "styled-components"
 
-import useDebounce from "../../hooks/useDebounce"
-import useWindowSize from "../../hooks/useWindowSize"
-import { getClansFromSearch } from "../../pages/api/search/clan"
-import { gray, orange, pink } from "../../public/static/colors"
-import { getClanBadgeFileName } from "../../utils/files"
-import { handleCRError } from "../../utils/functions"
-import { getClan, getPlayer, getPlayersFromSearch } from "../../utils/services"
-import LoadingSpinner from "../LoadingSpinner"
+import useDebounce from "../hooks/useDebounce"
+import useWindowSize from "../hooks/useWindowSize"
+import { getClansFromSearch } from "../pages/api/search/clan"
+import { gray } from "../public/static/colors"
+import { getClanBadgeFileName } from "../utils/files"
+import { getPlayersFromSearch } from "../utils/services"
+import LoadingSpinner from "./LoadingSpinner"
 
 const Container = styled.div`
   display: flex;
@@ -29,37 +28,22 @@ const Main = styled.div`
 
 const InputBar = styled.input`
   height: 100%;
-  padding: 0 1.5rem;
+  padding: 0 1rem;
   font-size: 1rem;
-  border-radius: 1.5rem 0 0 1.5rem;
-  color: ${gray["50"]};
-  font-weight: 700;
+  color: ${gray["0"]};
+  font-weight: 600;
+  height: 2.5rem;
+  background-color: transparent;
 
   ::placeholder {
     font-size: 0.8rem;
   }
 `
 
-const Submit = styled.button`
-  height: 100%;
-  background-color: ${pink};
-  padding: 0 1.5rem;
-  border-radius: 0 1.5rem 1.5rem 0;
-
-  :hover,
-  :active {
-    cursor: pointer;
-    background-color: ${orange};
-  }
-
-  @media (max-width: 380px) {
-    padding: 0 1.25rem;
-  }
-`
-
 const Icon = styled(BiSearchAlt)`
   color: ${gray["0"]};
   font-size: 1.4rem;
+  padding-right: 0.5rem;
 
   @media (max-width: 380px) {
     font-size: 1.3rem;
@@ -68,8 +52,8 @@ const Icon = styled(BiSearchAlt)`
 
 const Results = styled.div`
   position: absolute;
-  top: 2.75rem;
-  width: 80%;
+  top: calc(2.5rem + 1px);
+  width: 100%;
   background: ${gray["50"]};
   border-radius: 0.25rem;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.15);
@@ -110,7 +94,24 @@ const Column = styled.div`
   flex-direction: column;
 `
 
-export default function SearchBar({
+const Row = styled.div`
+  display: flex;
+  background-color: ${gray["50"]};
+  outline: 1px solid ${gray["25"]};
+  align-items: center;
+  border-radius: 0.25rem;
+  width: 18rem;
+  justify-content: space-between;
+`
+
+const Spinner = styled(LoadingSpinner)`
+  > span {
+    padding-right: 0.5rem;
+    background-color: green;
+  }
+`
+
+export default function SpySearchBar({
   placeholder,
   isPlayerSearch,
   defaultValue,
@@ -169,89 +170,25 @@ export default function SearchBar({
     }
   }, [debouncedSearchTerm])
 
-  const handleSubmit = (onEnterKeyValue) => {
-    console.log(onEnterKeyValue)
-    const trimmedSearch = onEnterKeyValue ? onEnterKeyValue.trim() : search.trim()
-
-    if (!trimmedSearch || (defaultValue && defaultValue === trimmedSearch)) return
-
-    setShowSpinner(true)
-
-    const tagRegex = /^[A-Za-z0-9#]+$/
-    const meetsTagReq =
-      trimmedSearch.length >= 5 &&
-      trimmedSearch.length <= 10 &&
-      trimmedSearch.match(tagRegex)
-
-    if (isPlayerSearch) {
-      if (meetsTagReq) {
-        getPlayer(trimmedSearch)
-          .then((data) => router.push(`/player/${data.tag.substring(1)}`))
-          .catch((err) => {
-            if (err.status === 404) {
-              router.push(`/player/search?q=${trimmedSearch}`)
-            } else handleCRError(err, router)
-          })
-      } else {
-        router.push(`/player/search?q=${trimmedSearch}`)
-      }
-      return
-    }
-
-    if (meetsTagReq) {
-      getClan(trimmedSearch)
-        .then((data) => router.push(`/clan/${data.tag.substring(1)}`))
-        .catch((err) => {
-          if (err.status === 404) {
-            router.push(`/clan/search?q=${trimmedSearch}`)
-          } else handleCRError(err, router)
-        })
-    } else {
-      router.push(`/clan/search?q=${trimmedSearch}`)
-    }
-  }
-
-  // on Enter key press
-  useEffect(() => {
-    const keyDownHandler = (event) => {
-      if (event.key === "Enter") {
-        event.preventDefault()
-
-        const input = document.getElementById(inputId)
-        handleSubmit(input.value)
-      }
-    }
-
-    document.addEventListener("keydown", keyDownHandler)
-
-    return () => {
-      document.removeEventListener("keydown", keyDownHandler)
-    }
-  }, [])
-
   const handleClick = (tag) =>
     router.push(`/${isPlayerSearch ? "player" : "clan"}/${tag.substring(1)}`)
 
   return (
     <Container ref={resultsRef}>
-      <Main>
+      <Row>
         <InputBar
           id={inputId}
           placeholder={placeholder}
           onChange={handleChange}
           defaultValue={defaultValue}
         />
-        <Submit
-          onClick={() => handleSubmit()}
-          aria-label={`${isPlayerSearch ? "Player" : "Clan"} Search`}
-        >
-          {showSpinner ? (
-            <LoadingSpinner size={width <= 380 ? "1.3rem" : "1.4rem"} lineWidth={3} />
-          ) : (
-            <Icon />
-          )}
-        </Submit>
-      </Main>
+        {showSpinner ? (
+          <Spinner size={width <= 380 ? "1.3rem" : "1.4rem"} lineWidth={3} />
+        ) : (
+          <Icon />
+        )}
+      </Row>
+
       {results.length > 0 && (
         <Results>
           {results.map((item) => (

@@ -16,7 +16,6 @@ import {
   redirect,
 } from "../../../utils/functions"
 import { fetchClan, fetchLog } from "../../../utils/services"
-import { addClan } from "../../api/add/clan"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
 const Header = styled.h2`
@@ -121,7 +120,6 @@ export async function getServerSideProps({ req, res, params }) {
     if (userResp) saved = (userResp?.savedClans || []).find((c) => c.tag === clan.tag)
 
     const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
-    addClan({ name: clan.name, tag: clan.tag, badge: badgeName })
 
     return {
       props: {

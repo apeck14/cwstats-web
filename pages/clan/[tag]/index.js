@@ -19,7 +19,6 @@ import {
   redirect,
 } from "../../../utils/functions"
 import { fetchClan } from "../../../utils/services"
-import { addClan } from "../../api/add/clan"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
 const Main = styled.div``
@@ -241,7 +240,6 @@ export async function getServerSideProps({ req, res, params }) {
     if (userResp) saved = !!(userResp.savedClans || []).find((c) => c.tag === clan.tag)
 
     const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
-    addClan({ name: clan.name, tag: clan.tag, badge: badgeName })
 
     const members = clan?.memberList?.map((m) => {
       const lastSeenDate = m.lastSeen ? parseDate(m.lastSeen) : ""
