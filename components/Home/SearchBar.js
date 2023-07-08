@@ -241,7 +241,7 @@ export default function SearchBar({
           defaultValue={defaultValue}
         />
         <Submit
-          onClick={handleSubmit}
+          onClick={() => handleSubmit()}
           aria-label={`${isPlayerSearch ? "Player" : "Clan"} Search`}
         >
           {showSpinner ? (
