@@ -1,19 +1,13 @@
-import clientPromise from "../../../lib/mongodb"
+import * as Realm from "realm-web"
 
 export async function getPlayersFromSearch(q, limit) {
   try {
-    const client = await clientPromise
-    const db = client.db("General")
-    const players = db.collection("Players")
+    const realmApp = new Realm.App({ id: process.env.NEXT_PUBLIC_REALM_APP_ID })
+    const realmCredentials = Realm.Credentials.anonymous()
+    const realm = await realmApp.logIn(realmCredentials)
+    const players = await realm.functions.searchPlayerNames(q, limit)
 
-    const foundPlayers = await players
-      .find({
-        name: new RegExp(`.*${q}*.`, "i"),
-      })
-      .limit(Number(limit) || 50)
-      .toArray()
-
-    return { players: foundPlayers || [] }
+    return { players: players ?? [] }
   } catch ({ message }) {
     return { error: true, message }
   }
@@ -29,9 +23,10 @@ export default async function handler(req, res) {
     if (error) throw message
 
     return res.status(200).json({ players })
-  } catch ({ message }) {
+  } catch (err) {
+    console.log(err)
     return res.status(500).json({
-      message,
+      message: err.message,
     })
   }
 }
