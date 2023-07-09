@@ -9,7 +9,6 @@ import clientPromise from "../../../lib/mongodb"
 import { getClanBadgeFileName } from "../../../utils/files"
 import { formatTag, getCRErrorUrl, handleSCResponse } from "../../../utils/functions"
 import { fetchClan } from "../../../utils/services"
-import { addClan } from "../../api/add/clan"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
 export default function ClanStats({ clan, saved, badgeName }) {
@@ -77,7 +76,6 @@ export async function getServerSideProps({ req, res, params }) {
     if (userResp) saved = !!(userResp.savedClans || []).find((c) => c.tag === clan.tag)
 
     const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
-    addClan({ name: clan.name, tag: clan.tag, badge: badgeName })
 
     return {
       props: {

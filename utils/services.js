@@ -127,21 +127,11 @@ export const getClan = (tag) =>
 export const getPlayer = (tag) =>
   fetch(`/api/player/${formatTag(tag, false)}`).then(handleSCResponse)
 
+export const getBattleLog = (tag) =>
+  fetch(`/api/player/${formatTag(tag, false)}/battlelog`).then(handleSCResponse)
+
 export const getRace = (tag) =>
   fetch(`/api/clan/${formatTag(tag, false)}/race`).then(handleSCResponse)
-
-export const addClan = (name, tag, badge) =>
-  fetch(`/api/add/clan`, {
-    method: "PUT",
-    body: JSON.stringify({
-      name,
-      tag,
-      badge,
-    }),
-    headers: new Headers({
-      "Content-Type": "application/json",
-    }),
-  })
 
 export const addPlayer = (name, tag) =>
   fetch(`/api/add/player`, {

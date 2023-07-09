@@ -7,7 +7,7 @@ import { BiSearchAlt } from "react-icons/bi"
 import { CgLoadbarDoc } from "react-icons/cg"
 import { FaDiscord } from "react-icons/fa"
 import { IoPodiumOutline } from "react-icons/io5"
-import { TbBrandDiscord } from "react-icons/tb"
+import { TbBrandDiscord, TbSpy } from "react-icons/tb"
 import styled from "styled-components"
 
 import useToggleBodyScroll from "../../hooks/useToggleBodyScroll"
@@ -132,6 +132,11 @@ const ProfilePicture = styled(Image)`
   }
 `
 
+const SpyIcon = styled(TbSpy)`
+  color: ${pink};
+  font-size: 1.25rem;
+`
+
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
@@ -166,7 +171,11 @@ export default function Navbar() {
                 <LeaderboardIcon />
                 Leaderboards
               </NavItem>
-              <NavItem isActive={router.asPath.includes("/docs")}>
+              <NavItem isActive={router.asPath === "/spy"} url="/spy">
+                <SpyIcon />
+                Spy
+              </NavItem>
+              <NavItem isActive={router.asPath === "/docs"} url="/docs">
                 <DocIcon />
                 Docs
               </NavItem>

@@ -170,6 +170,7 @@ export default function SearchBar({
   }, [debouncedSearchTerm])
 
   const handleSubmit = (onEnterKeyValue) => {
+    console.log(onEnterKeyValue)
     const trimmedSearch = onEnterKeyValue ? onEnterKeyValue.trim() : search.trim()
 
     if (!trimmedSearch || (defaultValue && defaultValue === trimmedSearch)) return
