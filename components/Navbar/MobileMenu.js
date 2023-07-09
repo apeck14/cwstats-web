@@ -1,7 +1,7 @@
 import { useRouter } from "next/router"
 import { CgLoadbarDoc } from "react-icons/cg"
 import { IoPodiumOutline } from "react-icons/io5"
-import { TbBrandDiscord } from "react-icons/tb"
+import { TbBrandDiscord, TbSpy } from "react-icons/tb"
 import styled from "styled-components"
 
 import { gray, pink } from "../../public/static/colors"
@@ -29,8 +29,13 @@ const SlideMenu = styled.nav`
   transition: transform 0.3s ease-in-out;
   transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(100%)")};
 
-  h3:nth-of-type(2) {
-    margin: 0.75rem 0;
+  h3:nth-of-type(2),
+  h3:nth-of-type(3) {
+    margin-top: 0.75rem;
+  }
+
+  h3:nth-of-type(3) {
+    margin-bottom: 0.75rem;
   }
 `
 
@@ -55,6 +60,11 @@ const LeaderboardIcon = styled(IoPodiumOutline)`
 `
 
 const DiscordIcon = styled(TbBrandDiscord)`
+  color: ${pink};
+  font-size: 1.25rem;
+`
+
+const SpyIcon = styled(TbSpy)`
   color: ${pink};
   font-size: 1.25rem;
 `
@@ -102,6 +112,10 @@ export default function MobileMenu({ isOpen, setIsOpen }) {
         <ItemTitle>War</ItemTitle>
         <Description>{WAR_LEADERBOARD_NAV_DESC}</Description>
       </Item>
+      <Title onClick={() => handleClick("/spy")}>
+        <SpyIcon />
+        Spy
+      </Title>
       <Title onClick={() => handleClick("/docs")}>
         <DocIcon />
         Docs

@@ -127,6 +127,9 @@ export const getClan = (tag) =>
 export const getPlayer = (tag) =>
   fetch(`/api/player/${formatTag(tag, false)}`).then(handleSCResponse)
 
+export const getBattleLog = (tag) =>
+  fetch(`/api/player/${formatTag(tag, false)}/battlelog`).then(handleSCResponse)
+
 export const getRace = (tag) =>
   fetch(`/api/clan/${formatTag(tag, false)}/race`).then(handleSCResponse)
 

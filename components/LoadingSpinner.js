@@ -5,7 +5,7 @@ const { default: styled } = require("styled-components")
 const SpinnerSpan = styled.span`
   width: ${({ size }) => size || "48px"};
   height: ${({ size }) => size || "48px"};
-  border: ${({ lineWidth }) => `${lineWidth || 5}px solid ${gray["0"]}`};
+  border: ${({ lineWidth, color }) => `${lineWidth || 5}px solid ${color || gray["0"]}`};
   border-bottom-color: transparent;
   border-radius: 50%;
   display: inline-block;
@@ -22,6 +22,6 @@ const SpinnerSpan = styled.span`
   }
 `
 
-export default function LoadingSpinner({ size, lineWidth }) {
-  return <SpinnerSpan size={size} lineWidth={lineWidth} />
+export default function LoadingSpinner({ size, lineWidth, color }) {
+  return <SpinnerSpan size={size} lineWidth={lineWidth} color={color} />
 }

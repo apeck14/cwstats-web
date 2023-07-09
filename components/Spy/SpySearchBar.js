@@ -1,16 +1,16 @@
 import Image from "next/image"
-import { useRouter } from "next/router"
 import { useEffect, useId, useRef, useState } from "react"
 import { BiSearchAlt } from "react-icons/bi"
 import styled from "styled-components"
 
-import useDebounce from "../hooks/useDebounce"
-import useWindowSize from "../hooks/useWindowSize"
-import { getClansFromSearch } from "../pages/api/search/clan"
-import { gray } from "../public/static/colors"
-import { getClanBadgeFileName } from "../utils/files"
-import { getPlayersFromSearch } from "../utils/services"
-import LoadingSpinner from "./LoadingSpinner"
+import useDebounce from "../../hooks/useDebounce"
+import useWindowSize from "../../hooks/useWindowSize"
+import { getClansFromSearch } from "../../pages/api/search/clan"
+import { gray } from "../../public/static/colors"
+import { getClanBadgeFileName } from "../../utils/files"
+import { getWarDecksFromLog } from "../../utils/functions"
+import { getBattleLog, getPlayer, getPlayersFromSearch } from "../../utils/services"
+import LoadingSpinner from "../LoadingSpinner"
 
 const Container = styled.div`
   display: flex;
@@ -18,12 +18,6 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   position: relative;
-`
-
-const Main = styled.div`
-  display: flex;
-  align-items: center;
-  height: 2.75rem;
 `
 
 const InputBar = styled.input`
@@ -116,8 +110,10 @@ export default function SpySearchBar({
   isPlayerSearch,
   defaultValue,
   showLiveResults,
+  setShowDecksSpinner,
+  setDecks,
+  setPlayer,
 }) {
-  const router = useRouter()
   const [search, setSearch] = useState("")
   const [results, setResults] = useState([])
   const [showSpinner, setShowSpinner] = useState(false)
@@ -170,8 +166,18 @@ export default function SpySearchBar({
     }
   }, [debouncedSearchTerm])
 
-  const handleClick = (tag) =>
-    router.push(`/${isPlayerSearch ? "player" : "clan"}/${tag.substring(1)}`)
+  const handleClick = async (name, tag) => {
+    setShowDecksSpinner(true)
+    setSearch("")
+    setResults([])
+
+    const [log, player] = await Promise.all([getBattleLog(tag), getPlayer(tag)])
+    const playerDecks = await getWarDecksFromLog(log)
+
+    setDecks(playerDecks)
+    setShowDecksSpinner(false)
+    setPlayer({ name: player.name, tag: player.tag })
+  }
 
   return (
     <Container ref={resultsRef}>
@@ -181,6 +187,7 @@ export default function SpySearchBar({
           placeholder={placeholder}
           onChange={handleChange}
           defaultValue={defaultValue}
+          value={search}
         />
         {showSpinner ? (
           <Spinner size={width <= 380 ? "1.3rem" : "1.4rem"} lineWidth={3} />
@@ -192,7 +199,7 @@ export default function SpySearchBar({
       {results.length > 0 && (
         <Results>
           {results.map((item) => (
-            <Item key={item.tag} onClick={() => handleClick(item.tag)}>
+            <Item key={item.tag} onClick={() => handleClick(item.name, item.tag)}>
               {!isPlayerSearch && (
                 <Badge
                   src={`/assets/badges/${getClanBadgeFileName(

@@ -171,11 +171,11 @@ export default function Navbar() {
                 <LeaderboardIcon />
                 Leaderboards
               </NavItem>
-              <NavItem isActive={router.asPath.includes("/spy")} url="/spy">
+              <NavItem isActive={router.asPath === "/spy"} url="/spy">
                 <SpyIcon />
                 Spy
               </NavItem>
-              <NavItem isActive={router.asPath.includes("/docs")} url="/docs">
+              <NavItem isActive={router.asPath === "/docs"} url="/docs">
                 <DocIcon />
                 Docs
               </NavItem>
