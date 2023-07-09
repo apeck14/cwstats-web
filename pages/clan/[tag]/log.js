@@ -32,10 +32,10 @@ export default function ClanLog({ clan, log, saved, badgeName }) {
   return (
     <>
       <NextSeo
-        title={`${clan.name} | Race Log - CWStats`}
+        title={`${clan.name} ${clan.tag} | Race Log - CWStats`}
         description={clan.description}
         openGraph={{
-          title: `${clan.name} | Race Log - CWStats`,
+          title: `${clan.name} ${clan.tag} | Race Log - CWStats`,
           description: clan.description,
           images: [
             {

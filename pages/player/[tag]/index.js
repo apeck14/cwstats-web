@@ -23,10 +23,10 @@ export default function PlayerHome({ saved, player }) {
   return (
     <>
       <NextSeo
-        title={`${player.name} | Home - CWStats`}
+        title={`${player.name} ${player.tag} | Home - CWStats`}
         description="View advanced player stats, card levels, battle log, & more!"
         openGraph={{
-          title: `${player.name} | Home - CWStats`,
+          title: `${player.name} ${player.tag} | Home - CWStats`,
           description: "View advanced player stats, card levels, battle log, & more!",
           images: [
             {

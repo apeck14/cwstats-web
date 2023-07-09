@@ -127,10 +127,10 @@ export default function ClanRace({ clan, race, saved, badgeName }) {
   return (
     <>
       <NextSeo
-        title={`${clan.name} | Race - CWStats`}
+        title={`${clan.name} ${clan.tag} | Race - CWStats`}
         description="View current river race stats and projections."
         openGraph={{
-          title: `${clan.name} | Race - CWStats`,
+          title: `${clan.name} ${clan.tag} | Race - CWStats`,
           description: "View current river race stats and projections.",
           images: [
             {

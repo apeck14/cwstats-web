@@ -17,17 +17,18 @@ import {
 const SlideMenu = styled.nav`
   position: fixed;
   height: 100%;
-  width: 75vw;
+  width: 80vw;
   top: 4rem;
   right: 0;
   background-color: ${gray["75"]};
   padding: 1rem;
   display: flex;
+  visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
   flex-direction: column;
   z-index: 999;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  transition: transform 0.3s ease-in-out;
   transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(100%)")};
+  transition: 0.2s ease-out;
 
   h3:nth-of-type(2),
   h3:nth-of-type(3) {

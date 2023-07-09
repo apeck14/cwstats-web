@@ -211,9 +211,7 @@ export default function Navbar() {
         </Section>
       </Nav>
 
-      {showMenu && width < mainBreakpoint && (
-        <MobileMenu isOpen={setShowMenu} setIsOpen={setShowMenu} />
-      )}
+      <MobileMenu isOpen={showMenu} setIsOpen={setShowMenu} />
     </>
   )
 }

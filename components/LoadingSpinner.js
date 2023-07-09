@@ -11,6 +11,7 @@ const SpinnerSpan = styled.span`
   display: inline-block;
   box-sizing: border-box;
   animation: rotation 0.75s linear infinite;
+  margin: ${({ margin }) => margin};
 
   @keyframes rotation {
     0% {
@@ -22,6 +23,6 @@ const SpinnerSpan = styled.span`
   }
 `
 
-export default function LoadingSpinner({ size, lineWidth, color }) {
-  return <SpinnerSpan size={size} lineWidth={lineWidth} color={color} />
+export default function LoadingSpinner({ size, lineWidth, color, margin }) {
+  return <SpinnerSpan size={size} lineWidth={lineWidth} color={color} margin={margin} />
 }
