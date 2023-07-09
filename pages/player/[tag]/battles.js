@@ -23,10 +23,10 @@ export default function PlayerBattles({ saved, player }) {
   return (
     <>
       <NextSeo
-        title={`${player.name} | Battles - CWStats`}
+        title={`${player.name} ${player.tag} | Battles - CWStats`}
         description="View advanced player stats, card levels, battle log, & more!"
         openGraph={{
-          title: `${player.name} | Battles - CWStats`,
+          title: `${player.name} ${player.tag} | Battles - CWStats`,
           description: "View advanced player stats, card levels, battle log, & more!",
           images: [
             {

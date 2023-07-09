@@ -98,13 +98,6 @@ const Row = styled.div`
   justify-content: space-between;
 `
 
-const Spinner = styled(LoadingSpinner)`
-  > span {
-    padding-right: 0.5rem;
-    background-color: green;
-  }
-`
-
 export default function SpySearchBar({
   placeholder,
   isPlayerSearch,
@@ -190,7 +183,11 @@ export default function SpySearchBar({
           value={search}
         />
         {showSpinner ? (
-          <Spinner size={width <= 380 ? "1.3rem" : "1.4rem"} lineWidth={3} />
+          <LoadingSpinner
+            size={width <= 380 ? "1.3rem" : "1.4rem"}
+            lineWidth={3}
+            margin="0 0.5rem 0 0"
+          />
         ) : (
           <Icon />
         )}

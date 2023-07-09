@@ -15,10 +15,10 @@ export default function ClanStats({ clan, saved, badgeName }) {
   return (
     <>
       <NextSeo
-        title={`${clan.name} | Home - CWStats`}
+        title={`${clan.name} ${clan.tag} | Stats - CWStats`}
         description={clan.description}
         openGraph={{
-          title: `${clan.name} | Home - CWStats`,
+          title: `${clan.name} ${clan.tag} | Stats - CWStats`,
           description: clan.description,
           images: [
             {
