@@ -275,8 +275,8 @@ export const removeLinkedAccount = ({ tag, serverId, discordID }) =>
     }),
   })
 
-export const getPlayersFromSearch = (q, limit) =>
-  fetch(`/api/search/player?q=${encodeURIComponent(q)}&limit=${limit || 50}`, {
+export const getPlayersFromSearch = (q, limit = 50) =>
+  fetch(`/api/search/player?q=${encodeURIComponent(q)}&limit=${limit}`, {
     method: "GET",
     headers: new Headers({
       "Content-Type": "application/json",
