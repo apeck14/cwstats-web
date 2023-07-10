@@ -13,8 +13,6 @@ export async function getClansFromSearch(q, limit) {
 
     const data = await resp.json()
 
-    data?.items?.sort((a, b) => b.clanWarTrophies - a.clanWarTrophies)
-
     return { clans: data?.items?.slice(0, limit || 50) || [] }
   } catch (err) {
     return { error: true, message: err.message }
