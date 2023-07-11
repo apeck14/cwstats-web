@@ -41,6 +41,7 @@ export default async function getDailyLeaderboard(req, res) {
           },
         })
         .sort({
+          notRanked: 1,
           fameAvg: -1,
           rank: 1,
           clanScore: -1,

@@ -1,7 +1,7 @@
-export async function getClansFromSearch(q, limit) {
+export async function getClansFromSearch(q, limit = 50) {
   try {
     const resp = await fetch(
-      `https://proxy.royaleapi.dev/v1/clans?name=${encodeURIComponent(q)}&limit=50`,
+      `https://proxy.royaleapi.dev/v1/clans?name=${encodeURIComponent(q)}&limit=${limit}`,
       {
         method: "GET",
         headers: new Headers({
@@ -13,7 +13,7 @@ export async function getClansFromSearch(q, limit) {
 
     const data = await resp.json()
 
-    return { clans: data?.items?.slice(0, limit || 50) || [] }
+    return { clans: data?.items || [] }
   } catch (err) {
     return { error: true, message: err.message }
   }
