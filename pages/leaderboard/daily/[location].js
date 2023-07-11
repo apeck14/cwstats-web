@@ -292,6 +292,11 @@ const TrophiesIcon = styled(Image)({})
 
 const AtksIcon = styled(Image)({})
 
+const NotRanked = styled.p`
+  color: ${gray["25"]};
+  margin-bottom: 1rem;
+`
+
 export default function Leaderboard({ region, data }) {
   const router = useRouter()
   const { width } = useWindowSize()
@@ -376,9 +381,7 @@ export default function Leaderboard({ region, data }) {
             >
               Daily
             </ToggleDiv>
-            <ToggleDiv
-              onClick={() => router.push(`/leaderboard/war/${region.key}`)}
-            >
+            <ToggleDiv onClick={() => router.push(`/leaderboard/war/${region.key}`)}>
               War
             </ToggleDiv>
             <RegionDropdown onClick={() => setIsModalOpen(true)}>
@@ -497,7 +500,7 @@ export default function Leaderboard({ region, data }) {
                       backgroundColor,
                     }}
                   >
-                    {index + 1 + start}
+                    {c.notRanked ? "NR" : index + 1 + start}
                   </CenterCell>
                   <Cell
                     style={{
@@ -517,9 +520,7 @@ export default function Leaderboard({ region, data }) {
                       backgroundColor,
                     }}
                   >
-                    <Name href={`/clan/${c?.tag?.substring(1)}/race`}>
-                      {c.name}
-                    </Name>
+                    <Name href={`/clan/${c?.tag?.substring(1)}/race`}>{c.name}</Name>
                   </Cell>
                   <Cell
                     style={{
@@ -527,9 +528,7 @@ export default function Leaderboard({ region, data }) {
                     }}
                   >
                     <Flag
-                      src={`/assets/flags/${getCountryKeyById(
-                        c.location.id
-                      )}.png`}
+                      src={`/assets/flags/${getCountryKeyById(c.location.id)}.png`}
                       height={flagHeightPx}
                       width={flagWidthPx}
                       alt="Flag"
@@ -568,6 +567,8 @@ export default function Leaderboard({ region, data }) {
           </tbody>
         </ContentTable>
 
+        {data.dailyLbArr.length > 0 && <NotRanked>*NR = Not Ranked</NotRanked>}
+
         {!isTracked ? <NotTracked /> : null}
       </Main>
 
@@ -576,9 +577,7 @@ export default function Leaderboard({ region, data }) {
         isOpen={isModalOpen}
         locations={Locations.map((l) => ({
           name: l.name,
-          url: `/leaderboard/daily/${l.key}${
-            league ? `?league=${league}` : ""
-          }`,
+          url: `/leaderboard/daily/${l.key}${league ? `?league=${league}` : ""}`,
         }))}
       />
     </>
@@ -625,6 +624,7 @@ export async function getServerSideProps(context) {
         },
       })
       .sort({
+        notRanked: 1,
         fameAvg: -1,
         rank: 1,
         clanScore: -1,
