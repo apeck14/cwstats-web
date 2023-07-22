@@ -132,9 +132,8 @@ export default function Footer() {
       <Hr />
       <BottomDiv>
         <ContentPolicy>
-          This content is not affiliated with, endorsed, sponsored, or specifically
-          approved by Supercell and Supercell is not responsible for it. For more
-          information see Supercell’s Fan Content Policy.
+          This content is not affiliated with, endorsed, sponsored, or specifically approved by Supercell and Supercell
+          is not responsible for it. For more information see Supercell’s Fan Content Policy.
         </ContentPolicy>
         <Copyright>©2023 CWStats. All rights reserved.</Copyright>
       </BottomDiv>

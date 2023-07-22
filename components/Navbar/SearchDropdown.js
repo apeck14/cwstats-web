@@ -93,8 +93,7 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
 
       // check if input is exact tag
       const tagRegex = /^[A-Za-z0-9#]+$/
-      const meetsTagReq =
-        clanSearch.length >= 5 && clanSearch.length <= 9 && clanSearch.match(tagRegex)
+      const meetsTagReq = clanSearch.length >= 5 && clanSearch.length <= 9 && clanSearch.match(tagRegex)
 
       if (meetsTagReq) {
         try {
@@ -127,10 +126,7 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
 
       // check if input is exact tag
       const tagRegex = /^[A-Za-z0-9#]+$/
-      const meetsTagReq =
-        playerSearch.length >= 5 &&
-        playerSearch.length <= 10 &&
-        playerSearch.match(tagRegex)
+      const meetsTagReq = playerSearch.length >= 5 && playerSearch.length <= 10 && playerSearch.match(tagRegex)
 
       if (meetsTagReq) {
         try {
@@ -162,10 +158,7 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
       <SearchDiv>
         <Text>Players</Text>
         <SearchBarDiv>
-          <SearchBar
-            placeholder="Name or tag, e.g. VGRQ9CVG"
-            onChange={handlePlayerSearchChange}
-          />
+          <SearchBar placeholder="Name or tag, e.g. VGRQ9CVG" onChange={handlePlayerSearchChange} />
           <SearchButton onClick={handlePlayerSubmit}>
             <SearchIcon />
           </SearchButton>
@@ -175,10 +168,7 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
       <SearchDiv>
         <Text>Clans</Text>
         <SearchBarDiv>
-          <SearchBar
-            onChange={handleClanSearchChange}
-            placeholder="Name or tag, e.g. 9U82JJ0Y"
-          />
+          <SearchBar onChange={handleClanSearchChange} placeholder="Name or tag, e.g. 9U82JJ0Y" />
           <SearchButton onClick={handleClanSubmit}>
             <SearchIcon />
           </SearchButton>

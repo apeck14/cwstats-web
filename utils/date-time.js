@@ -18,8 +18,8 @@ export const parseDate = (date) => {
       date.substr(6, 2),
       date.substr(9, 2),
       date.substr(11, 2),
-      date.substr(13, 2)
-    )
+      date.substr(13, 2),
+    ),
   )
 }
 
@@ -97,6 +97,14 @@ export const getUsersTimezone = () => {
   return { timezone, offset }
 }
 
+export const timestamptoHHMM = (timestamp) => {
+  const timezone = tz.guess()
+
+  const date = utc(timestamp).tz(timezone)
+
+  return date.format("h:mm A z")
+}
+
 export const getTimeFromOffset = (hour) => {
   const usersTimezone = tz.guess()
 
@@ -111,7 +119,7 @@ export const getTimeFromOffset = (hour) => {
   const date = utc(
     `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}T${
       hourInteger < 10 ? `0${hourInteger}` : hourInteger
-    }:${decimalOver === 0 ? "00" : 60 * decimalOver}:00`
+    }:${decimalOver === 0 ? "00" : 60 * decimalOver}:00`,
   ).tz(usersTimezone)
 
   return date.format("h:mm A z")
@@ -130,7 +138,7 @@ export const convertHourToUTC = (hour, amPm) => {
     `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}T${
       hourIn24Time < 10 ? `0${hourIn24Time}` : hourIn24Time
     }:00:00`,
-    timezone
+    timezone,
   ).utc()
 
   const hourUTC = date.hour()

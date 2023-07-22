@@ -121,7 +121,7 @@ export default function MobileMenu({ isOpen, setIsOpen }) {
         <DocIcon />
         Docs
       </Title>
-      <Title onClick={() => handleClick("/leaderboard/daily/global")}>
+      <Title>
         <DiscordIcon />
         Invite
       </Title>

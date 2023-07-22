@@ -24,12 +24,5 @@ const Main = styled.div`
 `
 
 export default function Skeleton({ borderRadius, height, width, margin }) {
-  return (
-    <Main
-      borderRadius={borderRadius}
-      height={height}
-      width={width}
-      margin={margin}
-    />
-  )
+  return <Main borderRadius={borderRadius} height={height} width={width} margin={margin} />
 }

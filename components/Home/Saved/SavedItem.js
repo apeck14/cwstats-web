@@ -98,9 +98,7 @@ export default function SavedItem({ skeleton, data, isPlayer }) {
 
   const formattedTag = data.tag.substring(1)
 
-  const links = isPlayer
-    ? ["Battles", "Cards", "War"]
-    : ["Race", "Log", "Stats"]
+  const links = isPlayer ? ["Battles", "Cards", "War"] : ["Race", "Log", "CWStats+"]
 
   const urls = isPlayer
     ? [
@@ -109,21 +107,12 @@ export default function SavedItem({ skeleton, data, isPlayer }) {
         `/player/${formattedTag}/cards`,
         `/player/${formattedTag}/war`,
       ]
-    : [
-        `/clan/${formattedTag}`,
-        `/clan/${formattedTag}/race`,
-        `/clan/${formattedTag}/log`,
-        `/clan/${formattedTag}/stats`,
-      ]
+    : [`/clan/${formattedTag}`, `/clan/${formattedTag}/race`, `/clan/${formattedTag}/log`, `/clan/${formattedTag}/plus`]
 
   return (
     <Main>
       <Icon
-        src={
-          isPlayer
-            ? "/assets/icons/king-pink.png"
-            : `/assets/badges/${data.badge}.png`
-        }
+        src={isPlayer ? "/assets/icons/king-pink.png" : `/assets/badges/${data.badge}.png`}
         height={iconHeight}
         width={isPlayer ? kingWidth : clanBadgeWidth}
       />

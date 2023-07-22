@@ -39,8 +39,8 @@ export default function NotTracked() {
         >
           IMPORTANT
         </span>
-        : This region is not being tracked. Due to limited resouces, major
-        regions are prioritized. Some clans may be missing.
+        : This region is not being tracked. Due to limited resouces, major regions are prioritized. Some clans may be
+        missing.
       </Text>
     </Main>
   )
