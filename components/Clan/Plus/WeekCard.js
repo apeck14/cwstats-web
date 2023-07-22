@@ -69,14 +69,6 @@ const DayContent = styled.div`
   row-gap: 0.25rem;
 `
 
-const getAverage = (data) => {
-  let total = 0
-
-  for (const avg of data) total += avg.fameAvg
-
-  return total / data.length
-}
-
 export default function WeekCard({ setGraphDay, setGraphWeek, data, weekNum, graphDay, graphWeek }) {
   const daysObj = groupBy(data, "day")
 
@@ -93,7 +85,7 @@ export default function WeekCard({ setGraphDay, setGraphWeek, data, weekNum, gra
       <Hr margin="0.5rem 0" />
       <DayContent>
         {Object.keys(daysObj).map((d) => {
-          const avg = getAverage(daysObj[d])
+          const avg = daysObj[d][daysObj[d].length - 1].fameAvg
           const perc = (avg / 225) * 100
           const percStr = perc > 100 ? 100 : perc
 
