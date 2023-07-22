@@ -93,18 +93,12 @@ export default function NavItem({ children, isActive, type, url }) {
   }
 
   return (
-    <Container
-      onMouseEnter={() => setShowSubMenu(true)}
-      onMouseLeave={() => setShowSubMenu(false)}
-    >
+    <Container onMouseEnter={() => setShowSubMenu(true)} onMouseLeave={() => setShowSubMenu(false)}>
       <Header onClick={handleHeaderClick} isActive={isActive}>
         {children}
       </Header>
       {showSubMenu && type === "leaderboards" && (
-        <Menu
-          onMouseEnter={() => setShowSubMenu(true)}
-          onMouseLeave={() => setShowSubMenu(false)}
-        >
+        <Menu onMouseEnter={() => setShowSubMenu(true)} onMouseLeave={() => setShowSubMenu(false)}>
           <Item onClick={() => handleClick("/leaderboard/daily/global")}>
             <Title>Daily</Title>
             <Description>{DAILY_LEADERBOARD_NAV_DESC}</Description>

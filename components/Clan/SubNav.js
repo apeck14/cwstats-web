@@ -5,11 +5,12 @@ import { gray, pink } from "../../public/static/colors"
 
 const NavDiv = styled.div`
   display: flex;
+  column-gap: 0.5rem;
 `
 
 const NavItem = styled.div`
   color: ${gray["0"]};
-  padding: 0.5rem 1rem;
+  padding: 0.5rem 0.75rem;
   border-bottom: ${({ isActive }) => isActive && `3px solid ${pink}`};
   font-weight: 600;
 
@@ -34,7 +35,7 @@ export default function SubNav() {
   }
 
   return (
-    <NavDiv>
+    <NavDiv className="noselect">
       <NavItem
         isActive={router.asPath === `/clan/${router.query.tag}`}
         onClick={() => handleClick(`/clan/${router.query.tag}`)}
@@ -54,10 +55,10 @@ export default function SubNav() {
         Log
       </NavItem>
       <NavItem
-        isActive={router.asPath === `/clan/${router.query.tag}/stats`}
-        onClick={() => handleClick(`/clan/${router.query.tag}/stats`)}
+        isActive={router.asPath === `/clan/${router.query.tag}/plus`}
+        onClick={() => handleClick(`/clan/${router.query.tag}/plus`)}
       >
-        Stats
+        CWStats+
       </NavItem>
     </NavDiv>
   )

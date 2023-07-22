@@ -80,8 +80,8 @@ export default function Clans({ clans }) {
                   url: `/clan/${c.tag.substring(1)}/log`,
                 },
                 {
-                  name: "Stats",
-                  url: `/clan/${c.tag.substring(1)}/stats`,
+                  name: "CWStats+",
+                  url: `/clan/${c.tag.substring(1)}/plus`,
                 },
               ]}
             />

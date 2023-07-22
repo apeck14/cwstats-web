@@ -34,7 +34,7 @@ export default function SubNav() {
   }
 
   return (
-    <NavDiv>
+    <NavDiv className="noselect">
       <NavItem
         isActive={router.asPath === `/player/${router.query.tag}`}
         onClick={() => handleClick(`/player/${router.query.tag}`)}

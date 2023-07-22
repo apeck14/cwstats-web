@@ -14,11 +14,7 @@ import clientPromise from "../../../lib/mongodb"
 import { gray, orange, pink } from "../../../public/static/colors"
 import Locations from "../../../public/static/locations"
 import { diffInMins } from "../../../utils/date-time"
-import {
-  getClanBadgeFileName,
-  getCountryKeyById,
-  getRegionByKey,
-} from "../../../utils/files"
+import { getClanBadgeFileName, getCountryKeyById, getRegionByKey } from "../../../utils/files"
 
 const Main = styled.div({
   margin: "0 auto",
@@ -295,6 +291,16 @@ const AtksIcon = styled(Image)({})
 const NotRanked = styled.p`
   color: ${gray["25"]};
   margin-bottom: 1rem;
+
+  @media (max-width: 1024px) {
+    font-size: 0.9rem;
+    margin-left: 1rem;
+  }
+
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+    margin-left: 0.5rem;
+  }
 `
 
 export default function Leaderboard({ region, data }) {
@@ -306,12 +312,9 @@ export default function Leaderboard({ region, data }) {
 
   const { location: key, league } = router.query
 
-  if (league && league !== "5000" && league !== "4000")
-    router.push(`/leaderboard/daily/${key}`)
+  if (league && league !== "5000" && league !== "4000") router.push(`/leaderboard/daily/${key}`)
 
-  const totalPages =
-    Math.floor(data.dailyLbArr.length / 100) +
-    (data.dailyLbArr.length % 100 === 0 ? 0 : 1)
+  const totalPages = Math.floor(data.dailyLbArr.length / 100) + (data.dailyLbArr.length % 100 === 0 ? 0 : 1)
   const isTracked = region.isAdded || region.key === "global"
 
   const incrementPage = () => {
@@ -381,9 +384,7 @@ export default function Leaderboard({ region, data }) {
             >
               Daily
             </ToggleDiv>
-            <ToggleDiv onClick={() => router.push(`/leaderboard/war/${region.key}`)}>
-              War
-            </ToggleDiv>
+            <ToggleDiv onClick={() => router.push(`/leaderboard/war/${region.key}`)}>War</ToggleDiv>
             <RegionDropdown onClick={() => setIsModalOpen(true)}>
               {region.name}
               <IoCaretDown
@@ -470,20 +471,10 @@ export default function Leaderboard({ region, data }) {
                 <GlobeIcon />
               </THead>
               <THead>
-                <TrophiesIcon
-                  src="/assets/icons/cw-trophy.png"
-                  width={thPx}
-                  height={thPx}
-                  alt="Trophies"
-                />
+                <TrophiesIcon src="/assets/icons/cw-trophy.png" width={thPx} height={thPx} alt="Trophies" />
               </THead>
               <THead>
-                <AtksIcon
-                  src="/assets/icons/decksRemaining.png"
-                  width={thPx}
-                  height={thPx}
-                  alt="Decks Remaining"
-                />
+                <AtksIcon src="/assets/icons/decksRemaining.png" width={thPx} height={thPx} alt="Decks Remaining" />
               </THead>
               <THead />
             </Row>
@@ -508,11 +499,7 @@ export default function Leaderboard({ region, data }) {
                     }}
                   >
                     <ClanBadgeDiv>
-                      <ClanBadge
-                        src={`/assets/badges/${badgeName}.png`}
-                        alt="Badge"
-                        fill
-                      />
+                      <ClanBadge src={`/assets/badges/${badgeName}.png`} alt="Badge" fill />
                     </ClanBadgeDiv>
                   </Cell>
                   <Cell

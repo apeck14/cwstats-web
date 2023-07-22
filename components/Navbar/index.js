@@ -137,6 +137,25 @@ const SpyIcon = styled(TbSpy)`
   font-size: 1.25rem;
 `
 
+const CWStatsPlus = styled.button`
+  font-weight: 700;
+  color: ${gray["0"]};
+  padding: 0 0.75rem;
+  border-radius: 0.5rem;
+  height: 2rem;
+  border-style: solid;
+  border-width: 2px;
+  border-color: ${orange};
+  background-color: transparent;
+  transition: 0.2s ease-out;
+
+  :hover,
+  :active {
+    cursor: pointer;
+    border-color: ${pink};
+  }
+`
+
 export default function Navbar() {
   const [showMenu, setShowMenu] = useState(false)
   const [showSearch, setShowSearch] = useState(false)
@@ -154,20 +173,12 @@ export default function Navbar() {
       <Nav className="noselect">
         <Section>
           <LinkWrapper href="/">
-            <Logo
-              src="/assets/icons/logo.png"
-              alt="logo"
-              height={logoSize}
-              width={logoSize}
-            />
+            <Logo src="/assets/icons/logo.png" alt="logo" height={logoSize} width={logoSize} />
             <Title>CWStats</Title>
           </LinkWrapper>
           {width >= mainBreakpoint && (
             <MenuOptions>
-              <NavItem
-                type="leaderboards"
-                isActive={router.asPath.includes("/leaderboard")}
-              >
+              <NavItem type="leaderboards" isActive={router.asPath.includes("/leaderboard")}>
                 <LeaderboardIcon />
                 Leaderboards
               </NavItem>
@@ -189,6 +200,7 @@ export default function Navbar() {
 
         <Section>
           <SearchIcon onClick={() => setShowSearch(!showSearch)} />
+          {width >= mainBreakpoint && <CWStatsPlus onClick={() => router.push("/plus")}>CWStats+</CWStatsPlus>}
           {session ? (
             <ProfilePicture
               onClick={() => router.push("/me")}
@@ -202,12 +214,8 @@ export default function Navbar() {
               <FaDiscord size={24} />
             </LoginButton>
           )}
-          {width < mainBreakpoint && (
-            <HamburgerMenu isOpen={showMenu} setIsOpen={setShowMenu} />
-          )}
-          {showSearch && (
-            <SearchDropdown showSearch={showSearch} setShowSearch={setShowSearch} />
-          )}
+          {width < mainBreakpoint && <HamburgerMenu isOpen={showMenu} setIsOpen={setShowMenu} />}
+          {showSearch && <SearchDropdown showSearch={showSearch} setShowSearch={setShowSearch} />}
         </Section>
       </Nav>
 
