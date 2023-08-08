@@ -104,18 +104,11 @@ export default function DeckContent({ player, decks }) {
           <Decks>
             {decks.duel.map((d) => (
               <DeckContainer>
-                <Icon
-                  src={`/assets/gamemodes/${d.img}.png`}
-                  height={isMobile ? 30 : 50}
-                  width={isMobile ? 30 : 50}
-                />
+                <Icon src={`/assets/gamemodes/${d.img}.png`} height={isMobile ? 30 : 50} width={isMobile ? 30 : 50} />
                 <Deck>
                   {d.cards.map((c) => (
                     <Card
-                      src={`/assets/cards/${c
-                        .toLowerCase()
-                        .replaceAll(" ", "-")
-                        .replaceAll(".", "")}.png`}
+                      src={`/assets/cards/${c.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}.png`}
                       height={isMobile ? 42 : 60}
                       width={isMobile ? 35 : 50}
                     />
@@ -129,22 +122,15 @@ export default function DeckContent({ player, decks }) {
 
       {decks.other.length > 0 && (
         <>
-          <Title>Other Decks</Title>
+          <Title>Single Decks</Title>
           <Decks>
             {decks.other.map((d) => (
               <DeckContainer>
-                <Icon
-                  src={`/assets/gamemodes/${d.img}.png`}
-                  height={isMobile ? 30 : 50}
-                  width={isMobile ? 30 : 50}
-                />
+                <Icon src={`/assets/gamemodes/${d.img}.png`} height={isMobile ? 30 : 50} width={isMobile ? 30 : 50} />
                 <Deck>
                   {d.cards.map((c) => (
                     <Card
-                      src={`/assets/cards/${c
-                        .toLowerCase()
-                        .replaceAll(" ", "-")
-                        .replaceAll(".", "")}.png`}
+                      src={`/assets/cards/${c.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}.png`}
                       height={isMobile ? 42 : 60}
                       width={isMobile ? 35 : 50}
                     />
