@@ -143,7 +143,7 @@ export default function Spy() {
           <SearchBarDiv>
             <SpySearchBar
               defaultValue={q}
-              placeholder="Search player by name..."
+              placeholder="Search player..."
               isPlayerSearch
               showLiveResults
               setShowDecksSpinner={setShowDecksSpinner}
@@ -171,11 +171,10 @@ export default function Spy() {
             <LoadingSpinner size="1.5rem" lineWidth={3} color={pink} />
           </LoadingDecks>
         ) : decks ? (
-          <DeckContent name="Test" tag="test" decks={decks} player={player} />
+          <DeckContent decks={decks} player={player} />
         ) : (
           <DefaultMessage>
-            Use the search bar above to find your opponent&apos;s war decks!{" "}
-            {width > 480 && <SpyIcon />}
+            Use the search bar above to find your opponent&apos;s war decks! {width > 480 && <SpyIcon />}
           </DefaultMessage>
         )}
       </Content>

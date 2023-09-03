@@ -9,7 +9,7 @@ import { getClansFromSearch } from "../../pages/api/search/clan"
 import { gray } from "../../public/static/colors"
 import { getClanBadgeFileName } from "../../utils/files"
 import { getWarDecksFromLog } from "../../utils/functions"
-import { getBattleLog, getPlayer, getPlayersFromSearch } from "../../utils/services"
+import { getBattleLog, getClan, getPlayer, getPlayersFromSearch } from "../../utils/services"
 import LoadingSpinner from "../LoadingSpinner"
 
 const Container = styled.div`
@@ -159,17 +159,27 @@ export default function SpySearchBar({
     }
   }, [debouncedSearchTerm])
 
-  const handleClick = async (name, tag) => {
+  const handleClick = async (pTag) => {
     setShowDecksSpinner(true)
     setSearch("")
     setResults([])
 
-    const [log, player] = await Promise.all([getBattleLog(tag), getPlayer(tag)])
+    const [log, player] = await Promise.all([getBattleLog(pTag), getPlayer(pTag)])
     const playerDecks = await getWarDecksFromLog(log)
 
+    const { name, tag } = player
+
+    const clanName = player?.clan?.name
+    let badge = "no_clan"
+
+    if (clanName) {
+      const clan = await getClan(player.clan.tag.substring(1))
+      badge = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
+    }
+
     setDecks(playerDecks)
+    setPlayer({ name, tag, clanName, badge })
     setShowDecksSpinner(false)
-    setPlayer({ name: player.name, tag: player.tag })
   }
 
   return (
@@ -183,11 +193,7 @@ export default function SpySearchBar({
           value={search}
         />
         {showSpinner ? (
-          <LoadingSpinner
-            size={width <= 380 ? "1.3rem" : "1.4rem"}
-            lineWidth={3}
-            margin="0 0.5rem 0 0"
-          />
+          <LoadingSpinner size={width <= 380 ? "1.3rem" : "1.4rem"} lineWidth={3} margin="0 0.5rem 0 0" />
         ) : (
           <Icon />
         )}
@@ -196,13 +202,10 @@ export default function SpySearchBar({
       {results.length > 0 && (
         <Results>
           {results.map((item) => (
-            <Item key={item.tag} onClick={() => handleClick(item.name, item.tag)}>
+            <Item key={item.tag} onClick={() => handleClick(item.tag)}>
               {!isPlayerSearch && (
                 <Badge
-                  src={`/assets/badges/${getClanBadgeFileName(
-                    item.badgeId,
-                    item.clanWarTrophies
-                  )}.png`}
+                  src={`/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`}
                   height={30}
                   width={23}
                 />

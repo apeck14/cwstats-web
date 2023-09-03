@@ -6,9 +6,10 @@ import { gray, pink } from "../../public/static/colors"
 
 const Header = styled.div`
   display: flex;
+  flex-direction: column;
   column-gap: 0.5rem;
-  font-size: 1.75rem;
-  justify-content: center;
+  align-items: center;
+  font-size: 1.5rem;
   background-color: ${gray["100"]};
   padding: 0.5rem;
   border-radius: 0.5rem;
@@ -22,7 +23,17 @@ const Name = styled.h3`
   color: ${gray["0"]};
 `
 
-const Tag = styled.h3`
+const Clan = styled.div`
+  display: flex;
+  gap: 0.5rem;
+  align-items: center;
+`
+
+const Badge = styled(Image)``
+
+const ClanName = styled.p`
+  font-size: 1.1rem;
+  font-weight: 600;
   color: ${gray["25"]};
 `
 
@@ -90,12 +101,17 @@ export default function DeckContent({ player, decks }) {
   const missingDecks = 4 - decks.duel.length - decks.other.length
 
   const isMobile = width <= 480
+  const clanBadgeHeight = isMobile ? 22 : 26
+  const clanBadgeWidth = isMobile ? 16 : 20
 
   return (
     <>
       <Header>
-        <Name>{player.name}</Name>
-        <Tag>{player.tag}</Tag>
+        <Name>{player?.name}</Name>
+        <Clan>
+          <Badge src={`/assets/badges/${player?.badge}.png`} height={clanBadgeHeight} width={clanBadgeWidth} />
+          <ClanName>{player?.clanName || "None"}</ClanName>
+        </Clan>
       </Header>
 
       {decks.duel.length > 0 && (
