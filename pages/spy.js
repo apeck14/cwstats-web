@@ -143,7 +143,7 @@ export default function Spy() {
           <SearchBarDiv>
             <SpySearchBar
               defaultValue={q}
-              placeholder="Search player..."
+              placeholder="Search player by name..."
               isPlayerSearch
               showLiveResults
               setShowDecksSpinner={setShowDecksSpinner}
