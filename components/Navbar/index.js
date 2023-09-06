@@ -149,7 +149,7 @@ const CWStatsPlus = styled.button`
   border-width: 2px;
   border-color: ${orange};
   background-color: transparent;
-  transition: 0.2s ease-out;
+  transition: 0.5s ease-out;
 
   :hover,
   :active {
