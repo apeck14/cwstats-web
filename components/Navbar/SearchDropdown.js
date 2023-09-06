@@ -153,27 +153,29 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
     }
   }
 
-  return showSearch ? (
-    <Main>
-      <SearchDiv>
-        <Text>Players</Text>
-        <SearchBarDiv>
-          <SearchBar placeholder="Name or tag, e.g. VGRQ9CVG" onChange={handlePlayerSearchChange} />
-          <SearchButton onClick={handlePlayerSubmit}>
-            <SearchIcon />
-          </SearchButton>
-        </SearchBarDiv>
-      </SearchDiv>
+  return (
+    showSearch && (
+      <Main>
+        <SearchDiv>
+          <Text>Players</Text>
+          <SearchBarDiv>
+            <SearchBar placeholder="Name or tag, e.g. VGRQ9CVG" onChange={handlePlayerSearchChange} />
+            <SearchButton onClick={handlePlayerSubmit}>
+              <SearchIcon />
+            </SearchButton>
+          </SearchBarDiv>
+        </SearchDiv>
 
-      <SearchDiv>
-        <Text>Clans</Text>
-        <SearchBarDiv>
-          <SearchBar onChange={handleClanSearchChange} placeholder="Name or tag, e.g. 9U82JJ0Y" />
-          <SearchButton onClick={handleClanSubmit}>
-            <SearchIcon />
-          </SearchButton>
-        </SearchBarDiv>
-      </SearchDiv>
-    </Main>
-  ) : null
+        <SearchDiv>
+          <Text>Clans</Text>
+          <SearchBarDiv>
+            <SearchBar onChange={handleClanSearchChange} placeholder="Name or tag, e.g. 9U82JJ0Y" />
+            <SearchButton onClick={handleClanSubmit}>
+              <SearchIcon />
+            </SearchButton>
+          </SearchBarDiv>
+        </SearchDiv>
+      </Main>
+    )
+  )
 }

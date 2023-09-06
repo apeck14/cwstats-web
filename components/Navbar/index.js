@@ -74,6 +74,7 @@ const LinkWrapper = styled(Link)`
 const SearchIcon = styled(BiSearchAlt)`
   font-size: 1.5rem;
   color: ${gray["25"]};
+  transition: 0.5s;
 
   :hover,
   :active {
@@ -124,6 +125,7 @@ const ProfilePicture = styled(Image)`
   border-color: ${pink};
   border-width: 2px;
   border-style: solid;
+  transition: 0.5s;
 
   :hover,
   :active {
