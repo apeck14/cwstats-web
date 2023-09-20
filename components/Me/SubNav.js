@@ -25,12 +25,11 @@ const Tabs = styled.div`
 
 const Item = styled.div`
   padding: 0.5rem 1rem;
-  border-bottom-width: ${({ isActive }) => (isActive ? "2px" : 0)};
-  border-bottom-color: ${({ isActive }) => (isActive ? pink : null)};
+  border-bottom-width: ${({ $isActive }) => ($isActive ? "2px" : 0)};
+  border-bottom-color: ${({ $isActive }) => ($isActive ? pink : null)};
   border-bottom-style: solid;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     border-bottom-width: 2px;
     border-bottom-color: ${pink};
@@ -59,22 +58,13 @@ export default function SubNav() {
   return (
     <Main>
       <Tabs>
-        <Item
-          isActive={router.asPath === "/me"}
-          onClick={() => handleClick("/me")}
-        >
+        <Item $isActive={router.asPath === "/me"} onClick={() => handleClick("/me")}>
           <Text>Servers</Text>
         </Item>
-        <Item
-          isActive={router.asPath === "/me/clans"}
-          onClick={() => handleClick("/me/clans")}
-        >
+        <Item $isActive={router.asPath === "/me/clans"} onClick={() => handleClick("/me/clans")}>
           <Text>Clans</Text>
         </Item>
-        <Item
-          isActive={router.asPath === "/me/players"}
-          onClick={() => handleClick("/me/players")}
-        >
+        <Item $isActive={router.asPath === "/me/players"} onClick={() => handleClick("/me/players")}>
           <Text>Players</Text>
         </Item>
       </Tabs>

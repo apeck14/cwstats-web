@@ -18,8 +18,7 @@ const Item = styled.div`
   cursor: pointer;
   align-items: center;
 
-  :hover,
-  :active {
+  &:hover {
     background-color: ${gray["100"]};
   }
 `

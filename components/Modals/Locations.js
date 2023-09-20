@@ -62,7 +62,7 @@ const Option = styled.p({
   color: gray["0"],
   padding: "0.5rem 1rem",
 
-  ":hover, :active": {
+  "&:hover": {
     backgroundColor: gray["75"],
     cursor: "pointer",
   },
@@ -78,10 +78,7 @@ export default function LocationsModal({ isOpen, setIsModalOpen, locations }) {
     <Main onClick={() => setIsModalOpen(false)}>
       <Modal onClick={(e) => e.stopPropagation()}>
         <SearchDiv>
-          <SearchBar
-            placeholder="Search locations..."
-            onChange={(e) => setSearch(e.target.value)}
-          />
+          <SearchBar placeholder="Search locations..." onChange={(e) => setSearch(e.target.value)} />
           <SearchIcon />
         </SearchDiv>
         <ContentDiv>

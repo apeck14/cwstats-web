@@ -10,11 +10,7 @@ import LocationsModal from "../../../components/Modals/Locations"
 import useWindowSize from "../../../hooks/useWindowSize"
 import { gray, orange, pink } from "../../../public/static/colors"
 import Locations from "../../../public/static/locations"
-import {
-  getClanBadgeFileName,
-  getCountryKeyById,
-  getRegionByKey,
-} from "../../../utils/files"
+import { getClanBadgeFileName, getCountryKeyById, getRegionByKey } from "../../../utils/files"
 import { getCRErrorUrl, handleSCResponse } from "../../../utils/functions"
 import { getWarLeaderboard } from "../../../utils/services"
 
@@ -88,7 +84,7 @@ const ToggleDiv = styled.div({
   alignItems: "center",
   padding: "1rem",
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
   },
 
@@ -110,7 +106,7 @@ const PaginationDiv = styled.div({
   color: gray["0"],
   padding: "1rem",
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     filter: "brightness(80%)",
   },
@@ -131,7 +127,7 @@ const RegionDropdown = styled.div({
   padding: "1rem",
   backgroundColor: gray["75"],
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     color: gray["25"],
   },
@@ -200,7 +196,7 @@ const Cell = styled.td({
 })
 
 const Name = styled.span({
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     color: pink,
   },
@@ -262,8 +258,7 @@ export default function Leaderboard({ region, data }) {
   const [page, setPage] = useState(1)
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const totalPages =
-    Math.floor(data.length / 100) + (data.length % 100 === 0 ? 0 : 1)
+  const totalPages = Math.floor(data.length / 100) + (data.length % 100 === 0 ? 0 : 1)
 
   const incrementPage = () => {
     if (page < totalPages) setPage(page + 1)
@@ -314,11 +309,7 @@ export default function Leaderboard({ region, data }) {
         </HeaderDiv>
         <ControlDiv>
           <LeftControlDiv>
-            <ToggleDiv
-              onClick={() => router.push(`/leaderboard/daily/${region.key}`)}
-            >
-              Daily
-            </ToggleDiv>
+            <ToggleDiv onClick={() => router.push(`/leaderboard/daily/${region.key}`)}>Daily</ToggleDiv>
             <ToggleDiv
               style={{
                 borderBottom: `3px solid ${pink}`,
@@ -361,12 +352,7 @@ export default function Leaderboard({ region, data }) {
               <THead />
               <THead />
               <THead>
-                <TrophiesIcon
-                  src="/assets/icons/cw-trophy.png"
-                  width={thPx}
-                  height={thPx}
-                  alt="Trophies"
-                />
+                <TrophiesIcon src="/assets/icons/cw-trophy.png" width={thPx} height={thPx} alt="Trophies" />
               </THead>
             </Row>
           </thead>
@@ -420,11 +406,7 @@ export default function Leaderboard({ region, data }) {
                     }}
                   >
                     <ClanBadgeDiv>
-                      <ClanBadge
-                        src={`/assets/badges/${badgeName}.png`}
-                        alt="Badge"
-                        fill
-                      />
+                      <ClanBadge src={`/assets/badges/${badgeName}.png`} alt="Badge" fill />
                     </ClanBadgeDiv>
                   </Cell>
                   <Cell
@@ -432,11 +414,7 @@ export default function Leaderboard({ region, data }) {
                       backgroundColor,
                     }}
                   >
-                    <Name
-                      onClick={() => router.push(`/clan/${c.tag.substring(1)}`)}
-                    >
-                      {c.name}
-                    </Name>
+                    <Name onClick={() => router.push(`/clan/${c.tag.substring(1)}`)}>{c.name}</Name>
                   </Cell>
                   <Cell
                     style={{
@@ -444,9 +422,7 @@ export default function Leaderboard({ region, data }) {
                     }}
                   >
                     <Flag
-                      src={`/assets/flags/${getCountryKeyById(
-                        c.location.id
-                      )}.png`}
+                      src={`/assets/flags/${getCountryKeyById(c.location.id)}.png`}
                       height={flagHeightPx}
                       width={flagWidthPx}
                       alt="Flag"

@@ -29,8 +29,7 @@ const ViewAll = styled(Link)`
   color: ${orange};
   text-decoration: none;
 
-  :hover,
-  :active {
+  &:hover {
     text-decoration: underline;
   }
 `

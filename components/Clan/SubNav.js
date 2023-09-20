@@ -14,8 +14,7 @@ const NavItem = styled.div`
   border-bottom: ${({ isActive }) => isActive && `3px solid ${pink}`};
   font-weight: 600;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
   }
 

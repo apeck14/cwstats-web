@@ -55,8 +55,7 @@ const SearchButton = styled.button`
   align-items: center;
   padding: 0.5rem;
 
-  &:hover,
-  &:active {
+  &:hover {
     background-color: ${gray["0"]};
     cursor: pointer;
   }

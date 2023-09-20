@@ -72,8 +72,7 @@ const Set = styled.button`
   min-width: 3.5rem;
   border-radius: 0.25rem;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${orange};
   }
@@ -88,8 +87,7 @@ const Delete = styled(FaTrashAlt)`
   color: ${orange};
   font-size: 1.25rem;
 
-  :hover,
-  :active {
+  &:hover {
     color: ${pink};
     cursor: pointer;
   }

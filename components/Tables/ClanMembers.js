@@ -27,8 +27,7 @@ const TH = styled.th`
 `
 
 const SortTh = styled(TH)`
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${gray["75"]};
     border-top-left-radius: 0.4rem;
@@ -68,8 +67,7 @@ const Cell = styled.td`
 const Name = styled.span`
   font-size: 1rem;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     color: ${pink};
   }

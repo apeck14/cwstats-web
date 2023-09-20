@@ -30,8 +30,7 @@ const Row = styled.tr`
   color: ${gray["0"]};
   background-color: ${({ isHeader }) => (isHeader ? "inherit" : gray["75"])};
 
-  :hover,
-  :active {
+  &:hover {
     background-color: ${({ isHeader }) => !isHeader && gray["100"]};
     cursor: ${({ isHeader }) => !isHeader && "pointer"};
   }

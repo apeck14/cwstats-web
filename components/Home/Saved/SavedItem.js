@@ -37,8 +37,7 @@ const Name = styled(Link)`
   font-weight: 600;
   text-decoration: none;
 
-  :hover,
-  :active {
+  &:hover {
     color: ${gray["25"]};
   }
 
@@ -60,8 +59,7 @@ const ItemLink = styled(Link)`
   text-decoration: none;
   color: ${orange};
 
-  :hover,
-  :active {
+  &:hover {
     text-decoration: underline;
   }
 

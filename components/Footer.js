@@ -34,7 +34,7 @@ const IconButton = styled.button({
   backgroundColor: discordPrimary,
   padding: "0.4rem",
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     opacity: "0.8",
   },
@@ -58,7 +58,7 @@ const DonateButton = styled.button({
   fontSize: "0.9rem",
   fontFamily: "inherit",
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     backgroundColor: orange,
   },

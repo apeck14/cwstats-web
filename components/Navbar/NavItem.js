@@ -29,11 +29,11 @@ const Header = styled.div`
   column-gap: 0.25rem;
   padding: 0.25rem 0.5rem;
   border-radius: 0.25rem;
-  background-color: ${({ isActive }) => isActive && gray["50"]};
+  background-color: ${({ $isActive }) => $isActive && gray["50"]};
   position: relative;
   transition: 0.5s ease-out;
 
-  :hover {
+  &:hover {
     background-color: ${gray["50"]};
     cursor: pointer;
   }
@@ -60,7 +60,7 @@ const Item = styled.div`
   border-radius: 0.25rem;
   transition: 0.2s ease-out;
 
-  :hover {
+  &:hover {
     background-color: ${gray["50"]};
     cursor: pointer;
   }
@@ -94,7 +94,7 @@ export default function NavItem({ children, isActive, type, url }) {
 
   return (
     <Container onMouseEnter={() => setShowSubMenu(true)} onMouseLeave={() => setShowSubMenu(false)}>
-      <Header onClick={handleHeaderClick} isActive={isActive}>
+      <Header onClick={handleHeaderClick} $isActive={isActive}>
         {children}
       </Header>
       {showSubMenu && type === "leaderboards" && (

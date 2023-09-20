@@ -10,11 +10,10 @@ const NavDiv = styled.div`
 const NavItem = styled.div`
   color: ${gray["0"]};
   padding: 0.5rem 1rem;
-  border-bottom: ${({ isActive }) => isActive && `3px solid ${pink}`};
+  border-bottom: ${({ $isActive }) => $isActive && `3px solid ${pink}`};
   font-weight: 600;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
   }
 
@@ -36,25 +35,25 @@ export default function SubNav() {
   return (
     <NavDiv className="noselect">
       <NavItem
-        isActive={router.asPath === `/player/${router.query.tag}`}
+        $isActive={router.asPath === `/player/${router.query.tag}`}
         onClick={() => handleClick(`/player/${router.query.tag}`)}
       >
         Home
       </NavItem>
       <NavItem
-        isActive={router.asPath === `/player/${router.query.tag}/cards`}
+        $isActive={router.asPath === `/player/${router.query.tag}/cards`}
         onClick={() => handleClick(`/player/${router.query.tag}/cards`)}
       >
         Cards
       </NavItem>
       <NavItem
-        isActive={router.asPath === `/player/${router.query.tag}/battles`}
+        $isActive={router.asPath === `/player/${router.query.tag}/battles`}
         onClick={() => handleClick(`/player/${router.query.tag}/battles`)}
       >
         Battles
       </NavItem>
       <NavItem
-        isActive={router.asPath === `/player/${router.query.tag}/war`}
+        $isActive={router.asPath === `/player/${router.query.tag}/war`}
         onClick={() => handleClick(`/player/${router.query.tag}/war`)}
       >
         War

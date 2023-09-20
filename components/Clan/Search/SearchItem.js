@@ -29,8 +29,7 @@ const Name = styled(Link)`
   display: flex;
   column-gap: 0.5rem;
 
-  :hover,
-  :active {
+  &:hover {
     color: ${pink};
   }
 `

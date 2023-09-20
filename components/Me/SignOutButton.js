@@ -12,8 +12,7 @@ const SignOutBtn = styled.button`
   font-size: 0.8rem;
   font-weight: 600;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${orange};
   }

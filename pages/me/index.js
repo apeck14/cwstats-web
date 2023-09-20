@@ -34,8 +34,7 @@ const Here = styled(Link)`
   text-decoration: none;
   color: ${pink};
 
-  :hover,
-  :active {
+  &:hover {
     text-decoration: underline;
   }
 `

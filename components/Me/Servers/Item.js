@@ -8,8 +8,7 @@ import { gray } from "../../../public/static/colors"
 const Main = styled.div`
   box-shadow: rgba(0, 0, 0, 0.35) 0px 6px 12px;
 
-  :hover,
-  :active {
+  &:hover {
     box-shadow: none;
     cursor: pointer;
   }

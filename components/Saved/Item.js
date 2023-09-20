@@ -7,12 +7,7 @@ import styled from "styled-components"
 import useDebouncedCallback from "../../hooks/useDebouncedCallback"
 import useWindowSize from "../../hooks/useWindowSize"
 import { gray, orange } from "../../public/static/colors"
-import {
-  saveClan,
-  savePlayer,
-  unsaveClan,
-  unsavePlayer,
-} from "../../utils/services"
+import { saveClan, savePlayer, unsaveClan, unsavePlayer } from "../../utils/services"
 
 const ContentItem = styled.div({
   display: "flex",
@@ -59,7 +54,7 @@ const Name = styled(Link)({
   color: gray["0"],
   fontSize: "1.05rem",
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     color: gray["25"],
   },
@@ -91,7 +86,7 @@ const ContentLink = styled(Link)({
   color: orange,
   fontSize: "0.95rem",
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     textDecoration: "underline",
   },
@@ -105,7 +100,7 @@ const BookmarkDiv = styled.div({
   display: "flex",
   justifyContent: "center",
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
   },
 })
@@ -126,7 +121,7 @@ export default function SavedItem({ data, links, isPlayer }) {
       else savePlayer(name, tag)
     } else if (isSaved) unsaveClan(tag)
     else saveClan(name, tag, badge)
-  }, 1500)
+  }, 1000)
 
   const toggleSavedItem = () => {
     setIsSaved(!isSaved)
@@ -138,9 +133,7 @@ export default function SavedItem({ data, links, isPlayer }) {
   const clanBadgeHeightPx = width <= 480 ? 27 : 32
   const clanBadgeWidthPx = width <= 480 ? 20.25 : 24
 
-  const iconSrc = isPlayer
-    ? "/assets/icons/king-pink.png"
-    : `/assets/badges/${badge}.png`
+  const iconSrc = isPlayer ? "/assets/icons/king-pink.png" : `/assets/badges/${badge}.png`
 
   return (
     <ContentItem>
@@ -153,9 +146,7 @@ export default function SavedItem({ data, links, isPlayer }) {
         />
       </IconDiv>
       <LeftDiv>
-        <Name href={`${isPlayer ? "/player" : "/clan"}/${tag.substring(1)}`}>
-          {name}
-        </Name>
+        <Name href={`${isPlayer ? "/player" : "/clan"}/${tag.substring(1)}`}>{name}</Name>
         {width <= 1024 ? null : <Tag>{tag}</Tag>}
       </LeftDiv>
       <RightDiv>
@@ -165,9 +156,7 @@ export default function SavedItem({ data, links, isPlayer }) {
           </ContentLink>
         ))}
       </RightDiv>
-      <BookmarkDiv onClick={toggleSavedItem}>
-        {isSaved ? <Bookmark /> : <BookmarkFill />}
-      </BookmarkDiv>
+      <BookmarkDiv onClick={toggleSavedItem}>{isSaved ? <Bookmark /> : <BookmarkFill />}</BookmarkDiv>
     </ContentItem>
   )
 }

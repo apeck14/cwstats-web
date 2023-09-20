@@ -55,8 +55,7 @@ const Item = styled.div`
   column-gap: 0.5rem;
   overflow: hidden;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${gray["75"]};
   }

@@ -24,7 +24,7 @@ const DropdownButton = styled.button`
   justify-content: space-between;
   align-items: center;
 
-  :hover {
+  &:hover {
     background-color: ${gray["100"]};
     cursor: pointer;
   }
@@ -65,12 +65,7 @@ const Hashtag = styled.span`
 
 const Arrow = styled(RiArrowDropDownLine)``
 
-export default function DropdownMenuComponent({
-  isChannels,
-  values,
-  currentItem,
-  setCurrentItem,
-}) {
+export default function DropdownMenuComponent({ isChannels, values, currentItem, setCurrentItem }) {
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef(null)
 
@@ -101,11 +96,7 @@ export default function DropdownMenuComponent({
       <DropdownButton onClick={handleToggle}>
         <div>
           {isChannels && values.length > 0 && <Hashtag>#</Hashtag>}
-          {isChannels
-            ? values.length === 0
-              ? "No Channels"
-              : currentItem?.name
-            : currentItem}
+          {isChannels ? (values.length === 0 ? "No Channels" : currentItem?.name) : currentItem}
         </div>
         <Arrow />
       </DropdownButton>
@@ -113,11 +104,7 @@ export default function DropdownMenuComponent({
       {isOpen && (
         <DropdownMenu>
           {values.map((item) => (
-            <DropdownItem
-              key={item.id}
-              isSelected={false}
-              onClick={() => handleSelection(item)}
-            >
+            <DropdownItem key={item.id} isSelected={false} onClick={() => handleSelection(item)}>
               {isChannels && <Hashtag>#</Hashtag>}
               {isChannels ? item.name : item}
             </DropdownItem>

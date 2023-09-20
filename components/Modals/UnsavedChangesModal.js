@@ -5,13 +5,13 @@ import LoadingSpinner from "../LoadingSpinner"
 
 const ModalWrapper = styled.div`
   position: fixed;
-  bottom: ${({ isOpen }) => (isOpen ? "0.5rem" : 0)};
+  bottom: ${({ $isOpen }) => ($isOpen ? "0.5rem" : 0)};
   display: flex;
   align-items: center;
   justify-content: center;
   width: inherit;
   margin: 0 auto;
-  transform: translateY(${({ isOpen }) => (isOpen ? "0%" : "100%")});
+  transform: translateY(${({ $isOpen }) => ($isOpen ? "0%" : "100%")});
   transition: transform 0.1s ease-out;
 `
 
@@ -46,8 +46,7 @@ const SaveButton = styled.button`
   cursor: pointer;
   font-weight: 600;
 
-  :active,
-  :hover {
+  &:hover {
     background-color: ${orange};
   }
 
@@ -69,7 +68,7 @@ const Error = styled.p`
 
 export default function UnsavedChangesModal({ isOpen, onSave, isLoading, error }) {
   return (
-    <ModalWrapper isOpen={isOpen}>
+    <ModalWrapper $isOpen={isOpen}>
       <Modal>
         <Content>
           <Text>You have unsaved changes. Would you like to save these changes?</Text>

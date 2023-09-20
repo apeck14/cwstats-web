@@ -37,7 +37,7 @@ const LeftDiv = styled.div`
 const Row = styled.div`
   display: flex;
   align-items: center;
-  column-gap: ${({ gap }) => gap || "1rem"};
+  column-gap: ${({ $gap }) => $gap || "1rem"};
 `
 
 const Group = styled(Row)`
@@ -66,10 +66,9 @@ const ClanName = styled.p`
     font-size: 0.9rem;
   }
 
-  :hover,
-  :active {
-    color: ${({ isClan }) => isClan && pink};
-    cursor: ${({ isClan }) => isClan && "pointer"};
+  &:hover {
+    color: ${({ $isClan }) => $isClan && pink};
+    cursor: ${({ $isClan }) => $isClan && "pointer"};
   }
 `
 
@@ -134,8 +133,7 @@ const InGameLink = styled(Link)`
 const BookmarkFill = styled(FaBookmark)`
   color: ${pink};
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
   }
 `
@@ -143,8 +141,7 @@ const BookmarkFill = styled(FaBookmark)`
 const Bookmark = styled(FaRegBookmark)`
   color: ${pink};
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
   }
 `
@@ -152,8 +149,7 @@ const Bookmark = styled(FaRegBookmark)`
 const InGameLinkIcon = styled(BiLinkExternal)`
   color: ${gray["25"]};
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     color: ${orange};
   }
@@ -189,19 +185,13 @@ export default function PlayerHeader({ saved, player, arenaName }) {
   return (
     <HeaderDiv>
       <LeftDiv>
-        <Row gap="0.5rem">
+        <Row $gap="0.5rem">
           <Name>{player.name}</Name>
           <IconDiv>
-            {isSaved ? (
-              <BookmarkFill onClick={toggleSavedItem} />
-            ) : (
-              <Bookmark onClick={toggleSavedItem} />
-            )}
+            {isSaved ? <BookmarkFill onClick={toggleSavedItem} /> : <Bookmark onClick={toggleSavedItem} />}
           </IconDiv>
           <InGameLink
-            href={`https://link.clashroyale.com/?playerInfo?id=${player.tag.substring(
-              1
-            )}`}
+            href={`https://link.clashroyale.com/?playerInfo?id=${player.tag.substring(1)}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -211,12 +201,7 @@ export default function PlayerHeader({ saved, player, arenaName }) {
         <Row>
           <Tag>{player.tag}</Tag>
           <Group>
-            <Icon
-              src="/assets/icons/trophy.png"
-              height={iconPx}
-              width={iconPx}
-              alt="Clash Royale Ladder Trophy"
-            />
+            <Icon src="/assets/icons/trophy.png" height={iconPx} width={iconPx} alt="Clash Royale Ladder Trophy" />
             <Text>
               {player.trophies} / {player.bestTrophies}
             </Text>
@@ -239,12 +224,7 @@ export default function PlayerHeader({ saved, player, arenaName }) {
             height={width <= 480 ? 23 : 27}
             width={width <= 480 ? 18 : 21}
           />
-          <ClanName
-            isClan={inClan}
-            onClick={
-              inClan ? () => handleClanClick(player?.clan?.tag.substring(1)) : null
-            }
-          >
+          <ClanName $isClan={inClan} onClick={inClan ? () => handleClanClick(player?.clan?.tag.substring(1)) : null}>
             {player.clan?.name || "None"}
           </ClanName>
           {inClan && (

@@ -23,11 +23,11 @@ const SlideMenu = styled.nav`
   background-color: ${gray["75"]};
   padding: 1rem;
   display: flex;
-  visibility: ${({ isOpen }) => (isOpen ? "visible" : "hidden")};
+  visibility: ${({ $isOpen }) => ($isOpen ? "visible" : "hidden")};
   flex-direction: column;
   z-index: 999;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
-  transform: ${({ isOpen }) => (isOpen ? "translateX(0)" : "translateX(100%)")};
+  transform: ${({ $isOpen }) => ($isOpen ? "translateX(0)" : "translateX(100%)")};
   transition: 0.2s ease-out;
 
   h3:nth-of-type(2),
@@ -75,8 +75,7 @@ const Item = styled.div`
   margin-top: 0.25rem;
   border-radius: 0.25rem;
 
-  :hover,
-  :active {
+  &:hover {
     background-color: ${gray["50"]};
   }
 `
@@ -100,7 +99,7 @@ export default function MobileMenu({ isOpen, setIsOpen }) {
   }
 
   return (
-    <SlideMenu isOpen={isOpen}>
+    <SlideMenu $isOpen={isOpen}>
       <Title>
         <LeaderboardIcon />
         Leaderboards

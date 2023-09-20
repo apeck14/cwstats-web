@@ -63,8 +63,7 @@ const Item = styled.div`
   display: flex;
   align-items: center;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${gray["75"]};
   }
@@ -112,7 +111,7 @@ export default function SpySearchBar({
   const [showSpinner, setShowSpinner] = useState(false)
   const { width } = useWindowSize()
   const resultsRef = useRef(null)
-  const debouncedSearchTerm = useDebounce(search, 1200)
+  const debouncedSearchTerm = useDebounce(search, 1000)
   const initialRender = useRef(true)
   const inputId = useId()
 

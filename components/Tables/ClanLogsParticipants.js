@@ -50,7 +50,7 @@ const Icon = styled(Image)({
 })
 
 const Name = styled.span({
-  ":hover, :active": {
+  "&:hover": {
     color: pink,
     cursor: "pointer",
   },
@@ -59,9 +59,7 @@ const Name = styled.span({
 export default function ClanLogsParticipants({ participants }) {
   const router = useRouter()
   const { width } = useWindowSize()
-  const sortedParticipants = participants
-    .filter((p) => p.fame > 0)
-    .sort((a, b) => b.fame - a.fame)
+  const sortedParticipants = participants.filter((p) => p.fame > 0).sort((a, b) => b.fame - a.fame)
 
   const isMobile = width <= 480
   const iconPx = isMobile ? 14 : 18
@@ -73,25 +71,13 @@ export default function ClanLogsParticipants({ participants }) {
           <TH>#</TH>
           <TH textAlign="left">Participants: {sortedParticipants.length}</TH>
           <TH>
-            <Icon
-              src="/assets/icons/decks.png"
-              width={iconPx}
-              height={iconPx}
-            />
+            <Icon src="/assets/icons/decks.png" width={iconPx} height={iconPx} />
           </TH>
           <TH>
-            <Icon
-              src="/assets/icons/boat-attack-points.png"
-              width={isMobile ? 15 : 19}
-              height={iconPx}
-            />
+            <Icon src="/assets/icons/boat-attack-points.png" width={isMobile ? 15 : 19} height={iconPx} />
           </TH>
           <TH>
-            <Icon
-              src="/assets/icons/fame.png"
-              width={isMobile ? 10 : 13}
-              height={iconPx}
-            />
+            <Icon src="/assets/icons/fame.png" width={isMobile ? 10 : 13} height={iconPx} />
           </TH>
         </Row>
       </thead>
@@ -103,11 +89,7 @@ export default function ClanLogsParticipants({ participants }) {
               {index + 1}
             </Cell>
             <Cell index={index}>
-              <Name
-                onClick={() => router.push(`/player/${p.tag.substring(1)}`)}
-              >
-                {p.name}
-              </Name>
+              <Name onClick={() => router.push(`/player/${p.tag.substring(1)}`)}>{p.name}</Name>
             </Cell>
             <Cell index={index} textAlign="center">
               {p.decksUsed}

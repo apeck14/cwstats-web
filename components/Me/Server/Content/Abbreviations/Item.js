@@ -61,8 +61,7 @@ const Text = styled.p`
 const Delete = styled(FaTrashAlt)`
   color: ${orange};
 
-  :hover,
-  :active {
+  &:hover {
     color: ${pink};
     cursor: pointer;
   }

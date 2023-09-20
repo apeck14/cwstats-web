@@ -19,7 +19,7 @@ const DropdownButton = styled.button`
   font-weight: 600;
   border-radius: 0.25rem 0.25rem 0 0;
 
-  :hover {
+  &:hover {
     background-color: ${gray["100"]};
     cursor: pointer;
   }
@@ -58,16 +58,9 @@ const Hashtag = styled.span`
   font-weight: 600;
 `
 
-export default function DropdownMenuComponent({
-  type,
-  allChannels,
-  initialChannel,
-  handleChange,
-}) {
+export default function DropdownMenuComponent({ type, allChannels, initialChannel, handleChange }) {
   const [isOpen, setIsOpen] = useState(false)
-  const [selectedChannel, setSelectedChannel] = useState(
-    initialChannel || allChannels[0]
-  )
+  const [selectedChannel, setSelectedChannel] = useState(initialChannel || allChannels[0])
   const dropdownRef = useRef(null)
 
   useEffect(() => {
@@ -107,9 +100,7 @@ export default function DropdownMenuComponent({
               key={channel.id || channel.name}
               onClick={() => handleChannelSelection(channel, type)}
               isSelected={
-                selectedChannel.id
-                  ? selectedChannel.id === channel.id
-                  : selectedChannel.name === channel.name
+                selectedChannel.id ? selectedChannel.id === channel.id : selectedChannel.name === channel.name
               }
             >
               {channel.id ? <Hashtag>#</Hashtag> : null}

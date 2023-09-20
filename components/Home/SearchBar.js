@@ -46,8 +46,7 @@ const Submit = styled.button`
   padding: 0 1.5rem;
   border-radius: 0 1.5rem 1.5rem 0;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${orange};
   }
@@ -85,8 +84,7 @@ const Item = styled.div`
   display: flex;
   align-items: center;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${gray["75"]};
   }
@@ -110,19 +108,14 @@ const Column = styled.div`
   flex-direction: column;
 `
 
-export default function SearchBar({
-  placeholder,
-  isPlayerSearch,
-  defaultValue,
-  showLiveResults,
-}) {
+export default function SearchBar({ placeholder, isPlayerSearch, defaultValue, showLiveResults }) {
   const router = useRouter()
   const [search, setSearch] = useState("")
   const [results, setResults] = useState([])
   const [showSpinner, setShowSpinner] = useState(false)
   const { width } = useWindowSize()
   const resultsRef = useRef(null)
-  const debouncedSearchTerm = useDebounce(search, 1200)
+  const debouncedSearchTerm = useDebounce(search, 1000)
   const initialRender = useRef(true)
   const inputId = useId()
 
@@ -178,10 +171,7 @@ export default function SearchBar({
     setShowSpinner(true)
 
     const tagRegex = /^[A-Za-z0-9#]+$/
-    const meetsTagReq =
-      trimmedSearch.length >= 5 &&
-      trimmedSearch.length <= 10 &&
-      trimmedSearch.match(tagRegex)
+    const meetsTagReq = trimmedSearch.length >= 5 && trimmedSearch.length <= 10 && trimmedSearch.match(tagRegex)
 
     if (isPlayerSearch) {
       if (meetsTagReq) {
@@ -229,27 +219,14 @@ export default function SearchBar({
     }
   }, [])
 
-  const handleClick = (tag) =>
-    router.push(`/${isPlayerSearch ? "player" : "clan"}/${tag.substring(1)}`)
+  const handleClick = (tag) => router.push(`/${isPlayerSearch ? "player" : "clan"}/${tag.substring(1)}`)
 
   return (
     <Container ref={resultsRef}>
       <Main>
-        <InputBar
-          id={inputId}
-          placeholder={placeholder}
-          onChange={handleChange}
-          defaultValue={defaultValue}
-        />
-        <Submit
-          onClick={() => handleSubmit()}
-          aria-label={`${isPlayerSearch ? "Player" : "Clan"} Search`}
-        >
-          {showSpinner ? (
-            <LoadingSpinner size={width <= 380 ? "1.3rem" : "1.4rem"} lineWidth={3} />
-          ) : (
-            <Icon />
-          )}
+        <InputBar id={inputId} placeholder={placeholder} onChange={handleChange} defaultValue={defaultValue} />
+        <Submit onClick={() => handleSubmit()} aria-label={`${isPlayerSearch ? "Player" : "Clan"} Search`}>
+          {showSpinner ? <LoadingSpinner size={width <= 380 ? "1.3rem" : "1.4rem"} lineWidth={3} /> : <Icon />}
         </Submit>
       </Main>
       {results.length > 0 && (
@@ -258,10 +235,7 @@ export default function SearchBar({
             <Item key={item.tag} onClick={() => handleClick(item.tag)}>
               {!isPlayerSearch && (
                 <Badge
-                  src={`/assets/badges/${getClanBadgeFileName(
-                    item.badgeId,
-                    item.clanWarTrophies
-                  )}.png`}
+                  src={`/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`}
                   height={30}
                   width={23}
                 />

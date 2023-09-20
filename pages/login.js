@@ -40,8 +40,7 @@ const LoginBtn = styled.button`
   font-family: inherit;
   font-weight: 600;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${orange};
   }

@@ -17,8 +17,7 @@ const Main = styled.div`
   align-items: center;
   justify-content: center;
 
-  :hover,
-  :active {
+  &:hover {
     background-color: ${gray["100"]};
     cursor: pointer;
   }

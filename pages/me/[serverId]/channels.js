@@ -11,11 +11,7 @@ import UnsavedChangesModal from "../../../components/Modals/UnsavedChangesModal"
 import clientPromise from "../../../lib/mongodb"
 import { gray } from "../../../public/static/colors"
 import { arraysAreEqual, redirect } from "../../../utils/functions"
-import {
-  fetchGuildChannels,
-  fetchGuilds,
-  setGuildChannels,
-} from "../../../utils/services"
+import { fetchGuildChannels, fetchGuilds, setGuildChannels } from "../../../utils/services"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
 const Header = styled.h2`
@@ -148,12 +144,7 @@ export default function ServerPage({ guild, channels }) {
         />
       </TabContent>
 
-      <UnsavedChangesModal
-        isOpen={showModal}
-        onSave={handleSave}
-        isLoading={showSaveSpinner}
-        error={saveError}
-      />
+      <UnsavedChangesModal isOpen={showModal} onSave={handleSave} isLoading={showSaveSpinner} error={saveError} />
     </>
   )
 }
@@ -192,10 +183,7 @@ export async function getServerSideProps({ req, res, params }) {
     if (!guild) return redirect("/404")
     if (!guildsRes.ok || !channelsRes.ok) throw new Error()
 
-    const [guildsData, channelsData] = await Promise.all([
-      guildsRes.json(),
-      channelsRes.json(),
-    ])
+    const [guildsData, channelsData] = await Promise.all([guildsRes.json(), channelsRes.json()])
 
     const textChannels = channelsData
       .filter((c) => c.type === 0)
@@ -217,7 +205,7 @@ export async function getServerSideProps({ req, res, params }) {
             ...guild,
             icon,
             name,
-          })
+          }),
         ),
         channels: textChannels,
       },

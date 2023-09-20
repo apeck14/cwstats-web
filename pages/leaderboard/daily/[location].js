@@ -90,7 +90,7 @@ const ToggleDiv = styled.div({
   alignItems: "center",
   padding: "1rem",
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
   },
 
@@ -112,7 +112,7 @@ const PaginationDiv = styled.div({
   color: gray["0"],
   padding: "1rem",
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     filter: "brightness(80%)",
   },
@@ -133,7 +133,7 @@ const RegionDropdown = styled.div({
   padding: "1rem",
   backgroundColor: gray["75"],
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     color: gray["25"],
   },
@@ -155,7 +155,7 @@ const LeagueToggle = styled(Link)({
   textDecoration: "none",
   color: gray["0"],
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     color: gray["25"],
   },
@@ -229,7 +229,7 @@ const Name = styled(Link)({
   textDecoration: "none",
   color: gray["0"],
 
-  ":hover, :active": {
+  "&:hover": {
     cursor: "pointer",
     color: pink,
   },

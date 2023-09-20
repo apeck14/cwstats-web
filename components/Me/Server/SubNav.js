@@ -20,8 +20,7 @@ const Back = styled.button`
   padding: 0.5rem;
   border-radius: 0.5rem;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${orange};
   }
@@ -47,10 +46,9 @@ const Nav = styled.div`
 
 const Item = styled.div`
   padding: 0.25rem 0;
-  border-bottom: ${({ isActive }) => (isActive ? `2px solid ${pink}` : null)};
+  border-bottom: ${({ $isActive }) => ($isActive ? `2px solid ${pink}` : null)};
 
-  :hover,
-  :active {
+  &:hover {
     border-bottom: 2px solid ${pink};
     cursor: pointer;
   }
@@ -89,22 +87,14 @@ export default function SubNav() {
         <Item
           onClick={() => handleClick(`/abbreviations`)}
           className="noselect"
-          isActive={currentTab === "abbreviations"}
+          $isActive={currentTab === "abbreviations"}
         >
           <Text>Abbreviations</Text>
         </Item>
-        <Item
-          onClick={() => handleClick("/channels")}
-          className="noselect"
-          isActive={currentTab === "channels"}
-        >
+        <Item onClick={() => handleClick("/channels")} className="noselect" $isActive={currentTab === "channels"}>
           <Text>Channels</Text>
         </Item>
-        <Item
-          onClick={() => handleClick("/nudges")}
-          className="noselect"
-          isActive={currentTab === "nudges"}
-        >
+        <Item onClick={() => handleClick("/nudges")} className="noselect" $isActive={currentTab === "nudges"}>
           <Text>Nudges</Text>
         </Item>
       </Nav>

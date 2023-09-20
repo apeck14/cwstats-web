@@ -34,8 +34,7 @@ const LoadMore = styled.button`
   border-radius: 1rem;
   font-weight: 600;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${pink};
   }

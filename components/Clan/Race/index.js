@@ -30,8 +30,7 @@ const ClanDiv = styled.div`
   margin-bottom: 0.5rem;
   outline: ${({ isClan }) => isClan && `3px solid ${gray["50"]}`};
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     outline: ${({ isClan }) => `${isClan ? 3 : 2}px solid ${gray["50"]}`};
   }

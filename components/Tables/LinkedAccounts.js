@@ -25,8 +25,7 @@ const TH = styled.th`
 `
 
 const SortableTH = styled(TH)`
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${gray["75"]};
     border-top-left-radius: 0.4rem;
@@ -79,8 +78,7 @@ const CellDiv = styled.div`
 const Delete = styled(FaTrashAlt)`
   color: ${orange};
 
-  :hover,
-  :active {
+  &:hover {
     color: ${pink};
     cursor: pointer;
   }

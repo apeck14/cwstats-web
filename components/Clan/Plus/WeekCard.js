@@ -27,8 +27,7 @@ const Title = styled.h3`
   border-radius: 0.5rem;
   background-color: ${({ isActive }) => (isActive ? gray["50"] : "transparent")};
 
-  :hover,
-  :active {
+  &:hover {
     background-color: ${gray["50"]};
     cursor: pointer;
   }
@@ -42,8 +41,7 @@ const Day = styled.div`
   row-gap: 0.5rem;
   background-color: ${({ isActive }) => (isActive ? gray["75"] : "transparent")};
 
-  :hover,
-  :active {
+  &:hover {
     background-color: ${gray["75"]};
     cursor: pointer;
   }

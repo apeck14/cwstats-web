@@ -54,8 +54,7 @@ const ClanItem = styled.div`
   border-bottom: 2px solid ${gray["100"]};
   display: flex;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: ${(props) => (props.isClan ? null : "pointer")};
     background-color: ${(props) => (props.isClan ? null : gray["100"])};
   }
@@ -111,8 +110,7 @@ const ShowParticipantsBtn = styled.button`
     width: 8rem;
   }
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${orange};
   }

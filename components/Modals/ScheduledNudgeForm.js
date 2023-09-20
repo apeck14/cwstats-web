@@ -117,7 +117,7 @@ const Input = styled.input`
 `
 
 const Button = styled.button`
-  background-color: ${({ color }) => color};
+  background-color: ${({ $color }) => $color};
   padding: 0.5rem 1rem;
   border-radius: 0.5rem;
   color: ${gray["0"]};
@@ -128,23 +128,16 @@ const Button = styled.button`
     padding: 0.5rem 0.9rem;
   }
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
-    background-color: ${({ color }) => (color === gray["100"] ? gray["50"] : orange)};
+    background-color: ${({ $color }) => ($color === gray["100"] ? gray["50"] : orange)};
   }
 `
 
 const AMPM = ["A.M.", "P.M."]
 const HOURS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-export default function ScheduledNudgeFormModal({
-  isOpen,
-  setIsOpen,
-  channels,
-  scheduledNudges,
-  setScheduledNudges,
-}) {
+export default function ScheduledNudgeFormModal({ isOpen, setIsOpen, channels, scheduledNudges, setScheduledNudges }) {
   const router = useRouter()
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -234,16 +227,8 @@ export default function ScheduledNudgeFormModal({
               Timezone: {timezone} ({offset})
             </Timezone>
             <Row>
-              <DropdownMenuComponent
-                values={HOURS}
-                currentItem={selectedHour}
-                setCurrentItem={setSelectedHour}
-              />
-              <DropdownMenuComponent
-                values={AMPM}
-                currentItem={selectedAmPm}
-                setCurrentItem={setSelectedAmPm}
-              />
+              <DropdownMenuComponent values={HOURS} currentItem={selectedHour} setCurrentItem={setSelectedHour} />
+              <DropdownMenuComponent values={AMPM} currentItem={selectedAmPm} setCurrentItem={setSelectedAmPm} />
             </Row>
             <SubHeader>Channel</SubHeader>
             <DropdownMenuComponent
@@ -256,7 +241,7 @@ export default function ScheduledNudgeFormModal({
           <Footer>
             <Error>{error}</Error>
             <ButtonDiv>
-              <Button color={gray["100"]} onClick={handleCancel}>
+              <Button $color={gray["100"]} onClick={handleCancel}>
                 Cancel
               </Button>
               <Button color={pink} onClick={handleSubmit}>

@@ -18,11 +18,7 @@ import LinkedAccountsTable from "../../../components/Tables/LinkedAccounts"
 import clientPromise from "../../../lib/mongodb"
 import { gray, orange, pink } from "../../../public/static/colors"
 import { redirect } from "../../../utils/functions"
-import {
-  fetchGuildChannels,
-  fetchGuilds,
-  updateNudgeSettings,
-} from "../../../utils/services"
+import { fetchGuildChannels, fetchGuilds, updateNudgeSettings } from "../../../utils/services"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
 const Header = styled.h2`
@@ -47,8 +43,7 @@ const AddScheduledNudge = styled.button`
   align-items: center;
   justify-content: center;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${orange};
   }
@@ -64,14 +59,7 @@ const LinksRemaining = styled.p`
   text-align: right;
 `
 
-export default function ServerPage({
-  guild,
-  channels,
-  nudges,
-  ignoreLeaders,
-  message,
-  links,
-}) {
+export default function ServerPage({ guild, channels, nudges, ignoreLeaders, message, links }) {
   const router = useRouter()
   const [showScheduledNudgeModal, setShowScheduledNudgeModal] = useState(false)
   const [scheduledNudges, setScheduledNudges] = useState(nudges)
@@ -141,24 +129,14 @@ export default function ServerPage({
 
       <TabContent>
         <Header>Settings</Header>
-        <Checkbox
-          isChecked={unsavedSettings.ignoreLeaders}
-          handleCheckboxChange={handleCheckboxChange}
-        />
+        <Checkbox isChecked={unsavedSettings.ignoreLeaders} handleCheckboxChange={handleCheckboxChange} />
         <SubHeader>Custom Message</SubHeader>
-        <CustomMessage
-          value={unsavedSettings.message}
-          handleChange={handleMessageChange}
-        />
+        <CustomMessage value={unsavedSettings.message} handleChange={handleMessageChange} />
 
         <Hr color={gray["50"]} margin="1.5rem 0" />
 
         <Header>Scheduled Nudges</Header>
-        <ScheduledNudges
-          nudges={scheduledNudges}
-          setNudges={setScheduledNudges}
-          channels={channels}
-        />
+        <ScheduledNudges nudges={scheduledNudges} setNudges={setScheduledNudges} channels={channels} />
 
         {scheduledNudges.length < 5 && (
           <AddScheduledNudge onClick={() => setShowScheduledNudgeModal(true)}>
@@ -185,12 +163,7 @@ export default function ServerPage({
         scheduledNudges={scheduledNudges}
       />
 
-      <UnsavedChangesModal
-        isOpen={showSaveModal}
-        onSave={handleSave}
-        isLoading={showSaveSpinner}
-        error={saveError}
-      />
+      <UnsavedChangesModal isOpen={showSaveModal} onSave={handleSave} isLoading={showSaveSpinner} error={saveError} />
     </>
   )
 }
@@ -229,10 +202,7 @@ export async function getServerSideProps({ req, res, params }) {
     if (!guild) return redirect("/404")
     if (!guildsRes.ok || !channelsRes.ok) throw new Error()
 
-    const [guildsData, channelsData] = await Promise.all([
-      guildsRes.json(),
-      channelsRes.json(),
-    ])
+    const [guildsData, channelsData] = await Promise.all([guildsRes.json(), channelsRes.json()])
 
     const textChannels = channelsData
       .filter((c) => c.type === 0)
@@ -252,7 +222,7 @@ export async function getServerSideProps({ req, res, params }) {
             ...guild,
             icon,
             name,
-          })
+          }),
         ),
         channels: textChannels,
         nudges: guild?.nudges?.scheduled || [],

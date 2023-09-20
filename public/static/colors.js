@@ -3,6 +3,7 @@ module.exports = {
   orange: "#FFA500",
   gray: {
     100: "#18191A", // modern black
+    90: "#1d1e1e",
     75: "#242526", // dark gray
     50: "#3A3B3C", // gray
     25: "#B0B3B8", // light gray

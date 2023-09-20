@@ -3,7 +3,7 @@ import Link from "next/link"
 import { useRouter } from "next/router"
 import { signIn, useSession } from "next-auth/react"
 import { useState } from "react"
-import { BiSearchAlt } from "react-icons/bi"
+import { BiSearchAlt, BiSolidCrown } from "react-icons/bi"
 import { CgLoadbarDoc } from "react-icons/cg"
 import { FaDiscord } from "react-icons/fa"
 import { IoPodiumOutline } from "react-icons/io5"
@@ -74,10 +74,9 @@ const LinkWrapper = styled(Link)`
 const SearchIcon = styled(BiSearchAlt)`
   font-size: 1.5rem;
   color: ${gray["25"]};
-  transition: 0.5s;
+  transition: 0.3s;
 
-  :hover,
-  :active {
+  &:hover {
     color: ${pink};
     cursor: pointer;
   }
@@ -108,8 +107,7 @@ const LoginButton = styled.button`
   background-color: ${pink};
   color: ${gray["0"]};
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${orange};
   }
@@ -125,10 +123,9 @@ const ProfilePicture = styled(Image)`
   border-color: ${pink};
   border-width: 2px;
   border-style: solid;
-  transition: 0.5s;
+  transition: 0.3s;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     border-color: ${orange};
   }
@@ -149,13 +146,20 @@ const CWStatsPlus = styled.button`
   border-width: 2px;
   border-color: ${orange};
   background-color: transparent;
-  transition: 0.5s ease-out;
+  transition: 0.3s;
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     border-color: ${pink};
   }
+`
+
+const CrownIcon = styled(BiSolidCrown)`
+  color: ${pink};
+  font-size: 1.2rem;
 `
 
 export default function Navbar() {
@@ -202,7 +206,12 @@ export default function Navbar() {
 
         <Section>
           <SearchIcon onClick={() => setShowSearch(!showSearch)} />
-          {width >= mainBreakpoint && <CWStatsPlus onClick={() => router.push("/plus")}>CWStats+</CWStatsPlus>}
+          {width >= mainBreakpoint && (
+            <CWStatsPlus onClick={() => router.push("/upgrade")}>
+              <CrownIcon />
+              Upgrade
+            </CWStatsPlus>
+          )}
           {session ? (
             <ProfilePicture
               onClick={() => router.push("/me")}

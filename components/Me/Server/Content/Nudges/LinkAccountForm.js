@@ -39,8 +39,7 @@ const Add = styled.button`
   min-width: 3.5rem;
   border-radius: 0.25rem;
 
-  :hover,
-  :active {
+  &:hover {
     cursor: pointer;
     background-color: ${orange};
   }
