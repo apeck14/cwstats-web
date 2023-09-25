@@ -14,7 +14,7 @@ const Main = styled.div`
   min-height: 25rem;
   position: relative;
 
-  border: ${({ isPremium }) => isPremium && `4px solid ${pink}`};
+  border: ${({ $isPremium }) => $isPremium && `4px solid ${pink}`};
 `
 
 const Title = styled.h1`
@@ -24,7 +24,7 @@ const Title = styled.h1`
 `
 
 const Price = styled.h1`
-  color: ${({ color }) => color};
+  color: ${({ $color }) => $color};
   text-align: center;
 `
 
@@ -57,7 +57,7 @@ const Confirm = styled.button`
   padding: 0.5rem;
   border-radius: 0.5rem;
   transition: 0.75s;
-  outline: ${({ color }) => `${color} solid 2px`};
+  outline: ${({ $color }) => `${$color} solid 2px`};
   color: ${gray["0"]};
   font-weight: 600;
   font-size: 1rem;
@@ -67,7 +67,7 @@ const Confirm = styled.button`
 
   &:hover {
     cursor: pointer;
-    background-color: ${({ color }) => color};
+    background-color: ${({ $color }) => $color};
   }
 `
 
@@ -80,9 +80,9 @@ export default function Card({ title, price, perks, color }) {
   }
 
   return (
-    <Main isPremium={isPremium}>
+    <Main $isPremium={isPremium}>
       <Title>{title}</Title>
-      <Price color={color}>{price}</Price>
+      <Price $color={color}>{price}</Price>
       <PerksTitle>Perks:</PerksTitle>
       <Perks>
         {perks.map((p) => (
@@ -92,7 +92,7 @@ export default function Card({ title, price, perks, color }) {
           </Item>
         ))}
       </Perks>
-      <Confirm onClick={handleClick} color={color}>
+      <Confirm onClick={handleClick} $color={color}>
         {isPremium ? `Coming Soon 🎉` : `Activate ${title}`}
       </Confirm>
     </Main>

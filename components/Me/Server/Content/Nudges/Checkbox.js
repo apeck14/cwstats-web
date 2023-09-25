@@ -23,7 +23,7 @@ const CheckboxStyled = styled.span`
   transition: background-color 0.15s ease;
   position: relative;
 
-  ::after {
+  &::after {
     content: ${({ checked }) => (checked ? "'\\2714'" : "''")};
     position: absolute;
     display: ${({ checked }) => (checked ? "block" : "none")};
@@ -45,11 +45,7 @@ const CheckboxLabel = styled.span`
 export default function Checkbox({ isChecked, handleCheckboxChange }) {
   return (
     <CheckboxContainer>
-      <CheckboxInput
-        type="checkbox"
-        checked={isChecked}
-        onChange={handleCheckboxChange}
-      />
+      <CheckboxInput type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
       <CheckboxStyled checked={isChecked} />
       <CheckboxLabel>Ignore Co-Leaders & Leaders</CheckboxLabel>
     </CheckboxContainer>

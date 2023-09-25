@@ -41,7 +41,7 @@ const SearchBar = styled.input`
     width: 14rem;
   }
 
-  ::placeholder {
+  &::placeholder {
     color: ${gray["25"]};
     font-weight: 500;
   }

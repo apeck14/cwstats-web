@@ -29,7 +29,7 @@ const InputBar = styled.input`
   height: 2.5rem;
   background-color: transparent;
 
-  ::placeholder {
+  &::placeholder {
     font-size: 0.8rem;
   }
 `

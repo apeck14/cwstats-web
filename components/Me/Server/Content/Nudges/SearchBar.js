@@ -23,7 +23,7 @@ const Input = styled.input`
   font-weight: 600;
   font-size: 1rem;
 
-  ::placeholder {
+  &::placeholder {
     color: ${gray["50"]};
     font-size: 0.9rem;
   }

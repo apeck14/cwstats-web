@@ -28,7 +28,7 @@ const Abbr = styled.input`
   font-weight: 600;
   font-size: 1rem;
 
-  ::placeholder {
+  &::placeholder {
     color: ${gray["50"]};
     font-size: 0.9rem;
   }
@@ -107,9 +107,7 @@ export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
     <Main>
       <Abbr placeholder="abbr" maxLength={4} onChange={handleAbbrChange} value={abbr} />
       <Tag placeholder="#CLANTAG" maxLength={10} onChange={handleTagChange} value={tag} />
-      <Add onClick={handleClick}>
-        {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Add"}
-      </Add>
+      <Add onClick={handleClick}>{isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Add"}</Add>
       <Error>{error}</Error>
     </Main>
   )

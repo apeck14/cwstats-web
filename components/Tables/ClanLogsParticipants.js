@@ -15,7 +15,7 @@ const TH = styled.th({
   color: gray["25"],
   padding: "0.5rem 0.25rem",
   borderBottom: `3px solid ${gray["50"]}`,
-  textAlign: ({ textAlign }) => textAlign || null,
+  textAlign: ({ $textAlign }) => $textAlign || null,
   background: `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
 
   "@media (max-width: 480px)": {
@@ -30,8 +30,8 @@ const Row = styled.tr({
 const Cell = styled.td({
   height: "3rem",
   padding: "0 0.25rem",
-  textAlign: ({ textAlign }) => textAlign || null,
-  backgroundColor: ({ index }) => (index % 2 === 0 ? gray["75"] : "#2e2f30"),
+  textAlign: ({ $textAlign }) => $textAlign || null,
+  backgroundColor: ({ $index }) => ($index % 2 === 0 ? gray["75"] : "#2e2f30"),
 
   "@media (max-width: 1024px)": {
     padding: "0 0.5rem",
@@ -69,7 +69,7 @@ export default function ClanLogsParticipants({ participants }) {
       <thead>
         <Row>
           <TH>#</TH>
-          <TH textAlign="left">Participants: {sortedParticipants.length}</TH>
+          <TH $textAlign="left">Participants: {sortedParticipants.length}</TH>
           <TH>
             <Icon src="/assets/icons/decks.png" width={iconPx} height={iconPx} />
           </TH>
@@ -85,19 +85,19 @@ export default function ClanLogsParticipants({ participants }) {
       <tbody>
         {sortedParticipants.map((p, index) => (
           <Row key={p.tag}>
-            <Cell index={index} textAlign="center">
+            <Cell $index={index} $textAlign="center">
               {index + 1}
             </Cell>
-            <Cell index={index}>
+            <Cell $index={index}>
               <Name onClick={() => router.push(`/player/${p.tag.substring(1)}`)}>{p.name}</Name>
             </Cell>
-            <Cell index={index} textAlign="center">
+            <Cell $index={index} $textAlign="center">
               {p.decksUsed}
             </Cell>
-            <Cell index={index} textAlign="center">
+            <Cell $index={index} $textAlign="center">
               {p.boatAttacks}
             </Cell>
-            <Cell index={index} textAlign="center">
+            <Cell $index={index} $textAlign="center">
               {p.fame}
             </Cell>
           </Row>

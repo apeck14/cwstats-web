@@ -11,7 +11,7 @@ const NavDiv = styled.div`
 const NavItem = styled.div`
   color: ${gray["0"]};
   padding: 0.5rem 0.75rem;
-  border-bottom: ${({ isActive }) => isActive && `3px solid ${pink}`};
+  border-bottom: ${({ $isActive }) => $isActive && `3px solid ${pink}`};
   font-weight: 600;
 
   &:hover {
@@ -36,25 +36,25 @@ export default function SubNav() {
   return (
     <NavDiv className="noselect">
       <NavItem
-        isActive={router.asPath === `/clan/${router.query.tag}`}
+        $isActive={router.asPath === `/clan/${router.query.tag}`}
         onClick={() => handleClick(`/clan/${router.query.tag}`)}
       >
         Home
       </NavItem>
       <NavItem
-        isActive={router.asPath === `/clan/${router.query.tag}/race`}
+        $isActive={router.asPath === `/clan/${router.query.tag}/race`}
         onClick={() => handleClick(`/clan/${router.query.tag}/race`)}
       >
         Race
       </NavItem>
       <NavItem
-        isActive={router.asPath === `/clan/${router.query.tag}/log`}
+        $isActive={router.asPath === `/clan/${router.query.tag}/log`}
         onClick={() => handleClick(`/clan/${router.query.tag}/log`)}
       >
         Log
       </NavItem>
       <NavItem
-        isActive={router.asPath === `/clan/${router.query.tag}/plus`}
+        $isActive={router.asPath === `/clan/${router.query.tag}/plus`}
         onClick={() => handleClick(`/clan/${router.query.tag}/plus`)}
       >
         CWStats+

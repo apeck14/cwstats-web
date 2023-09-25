@@ -50,8 +50,8 @@ const Cell = styled.td`
   height: 3.5rem;
   padding: 0 0.75rem;
   border-top: 1px solid ${gray["50"]};
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  color: ${({ color }) => color || gray["0"]};
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
+  color: ${({ $color }) => $color || gray["0"]};
 
   @media (max-width: 1024px) {
     padding: 0 0.5rem;
@@ -101,7 +101,7 @@ const MobileRow = styled.div`
 `
 
 const Text = styled.p`
-  color: ${({ color }) => color || gray["25"]};
+  color: ${({ $color }) => $color || gray["25"]};
 `
 
 const roles = ["leader", "coLeader", "elder", "member"]
@@ -154,7 +154,7 @@ export default function MembersTable({ members }) {
       sortableItems.sort(
         sortConfig.direction === "ascending"
           ? sortFunctionsAscending[sortConfig.key]
-          : sortFunctionsDescending[sortConfig.key]
+          : sortFunctionsDescending[sortConfig.key],
       )
 
       return sortableItems
@@ -184,11 +184,7 @@ export default function MembersTable({ members }) {
           <TH />
           <SortTh key="trophies" onClick={() => toggleSort("trophies")}>
             <ThDiv>
-              {isMobile ? (
-                <ThIcon src="/assets/icons/trophy.png" width={12} height={12} />
-              ) : (
-                "Trophies"
-              )}
+              {isMobile ? <ThIcon src="/assets/icons/trophy.png" width={12} height={12} /> : "Trophies"}
               {showArrow("trophies")}
             </ThDiv>
           </SortTh>
@@ -216,11 +212,7 @@ export default function MembersTable({ members }) {
           )}
           <SortTh key="level" onClick={() => toggleSort("level")}>
             <ThDiv>
-              {isMobile ? (
-                <ThIcon src="/assets/icons/level.png" width={12} height={12} />
-              ) : (
-                "Level"
-              )}
+              {isMobile ? <ThIcon src="/assets/icons/level.png" width={12} height={12} /> : "Level"}
               {showArrow("level")}
             </ThDiv>
           </SortTh>
@@ -233,44 +225,35 @@ export default function MembersTable({ members }) {
 
           return (
             <Row key={m.tag}>
-              <CenterCell backgroundColor={backgroundColor}>{m.clanRank}</CenterCell>
-              <CenterCell backgroundColor={backgroundColor}>
-                <Arena
-                  src={`/assets/arenas/${getArenaFileName(m.trophies)}.png`}
-                  height={32}
-                  width={32}
-                  alt="Arena"
-                />
+              <CenterCell $backgroundColor={backgroundColor}>{m.clanRank}</CenterCell>
+              <CenterCell $backgroundColor={backgroundColor}>
+                <Arena src={`/assets/arenas/${getArenaFileName(m.trophies)}.png`} height={32} width={32} alt="Arena" />
               </CenterCell>
-              <CenterCell backgroundColor={backgroundColor}>{m.trophies}</CenterCell>
+              <CenterCell $backgroundColor={backgroundColor}>{m.trophies}</CenterCell>
               {isMobile ? (
-                <Cell backgroundColor={backgroundColor}>
+                <Cell $backgroundColor={backgroundColor}>
                   <MobileRow>
-                    <Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>
-                      {m.name}
-                    </Name>
+                    <Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>{m.name}</Name>
                   </MobileRow>
                   <MobileRow>
                     <Text>{formatRole(m.role)}</Text>
-                    <Text color={m.color}>{m.lastSeenStr}</Text>
+                    <Text $color={m.color}>{m.lastSeenStr}</Text>
                   </MobileRow>
                 </Cell>
               ) : (
                 <>
-                  <Cell backgroundColor={backgroundColor}>
-                    <Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>
-                      {m.name}
-                    </Name>
+                  <Cell $backgroundColor={backgroundColor}>
+                    <Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>{m.name}</Name>
                   </Cell>
-                  <CenterCell backgroundColor={backgroundColor} color={m.color}>
+                  <CenterCell $backgroundColor={backgroundColor} $color={m.color}>
                     {m.lastSeenStr}
                   </CenterCell>
-                  <CenterCell backgroundColor={backgroundColor} color={gray["25"]}>
+                  <CenterCell $backgroundColor={backgroundColor} $color={gray["25"]}>
                     {formatRole(m.role)}
                   </CenterCell>
                 </>
               )}
-              <CenterCell backgroundColor={backgroundColor} color={gray["25"]}>
+              <CenterCell $backgroundColor={backgroundColor} $color={gray["25"]}>
                 {m.expLevel}
               </CenterCell>
             </Row>

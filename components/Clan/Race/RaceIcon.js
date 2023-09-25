@@ -2,15 +2,7 @@ import Image from "next/image"
 import styled from "styled-components"
 
 import useWindowSize from "../../../hooks/useWindowSize"
-import {
-  bronze,
-  bronzeOrange,
-  goldOrange,
-  goldYellow,
-  gray,
-  silver,
-  silverWhite,
-} from "../../../public/static/colors"
+import { bronze, bronzeOrange, goldOrange, goldYellow, gray, silver, silverWhite } from "../../../public/static/colors"
 
 const Flag = styled(Image)``
 
@@ -22,8 +14,8 @@ const Rank = styled.div`
   height: 1.5rem;
   color: ${gray["0"]};
   font-size: 1rem;
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  outline: ${({ borderColor }) => `2px solid ${borderColor}`};
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
+  outline: ${({ $borderColor }) => `2px solid ${$borderColor}`};
   border-radius: 0.5rem;
   font-weight: 600;
 
@@ -57,11 +49,10 @@ export default function RaceIcon({ place, isFinished }) {
   const isMobile = width <= 480
   const size = isMobile ? 24 : 32
 
-  if (isFinished)
-    return <Flag src="/assets/icons/flag.png" height={size} width={size} alt="Flag" />
+  if (isFinished) return <Flag src="/assets/icons/flag.png" height={size} width={size} alt="Flag" />
 
   return (
-    <Rank backgroundColor={getBackgroundColor(place)} borderColor={getBorderColor(place)}>
+    <Rank $backgroundColor={getBackgroundColor(place)} $borderColor={getBorderColor(place)}>
       {place}
     </Rank>
   )

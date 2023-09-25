@@ -45,14 +45,14 @@ const Header = styled.span`
 
 const Row = styled.tr`
   color: ${gray["0"]};
-  background-color: ${({ color }) => color};
+  background-color: ${({ $color }) => $color};
 `
 
 const Cell = styled.td`
   height: 3rem;
   padding: 0 1rem;
   border-top: 1px solid ${gray["50"]};
-  color: ${({ color }) => color || "inherit"};
+  color: ${({ $color }) => $color || "inherit"};
 
   @media (max-width: 1024px) {
     padding: 0 0.5rem;
@@ -116,7 +116,7 @@ export default function LinkedAccountsTable({ accounts, setAccounts }) {
     sortableItems.sort((a, b) =>
       sortConfig.direction === "descending"
         ? a[sortConfig.key].localeCompare(b[sortConfig.key])
-        : b[sortConfig.key].localeCompare(a[sortConfig.key])
+        : b[sortConfig.key].localeCompare(a[sortConfig.key]),
     )
 
     return sortableItems
@@ -169,10 +169,10 @@ export default function LinkedAccountsTable({ accounts, setAccounts }) {
           const backgroundColor = index % 2 === 0 ? "#2e2f30" : gray["75"]
 
           return (
-            <Row key={`${m.tag}${m.discordID}`} color={backgroundColor}>
+            <Row key={`${m.tag}${m.discordID}`} $color={backgroundColor}>
               <Cell>{m.name}</Cell>
-              <CenterCell color={gray["25"]}>{m.tag}</CenterCell>
-              <CenterCell color={gray["25"]}>{m.discordID}</CenterCell>
+              <CenterCell $color={gray["25"]}>{m.tag}</CenterCell>
+              <CenterCell $color={gray["25"]}>{m.discordID}</CenterCell>
               <CenterCell>
                 <CellDiv>
                   <Delete onClick={() => handleDelete(m.discordID, m.tag)} />

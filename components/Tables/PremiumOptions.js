@@ -30,11 +30,11 @@ const THead = styled.thead`
 const TH = styled.th`
   font-size: 1.5rem;
   font-weight: 700;
-  text-align: ${({ align }) => align};
+  text-align: ${({ $align }) => $align};
   padding: 2rem 0;
   border-bottom: 2px solid ${gray["50"]};
-  color: ${({ color }) => color || gray["0"]};
-  background-color: ${({ isPremium }) => isPremium && gray["75"]};
+  color: ${({ $color }) => $color || gray["0"]};
+  background-color: ${({ $isPremium }) => $isPremium && gray["75"]};
   border-radius: 1rem 1rem 0 0;
 
   @media (max-width: 480px) {
@@ -47,12 +47,12 @@ const TBody = styled.tbody``
 
 const Row = styled.tr`
   height: 3.75rem;
-  background-color: ${({ backgroundColor }) => backgroundColor};
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
 `
 
 const Cell = styled.td`
-  background-color: ${({ backgroundColor }) => backgroundColor};
-  text-align: ${({ align }) => align || "center"};
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
+  text-align: ${({ $align }) => $align || "center"};
   padding: 0 1rem;
   color: ${gray["25"]};
   font-weight: 400;
@@ -89,10 +89,10 @@ export default function PremiumOptionsTable() {
   return (
     <Table>
       <THead>
-        <TH align="left">FEATURES</TH>
-        {!isTablet && <TH color={gray["50"]}>Standard</TH>}
-        <TH color={orange}>CWStats+</TH>
-        <TH color={pink} isPremium>
+        <TH $align="left">FEATURES</TH>
+        {!isTablet && <TH $color={gray["50"]}>Standard</TH>}
+        <TH $color={orange}>CWStats+</TH>
+        <TH $color={pink} $isPremium>
           Premium
         </TH>
       </THead>
@@ -101,121 +101,121 @@ export default function PremiumOptionsTable() {
           <Header>Discord Bot</Header>
           {!isTablet && <Cell />}
           <Cell />
-          <Cell backgroundColor={gray["75"]} />
+          <Cell $backgroundColor={gray["75"]} />
         </Row>
-        <Row backgroundColor={gray["90"]}>
-          <Cell align="left">Access to all Slash Commands</Cell>
+        <Row $backgroundColor={gray["90"]}>
+          <Cell $align="left">Access to all Slash Commands</Cell>
           {!isTablet && <Cell>✅</Cell>}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
         <Row>
-          <Cell align="left">Web Dashboard for configuration</Cell>
+          <Cell $align="left">Web Dashboard for configuration</Cell>
           {!isTablet && <Cell>✅</Cell>}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
         <Row backgroundColor={gray["90"]}>
-          <Cell align="left">Automated application system</Cell>
+          <Cell $align="left">Automated application system</Cell>
           {!isTablet && <Cell>✅</Cell>}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
         <Row>
-          <Cell align="left">Clan Abbreviations</Cell>
+          <Cell $align="left">Clan Abbreviations</Cell>
           {!isTablet && <Cell>15</Cell>}
           <Cell>15</Cell>
-          <Cell backgroundColor={gray["75"]}>🎉</Cell>
+          <Cell $backgroundColor={gray["75"]}>🎉</Cell>
         </Row>
-        <Row backgroundColor={gray["90"]}>
-          <Cell align="left">Scheduled Nudges</Cell>
+        <Row $backgroundColor={gray["90"]}>
+          <Cell $align="left">Scheduled Nudges</Cell>
           {!isTablet && <Cell>5</Cell>}
           <Cell>5</Cell>
-          <Cell backgroundColor={gray["75"]}>🎉</Cell>
+          <Cell $backgroundColor={gray["75"]}>🎉</Cell>
         </Row>
         <Row>
-          <Cell align="left">Daily War Reports (missed attacks, daily scores, etc.)</Cell>
+          <Cell $align="left">Daily War Reports (missed attacks, daily scores, etc.)</Cell>
           {!isTablet && <Cell>1</Cell>}
           <Cell>1</Cell>
-          <Cell backgroundColor={gray["75"]}>🎉</Cell>
+          <Cell $backgroundColor={gray["75"]}>🎉</Cell>
         </Row>
-        <Row backgroundColor={gray["90"]}>
-          <Cell align="left">Linked Accounts for Nudging</Cell>
+        <Row $backgroundColor={gray["90"]}>
+          <Cell $align="left">Linked Accounts for Nudging</Cell>
           {!isTablet && <Cell>300</Cell>}
           <Cell>300</Cell>
-          <Cell backgroundColor={gray["75"]}>🎉</Cell>
+          <Cell $backgroundColor={gray["75"]}>🎉</Cell>
         </Row>
         <Row>
           <Header>Clan Analytics</Header>
           {!isTablet && <Cell />}
           <Cell />
-          <Cell backgroundColor={gray["75"]} />
+          <Cell $backgroundColor={gray["75"]} />
         </Row>
         <Row>
-          <Cell align="left">Race averages and projected finishes</Cell>
+          <Cell $align="left">Race averages and projected finishes</Cell>
           {!isTablet && <Cell>✅</Cell>}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
-        <Row backgroundColor={gray["90"]}>
-          <Cell align="left">Clan record tracking</Cell>
+        <Row $backgroundColor={gray["90"]}>
+          <Cell $align="left">Clan record tracking</Cell>
           {!isTablet && <Cell />}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
         <Row>
-          <Cell align="left">Global and local daily war leaderboards</Cell>
+          <Cell $align="left">Global and local daily war leaderboards</Cell>
           {!isTablet && <Cell>✅</Cell>}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
-        <Row backgroundColor={gray["90"]}>
-          <Cell align="left">Clan average tracking throughout war day (last 5 seasons)</Cell>
+        <Row $backgroundColor={gray["90"]}>
+          <Cell $align="left">Clan average tracking throughout war day (last 5 seasons)</Cell>
           {!isTablet && <Cell />}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
         <Row>
-          <Cell align="left">...more coming soon!</Cell>
+          <Cell $align="left">...more coming soon!</Cell>
           {!isTablet && <Cell />}
           <Cell>🎉</Cell>
-          <Cell backgroundColor={gray["75"]}>🎉</Cell>
+          <Cell $backgroundColor={gray["75"]}>🎉</Cell>
         </Row>
         <Row>
           <Header>Clan War Tools</Header>
           {!isTablet && <Cell />}
           <Cell />
-          <Cell backgroundColor={gray["75"]} />
+          <Cell $backgroundColor={gray["75"]} />
         </Row>
-        <Row backgroundColor={gray["90"]}>
-          <Cell align="left">Spy - sniping tool to view opponent&apos;s war decks</Cell>
+        <Row $backgroundColor={gray["90"]}>
+          <Cell $align="left">Spy - sniping tool to view opponent&apos;s war decks</Cell>
           {!isTablet && <Cell>✅</Cell>}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
         <Row>
-          <Cell align="left">...more coming soon!</Cell>
+          <Cell $align="left">...more coming soon!</Cell>
           {!isTablet && <Cell />}
           <Cell>🎉</Cell>
-          <Cell backgroundColor={gray["75"]}>🎉</Cell>
+          <Cell $backgroundColor={gray["75"]}>🎉</Cell>
         </Row>
         <Row>
           <Header>Other</Header>
           {!isTablet && <Cell />}
           <Cell />
-          <Cell backgroundColor={gray["75"]} />
+          <Cell $backgroundColor={gray["75"]} />
         </Row>
-        <Row backgroundColor={gray["90"]}>
+        <Row $backgroundColor={gray["90"]}>
           <Cell align="left">Special clan badge on website</Cell>
           {!isTablet && <Cell />}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
         <Row>
-          <Cell align="left">Early access to new features</Cell>
+          <Cell $align="left">Early access to new features</Cell>
           {!isTablet && <Cell />}
           <Cell>✅</Cell>
-          <Cell backgroundColor={gray["75"]}>✅</Cell>
+          <Cell $backgroundColor={gray["75"]}>✅</Cell>
         </Row>
       </TBody>
     </Table>

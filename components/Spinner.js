@@ -7,21 +7,21 @@ const SpinnerSpan = styled.span`
   height: 50px;
   width: 50px;
 
-  :before,
-  :after {
+  &:before,
+  &:after {
     border-radius: 50%;
     content: "";
     display: block;
     height: 20px;
     width: 20px;
   }
-  :before {
+  &:before {
     animation: ball1 1s infinite;
     background-color: ${gray["0"]};
     box-shadow: 30px 0 0 ${pink};
     margin-bottom: 10px;
   }
-  :after {
+  &:after {
     animation: ball2 1s infinite;
     background-color: ${pink};
     box-shadow: 30px 0 0 ${gray["0"]};

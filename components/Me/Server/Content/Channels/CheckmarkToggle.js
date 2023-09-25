@@ -8,10 +8,10 @@ const Circle = styled.div`
   align-items: center;
   justify-content: center;
   border-radius: 50%;
-  border: ${({ isActive }) => (isActive ? null : `2px solid ${gray[50]}`)};
-  background-color: ${({ isActive }) => (isActive ? pink : gray["100"])};
-  height: ${({ isActive }) => (isActive ? "20px" : "16px")};
-  width: ${({ isActive }) => (isActive ? "20px" : "16px")};
+  border: ${({ $isActive }) => ($isActive ? null : `2px solid ${gray[50]}`)};
+  background-color: ${({ $isActive }) => ($isActive ? pink : gray["100"])};
+  height: ${({ $isActive }) => ($isActive ? "20px" : "16px")};
+  width: ${({ $isActive }) => ($isActive ? "20px" : "16px")};
   margin-right: 1rem;
 `
 
@@ -21,5 +21,5 @@ const Checkmark = styled(IoMdCheckmark)`
 `
 
 export default function CheckmarkToggle({ isActive }) {
-  return <Circle isActive={isActive}>{isActive && <Checkmark />}</Circle>
+  return <Circle $isActive={isActive}>{isActive && <Checkmark />}</Circle>
 }

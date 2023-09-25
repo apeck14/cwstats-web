@@ -35,8 +35,8 @@ const InputBar = styled.input`
   color: ${gray["50"]};
   font-weight: 700;
 
-  ::placeholder {
-    font-size: 0.8rem;
+  &::placeholder {
+    font-size: 0.85rem;
   }
 `
 

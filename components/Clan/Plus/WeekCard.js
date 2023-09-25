@@ -25,7 +25,7 @@ const Title = styled.h3`
   font-weight: 600;
   padding: 0.75rem 0.5rem;
   border-radius: 0.5rem;
-  background-color: ${({ isActive }) => (isActive ? gray["50"] : "transparent")};
+  background-color: ${({ $isActive }) => ($isActive ? gray["50"] : "transparent")};
 
   &:hover {
     background-color: ${gray["50"]};
@@ -39,7 +39,7 @@ const Day = styled.div`
   padding: 0.5rem;
   border-radius: 0.5rem;
   row-gap: 0.5rem;
-  background-color: ${({ isActive }) => (isActive ? gray["75"] : "transparent")};
+  background-color: ${({ $isActive }) => ($isActive ? gray["75"] : "transparent")};
 
   &:hover {
     background-color: ${gray["75"]};
@@ -77,7 +77,7 @@ export default function WeekCard({ setGraphDay, setGraphWeek, data, weekNum, gra
 
   return (
     <Main>
-      <Title isActive={graphDay === -1 && weekNum === graphWeek} onClick={() => handleClick(-1, weekNum)}>
+      <Title $isActive={graphDay === -1 && weekNum === graphWeek} onClick={() => handleClick(-1, weekNum)}>
         Week {weekNum}
       </Title>
       <Hr margin="0.5rem 0" />
@@ -93,7 +93,7 @@ export default function WeekCard({ setGraphDay, setGraphWeek, data, weekNum, gra
             <Day
               key={d}
               onClick={() => handleClick(dayNum, weekNum)}
-              isActive={dayNum === graphDay && weekNum === graphWeek}
+              $isActive={dayNum === graphDay && weekNum === graphWeek}
             >
               <Row>
                 <DayTitle>Day {d}</DayTitle>

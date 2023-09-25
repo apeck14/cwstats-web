@@ -44,7 +44,7 @@ const Cell = styled.td`
   height: 2.5rem;
   padding: 0 1rem;
   border-top: 1px solid ${gray["50"]};
-  background-color: ${({ backgroundColor }) => backgroundColor};
+  background-color: ${({ $backgroundColor }) => $backgroundColor};
 
   @media (max-width: 1024px) {
     padding: 0 0.5rem;
@@ -134,7 +134,7 @@ export default function RaceLeaderboard({ participants }) {
       sortableItems.sort(
         sortConfig.direction === "ascending"
           ? sortFunctionsAscending[sortConfig.key]
-          : sortFunctionsDescending[sortConfig.key]
+          : sortFunctionsDescending[sortConfig.key],
       )
 
       return sortableItems
@@ -167,45 +167,25 @@ export default function RaceLeaderboard({ participants }) {
           </SortTh>
           <SortTh key="decksRemaining" onClick={() => toggleSort("decksRemaining")}>
             <ThDiv>
-              {isMobile ? (
-                <ThIcon src="/assets/icons/decksRemaining.png" width={12} height={12} />
-              ) : (
-                "Decks Used Today"
-              )}
+              {isMobile ? <ThIcon src="/assets/icons/decksRemaining.png" width={12} height={12} /> : "Decks Used Today"}
               {showArrow("decksRemaining")}
             </ThDiv>
           </SortTh>
           <SortTh key="totalDecks" onClick={() => toggleSort("totalDecks")}>
             <ThDiv>
-              {isMobile ? (
-                <ThIcon src="/assets/icons/decks.png" width={12} height={12} />
-              ) : (
-                "Decks Used"
-              )}
+              {isMobile ? <ThIcon src="/assets/icons/decks.png" width={12} height={12} /> : "Decks Used"}
               {showArrow("totalDecks")}
             </ThDiv>
           </SortTh>
           <SortTh key="boats" onClick={() => toggleSort("boats")}>
             <ThDiv>
-              {isMobile ? (
-                <ThIcon
-                  src="/assets/icons/boat-attack-points.png"
-                  width={13}
-                  height={12}
-                />
-              ) : (
-                "Boat Attacks"
-              )}
+              {isMobile ? <ThIcon src="/assets/icons/boat-attack-points.png" width={13} height={12} /> : "Boat Attacks"}
               {showArrow("boats")}
             </ThDiv>
           </SortTh>
           <SortTh key="fame" onClick={() => toggleSort("fame")}>
             <ThDiv>
-              {isMobile ? (
-                <ThIcon src="/assets/icons/fame.png" width={9} height={12} />
-              ) : (
-                "Medals"
-              )}
+              {isMobile ? <ThIcon src="/assets/icons/fame.png" width={9} height={12} /> : "Medals"}
               {showArrow("fame")}
             </ThDiv>
           </SortTh>
@@ -214,26 +194,18 @@ export default function RaceLeaderboard({ participants }) {
 
       <tbody>
         {sortedItems.map((m, index) => {
-          const backgroundColor = !m.inClan
-            ? red
-            : index % 2 === 0
-            ? "#2e2f30"
-            : gray["75"]
+          const backgroundColor = !m.inClan ? red : index % 2 === 0 ? "#2e2f30" : gray["75"]
 
           return (
             <Row key={m.tag}>
-              <CenterCell backgroundColor={backgroundColor}>{m.rank}</CenterCell>
-              <Cell backgroundColor={backgroundColor}>
-                <Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>
-                  {m.name}
-                </Name>
+              <CenterCell $backgroundColor={backgroundColor}>{m.rank}</CenterCell>
+              <Cell $backgroundColor={backgroundColor}>
+                <Name onClick={() => router.push(`/player/${m.tag.substring(1)}`)}>{m.name}</Name>
               </Cell>
-              <CenterCell backgroundColor={backgroundColor}>
-                {m.decksUsedToday}
-              </CenterCell>
-              <CenterCell backgroundColor={backgroundColor}>{m.decksUsed}</CenterCell>
-              <CenterCell backgroundColor={backgroundColor}>{m.boatAttacks}</CenterCell>
-              <CenterCell backgroundColor={backgroundColor}>{m.fame}</CenterCell>
+              <CenterCell $backgroundColor={backgroundColor}>{m.decksUsedToday}</CenterCell>
+              <CenterCell $backgroundColor={backgroundColor}>{m.decksUsed}</CenterCell>
+              <CenterCell $backgroundColor={backgroundColor}>{m.boatAttacks}</CenterCell>
+              <CenterCell $backgroundColor={backgroundColor}>{m.fame}</CenterCell>
             </Row>
           )
         })}
