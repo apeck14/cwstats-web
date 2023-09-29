@@ -14,18 +14,7 @@ import { getClanBadgeFileName, getCountryKeyById, getRegionByKey } from "../../.
 import { getCRErrorUrl, handleSCResponse } from "../../../utils/functions"
 import { getWarLeaderboard } from "../../../utils/services"
 
-const Main = styled.div({
-  "@media (max-width: 1024px)": {
-    width: "100%",
-  },
-  "@media (max-width: 1200px)": {
-    width: "80%",
-  },
-
-  margin: "0 auto",
-
-  width: "70rem",
-})
+const Main = styled.div({})
 
 const HeaderDiv = styled.div({
   "@media (max-width: 480px)": {

@@ -18,16 +18,7 @@ import Locations from "../../../public/static/locations"
 import { diffInMins } from "../../../utils/date-time"
 import { getClanBadgeFileName, getCountryKeyById, getRegionByKey } from "../../../utils/files"
 
-const Main = styled.div`
-  @media (max-width: 1024px) {
-    width: 100%;
-  }
-  @media (max-width: 1200px) {
-    width: 80%;
-  }
-  margin: 0 auto;
-  width: 70rem;
-`
+const Main = styled.div``
 
 const HeaderDiv = styled.div`
   @media (max-width: 480px) {
