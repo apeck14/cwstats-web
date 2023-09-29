@@ -17,8 +17,8 @@ export default function ServerPage({ guild }) {
         description="Customize CW2 Stats Discord bot settings for your server!"
         noindex
         openGraph={{
-          title: `CWStats - ${guild.name} | Abbreviations`,
           description: "Customize CW2 Stats Discord bot settings for your server!",
+          title: `CWStats - ${guild.name} | Abbreviations`,
         }}
       />
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />

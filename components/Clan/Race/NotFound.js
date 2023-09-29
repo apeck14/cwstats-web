@@ -8,12 +8,12 @@ const Main = styled.div({
 })
 
 const Text = styled.h2({
-  color: gray["0"],
-  marginTop: "5rem",
-
   "@media (max-width: 480px)": {
     fontSize: "1rem",
   },
+  color: gray["0"],
+
+  marginTop: "5rem",
 })
 
 export default function RaceNotFound() {

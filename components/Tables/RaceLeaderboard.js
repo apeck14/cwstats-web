@@ -89,27 +89,27 @@ const UpArrow = styled(IoCaretUp)``
 const ThIcon = styled(Image)``
 
 const sortFunctionsAscending = {
-  name: (a, b) => b.name.localeCompare(a.name),
-  decksRemaining: (a, b) => a.decksUsedToday - b.decksUsedToday,
-  totalDecks: (a, b) => a.decksUsed - b.decksUsed,
   boats: (a, b) => a.boatAttacks - b.boatAttacks,
+  decksRemaining: (a, b) => a.decksUsedToday - b.decksUsedToday,
   fame: (a, b) => b.rank - a.rank,
+  name: (a, b) => b.name.localeCompare(a.name),
+  totalDecks: (a, b) => a.decksUsed - b.decksUsed,
 }
 
 const sortFunctionsDescending = {
-  name: (a, b) => a.name.localeCompare(b.name),
-  decksRemaining: (a, b) => b.decksUsedToday - a.decksUsedToday,
-  totalDecks: (a, b) => b.decksUsed - a.decksUsed,
   boats: (a, b) => b.boatAttacks - a.boatAttacks,
+  decksRemaining: (a, b) => b.decksUsedToday - a.decksUsedToday,
   fame: (a, b) => a.rank - b.rank,
+  name: (a, b) => a.name.localeCompare(b.name),
+  totalDecks: (a, b) => b.decksUsed - a.decksUsed,
 }
 
 export default function RaceLeaderboard({ participants }) {
   const { width } = useWindowSize()
   const router = useRouter()
   const [sortConfig, setSortConfig] = useState({
-    key: "fame",
     direction: "descending",
+    key: "fame",
   })
 
   const toggleSort = (key) => {
@@ -122,8 +122,8 @@ export default function RaceLeaderboard({ participants }) {
     } else direction = "descending"
 
     setSortConfig({
-      key,
       direction,
+      key,
     })
   }
 

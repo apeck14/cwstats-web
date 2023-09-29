@@ -62,9 +62,9 @@ export default async function SavedClan(req, res) {
         {
           $push: {
             savedClans: {
+              badge,
               name,
               tag,
-              badge,
             },
           },
         }

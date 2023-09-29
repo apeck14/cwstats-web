@@ -26,14 +26,14 @@ export default function PlayerBattles({ saved, player }) {
         title={`${player.name} ${player.tag} | Battles - CWStats`}
         description="View advanced player stats, card levels, battle log, & more!"
         openGraph={{
-          title: `${player.name} ${player.tag} | Battles - CWStats`,
           description: "View advanced player stats, card levels, battle log, & more!",
           images: [
             {
-              url: `/assets/arenas/${arenaName}.png`,
               alt: "Clash Royale Ladder Arena",
+              url: `/assets/arenas/${arenaName}.png`,
             },
           ],
+          title: `${player.name} ${player.tag} | Battles - CWStats`,
         }}
       />
       <PlayerHeader saved={saved} player={player} arenaName={arenaName} />
@@ -90,19 +90,19 @@ export async function getServerSideProps({ req, res, params }) {
     if (userResp)
       saved = !!(userResp.savedPlayers || []).find((c) => c.tag === player.tag)
 
-    addPlayer({ name: player.name, tag: player.tag, clanName: clan.name || "" })
+    addPlayer({ clanName: clan.name || "", name: player.name, tag: player.tag })
 
     return {
       props: {
-        saved,
         player: {
           ...player,
-          role: formatRole(player.role),
           clan: {
             ...player.clan,
             badge: badgeName,
           },
+          role: formatRole(player.role),
         },
+        saved,
       },
     }
   } catch (err) {

@@ -4,24 +4,24 @@ import styled from "styled-components"
 import { gray, orange, pink } from "../../../public/static/colors"
 
 const Main = styled.div({
-  backgroundColor: gray["50"],
-  width: "100%",
-  height: "1rem",
-  borderRadius: "0.25rem",
-  position: "relative",
-
   "@media (max-width: 768px)": {
     height: "0.75rem",
   },
+  backgroundColor: gray["50"],
+  borderRadius: "0.25rem",
+  height: "1rem",
+  position: "relative",
+
+  width: "100%",
 })
 
 const Projected = styled.div({
-  position: "absolute",
+  backgroundColor: orange,
   borderRadius: "0.25rem",
   height: "100%",
-  backgroundColor: orange,
-  width: "0%",
+  position: "absolute",
   transition: "width 2s",
+  width: "0%",
 })
 
 const Progress = styled(Projected)({

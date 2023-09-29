@@ -3,11 +3,11 @@ export async function getClansFromSearch(q, limit = 50) {
     const resp = await fetch(
       `https://proxy.royaleapi.dev/v1/clans?name=${encodeURIComponent(q)}&limit=${limit}`,
       {
-        method: "GET",
         headers: new Headers({
-          "Content-Type": "application/json",
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_CR_API_TOKEN}`,
+          "Content-Type": "application/json",
         }),
+        method: "GET",
       }
     )
 

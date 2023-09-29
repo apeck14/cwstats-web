@@ -91,8 +91,8 @@ const UpArrow = styled(IoCaretUp)``
 export default function LinkedAccountsTable({ accounts, setAccounts }) {
   const router = useRouter()
   const [sortConfig, setSortConfig] = useState({
-    key: "name",
     direction: "descending",
+    key: "name",
   })
 
   const toggleSort = (key) => {
@@ -105,8 +105,8 @@ export default function LinkedAccountsTable({ accounts, setAccounts }) {
     } else direction = "descending"
 
     setSortConfig({
-      key,
       direction,
+      key,
     })
   }
 
@@ -135,7 +135,7 @@ export default function LinkedAccountsTable({ accounts, setAccounts }) {
   const handleDelete = (discordID, tag) => {
     setAccounts(accounts.filter((la) => la.discordID !== discordID || la.tag !== tag))
 
-    removeLinkedAccount({ tag, discordID, serverId: router.query.serverId })
+    removeLinkedAccount({ discordID, serverId: router.query.serverId, tag })
   }
 
   return (

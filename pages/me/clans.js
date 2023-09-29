@@ -54,8 +54,8 @@ export default function Clans({ clans }) {
         title="My Clans"
         description="View your saved clans on CWStats."
         openGraph={{
-          title: "My Clans",
           description: "View your saved clans on CWStats.",
+          title: "My Clans",
         }}
       />
 

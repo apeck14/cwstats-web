@@ -35,14 +35,14 @@ export default async function postDefaultClan(req, res) {
       {
         $set: {
           defaultClan: {
-            tag: clan.tag,
             name: clan.name,
+            tag: clan.tag,
           },
         },
       }
     )
 
-    return res.status(200).json({ success: true, name: clan.name })
+    return res.status(200).json({ name: clan.name, success: true })
   } catch (err) {
     console.log(err)
     return res.status(err.status || 500).json({

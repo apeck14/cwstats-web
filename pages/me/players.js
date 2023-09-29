@@ -54,8 +54,8 @@ export default function Players({ players }) {
         title="My Players"
         description="View your saved players on CWStats."
         openGraph={{
-          title: "My Players",
           description: "View your saved players on CWStats.",
+          title: "My Players",
         }}
       />
 
@@ -128,11 +128,11 @@ export async function getServerSideProps({ req, res }) {
     }
   } catch {
     return {
-      redirect: {
-        permanent: false,
-        destination: "/500",
-      },
       props: {},
+      redirect: {
+        destination: "/500",
+        permanent: false,
+      },
     }
   }
 }

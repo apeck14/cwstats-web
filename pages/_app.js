@@ -57,18 +57,18 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
           description="The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks."
           themeColor={gray["75"]}
           openGraph={{
-            type: "website",
-            url: `https://www.cwstats.com${router.asPath}`,
-            siteName: "CWStats",
-            title: "CWStats",
             description:
               "The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks.",
             images: [
               {
-                url: "/assets/icons/logo.png",
                 alt: "CWStats Logo",
+                url: "/assets/icons/logo.png",
               },
             ],
+            siteName: "CWStats",
+            title: "CWStats",
+            type: "website",
+            url: `https://www.cwstats.com${router.asPath}`,
           }}
         />
         <Navbar />

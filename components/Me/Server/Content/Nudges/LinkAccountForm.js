@@ -88,9 +88,9 @@ export default function LinkAccountForm({ accounts, setAccounts }) {
     setIsLoading(true)
 
     const resp = await addLinkedAccount({
+      discordID: clickedUser.id,
       serverId: router.query.serverId,
       tag,
-      discordID: clickedUser.id,
     })
 
     const { success, name, message: errMessage } = await resp.json()
@@ -98,7 +98,7 @@ export default function LinkAccountForm({ accounts, setAccounts }) {
     if (success) {
       setAccounts([
         ...accounts,
-        { name, discordID: clickedUser.id, tag: formatTag(tag, true) },
+        { discordID: clickedUser.id, name, tag: formatTag(tag, true) },
       ])
       setError(null)
       setTag("")

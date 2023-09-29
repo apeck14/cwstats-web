@@ -8,34 +8,34 @@ const Main = styled.div({
 })
 
 const ErrorCode = styled.h1({
-  fontSize: "7.5rem",
-  textAlign: "center",
-  color: pink,
-
   "@media (max-width: 480px)": {
     fontSize: "5.5rem",
   },
+  color: pink,
+  fontSize: "7.5rem",
+
+  textAlign: "center",
 })
 
 const Header = styled.h1({
-  textAlign: "center",
-  color: gray["0"],
-
   "@media (max-width: 480px)": {
     fontSize: "1.3rem",
   },
+  color: gray["0"],
+
+  textAlign: "center",
 })
 
 const SubHeader = styled.p({
-  textAlign: "center",
-  color: gray["25"],
-  marginTop: "0.5rem",
-  marginBottom: "2rem",
-  padding: "0 2rem",
-
   "@media (max-width: 480px)": {
     fontSize: "0.9rem",
   },
+  color: gray["25"],
+  marginBottom: "2rem",
+  marginTop: "0.5rem",
+  padding: "0 2rem",
+
+  textAlign: "center",
 })
 
 export default function Error503() {

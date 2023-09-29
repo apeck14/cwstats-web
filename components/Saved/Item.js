@@ -10,35 +10,35 @@ import { gray, orange } from "../../public/static/colors"
 import { saveClan, savePlayer, unsaveClan, unsavePlayer } from "../../utils/services"
 
 const ContentItem = styled.div({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  backgroundColor: gray["50"],
-  borderRadius: "0.25rem",
-  padding: "0.75rem 1rem",
-  color: gray["0"],
-  marginBottom: "0.25rem",
-
   "@media (max-width: 768px)": {
     padding: "0.5rem",
   },
+  alignItems: "center",
+  backgroundColor: gray["50"],
+  borderRadius: "0.25rem",
+  color: gray["0"],
+  display: "flex",
+  justifyContent: "space-between",
+  marginBottom: "0.25rem",
+
+  padding: "0.75rem 1rem",
 })
 
 const IconDiv = styled.div({
-  display: "flex",
   alignItems: "center",
+  display: "flex",
 })
 
 const LeftDiv = styled.div({
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-  width: "45%",
-  marginLeft: "1rem",
-
   "@media (max-width: 480px)": {
     marginLeft: "0.75rem",
   },
+  alignItems: "center",
+  display: "flex",
+  justifyContent: "space-between",
+  marginLeft: "1rem",
+
+  width: "45%",
 })
 
 const RightDiv = styled.div({
@@ -50,59 +50,59 @@ const RightDiv = styled.div({
 const Icon = styled(Image)({})
 
 const Name = styled(Link)({
-  textDecoration: "none",
-  color: gray["0"],
-  fontSize: "1.05rem",
-
   "&:hover": {
-    cursor: "pointer",
     color: gray["25"],
+    cursor: "pointer",
   },
-
   "@media (max-width: 1024px)": {
     fontSize: "0.9rem",
+  },
+  "@media (max-width: 480px)": {
+    fontSize: "0.75rem",
   },
 
   "@media (max-width: 768px)": {
     fontSize: "0.8rem",
   },
 
-  "@media (max-width: 480px)": {
-    fontSize: "0.75rem",
-  },
+  color: gray["0"],
+
+  fontSize: "1.05rem",
+
+  textDecoration: "none",
 })
 
 const Tag = styled.p({
-  color: gray["25"],
-  fontSize: "0.95rem",
-
   "@media (max-width: 1200px)": {
     fontSize: "0.75rem",
   },
+  color: gray["25"],
+
+  fontSize: "0.95rem",
 })
 
 const ContentLink = styled(Link)({
-  textDecoration: "none",
-  color: orange,
-  fontSize: "0.95rem",
-
   "&:hover": {
     cursor: "pointer",
     textDecoration: "underline",
   },
-
   "@media (max-width: 768px)": {
     fontSize: "0.75rem",
   },
+  color: orange,
+
+  fontSize: "0.95rem",
+
+  textDecoration: "none",
 })
 
 const BookmarkDiv = styled.div({
-  display: "flex",
-  justifyContent: "center",
-
   "&:hover": {
     cursor: "pointer",
   },
+  display: "flex",
+
+  justifyContent: "center",
 })
 
 const Bookmark = styled(FaBookmark)({})

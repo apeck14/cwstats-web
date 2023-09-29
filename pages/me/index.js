@@ -46,9 +46,9 @@ export default function Me({ guilds }) {
         title="My CWStats"
         description="View your saved players, clans, and customize CWStats Discord bot settings for your servers."
         openGraph={{
-          title: "My CWStats",
           description:
             "View your saved players, clans, and customize CWStats Discord bot settings for your servers.",
+          title: "My CWStats",
         }}
       />
 

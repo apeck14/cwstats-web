@@ -1,4 +1,5 @@
 import Image from "next/image"
+import Link from "next/link"
 import styled from "styled-components"
 
 import useWindowSize from "../../hooks/useWindowSize"
@@ -19,8 +20,14 @@ const Header = styled.div`
   }
 `
 
-const Name = styled.h3`
+const Name = styled(Link)`
   color: ${gray["0"]};
+  text-decoration: none;
+  font-weight: 600;
+
+  &:hover {
+    color: ${pink};
+  }
 `
 
 const Clan = styled.div`
@@ -107,7 +114,7 @@ export default function DeckContent({ player, decks }) {
   return (
     <>
       <Header>
-        <Name>{player?.name}</Name>
+        <Name href={`/player/${player?.tag?.substring(1)}`}>{player?.name}</Name>
         <Clan>
           <Badge src={`/assets/badges/${player?.badge}.png`} height={clanBadgeHeight} width={clanBadgeWidth} />
           <ClanName>{player?.clanName || "None"}</ClanName>

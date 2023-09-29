@@ -101,8 +101,8 @@ export default function ServerPage({ guild, channels }) {
         description="Customize CW2 Stats Discord bot settings for your server!"
         noindex
         openGraph={{
-          title: `CWStats - ${guild.name} | Channels`,
           description: "Customize CW2 Stats Discord bot settings for your server!",
+          title: `CWStats - ${guild.name} | Channels`,
         }}
       />
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
@@ -200,6 +200,7 @@ export async function getServerSideProps({ req, res, params }) {
 
     return {
       props: {
+        channels: textChannels,
         guild: JSON.parse(
           JSON.stringify({
             ...guild,
@@ -207,7 +208,6 @@ export async function getServerSideProps({ req, res, params }) {
             name,
           }),
         ),
-        channels: textChannels,
       },
     }
   } catch (err) {

@@ -107,29 +107,29 @@ const Text = styled.p`
 const roles = ["leader", "coLeader", "elder", "member"]
 
 const sortFunctionsAscending = {
-  rank: (a, b) => b.clanRank - a.clanRank,
-  trophies: (a, b) => a.trophies - b.trophies,
-  name: (a, b) => b.name.localeCompare(a.name),
   lastSeen: (a, b) => a.lastSeenDate - b.lastSeenDate,
-  role: (a, b) => roles.indexOf(b.role) - roles.indexOf(a.role),
   level: (a, b) => a.expLevel - b.expLevel,
+  name: (a, b) => b.name.localeCompare(a.name),
+  rank: (a, b) => b.clanRank - a.clanRank,
+  role: (a, b) => roles.indexOf(b.role) - roles.indexOf(a.role),
+  trophies: (a, b) => a.trophies - b.trophies,
 }
 
 const sortFunctionsDescending = {
-  rank: (a, b) => a.clanRank - b.clanRank,
-  trophies: (a, b) => b.trophies - a.trophies,
-  name: (a, b) => a.name.localeCompare(b.name),
   lastSeen: (a, b) => b.lastSeenDate - a.lastSeenDate,
-  role: (a, b) => roles.indexOf(a.role) - roles.indexOf(b.role),
   level: (a, b) => b.expLevel - a.expLevel,
+  name: (a, b) => a.name.localeCompare(b.name),
+  rank: (a, b) => a.clanRank - b.clanRank,
+  role: (a, b) => roles.indexOf(a.role) - roles.indexOf(b.role),
+  trophies: (a, b) => b.trophies - a.trophies,
 }
 
 export default function MembersTable({ members }) {
   const { width } = useWindowSize()
   const router = useRouter()
   const [sortConfig, setSortConfig] = useState({
-    key: "rank",
     direction: "descending",
+    key: "rank",
   })
 
   const toggleSort = (key) => {
@@ -142,8 +142,8 @@ export default function MembersTable({ members }) {
     } else direction = "descending"
 
     setSortConfig({
-      key,
       direction,
+      key,
     })
   }
 

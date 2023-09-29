@@ -1,12 +1,4 @@
-import {
-  bronze,
-  bronzeOrange,
-  goldOrange,
-  goldYellow,
-  gray,
-  silver,
-  silverWhite,
-} from "../public/static/colors"
+import { bronze, bronzeOrange, goldOrange, goldYellow, gray, silver, silverWhite } from "../public/static/colors"
 import specialGamemodes from "../public/static/special-gamemodes"
 import { parseDate } from "./date-time"
 
@@ -51,10 +43,7 @@ export const getBattleDaysCompleted = (isColosseum, dayOfWeek) => {
 }
 
 export const getAvgFame = (clan, isColosseum, dayOfWeek) => {
-  const attacksCompletedToday = clan.participants.reduce(
-    (a, b) => a + b.decksUsedToday,
-    0
-  )
+  const attacksCompletedToday = clan.participants.reduce((a, b) => a + b.decksUsedToday, 0)
   const currentFame = isColosseum ? clan.fame : clan.periodPoints
   const isTraining = dayOfWeek <= 3
   const battleDaysCompleted = !isColosseum || isTraining ? 0 : dayOfWeek - 3
@@ -101,13 +90,8 @@ export const getProjFame = (clan, isColosseum, dayOfWeek) => {
 
   if (!isColosseum && movementPoints >= 10000) return 0
 
-  const maxDuelsCompletedToday = clan.participants.filter(
-    (p) => p.decksUsedToday >= 2
-  ).length
-  const attacksCompletedToday = clan.participants.reduce(
-    (a, b) => a + b.decksUsedToday,
-    0
-  )
+  const maxDuelsCompletedToday = clan.participants.filter((p) => p.decksUsedToday >= 2).length
+  const attacksCompletedToday = clan.participants.reduce((a, b) => a + b.decksUsedToday, 0)
   const isTraining = dayOfWeek <= 3
   const battleDaysCompleted = !isColosseum || isTraining ? 0 : dayOfWeek - 3
 
@@ -116,10 +100,7 @@ export const getProjFame = (clan, isColosseum, dayOfWeek) => {
 
     const duelsRemainingToday = 50 - maxDuelsCompletedToday
     const totalAttacksRemaining = 200 - attacksCompletedToday
-    let maxPossibleFame =
-      fame +
-      duelsRemainingToday * 500 +
-      (totalAttacksRemaining - duelsRemainingToday * 2) * 200 // max fame today
+    let maxPossibleFame = fame + duelsRemainingToday * 500 + (totalAttacksRemaining - duelsRemainingToday * 2) * 200 // max fame today
 
     if (isColosseum) {
       maxPossibleFame += 45000 * (3 - battleDaysCompleted)
@@ -130,9 +111,7 @@ export const getProjFame = (clan, isColosseum, dayOfWeek) => {
     return maxPossibleFame > 45000 ? 45000 : maxPossibleFame
   }
 
-  let currentPossibleFame =
-    maxDuelsCompletedToday * 500 +
-    (attacksCompletedToday - maxDuelsCompletedToday * 2) * 200
+  let currentPossibleFame = maxDuelsCompletedToday * 500 + (attacksCompletedToday - maxDuelsCompletedToday * 2) * 200
   let winRate = fame / currentPossibleFame
 
   if (isColosseum) {
@@ -169,9 +148,7 @@ export const getRaceDetails = (race, isColosseum) => {
     crossedFinishLine: c[boatAccessor] >= 10000,
   }))
 
-  const clansWithPointsSorted = newRace
-    .filter((cl) => cl.fame > 0)
-    .sort((a, b) => b.fame - a.fame)
+  const clansWithPointsSorted = newRace.filter((cl) => cl.fame > 0).sort((a, b) => b.fame - a.fame)
 
   let place = 1
 
@@ -187,8 +164,7 @@ export const getRaceDetails = (race, isColosseum) => {
       if (nextClan.fame === clan.fame) clansWithSameFame.push(nextClan.tag)
     }
 
-    for (const c of clansWithSameFame)
-      newRace.find((cl) => c === cl.tag).placement = place
+    for (const c of clansWithSameFame) newRace.find((cl) => c === cl.tag).placement = place
 
     i += clansWithSameFame.length - 1
     place += clansWithSameFame.length
@@ -210,9 +186,7 @@ export const getCurrentPlacements = (race) => {
       newRace.find((cl) => c.tag === cl.tag).placement = Infinity
     })
 
-  const clansWithPointsSorted = newRace
-    .filter((cl) => cl.fame > 0)
-    .sort((a, b) => b.fame - a.fame)
+  const clansWithPointsSorted = newRace.filter((cl) => cl.fame > 0).sort((a, b) => b.fame - a.fame)
   let place = 1
 
   for (let i = 0; i < clansWithPointsSorted.length; i++) {
@@ -222,8 +196,7 @@ export const getCurrentPlacements = (race) => {
       if (clansWithPointsSorted[x].fame === clansWithPointsSorted[i].fame)
         clansWithSameFame.push(clansWithPointsSorted[x].tag)
 
-    for (const c of clansWithSameFame)
-      newRace.find((cl) => c === cl.tag).placement = place
+    for (const c of clansWithSameFame) newRace.find((cl) => c === cl.tag).placement = place
 
     i += clansWithSameFame.length - 1
     place += clansWithSameFame.length
@@ -232,11 +205,9 @@ export const getCurrentPlacements = (race) => {
   return newRace
 }
 
-export const getBattlesRemaining = (participants) =>
-  200 - participants.reduce((a, b) => a + b.decksUsedToday, 0)
+export const getBattlesRemaining = (participants) => 200 - participants.reduce((a, b) => a + b.decksUsedToday, 0)
 
-export const getDuelsRemaining = (participants) =>
-  50 - participants.filter((p) => p.decksUsedToday >= 2).length
+export const getDuelsRemaining = (participants) => 50 - participants.filter((p) => p.decksUsedToday >= 2).length
 
 export const getMaxFame = (clan, isColosseum, dayOfWeek) => {
   if (!clan) return "N/A"
@@ -246,14 +217,9 @@ export const getMaxFame = (clan, isColosseum, dayOfWeek) => {
 
   if (!isColosseum && movementPoints >= 10000) return 0
 
-  const duelsRemainingToday =
-    50 - clan.participants.filter((p) => p.decksUsedToday >= 2).length
-  const totalAttacksRemaining =
-    200 - clan.participants.reduce((a, b) => a + b.decksUsedToday, 0) // today
-  let maxPossibleFame =
-    fame +
-    duelsRemainingToday * 500 +
-    (totalAttacksRemaining - duelsRemainingToday * 2) * 200 // max fame today
+  const duelsRemainingToday = 50 - clan.participants.filter((p) => p.decksUsedToday >= 2).length
+  const totalAttacksRemaining = 200 - clan.participants.reduce((a, b) => a + b.decksUsedToday, 0) // today
+  let maxPossibleFame = fame + duelsRemainingToday * 500 + (totalAttacksRemaining - duelsRemainingToday * 2) * 200 // max fame today
 
   if (isColosseum) {
     const battleDaysComp = getBattleDaysCompleted(isColosseum, dayOfWeek)
@@ -273,11 +239,9 @@ export const getMinFame = (clan, isColosseum, dayOfWeek) => {
 
   if (!isColosseum && movementPoints >= 10000) return 0
 
-  let totalAttacksRemaining =
-    200 - clan.participants.reduce((a, b) => a + b.decksUsedToday, 0)
+  let totalAttacksRemaining = 200 - clan.participants.reduce((a, b) => a + b.decksUsedToday, 0)
 
-  if (isColosseum)
-    totalAttacksRemaining += 200 * (3 - getBattleDaysCompleted(isColosseum, dayOfWeek))
+  if (isColosseum) totalAttacksRemaining += 200 * (3 - getBattleDaysCompleted(isColosseum, dayOfWeek))
 
   return fame + totalAttacksRemaining * 100
 }
@@ -409,10 +373,7 @@ export const redirect = (destination, permanent = false) => ({
 })
 
 export const arraysAreEqual = (a, b) =>
-  Array.isArray(a) &&
-  Array.isArray(b) &&
-  a.length === b.length &&
-  a.every((val, index) => val === b[index])
+  Array.isArray(a) && Array.isArray(b) && a.length === b.length && a.every((val, index) => val === b[index])
 
 const sharesCards = (cards1, cards2) => {
   for (const c of cards1) {
@@ -449,9 +410,7 @@ export const getWarDecksFromLog = (log) =>
       other: [], // can contain duel decks if not from most recent duel
     }
 
-    const mostRecentDuel = log.find(
-      (m) => m.type === "riverRaceDuel" || m.type === "riverRaceDuelColosseum"
-    )
+    const mostRecentDuel = log.find((m) => m.type === "riverRaceDuel" || m.type === "riverRaceDuelColosseum")
 
     // set first duel
     if (mostRecentDuel) {
@@ -469,9 +428,7 @@ export const getWarDecksFromLog = (log) =>
       const m = log[index]
 
       if (m.type === "riverRacePvP") {
-        const cards = m.team[0].cards.map((c) =>
-          c.evolutionLevel ? `${c.name} Evo` : c.name
-        )
+        const cards = m.team[0].cards.map((c) => (c.evolutionLevel ? `${c.name} Evo` : c.name))
 
         const imgPath =
           m.gameMode.name === "CW_Battle_1v1"
@@ -491,3 +448,12 @@ export const getWarDecksFromLog = (log) =>
 
     resolve(playerDecks)
   })
+
+export const isValidCRTag = (str) => {
+  const value = str.trim()
+
+  const tagRegex = /^[A-Za-z0-9#]+$/
+  const isValidLength = value.length >= 5 && value.length <= 10
+
+  return isValidLength && value.match(tagRegex)
+}

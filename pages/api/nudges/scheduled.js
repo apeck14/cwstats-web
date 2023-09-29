@@ -43,16 +43,16 @@ export default async function scheduledNudge(req, res) {
         {
           $push: {
             "nudges.scheduled": {
-              clanTag: clan.tag,
-              clanName: clan.name,
-              scheduledHourUTC,
               channelID,
+              clanName: clan.name,
+              clanTag: clan.tag,
+              scheduledHourUTC,
             },
           },
         }
       )
 
-      return res.status(200).json({ success: true, clanName: clan.name })
+      return res.status(200).json({ clanName: clan.name, success: true })
     }
 
     // POST (remove item)

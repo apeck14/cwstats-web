@@ -63,13 +63,13 @@ export default async function putAbbreviation(req, res) {
         $push: {
           abbreviations: {
             abbr,
-            tag: clan.tag,
             name: clan.name,
+            tag: clan.tag,
           },
         },
       }
     )
-    return res.status(200).json({ success: true, name: clan.name })
+    return res.status(200).json({ name: clan.name, success: true })
   } catch (err) {
     return res.status(err.status || 500).json({
       message: err.message || "Unexpected error. Please try again.",

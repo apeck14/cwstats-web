@@ -5,11 +5,11 @@ export default async function getPlayer(req, res) {
     const { tag } = query
 
     const resp = await fetch(`https://proxy.royaleapi.dev/v1/players/%23${tag}`, {
-      method: "GET",
       headers: new Headers({
-        "Content-Type": "application/json",
         Authorization: `Bearer ${process.env.NEXT_PUBLIC_CR_API_TOKEN}`,
+        "Content-Type": "application/json",
       }),
+      method: "GET",
     })
 
     const data = await resp.json()

@@ -119,8 +119,8 @@ export default function ClanRace({ clan, race, saved, badgeName }) {
       })
       .map((p, index) => ({
         ...p,
-        rank: index + 1,
         inClan: !!clan.memberTags.find((t) => t === p.tag),
+        rank: index + 1,
       }))
   }
 
@@ -130,17 +130,17 @@ export default function ClanRace({ clan, race, saved, badgeName }) {
         title={`${clan.name} ${clan.tag} | Race - CWStats`}
         description="View current river race stats and projections."
         openGraph={{
-          title: `${clan.name} ${clan.tag} | Race - CWStats`,
           description: "View current river race stats and projections.",
           images: [
             {
+              alt: "Clan Badge",
               url: `/assets/badges/${getClanBadgeFileName(
                 clan.badgeId,
                 clan.clanWarTrophies
               )}.png`,
-              alt: "Clan Badge",
             },
           ],
+          title: `${clan.name} ${clan.tag} | Race - CWStats`,
         }}
       />
 
@@ -272,22 +272,22 @@ export async function getServerSideProps({ req, res, params }) {
 
     return {
       props: {
+        badgeName,
         clan: {
-          name: clan.name,
-          tag: clan.tag,
-          memberTags,
           clanScore: clan.clanScore,
           clanWarTrophies: clan.clanWarTrophies,
+          memberTags,
+          name: clan.name,
+          tag: clan.tag,
         },
         race: {
           clan: race.clan,
           clans: race.clans,
-          sectionIndex: race.sectionIndex,
           periodIndex: race.periodIndex,
           periodType: race.periodType,
+          sectionIndex: race.sectionIndex,
         },
         saved: !!saved, // not sure :)
-        badgeName,
       },
     }
   } catch (err) {

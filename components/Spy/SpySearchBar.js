@@ -8,8 +8,8 @@ import useWindowSize from "../../hooks/useWindowSize"
 import { getClansFromSearch } from "../../pages/api/search/clan"
 import { gray } from "../../public/static/colors"
 import { getClanBadgeFileName } from "../../utils/files"
-import { getWarDecksFromLog } from "../../utils/functions"
-import { getBattleLog, getClan, getPlayer, getPlayersFromSearch } from "../../utils/services"
+import { getWarDecksFromLog, isValidCRTag } from "../../utils/functions"
+import { addPlayer, getBattleLog, getClan, getPlayer, getPlayersFromSearch } from "../../utils/services"
 import LoadingSpinner from "../LoadingSpinner"
 
 const Container = styled.div`
@@ -97,6 +97,12 @@ const Row = styled.div`
   justify-content: space-between;
 `
 
+const getSearchResultsFromDB = async (query) => {
+  const data = await getPlayersFromSearch(query, 4)
+  const { players } = await data.json()
+  return players
+}
+
 export default function SpySearchBar({
   placeholder,
   isPlayerSearch,
@@ -138,10 +144,24 @@ export default function SpySearchBar({
     if (!debouncedSearchTerm) {
       setResults([])
     } else if (isPlayerSearch) {
-      const data = await getPlayersFromSearch(debouncedSearchTerm, 4)
-      const { players } = await data.json()
-
-      setResults(players)
+      if (isValidCRTag(debouncedSearchTerm)) {
+        const player = await getPlayer(debouncedSearchTerm).catch(() => {})
+        if (player) {
+          const playerObj = {
+            clanName: player?.clan?.name || "",
+            clanTag: player?.clan?.tag || "",
+            name: player.name,
+            tag: player.tag,
+          }
+          setResults([playerObj])
+        } else {
+          const players = await getSearchResultsFromDB(debouncedSearchTerm)
+          setResults(players)
+        }
+      } else {
+        const players = await getSearchResultsFromDB(debouncedSearchTerm)
+        setResults(players)
+      }
     } else {
       const { clans } = await getClansFromSearch(debouncedSearchTerm, 4)
       setResults(clans)
@@ -166,6 +186,8 @@ export default function SpySearchBar({
     const [log, player] = await Promise.all([getBattleLog(pTag), getPlayer(pTag)])
     const playerDecks = await getWarDecksFromLog(log)
 
+    addPlayer()
+
     const { name, tag } = player
 
     const clanName = player?.clan?.name
@@ -177,7 +199,7 @@ export default function SpySearchBar({
     }
 
     setDecks(playerDecks)
-    setPlayer({ name, tag, clanName, badge })
+    setPlayer({ badge, clanName, name, tag })
     setShowDecksSpinner(false)
   }
 

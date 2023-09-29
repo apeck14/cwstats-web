@@ -7,65 +7,65 @@ import useToggleBodyScroll from "../../hooks/useToggleBodyScroll"
 import { gray } from "../../public/static/colors"
 
 const Main = styled.div({
-  position: "fixed",
-  zIndex: "1",
+  backgroundColor: "rgba(0,0,0,0.6)",
+  height: "100%",
   left: 0,
+  position: "fixed",
   top: 0,
   width: "100%",
-  height: "100%",
-  backgroundColor: "rgba(0,0,0,0.6)",
+  zIndex: "1",
 })
 
 const Modal = styled.div({
+  "@media (max-width: 1024px)": {
+    margin: "15% auto",
+    width: "80%",
+  },
+  "@media (max-width: 480px)": {
+    margin: "25% auto",
+    width: "90%",
+  },
   backgroundColor: gray["50"],
-  margin: "10% auto",
-  width: "50%",
   borderRadius: "1rem",
 
-  "@media (max-width: 1024px)": {
-    width: "80%",
-    margin: "15% auto",
-  },
+  margin: "10% auto",
 
-  "@media (max-width: 480px)": {
-    width: "90%",
-    margin: "25% auto",
-  },
+  width: "50%",
 })
 
 const SearchDiv = styled.div({
-  display: "flex",
   alignItems: "center",
+  display: "flex",
   padding: "1rem",
 })
 
 const SearchBar = styled.input({
-  width: "100%",
-  height: "2rem",
   backgroundColor: gray["50"],
-  fontSize: "1.2rem",
   color: gray["0"],
+  fontSize: "1.2rem",
+  height: "2rem",
+  width: "100%",
 })
 
 const SearchIcon = styled(BiSearchAlt)({
-  fontSize: "1.4rem",
   color: gray["0"],
+  fontSize: "1.4rem",
 })
 
 const ContentDiv = styled.div({
-  paddingBottom: "1rem",
   maxHeight: "20rem",
   overflow: "auto",
+  paddingBottom: "1rem",
 })
 
 const Option = styled.p({
-  color: gray["0"],
-  padding: "0.5rem 1rem",
-
   "&:hover": {
     backgroundColor: gray["75"],
     cursor: "pointer",
   },
+  color: gray["0"],
+
+  padding: "0.5rem 1rem",
 })
 
 export default function LocationsModal({ isOpen, setIsModalOpen, locations }) {

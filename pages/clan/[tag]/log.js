@@ -35,17 +35,17 @@ export default function ClanLog({ clan, log, saved, badgeName }) {
         title={`${clan.name} ${clan.tag} | Race Log - CWStats`}
         description={clan.description}
         openGraph={{
-          title: `${clan.name} ${clan.tag} | Race Log - CWStats`,
           description: clan.description,
           images: [
             {
+              alt: "Clan Badge",
               url: `/assets/badges/${getClanBadgeFileName(
                 clan.badgeId,
                 clan.clanWarTrophies
               )}.png`,
-              alt: "Clan Badge",
             },
           ],
+          title: `${clan.name} ${clan.tag} | Race Log - CWStats`,
         }}
       />
 
@@ -123,15 +123,15 @@ export async function getServerSideProps({ req, res, params }) {
 
     return {
       props: {
+        badgeName,
         clan: {
-          name: clan.name,
-          tag: clan.tag,
           clanScore: clan.clanScore,
           clanWarTrophies: clan.clanWarTrophies,
+          name: clan.name,
+          tag: clan.tag,
         },
         log,
         saved: !!saved, // not sure :)
-        badgeName,
       },
     }
   } catch (err) {

@@ -75,14 +75,14 @@ export default function ClanStats({ clan, saved, badgeName, plus }) {
         title={`${clan.name} ${clan.tag} | CWStats+ - CWStats`}
         description={clan.description}
         openGraph={{
-          title: `${clan.name} ${clan.tag} | CWStats+ - CWStats`,
           description: clan.description,
           images: [
             {
-              url: `/assets/badges/${badgeName}.png`,
               alt: "Clan Badge",
+              url: `/assets/badges/${badgeName}.png`,
             },
           ],
+          title: `${clan.name} ${clan.tag} | CWStats+ - CWStats`,
         }}
       />
 
@@ -171,9 +171,9 @@ export async function getServerSideProps({ req, res, params }) {
     const badgeName = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
 
     const props = {
+      badgeName,
       clan,
       saved,
-      badgeName,
     }
 
     if (plus) props.plus = { dailyAverages: groupBy(plus.dailyAverages, "week") }

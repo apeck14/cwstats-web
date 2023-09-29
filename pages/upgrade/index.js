@@ -86,8 +86,8 @@ export default function Upgrade() {
         title="CWStats | Upgrade"
         description="Enable detailed clan tracking, and other statistics with CWStats+...all for FREE!"
         openGraph={{
-          title: "CWStats+",
           description: "Enable detailed clan tracking, and other statistics with CWStats+...all for FREE!",
+          title: "CWStats+",
         }}
       />
       <Header>

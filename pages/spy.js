@@ -128,8 +128,8 @@ export default function Spy() {
         title="Deck Spy | CWStats"
         description="Search for your opponent's war decks in real-time!"
         openGraph={{
-          title: "Deck Spy | CWStats",
           description: "Search for your opponent's war decks in real-time!",
+          title: "Deck Spy | CWStats",
         }}
       />
 
@@ -143,7 +143,7 @@ export default function Spy() {
           <SearchBarDiv>
             <SpySearchBar
               defaultValue={q}
-              placeholder="Search player by name..."
+              placeholder="Search players..."
               isPlayerSearch
               showLiveResults
               setShowDecksSpinner={setShowDecksSpinner}

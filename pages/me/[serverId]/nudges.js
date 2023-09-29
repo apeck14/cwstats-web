@@ -121,8 +121,8 @@ export default function ServerPage({ guild, channels, nudges, ignoreLeaders, mes
         description="Customize CW2 Stats Discord bot settings for your server!"
         noindex
         openGraph={{
-          title: `CWStats - ${guild.name} | Nudges`,
           description: "Customize CW2 Stats Discord bot settings for your server!",
+          title: `CWStats - ${guild.name} | Nudges`,
         }}
       />
       <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
@@ -217,6 +217,7 @@ export async function getServerSideProps({ req, res, params }) {
 
     return {
       props: {
+        channels: textChannels,
         guild: JSON.parse(
           JSON.stringify({
             ...guild,
@@ -224,11 +225,10 @@ export async function getServerSideProps({ req, res, params }) {
             name,
           }),
         ),
-        channels: textChannels,
-        nudges: guild?.nudges?.scheduled || [],
         ignoreLeaders: !!guild?.nudges?.ignoreLeaders,
-        message: guild?.nudges?.message || null,
         links: guild?.nudges?.links || [],
+        message: guild?.nudges?.message || null,
+        nudges: guild?.nudges?.scheduled || [],
       },
     }
   } catch (err) {

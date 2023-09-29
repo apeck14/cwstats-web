@@ -7,7 +7,7 @@ export async function addPlayer({ name, tag, clanName }) {
     const players = db.collection("Players")
 
     const query = { tag }
-    const update = { $set: { name, clanName } }
+    const update = { $set: { clanName, name } }
     const options = { upsert: true }
 
     await players.updateOne(query, update, options)

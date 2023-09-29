@@ -173,9 +173,9 @@ export default function ScheduledNudgeFormModal({ isOpen, setIsOpen, channels, s
     setIsLoading(true)
 
     const newScheduledNudge = {
+      channelID: selectedChannel.id,
       clanTag: formatTag(tag, true),
       scheduledHourUTC: convertHourToUTC(selectedHour, selectedAmPm),
-      channelID: selectedChannel.id,
       serverId: router.query.serverId,
     }
 

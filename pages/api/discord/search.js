@@ -22,9 +22,9 @@ export default async function searchGuildMembers(req, res) {
 
     return res.status(200).json(
       data.map((m) => ({
-        username: m.user.username,
-        id: m.user.id,
         global_name: m.user.global_name,
+        id: m.user.id,
+        username: m.user.username,
       }))
     )
   } catch (err) {

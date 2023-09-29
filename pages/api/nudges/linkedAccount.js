@@ -45,15 +45,15 @@ export default async function scheduledNudge(req, res) {
         {
           $push: {
             "nudges.links": {
-              tag: player.tag,
               discordID,
               name: player.name,
+              tag: player.tag,
             },
           },
         }
       )
 
-      return res.status(200).json({ success: true, name: player.name })
+      return res.status(200).json({ name: player.name, success: true })
     }
 
     // POST (remove item)
@@ -62,8 +62,8 @@ export default async function scheduledNudge(req, res) {
       {
         $pull: {
           "nudges.links": {
-            tag: formattedTag,
             discordID,
+            tag: formattedTag,
           },
         },
       }

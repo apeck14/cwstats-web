@@ -57,8 +57,8 @@ export default function ClanSearch({ results }) {
         title="Clan Search"
         description="Search for clans on CWStats."
         openGraph={{
-          title: "Clan Search",
           description: "Search for clans on CWStats.",
+          title: "Clan Search",
         }}
       />
 

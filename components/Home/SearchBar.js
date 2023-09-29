@@ -9,7 +9,7 @@ import useWindowSize from "../../hooks/useWindowSize"
 import { getClansFromSearch } from "../../pages/api/search/clan"
 import { gray, orange, pink } from "../../public/static/colors"
 import { getClanBadgeFileName } from "../../utils/files"
-import { handleCRError } from "../../utils/functions"
+import { handleCRError, isValidCRTag } from "../../utils/functions"
 import { getClan, getPlayer, getPlayersFromSearch } from "../../utils/services"
 import LoadingSpinner from "../LoadingSpinner"
 
@@ -163,15 +163,13 @@ export default function SearchBar({ placeholder, isPlayerSearch, defaultValue, s
   }, [debouncedSearchTerm])
 
   const handleSubmit = (onEnterKeyValue) => {
-    console.log(onEnterKeyValue)
     const trimmedSearch = onEnterKeyValue ? onEnterKeyValue.trim() : search.trim()
 
     if (!trimmedSearch || (defaultValue && defaultValue === trimmedSearch)) return
 
     setShowSpinner(true)
 
-    const tagRegex = /^[A-Za-z0-9#]+$/
-    const meetsTagReq = trimmedSearch.length >= 5 && trimmedSearch.length <= 10 && trimmedSearch.match(tagRegex)
+    const meetsTagReq = isValidCRTag(trimmedSearch)
 
     if (isPlayerSearch) {
       if (meetsTagReq) {

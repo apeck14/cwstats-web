@@ -6,21 +6,21 @@ import useWindowSize from "../../hooks/useWindowSize"
 import { gray, pink } from "../../public/static/colors"
 
 const Table = styled.table({
-  width: "100%",
   borderCollapse: "collapse",
   marginBottom: "1rem",
+  width: "100%",
 })
 
 const TH = styled.th({
-  color: gray["25"],
-  padding: "0.5rem 0.25rem",
-  borderBottom: `3px solid ${gray["50"]}`,
-  textAlign: ({ $textAlign }) => $textAlign || null,
-  background: `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
-
   "@media (max-width: 480px)": {
     fontSize: "0.8rem",
   },
+  background: `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
+  borderBottom: `3px solid ${gray["50"]}`,
+  color: gray["25"],
+  padding: "0.5rem 0.25rem",
+
+  textAlign: ({ $textAlign }) => $textAlign || null,
 })
 
 const Row = styled.tr({
@@ -28,21 +28,21 @@ const Row = styled.tr({
 })
 
 const Cell = styled.td({
-  height: "3rem",
-  padding: "0 0.25rem",
-  textAlign: ({ $textAlign }) => $textAlign || null,
-  backgroundColor: ({ $index }) => ($index % 2 === 0 ? gray["75"] : "#2e2f30"),
-
   "@media (max-width: 1024px)": {
-    padding: "0 0.5rem",
     fontSize: "0.9rem",
+    padding: "0 0.5rem",
   },
-
   "@media (max-width: 480px)": {
+    fontSize: "0.75rem",
     height: "2rem",
     padding: "0 0.25rem",
-    fontSize: "0.75rem",
   },
+  backgroundColor: ({ $index }) => ($index % 2 === 0 ? gray["75"] : "#2e2f30"),
+  height: "3rem",
+
+  padding: "0 0.25rem",
+
+  textAlign: ({ $textAlign }) => $textAlign || null,
 })
 
 const Icon = styled(Image)({

@@ -83,7 +83,7 @@ export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
       const { success, name, message } = await res.json()
 
       if (success) {
-        setAbbreviations([...abbreviations, { name, abbr, tag: formatTag(tag, true) }])
+        setAbbreviations([...abbreviations, { abbr, name, tag: formatTag(tag, true) }])
         setError(null)
         setTag("")
         setAbbr("")

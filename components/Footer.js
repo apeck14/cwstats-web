@@ -5,9 +5,9 @@ import { discordPrimary, gray, orange, pink, silver } from "../public/static/col
 
 const Main = styled.div({
   backgroundColor: gray["75"],
-  padding: "3rem 0rem",
   fontWeight: 300,
   marginTop: "auto",
+  padding: "3rem 0rem",
 })
 
 const TopDiv = styled.div({
@@ -16,52 +16,52 @@ const TopDiv = styled.div({
 })
 
 const BottomDiv = styled.div({
-  justifyContent: "left",
-  width: "60%",
-  margin: "0 auto",
-
   "@media (max-width: 1024px)": {
     width: "90%",
   },
+  justifyContent: "left",
+  margin: "0 auto",
+
+  width: "60%",
 })
 
 const IconButton = styled.button({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  borderRadius: "50%",
-  borderWidth: "0",
-  backgroundColor: discordPrimary,
-  padding: "0.4rem",
-
   "&:hover": {
     cursor: "pointer",
     opacity: "0.8",
   },
+  alignItems: "center",
+  backgroundColor: discordPrimary,
+  borderRadius: "50%",
+  borderWidth: "0",
+  display: "flex",
+  justifyContent: "center",
+
+  padding: "0.4rem",
 })
 
 const DiscordIcon = styled(FaDiscord)({
-  fontSize: "1.5rem",
   color: gray["0"],
+  fontSize: "1.5rem",
 })
 
 const DonateButton = styled.button({
-  borderWidth: "0",
-  display: "flex",
-  alignItems: "center",
-  justifyContent: "center",
-  padding: "0rem 1rem",
-  borderRadius: "1.5rem",
-  marginLeft: "1rem",
-  backgroundColor: pink,
-  color: gray["0"],
-  fontSize: "0.9rem",
-  fontFamily: "inherit",
-
   "&:hover": {
-    cursor: "pointer",
     backgroundColor: orange,
+    cursor: "pointer",
   },
+  alignItems: "center",
+  backgroundColor: pink,
+  borderRadius: "1.5rem",
+  borderWidth: "0",
+  color: gray["0"],
+  display: "flex",
+  fontFamily: "inherit",
+  fontSize: "0.9rem",
+  justifyContent: "center",
+  marginLeft: "1rem",
+
+  padding: "0rem 1rem",
 })
 
 const HeartIcon = styled(FaHeart)({
@@ -69,40 +69,40 @@ const HeartIcon = styled(FaHeart)({
 })
 
 const Hr = styled.hr({
-  borderWidth: "1px",
+  "@media (max-width: 1024px)": {
+    margin: "1rem auto",
+    width: "90%",
+  },
   borderColor: gray["50"],
   borderStyle: "solid",
+  borderWidth: "1px",
   margin: "1.75rem auto",
-  width: "60%",
 
-  "@media (max-width: 1024px)": {
-    width: "90%",
-    margin: "1rem auto",
-  },
+  width: "60%",
 })
 
 const ContentPolicy = styled.p({
-  color: silver,
-  fontFamily: "inherit",
-  fontSize: "0.85rem",
-  display: "inline-flex",
-  alignItems: "center",
-
   "@media (max-width: 480px)": {
     fontSize: "0.65rem",
   },
+  alignItems: "center",
+  color: silver,
+  display: "inline-flex",
+  fontFamily: "inherit",
+
+  fontSize: "0.85rem",
 })
 
 const Copyright = styled.p({
-  color: gray["25"],
-  fontSize: "0.9rem",
-  display: "flex",
-  alignItems: "center",
-  marginTop: "0.4rem",
-
   "@media (max-width: 480px)": {
     fontSize: "0.7rem",
   },
+  alignItems: "center",
+  color: gray["25"],
+  display: "flex",
+  fontSize: "0.9rem",
+
+  marginTop: "0.4rem",
 })
 
 export default function Footer() {

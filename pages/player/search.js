@@ -57,8 +57,8 @@ export default function PlayerSearch({ results }) {
         title="Player Search"
         description="Search for players on CWStats."
         openGraph={{
-          title: "Player Search",
           description: "Search for players on CWStats.",
+          title: "Player Search",
         }}
       />
 

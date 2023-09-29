@@ -96,14 +96,14 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
         title={`${clan.name} ${clan.tag} | Home - CWStats`}
         description={clan.description}
         openGraph={{
-          title: `${clan.name} ${clan.tag} | Home - CWStats`,
           description: clan.description,
           images: [
             {
-              url: `/assets/badges/${badgeName}.png`,
               alt: "Clan Badge",
+              url: `/assets/badges/${badgeName}.png`,
             },
           ],
+          title: `${clan.name} ${clan.tag} | Home - CWStats`,
         }}
       />
 
@@ -246,18 +246,18 @@ export async function getServerSideProps({ req, res, params }) {
 
       return {
         ...m,
-        lastSeenStr: relativeDateStr(lastSeenDate, false),
         color: getLastSeenColor(lastSeenDate),
         lastSeenDate: lastSeenDate.getTime(),
+        lastSeenStr: relativeDateStr(lastSeenDate, false),
       }
     })
 
     return {
       props: {
+        badgeName,
         clan,
         members: members || [],
         saved,
-        badgeName,
       },
     }
   } catch (err) {

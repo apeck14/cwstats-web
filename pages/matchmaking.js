@@ -5,29 +5,29 @@ import Spinner from "../components/Spinner"
 import { gray } from "../public/static/colors"
 
 const Main = styled.div({
-  display: "flex",
-  justifyContent: "center",
   alignItems: "center",
+  display: "flex",
   flexDirection: "column",
+  justifyContent: "center",
   marginTop: "5rem",
 })
 
 const Header = styled.h1({
-  color: gray["0"],
-  marginTop: "1.5rem",
-
   "@media (max-width: 480px)": {
     fontSize: "1.3rem",
   },
+  color: gray["0"],
+
+  marginTop: "1.5rem",
 })
 
 const SubHeader = styled.h2({
-  color: gray["25"],
-  marginTop: "0.5rem",
-
   "@media (max-width: 480px)": {
     fontSize: "1rem",
   },
+  color: gray["25"],
+
+  marginTop: "0.5rem",
 })
 
 export default function Matchmaking() {
@@ -37,9 +37,9 @@ export default function Matchmaking() {
         title="Matchmaking..."
         description="Matchmaking is currently underway for the specified clan. Check back soon."
         openGraph={{
-          title: "Matchmaking...",
           description:
             "Matchmaking is currently underway for the specified clan. Check back soon.",
+          title: "Matchmaking...",
         }}
       />
 

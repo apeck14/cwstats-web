@@ -9,7 +9,7 @@
     "ecmaVersion": "latest",
     "sourceType": "module"
   },
-  "plugins": ["react", "simple-import-sort", "import"],
+  "plugins": ["react", "simple-import-sort", "import", "sort-keys"],
   "rules": {
     "camelcase": "off",
     "radix": "off",
@@ -32,7 +32,9 @@
     "react/jsx-filename-extension": "off",
     "react/react-in-jsx-scope": "off",
     "react/prop-types": "off",
-    "react/jsx-props-no-spreading": "off"
+    "react/jsx-props-no-spreading": "off",
+    "sort-keys": "off",
+    "sort-keys/sort-keys-fix": "error"
   },
   "overrides": []
 }

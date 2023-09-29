@@ -9,9 +9,9 @@ export default function Docs() {
         title="CWStats | Documentation"
         description="Need help? Full documentation including the Discord bot, website and everything in-between."
         openGraph={{
-          title: "CWStats | Documentation",
           description:
             "Need help? Full documentation including the Discord bot, website and everything in-between.",
+          title: "CWStats | Documentation",
         }}
       />
       <ComingSoon />

@@ -17,60 +17,60 @@ import { diffInMins } from "../../../utils/date-time"
 import { getClanBadgeFileName, getCountryKeyById, getRegionByKey } from "../../../utils/files"
 
 const Main = styled.div({
-  margin: "0 auto",
-  width: "70rem",
-
+  "@media (max-width: 1024px)": {
+    width: "100%",
+  },
   "@media (max-width: 1200px)": {
     width: "80%",
   },
 
-  "@media (max-width: 1024px)": {
-    width: "100%",
-  },
+  margin: "0 auto",
+
+  width: "70rem",
 })
 
 const HeaderDiv = styled.div({
-  background: gray["50"],
-  // eslint-disable-next-line no-dupe-keys
-  background: `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
-  padding: "2rem",
-  display: "flex",
-  justifyContent: "space-between",
-  alignItems: "center",
-
   "@media (max-width: 480px)": {
     padding: "0.75rem",
   },
+  alignItems: "center",
+  // eslint-disable-next-line no-dupe-keys
+  background: `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
+  background: gray["50"],
+  display: "flex",
+  justifyContent: "space-between",
+
+  padding: "2rem",
 })
 
 const Header = styled.h1({
-  fontSize: "2.5rem",
-  color: gray["0"],
-
   "@media (max-width: 1024px)": {
     fontSize: "2rem",
+  },
+  "@media (max-width: 400px)": {
+    fontSize: "0.9rem",
   },
 
   "@media (max-width: 480px)": {
     fontSize: "1.15rem",
   },
 
-  "@media (max-width: 400px)": {
-    fontSize: "0.9rem",
-  },
+  color: gray["0"],
+
+  fontSize: "2.5rem",
 })
 
 const HeaderIcon = styled(Image)({})
 
 const ControlDiv = styled.div({
-  display: "flex",
-  backgroundColor: gray["100"],
-  height: "2.25rem",
-  justifyContent: "space-between",
-
   "@media (max-width: 480px)": {
     height: "2rem",
   },
+  backgroundColor: gray["100"],
+  display: "flex",
+  height: "2.25rem",
+
+  justifyContent: "space-between",
 })
 
 const LeftControlDiv = styled.div({
@@ -85,105 +85,105 @@ const RightControlDiv = styled.div({
 })
 
 const ToggleDiv = styled.div({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  padding: "1rem",
-
   "&:hover": {
     cursor: "pointer",
   },
-
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
-
   "@media (max-width: 480px)": {
     fontSize: "0.7rem",
     padding: "0.6rem",
   },
+  alignItems: "center",
+
+  display: "flex",
+
+  justifyContent: "center",
+
+  padding: "1rem",
 })
 
 const PaginationDiv = styled.div({
-  display: "flex",
-  justifyContent: "center",
-  alignItems: "center",
-  backgroundColor: orange,
-  color: gray["0"],
-  padding: "1rem",
-
   "&:hover": {
     cursor: "pointer",
     filter: "brightness(80%)",
   },
-
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
-
   "@media (max-width: 480px)": {
-    padding: "0.5rem",
     fontSize: "0.8rem",
+    padding: "0.5rem",
   },
+  alignItems: "center",
+  backgroundColor: orange,
+  color: gray["0"],
+
+  display: "flex",
+
+  justifyContent: "center",
+
+  padding: "1rem",
 })
 
 const RegionDropdown = styled.div({
-  display: "flex",
-  alignItems: "center",
-  padding: "1rem",
-  backgroundColor: gray["75"],
-
   "&:hover": {
-    cursor: "pointer",
     color: gray["25"],
+    cursor: "pointer",
   },
-
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
-
   "@media (max-width: 480px)": {
     fontSize: "0.6rem",
     padding: "0.6rem",
   },
+  alignItems: "center",
+
+  backgroundColor: gray["75"],
+
+  display: "flex",
+
+  padding: "1rem",
 })
 
 const LeagueToggle = styled(Link)({
-  display: "flex",
-  alignItems: "center",
-  padding: "1rem",
-  textDecoration: "none",
-  color: gray["0"],
-
   "&:hover": {
-    cursor: "pointer",
     color: gray["25"],
+    cursor: "pointer",
   },
-
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
-
   "@media (max-width: 480px)": {
     fontSize: "0.7rem",
     padding: "0.6rem",
   },
+  alignItems: "center",
+  color: gray["0"],
+
+  display: "flex",
+
+  padding: "1rem",
+
+  textDecoration: "none",
 })
 
 const InfoDiv = styled.div({
-  display: "flex",
-  justifyContent: "space-between",
-  margin: "1.5rem 0",
-  color: gray["25"],
-
   "@media (max-width: 1024px)": {
     padding: "0 0.5rem",
   },
-
   "@media (max-width: 480px)": {
     fontSize: "0.75rem",
     margin: "1rem 0",
   },
+  color: gray["25"],
+  display: "flex",
+
+  justifyContent: "space-between",
+
+  margin: "1.5rem 0",
 })
 
 const LastUpdated = styled.p({})
@@ -191,9 +191,9 @@ const LastUpdated = styled.p({})
 const PageData = styled.p({})
 
 const ContentTable = styled.table({
-  width: "100%",
   borderCollapse: "collapse",
   marginBottom: "1rem",
+  width: "100%",
 })
 
 const Row = styled.tr({
@@ -201,42 +201,42 @@ const Row = styled.tr({
 })
 
 const THead = styled.th({
-  color: gray["25"],
-  borderBottom: `2px solid ${pink}`,
-  padding: "0.5rem 0.75rem",
-
   "@media (max-width: 480px)": {
     padding: "0.25rem 0.4rem",
   },
+  borderBottom: `2px solid ${pink}`,
+  color: gray["25"],
+
+  padding: "0.5rem 0.75rem",
 })
 
 const Cell = styled.td({
-  padding: "0.75rem",
+  "@media (max-width: 1024px)": {
+    fontSize: "0.8rem",
+    padding: "0.5rem",
+  },
+  "@media (max-width: 480px)": {
+    fontSize: "0.7rem",
+    padding: "0.4rem",
+  },
+
   borderTop: `1px solid ${gray["50"]}`,
 
-  "@media (max-width: 1024px)": {
-    padding: "0.5rem",
-    fontSize: "0.8rem",
-  },
-
-  "@media (max-width: 480px)": {
-    padding: "0.4rem",
-    fontSize: "0.7rem",
-  },
+  padding: "0.75rem",
 })
 
 const Name = styled(Link)({
-  textDecoration: "none",
-  color: gray["0"],
-
   "&:hover": {
-    cursor: "pointer",
     color: pink,
+    cursor: "pointer",
   },
-
   "@media (max-width: 480px)": {
     fontSize: "0.8rem",
   },
+
+  color: gray["0"],
+
+  textDecoration: "none",
 })
 
 const CenterCell = styled(Cell)({
@@ -244,38 +244,38 @@ const CenterCell = styled(Cell)({
 })
 
 const FameCell = styled(Cell)({
-  backgroundColor: gray["50"],
-  textAlign: "center",
-  fontSize: "1.05rem",
-
   "@media (max-width: 1024px)": {
     fontSize: "0.85rem",
   },
-
   "@media (max-width: 480px)": {
     fontSize: "0.7rem",
     padding: "0.5rem",
   },
+  backgroundColor: gray["50"],
+
+  fontSize: "1.05rem",
+
+  textAlign: "center",
 })
 
 const ClanBadgeDiv = styled.div({
-  width: "1.4rem",
-  height: "2rem",
-  position: "relative",
-  overflow: "hidden",
-
   "@media (max-width: 480px)": {
-    width: "0.95rem",
     height: "1.3rem",
+    width: "0.95rem",
   },
+  height: "2rem",
+  overflow: "hidden",
+  position: "relative",
+
+  width: "1.4rem",
 })
 
 const ClanBadge = styled(Image)({
-  objectFit: "contain",
-  maxWidth: "100%",
-  maxHeight: "100%",
-  width: "auto",
   height: "auto",
+  maxHeight: "100%",
+  maxWidth: "100%",
+  objectFit: "contain",
+  width: "auto",
 })
 
 const Flag = styled(Image)({
@@ -352,14 +352,14 @@ export default function Leaderboard({ region, data }) {
         title={`Daily War Leaderboard - ${region.name} | CWStats - Clash Royale`}
         description={`View the current daily leaderboard (${region.name}).`}
         openGraph={{
-          title: `Daily War Leaderboard - ${region.name} | CWStats - Clash Royale`,
           description: `View the current daily leaderboard (${region.name}).`,
           images: [
             {
-              url: `/assets/flags/${region.key.toLowerCase()}.png`,
               alt: "Region Icon",
+              url: `/assets/flags/${region.key.toLowerCase()}.png`,
             },
           ],
+          title: `Daily War Leaderboard - ${region.name} | CWStats - Clash Royale`,
         }}
       />
 
@@ -525,8 +525,8 @@ export default function Leaderboard({ region, data }) {
                     style={
                       c.rank === "N/A"
                         ? {
-                            color: gray["50"],
                             backgroundColor,
+                            color: gray["50"],
                           }
                         : {
                             backgroundColor,
@@ -577,11 +577,11 @@ export async function getServerSideProps(context) {
 
   if (!region) {
     return {
-      redirect: {
-        permanent: false,
-        destination: "/404",
-      },
       props: {},
+      redirect: {
+        destination: "/404",
+        permanent: false,
+      },
     }
   }
 
@@ -611,10 +611,10 @@ export async function getServerSideProps(context) {
         },
       })
       .sort({
-        notRanked: 1,
-        fameAvg: -1,
-        rank: 1,
         clanScore: -1,
+        fameAvg: -1,
+        notRanked: 1,
+        rank: 1,
       })
       .limit(0)
       .toArray(),
@@ -623,11 +623,11 @@ export async function getServerSideProps(context) {
 
   return {
     props: {
-      region,
       data: {
         dailyLbArr: JSON.parse(JSON.stringify(dailyLbArr)),
         lbLastUpdated: statsData.lbLastUpdated,
       },
+      region,
     },
   }
 }
