@@ -34,7 +34,6 @@ const HeaderDiv = styled.div({
   alignItems: "center",
   // eslint-disable-next-line no-dupe-keys
   background: `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
-  background: gray["50"],
   display: "flex",
   justifyContent: "space-between",
 
