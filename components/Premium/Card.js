@@ -87,7 +87,7 @@ export default function Card({ color, perks, price, title }) {
       <Perks>
         {perks.map((p) => (
           <Item key={p}>
-            <Checkmark height={20} src="/assets/icons/checkmark.png" width={20} />
+            <Checkmark height={20} src="/assets/icons/checkmark.png" unoptimized width={20} />
             <PerkName>{p}</PerkName>
           </Item>
         ))}
