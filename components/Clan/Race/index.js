@@ -28,11 +28,11 @@ const ClanDiv = styled.div`
   border-radius: 0.25rem;
   padding: 1rem;
   margin-bottom: 0.5rem;
-  outline: ${({ isClan }) => isClan && `3px solid ${gray["50"]}`};
+  box-shadow: ${({ $isClan }) => $isClan && `0 0 0 3px ${gray["50"]}`};
 
   &:hover {
     cursor: pointer;
-    outline: ${({ isClan }) => `${isClan ? 3 : 2}px solid ${gray["50"]}`};
+    box-shadow: ${({ $isClan }) => `0 0 0 ${$isClan ? 3 : 2}px ${gray["50"]}`};
   }
 
   @media (max-width: 768px) {
@@ -146,12 +146,7 @@ export default function Race({ dayOfWeek, isColosseum, race }) {
         const clanInRace = race.clans.find((cl) => cl.tag === c.tag)
 
         return (
-          <ClanDiv
-            isClan={c.tag === race.clan.tag}
-            key={c.tag}
-            onClick={() => handleClick(c.tag)}
-          >
-            {/* Rank Icon */}
+          <ClanDiv $isClan={c.tag === race.clan.tag} key={c.tag} onClick={() => handleClick(c.tag)}>
             {(c.placement !== Infinity || c.crossedFinishLine) && (
               <IconDiv>
                 <RaceIcon isFinished={c.crossedFinishLine} place={c.placement} />
@@ -164,10 +159,7 @@ export default function Race({ dayOfWeek, isColosseum, race }) {
                   <Badge
                     alt={c.name}
                     height={showMobileView ? 24 : 32}
-                    src={`/assets/badges/${getClanBadgeFileName(
-                      c.badgeId,
-                      c.trophies
-                    )}.png`}
+                    src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.trophies)}.png`}
                     width={showMobileView ? 18 : 24}
                   />
                   <Name>{c.name}</Name>
@@ -214,9 +206,7 @@ export default function Race({ dayOfWeek, isColosseum, race }) {
                     isColosseum={isColosseum}
                     projectedFame={getProjFame(clanInRace, isColosseum, dayOfWeek)}
                   />
-                  <AvgFame>
-                    {getAvgFame(clanInRace, isColosseum, dayOfWeek).toFixed(2)}
-                  </AvgFame>
+                  <AvgFame>{getAvgFame(clanInRace, isColosseum, dayOfWeek).toFixed(2)}</AvgFame>
                 </Row>
               )}
             </Content>

@@ -57,7 +57,7 @@ const Confirm = styled.button`
   padding: 0.5rem;
   border-radius: 0.5rem;
   transition: 0.75s;
-  outline: ${({ $color }) => `${$color} solid 2px`};
+  box-shadow: ${({ $color }) => `0 0 0 2px ${$color}`};
   color: ${gray["0"]};
   font-weight: 600;
   font-size: 1rem;

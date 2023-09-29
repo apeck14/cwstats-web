@@ -90,7 +90,7 @@ const Column = styled.div`
 const Row = styled.div`
   display: flex;
   background-color: ${gray["50"]};
-  outline: 1px solid ${gray["25"]};
+  box-shadow: 0 0 0 1px ${gray["25"]};
   align-items: center;
   border-radius: 0.25rem;
   width: 18rem;

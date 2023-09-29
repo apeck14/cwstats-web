@@ -17,12 +17,12 @@ const Main = styled.div`
 
 const Icon = styled(Image)`
   border-radius: 50%;
-  outline: 2px solid ${gray["25"]};
+  box-shadow: 0 0 0 2px ${gray["25"]};
 `
 
 const DefaultIcon = styled.div`
   border-radius: 50%;
-  outline: 2px solid ${gray["25"]};
+  box-shadow: 0 0 0 2px ${gray["25"]};
   background-color: ${gray["50"]};
   height: 60px;
   width: 60px;
@@ -66,20 +66,13 @@ export default function ServerHeader({ icon, id, name }) {
     <>
       <Main>
         {icon ? (
-          <Icon
-            alt={name}
-            height={iconPx}
-            src={`https://cdn.discordapp.com/icons/${id}/${icon}.webp`}
-            width={iconPx}
-          />
+          <Icon alt={name} height={iconPx} src={`https://cdn.discordapp.com/icons/${id}/${icon}.webp`} width={iconPx} />
         ) : (
           <DefaultIcon />
         )}
         <Name>{name}</Name>
       </Main>
-      <SubHeader>
-        Customize CW2 Stats Discord bot settings for your server!
-      </SubHeader>
+      <SubHeader>Customize CW2 Stats Discord bot settings for your server!</SubHeader>
       <SubNav />
     </>
   )

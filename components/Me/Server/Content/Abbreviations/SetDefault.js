@@ -14,7 +14,7 @@ const Container = styled.div`
 `
 
 const ClanDiv = styled.div`
-  background-color: ${({ isClanSet }) => (isClanSet ? gray["50"] : null)};
+  background-color: ${({ $isClanSet }) => ($isClanSet ? gray["50"] : null)};
   width: 15rem;
   display: flex;
   justify-content: space-between;
@@ -22,9 +22,8 @@ const ClanDiv = styled.div`
   gap: 1rem;
   border-radius: 0.25rem;
   margin-top: 0.25rem;
-  outline: ${({ isClanSet }) => (isClanSet ? null : `2px dashed ${gray["50"]}`)};
-  box-shadow: ${({ isClanSet }) =>
-    isClanSet ? "rgba(0, 0, 0, 0.24) 0px 3px 8px" : null};
+  border: ${({ $isClanSet }) => ($isClanSet ? null : `2px dashed ${gray["50"]}`)};
+  box-shadow: ${({ $isClanSet }) => ($isClanSet ? "rgba(0, 0, 0, 0.24) 0px 3px 8px" : null)};
 `
 
 const Name = styled.p`
@@ -136,7 +135,7 @@ export default function SetDefault({ defaultClan, serverId }) {
   return (
     <>
       <Container>
-        <ClanDiv isClanSet={!!clan}>
+        <ClanDiv $isClanSet={!!clan}>
           {clan ? (
             <>
               <Name>{clan.name}</Name>
@@ -151,15 +150,8 @@ export default function SetDefault({ defaultClan, serverId }) {
       </Container>
 
       <Form>
-        <TagInput
-          maxLength={10}
-          onChange={handleChange}
-          placeholder="#CLANTAG"
-          value={tag}
-        />
-        <Set onClick={handleSet}>
-          {isLoading ? <LoadingSpinner lineWidth={2} size="0.75rem" /> : "Set"}
-        </Set>
+        <TagInput maxLength={10} onChange={handleChange} placeholder="#CLANTAG" value={tag} />
+        <Set onClick={handleSet}>{isLoading ? <LoadingSpinner lineWidth={2} size="0.75rem" /> : "Set"}</Set>
         <Error>{error}</Error>
       </Form>
     </>
