@@ -581,8 +581,6 @@ export async function getServerSideProps(context) {
     statistics.findOne(),
   ])
 
-  console.table(dailyLbArr.slice(0, 10))
-
   return {
     props: {
       data: {
