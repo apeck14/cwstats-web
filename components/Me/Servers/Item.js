@@ -74,9 +74,9 @@ export default function Item({ guild }) {
       <Background>
         {guild.icon ? (
           <Icon
-            src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`}
             alt={guild.name}
             height={iconSize}
+            src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`}
             width={iconSize}
           />
         ) : (

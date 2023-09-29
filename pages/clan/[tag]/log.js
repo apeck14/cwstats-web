@@ -28,11 +28,10 @@ const Header = styled.h2`
   }
 `
 
-export default function ClanLog({ clan, log, saved, badgeName }) {
+export default function ClanLog({ badgeName, clan, log, saved }) {
   return (
     <>
       <NextSeo
-        title={`${clan.name} ${clan.tag} | Race Log - CWStats`}
         description={clan.description}
         openGraph={{
           description: clan.description,
@@ -47,9 +46,10 @@ export default function ClanLog({ clan, log, saved, badgeName }) {
           ],
           title: `${clan.name} ${clan.tag} | Race Log - CWStats`,
         }}
+        title={`${clan.name} ${clan.tag} | Race Log - CWStats`}
       />
 
-      <ClanHeader clan={clan} badgeName={badgeName} saved={saved} />
+      <ClanHeader badgeName={badgeName} clan={clan} saved={saved} />
 
       <SubNav />
 
@@ -60,13 +60,13 @@ export default function ClanLog({ clan, log, saved, badgeName }) {
       {log.map((w) => {
         const clanInWeek = w.standings.find((c) => c.clan.tag === clan.tag)
 
-        return <ClanLogItem week={w} clan={clanInWeek} />
+        return <ClanLogItem clan={clanInWeek} week={w} />
       })}
     </>
   )
 }
 
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params, req, res }) {
   const { tag } = params
   const formattedTag = formatTag(tag, false)
 

@@ -93,7 +93,7 @@ export default function LinkAccountForm({ accounts, setAccounts }) {
       tag,
     })
 
-    const { success, name, message: errMessage } = await resp.json()
+    const { message: errMessage, name, success } = await resp.json()
 
     if (success) {
       setAccounts([
@@ -114,19 +114,19 @@ export default function LinkAccountForm({ accounts, setAccounts }) {
   return (
     <FormContainer>
       <SearchBar
-        setError={setError}
         query={query}
-        setQuery={setQuery}
         setClickedUser={setClickedUser}
+        setError={setError}
+        setQuery={setQuery}
       />
       <TagInput
-        onChange={handleTagChange}
-        value={tag}
-        placeholder="#PLAYERTAG"
         maxLength={10}
+        onChange={handleTagChange}
+        placeholder="#PLAYERTAG"
+        value={tag}
       />
       <Add onClick={handleSubmit}>
-        {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Add"}
+        {isLoading ? <LoadingSpinner lineWidth={2} size="0.75rem" /> : "Add"}
       </Add>
       <Error>{error}</Error>
     </FormContainer>

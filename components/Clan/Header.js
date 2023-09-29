@@ -131,7 +131,7 @@ const InGameLinkIcon = styled(BiLinkExternal)`
   }
 `
 
-export default function ClanHeader({ saved, badgeName, clan }) {
+export default function ClanHeader({ badgeName, clan, saved }) {
   const router = useRouter()
   const { width } = useWindowSize()
   const { status } = useSession()
@@ -168,8 +168,8 @@ export default function ClanHeader({ saved, badgeName, clan }) {
           </IconDiv>
           <InGameLink
             href={`https://link.clashroyale.com/?clanInfo?id=${clan.tag.substring(1)}`}
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             <InGameLinkIcon />
           </InGameLink>
@@ -178,27 +178,27 @@ export default function ClanHeader({ saved, badgeName, clan }) {
         <BottomHeaderDiv>
           <Tag>{clan.tag}</Tag>
           <Trophy
-            src="/assets/icons/trophy.png"
-            height={iconPx}
-            width={iconPx}
             alt="Trophy"
+            height={iconPx}
+            src="/assets/icons/trophy.png"
+            width={iconPx}
           />
           {clan.clanScore}
           <WarTrophy
-            src="/assets/icons/cw-trophy.png"
-            height={iconPx}
-            width={iconPx}
             alt="War Trophy"
+            height={iconPx}
+            src="/assets/icons/cw-trophy.png"
+            width={iconPx}
           />
           {clan.clanWarTrophies}
         </BottomHeaderDiv>
       </LeftDiv>
 
       <Badge
-        src={`/assets/badges/${badgeName}.png`}
-        height={badgeHeightPx}
-        width={badgeWidthPx}
         alt="Badge"
+        height={badgeHeightPx}
+        src={`/assets/badges/${badgeName}.png`}
+        width={badgeWidthPx}
       />
     </HeaderDiv>
   )

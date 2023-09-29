@@ -57,7 +57,7 @@ const SubHeader = styled.h2`
   }
 `
 
-export default function ServerHeader({ name, icon, id }) {
+export default function ServerHeader({ icon, id, name }) {
   const { width } = useWindowSize()
 
   const iconPx = width > 480 ? 60 : 50
@@ -67,9 +67,9 @@ export default function ServerHeader({ name, icon, id }) {
       <Main>
         {icon ? (
           <Icon
-            src={`https://cdn.discordapp.com/icons/${id}/${icon}.webp`}
             alt={name}
             height={iconPx}
+            src={`https://cdn.discordapp.com/icons/${id}/${icon}.webp`}
             width={iconPx}
           />
         ) : (

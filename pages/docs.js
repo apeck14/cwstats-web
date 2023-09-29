@@ -6,13 +6,13 @@ export default function Docs() {
   return (
     <>
       <NextSeo
-        title="CWStats | Documentation"
         description="Need help? Full documentation including the Discord bot, website and everything in-between."
         openGraph={{
           description:
             "Need help? Full documentation including the Discord bot, website and everything in-between.",
           title: "CWStats | Documentation",
         }}
+        title="CWStats | Documentation"
       />
       <ComingSoon />
     </>

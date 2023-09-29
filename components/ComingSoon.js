@@ -35,7 +35,7 @@ const SubHeader = styled.h3({
 export default function ComingSoon() {
   return (
     <Main>
-      <Confetti src="/assets/icons/confetti.png" height={50} width={50} />
+      <Confetti height={50} src="/assets/icons/confetti.png" width={50} />
       <SubDiv>
         <Header>Coming soon!</Header>
         <SubHeader>This feature is still in development.</SubHeader>

@@ -169,7 +169,7 @@ export default function LinkedAccountsTable({ accounts, setAccounts }) {
           const backgroundColor = index % 2 === 0 ? "#2e2f30" : gray["75"]
 
           return (
-            <Row key={`${m.tag}${m.discordID}`} $color={backgroundColor}>
+            <Row $color={backgroundColor} key={`${m.tag}${m.discordID}`}>
               <Cell>{m.name}</Cell>
               <CenterCell $color={gray["25"]}>{m.tag}</CenterCell>
               <CenterCell $color={gray["25"]}>{m.discordID}</CenterCell>

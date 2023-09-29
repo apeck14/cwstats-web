@@ -67,7 +67,7 @@ const Delete = styled(FaTrashAlt)`
   }
 `
 
-export default function Item({ abbr, index, handleDelete }) {
+export default function Item({ abbr, handleDelete, index }) {
   return (
     <Main>
       <Number>{index + 1}</Number>

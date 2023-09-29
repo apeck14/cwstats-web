@@ -5,7 +5,7 @@ import { fetchPlayer } from "../../../utils/services"
 export default async function scheduledNudge(req, res) {
   try {
     const { body, method } = req
-    const { serverId, discordID, tag } = body
+    const { discordID, serverId, tag } = body
 
     const client = await clientPromise
     const db = client.db("General")

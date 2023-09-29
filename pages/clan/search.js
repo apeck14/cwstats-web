@@ -54,12 +54,12 @@ export default function ClanSearch({ results }) {
   return (
     <>
       <NextSeo
-        title="Clan Search"
         description="Search for clans on CWStats."
         openGraph={{
           description: "Search for clans on CWStats.",
           title: "Clan Search",
         }}
+        title="Clan Search"
       />
 
       <Header>Clan Search</Header>

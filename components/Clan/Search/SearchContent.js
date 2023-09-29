@@ -15,7 +15,7 @@ const NoClans = styled.p`
   font-style: italic;
 `
 
-export default function SearchContent({ results, skeleton, isPlayers }) {
+export default function SearchContent({ isPlayers, results, skeleton }) {
   if (skeleton) {
     return [1, 2, 3].map((n) => <SearchItem key={n} skeleton />)
   }
@@ -24,7 +24,7 @@ export default function SearchContent({ results, skeleton, isPlayers }) {
     <Main>
       {results.length > 0 ? (
         results.map((item) => (
-          <SearchItem key={item.tag} item={item} isPlayer={isPlayers} />
+          <SearchItem isPlayer={isPlayers} item={item} key={item.tag} />
         ))
       ) : (
         <NoClans>No {isPlayers ? "players" : "clans"} found</NoClans>

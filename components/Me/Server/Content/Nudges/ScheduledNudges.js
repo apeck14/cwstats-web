@@ -63,7 +63,7 @@ const Delete = styled(FaTrashAlt)`
   }
 `
 
-export default function ScheduledNudges({ nudges, setNudges, channels }) {
+export default function ScheduledNudges({ channels, nudges, setNudges }) {
   const router = useRouter()
   const { width } = useWindowSize()
   const [hydrated, setHydrated] = useState(false)

@@ -14,7 +14,7 @@ export default async function SavedPlayer(req, res) {
       })
     }
 
-    const { method, body } = req
+    const { body, method } = req
     const { name, tag } = body
 
     if (method !== "PUT" && method !== "DELETE") {

@@ -179,12 +179,12 @@ export default function Navbar() {
       <Nav className="noselect">
         <Section>
           <LinkWrapper href="/">
-            <Logo src="/assets/icons/logo.png" alt="logo" height={logoSize} width={logoSize} />
+            <Logo alt="logo" height={logoSize} src="/assets/icons/logo.png" width={logoSize} />
             <Title>CWStats</Title>
           </LinkWrapper>
           {width >= mainBreakpoint && (
             <MenuOptions>
-              <NavItem type="leaderboards" isActive={router.asPath.includes("/leaderboard")}>
+              <NavItem isActive={router.asPath.includes("/leaderboard")} type="leaderboards">
                 <LeaderboardIcon />
                 Leaderboards
               </NavItem>
@@ -214,11 +214,11 @@ export default function Navbar() {
           )}
           {session ? (
             <ProfilePicture
+              alt="Discord Profile"
+              height={profilePicSize}
               onClick={() => router.push("/me")}
               src={session.user.image}
               width={profilePicSize}
-              height={profilePicSize}
-              alt="Discord Profile"
             />
           ) : (
             <LoginButton onClick={() => signIn("discord")}>
@@ -226,7 +226,7 @@ export default function Navbar() {
             </LoginButton>
           )}
           {width < mainBreakpoint && <HamburgerMenu isOpen={showMenu} setIsOpen={setShowMenu} />}
-          {showSearch && <SearchDropdown showSearch={showSearch} setShowSearch={setShowSearch} />}
+          {showSearch && <SearchDropdown setShowSearch={setShowSearch} showSearch={showSearch} />}
         </Section>
       </Nav>
 

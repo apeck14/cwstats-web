@@ -125,12 +125,12 @@ export default function Spy() {
   return (
     <>
       <NextSeo
-        title="Deck Spy | CWStats"
         description="Search for your opponent's war decks in real-time!"
         openGraph={{
           description: "Search for your opponent's war decks in real-time!",
           title: "Deck Spy | CWStats",
         }}
+        title="Deck Spy | CWStats"
       />
 
       <HeaderContent>
@@ -143,12 +143,12 @@ export default function Spy() {
           <SearchBarDiv>
             <SpySearchBar
               defaultValue={q}
-              placeholder="Search players..."
               isPlayerSearch
-              showLiveResults
-              setShowDecksSpinner={setShowDecksSpinner}
+              placeholder="Search players..."
               setDecks={setDecks}
               setPlayer={setPlayer}
+              setShowDecksSpinner={setShowDecksSpinner}
+              showLiveResults
             />
           </SearchBarDiv>
         </Column>
@@ -156,10 +156,10 @@ export default function Spy() {
           <Art
             className="noselect"
             draggable={false}
-            src="/assets/art/warrior-women.png"
             height={175}
-            width={275}
             priority
+            src="/assets/art/warrior-women.png"
+            width={275}
           />
         )}
       </HeaderContent>
@@ -168,7 +168,7 @@ export default function Spy() {
         {showDecksSpinner ? (
           <LoadingDecks>
             <LoadingDecksText>Searching...</LoadingDecksText>
-            <LoadingSpinner size="1.5rem" lineWidth={3} color={pink} />
+            <LoadingSpinner color={pink} lineWidth={3} size="1.5rem" />
           </LoadingDecks>
         ) : decks ? (
           <DeckContent decks={decks} player={player} />

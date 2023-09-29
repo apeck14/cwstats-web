@@ -28,7 +28,7 @@ const Progress = styled(Projected)({
   backgroundColor: pink,
 })
 
-export default function ProgressBar({ fame, projectedFame, isColosseum }) {
+export default function ProgressBar({ fame, isColosseum, projectedFame }) {
   const [startAnimation, setStartAnimation] = useState(false)
 
   useEffect(() => {

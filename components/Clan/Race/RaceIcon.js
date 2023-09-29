@@ -43,13 +43,13 @@ const getBorderColor = (rank) => {
   return gray["25"]
 }
 
-export default function RaceIcon({ place, isFinished }) {
+export default function RaceIcon({ isFinished, place }) {
   const { width } = useWindowSize()
 
   const isMobile = width <= 480
   const size = isMobile ? 24 : 32
 
-  if (isFinished) return <Flag src="/assets/icons/flag.png" height={size} width={size} alt="Flag" />
+  if (isFinished) return <Flag alt="Flag" height={size} src="/assets/icons/flag.png" width={size} />
 
   return (
     <Rank $backgroundColor={getBackgroundColor(place)} $borderColor={getBorderColor(place)}>

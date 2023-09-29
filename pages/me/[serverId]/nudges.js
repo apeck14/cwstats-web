@@ -59,7 +59,7 @@ const LinksRemaining = styled.p`
   text-align: right;
 `
 
-export default function ServerPage({ guild, channels, nudges, ignoreLeaders, message, links }) {
+export default function ServerPage({ channels, guild, ignoreLeaders, links, message, nudges }) {
   const router = useRouter()
   const [showScheduledNudgeModal, setShowScheduledNudgeModal] = useState(false)
   const [scheduledNudges, setScheduledNudges] = useState(nudges)
@@ -101,7 +101,7 @@ export default function ServerPage({ guild, channels, nudges, ignoreLeaders, mes
       serverId: router.query.serverId,
       ...unsavedSettings,
     })
-    const { success, message: errMessage } = await resp.json()
+    const { message: errMessage, success } = await resp.json()
 
     if (success) {
       setSavedSettings(unsavedSettings)
@@ -117,26 +117,26 @@ export default function ServerPage({ guild, channels, nudges, ignoreLeaders, mes
   return (
     <>
       <NextSeo
-        title={`CWStats - ${guild.name} | Nudges`}
         description="Customize CW2 Stats Discord bot settings for your server!"
         noindex
         openGraph={{
           description: "Customize CW2 Stats Discord bot settings for your server!",
           title: `CWStats - ${guild.name} | Nudges`,
         }}
+        title={`CWStats - ${guild.name} | Nudges`}
       />
-      <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
+      <ServerHeader icon={guild.icon} id={guild.guildID} name={guild.name} />
 
       <TabContent>
         <Header>Settings</Header>
-        <Checkbox isChecked={unsavedSettings.ignoreLeaders} handleCheckboxChange={handleCheckboxChange} />
+        <Checkbox handleCheckboxChange={handleCheckboxChange} isChecked={unsavedSettings.ignoreLeaders} />
         <SubHeader>Custom Message</SubHeader>
-        <CustomMessage value={unsavedSettings.message} handleChange={handleMessageChange} />
+        <CustomMessage handleChange={handleMessageChange} value={unsavedSettings.message} />
 
         <Hr color={gray["50"]} margin="1.5rem 0" />
 
         <Header>Scheduled Nudges</Header>
-        <ScheduledNudges nudges={scheduledNudges} setNudges={setScheduledNudges} channels={channels} />
+        <ScheduledNudges channels={channels} nudges={scheduledNudges} setNudges={setScheduledNudges} />
 
         {scheduledNudges.length < 5 && (
           <AddScheduledNudge onClick={() => setShowScheduledNudgeModal(true)}>
@@ -156,19 +156,19 @@ export default function ServerPage({ guild, channels, nudges, ignoreLeaders, mes
       </TabContent>
 
       <ScheduledNudgeFormModal
-        isOpen={showScheduledNudgeModal}
-        setIsOpen={setShowScheduledNudgeModal}
         channels={channels}
-        setScheduledNudges={setScheduledNudges}
+        isOpen={showScheduledNudgeModal}
         scheduledNudges={scheduledNudges}
+        setIsOpen={setShowScheduledNudgeModal}
+        setScheduledNudges={setScheduledNudges}
       />
 
-      <UnsavedChangesModal isOpen={showSaveModal} onSave={handleSave} isLoading={showSaveSpinner} error={saveError} />
+      <UnsavedChangesModal error={saveError} isLoading={showSaveSpinner} isOpen={showSaveModal} onSave={handleSave} />
     </>
   )
 }
 
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params, req, res }) {
   try {
     const { serverId } = params
 

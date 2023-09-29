@@ -71,7 +71,7 @@ const Confirm = styled.button`
   }
 `
 
-export default function Card({ title, price, perks, color }) {
+export default function Card({ color, perks, price, title }) {
   const router = useRouter()
   const isPremium = title === "Premium"
 
@@ -87,12 +87,12 @@ export default function Card({ title, price, perks, color }) {
       <Perks>
         {perks.map((p) => (
           <Item key={p}>
-            <Checkmark src="/assets/icons/checkmark.png" height={20} width={20} />
+            <Checkmark height={20} src="/assets/icons/checkmark.png" width={20} />
             <PerkName>{p}</PerkName>
           </Item>
         ))}
       </Perks>
-      <Confirm onClick={handleClick} $color={color}>
+      <Confirm $color={color} onClick={handleClick}>
         {isPremium ? `Coming Soon 🎉` : `Activate ${title}`}
       </Confirm>
     </Main>

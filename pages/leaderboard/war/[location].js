@@ -79,15 +79,15 @@ const RightControlDiv = styled.div({
 })
 
 const ToggleDiv = styled.div({
-  "&:hover": {
-    cursor: "pointer",
-  },
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
   "@media (max-width: 480px)": {
     fontSize: "0.7rem",
     padding: "0.6rem",
+  },
+  "&:hover": {
+    cursor: "pointer",
   },
   alignItems: "center",
 
@@ -99,16 +99,16 @@ const ToggleDiv = styled.div({
 })
 
 const PaginationDiv = styled.div({
-  "&:hover": {
-    cursor: "pointer",
-    filter: "brightness(80%)",
-  },
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
   "@media (max-width: 480px)": {
     fontSize: "0.8rem",
     padding: "0.5rem",
+  },
+  "&:hover": {
+    cursor: "pointer",
+    filter: "brightness(80%)",
   },
   alignItems: "center",
   backgroundColor: orange,
@@ -122,16 +122,16 @@ const PaginationDiv = styled.div({
 })
 
 const RegionDropdown = styled.div({
-  "&:hover": {
-    color: gray["25"],
-    cursor: "pointer",
-  },
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
   "@media (max-width: 480px)": {
     fontSize: "0.6rem",
     padding: "0.6rem",
+  },
+  "&:hover": {
+    color: gray["25"],
+    cursor: "pointer",
   },
   alignItems: "center",
 
@@ -196,13 +196,13 @@ const Cell = styled.td({
 })
 
 const Name = styled.span({
+  "@media (max-width: 480px)": {
+    fontSize: "0.8rem",
+  },
+
   "&:hover": {
     color: pink,
     cursor: "pointer",
-  },
-
-  "@media (max-width: 480px)": {
-    fontSize: "0.8rem",
   },
 })
 
@@ -252,7 +252,7 @@ const RankDiv = styled.div({
   justifyContent: "center",
 })
 
-export default function Leaderboard({ region, data }) {
+export default function Leaderboard({ data, region }) {
   const router = useRouter()
   const { width } = useWindowSize()
   const [page, setPage] = useState(1)
@@ -282,7 +282,6 @@ export default function Leaderboard({ region, data }) {
   return (
     <>
       <NextSeo
-        title={`War Leaderboard - ${region.name} | CWStats - Clash Royale`}
         description={`View the current war leaderboard (${region.name}).`}
         openGraph={{
           description: `View the current war leaderboard (${region.name}).`,
@@ -294,17 +293,18 @@ export default function Leaderboard({ region, data }) {
           ],
           title: `War Leaderboard - ${region.name} | CWStats - Clash Royale`,
         }}
+        title={`War Leaderboard - ${region.name} | CWStats - Clash Royale`}
       />
 
       <Main>
         <HeaderDiv>
           <Header>Top {region.name} War Rankings</Header>
           <HeaderIcon
+            alt="Location"
+            height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
             key={region.key}
             src={`/assets/flags/${region?.key?.toLowerCase()}.png`}
             width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
-            height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
-            alt="Location"
           />
         </HeaderDiv>
         <ControlDiv>
@@ -352,7 +352,7 @@ export default function Leaderboard({ region, data }) {
               <THead />
               <THead />
               <THead>
-                <TrophiesIcon src="/assets/icons/cw-trophy.png" width={thPx} height={thPx} alt="Trophies" />
+                <TrophiesIcon alt="Trophies" height={thPx} src="/assets/icons/cw-trophy.png" width={thPx} />
               </THead>
             </Row>
           </thead>
@@ -406,7 +406,7 @@ export default function Leaderboard({ region, data }) {
                     }}
                   >
                     <ClanBadgeDiv>
-                      <ClanBadge src={`/assets/badges/${badgeName}.png`} alt="Badge" fill />
+                      <ClanBadge alt="Badge" fill src={`/assets/badges/${badgeName}.png`} />
                     </ClanBadgeDiv>
                   </Cell>
                   <Cell
@@ -422,10 +422,10 @@ export default function Leaderboard({ region, data }) {
                     }}
                   >
                     <Flag
-                      src={`/assets/flags/${getCountryKeyById(c.location.id)}.png`}
-                      height={flagHeightPx}
-                      width={flagWidthPx}
                       alt="Flag"
+                      height={flagHeightPx}
+                      src={`/assets/flags/${getCountryKeyById(c.location.id)}.png`}
+                      width={flagWidthPx}
                     />
                   </Cell>
                   <CenterCell
@@ -450,12 +450,12 @@ export default function Leaderboard({ region, data }) {
       </Main>
 
       <LocationsModal
-        setIsModalOpen={setIsModalOpen}
         isOpen={isModalOpen}
         locations={Locations.map((l) => ({
           name: l.name,
           url: `/leaderboard/war/${l.key}`,
         }))}
+        setIsModalOpen={setIsModalOpen}
       />
     </>
   )

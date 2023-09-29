@@ -58,7 +58,7 @@ const Hashtag = styled.span`
   font-weight: 600;
 `
 
-export default function DropdownMenuComponent({ type, allChannels, initialChannel, handleChange }) {
+export default function DropdownMenuComponent({ allChannels, handleChange, initialChannel, type }) {
   const [isOpen, setIsOpen] = useState(false)
   const [selectedChannel, setSelectedChannel] = useState(initialChannel || allChannels[0])
   const dropdownRef = useRef(null)
@@ -97,11 +97,11 @@ export default function DropdownMenuComponent({ type, allChannels, initialChanne
         <DropdownMenu>
           {allChannels.map((channel) => (
             <DropdownItem
-              key={channel.id || channel.name}
-              onClick={() => handleChannelSelection(channel, type)}
               isSelected={
                 selectedChannel.id ? selectedChannel.id === channel.id : selectedChannel.name === channel.name
               }
+              key={channel.id || channel.name}
+              onClick={() => handleChannelSelection(channel, type)}
             >
               {channel.id ? <Hashtag>#</Hashtag> : null}
               {channel.name}

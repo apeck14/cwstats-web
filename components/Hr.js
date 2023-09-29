@@ -9,6 +9,6 @@ const Main = styled.div`
   margin: ${({ $margin }) => $margin || 0};
 `
 
-export default function Hr({ height, width, color, margin }) {
-  return <Main $height={height} $width={width} $color={color} $margin={margin} />
+export default function Hr({ color, height, margin, width }) {
+  return <Main $color={color} $height={height} $margin={margin} $width={width} />
 }

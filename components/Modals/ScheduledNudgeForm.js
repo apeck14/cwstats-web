@@ -137,7 +137,7 @@ const Button = styled.button`
 const AMPM = ["A.M.", "P.M."]
 const HOURS = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12]
 
-export default function ScheduledNudgeFormModal({ isOpen, setIsOpen, channels, scheduledNudges, setScheduledNudges }) {
+export default function ScheduledNudgeFormModal({ channels, isOpen, scheduledNudges, setIsOpen, setScheduledNudges }) {
   const router = useRouter()
   const [error, setError] = useState("")
   const [isLoading, setIsLoading] = useState(false)
@@ -180,7 +180,7 @@ export default function ScheduledNudgeFormModal({ isOpen, setIsOpen, channels, s
     }
 
     const resp = await addScheduledNudge(newScheduledNudge)
-    const { success, clanName, message } = await resp.json()
+    const { clanName, message, success } = await resp.json()
 
     if (success) {
       setScheduledNudges([...scheduledNudges, { ...newScheduledNudge, clanName }])
@@ -210,7 +210,7 @@ export default function ScheduledNudgeFormModal({ isOpen, setIsOpen, channels, s
     setTag(e.target.value)
   }
 
-  const { timezone, offset } = getUsersTimezone()
+  const { offset, timezone } = getUsersTimezone()
 
   return (
     isOpen && (
@@ -227,15 +227,15 @@ export default function ScheduledNudgeFormModal({ isOpen, setIsOpen, channels, s
               Timezone: {timezone} ({offset})
             </Timezone>
             <Row>
-              <DropdownMenuComponent values={HOURS} currentItem={selectedHour} setCurrentItem={setSelectedHour} />
-              <DropdownMenuComponent values={AMPM} currentItem={selectedAmPm} setCurrentItem={setSelectedAmPm} />
+              <DropdownMenuComponent currentItem={selectedHour} setCurrentItem={setSelectedHour} values={HOURS} />
+              <DropdownMenuComponent currentItem={selectedAmPm} setCurrentItem={setSelectedAmPm} values={AMPM} />
             </Row>
             <SubHeader>Channel</SubHeader>
             <DropdownMenuComponent
-              values={channels}
               currentItem={selectedChannel}
-              setCurrentItem={setSelectedChannel}
               isChannels
+              setCurrentItem={setSelectedChannel}
+              values={channels}
             />
           </Content>
           <Footer>
@@ -245,7 +245,7 @@ export default function ScheduledNudgeFormModal({ isOpen, setIsOpen, channels, s
                 Cancel
               </Button>
               <Button color={pink} onClick={handleSubmit}>
-                {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Add"}
+                {isLoading ? <LoadingSpinner lineWidth={2} size="0.75rem" /> : "Add"}
               </Button>
             </ButtonDiv>
           </Footer>

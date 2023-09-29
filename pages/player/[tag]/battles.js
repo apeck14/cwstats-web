@@ -17,13 +17,12 @@ import { fetchClan, fetchPlayer } from "../../../utils/services"
 import { addPlayer } from "../../api/add/player"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
-export default function PlayerBattles({ saved, player }) {
+export default function PlayerBattles({ player, saved }) {
   const arenaName = getArenaFileName(player.trophies)
 
   return (
     <>
       <NextSeo
-        title={`${player.name} ${player.tag} | Battles - CWStats`}
         description="View advanced player stats, card levels, battle log, & more!"
         openGraph={{
           description: "View advanced player stats, card levels, battle log, & more!",
@@ -35,15 +34,16 @@ export default function PlayerBattles({ saved, player }) {
           ],
           title: `${player.name} ${player.tag} | Battles - CWStats`,
         }}
+        title={`${player.name} ${player.tag} | Battles - CWStats`}
       />
-      <PlayerHeader saved={saved} player={player} arenaName={arenaName} />
+      <PlayerHeader arenaName={arenaName} player={player} saved={saved} />
       <SubNav />
       <ComingSoon />
     </>
   )
 }
 
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params, req, res }) {
   const { tag } = params
 
   try {

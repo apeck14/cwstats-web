@@ -167,25 +167,25 @@ export default function RaceLeaderboard({ participants }) {
           </SortTh>
           <SortTh key="decksRemaining" onClick={() => toggleSort("decksRemaining")}>
             <ThDiv>
-              {isMobile ? <ThIcon src="/assets/icons/decksRemaining.png" width={12} height={12} /> : "Decks Used Today"}
+              {isMobile ? <ThIcon height={12} src="/assets/icons/decksRemaining.png" width={12} /> : "Decks Used Today"}
               {showArrow("decksRemaining")}
             </ThDiv>
           </SortTh>
           <SortTh key="totalDecks" onClick={() => toggleSort("totalDecks")}>
             <ThDiv>
-              {isMobile ? <ThIcon src="/assets/icons/decks.png" width={12} height={12} /> : "Decks Used"}
+              {isMobile ? <ThIcon height={12} src="/assets/icons/decks.png" width={12} /> : "Decks Used"}
               {showArrow("totalDecks")}
             </ThDiv>
           </SortTh>
           <SortTh key="boats" onClick={() => toggleSort("boats")}>
             <ThDiv>
-              {isMobile ? <ThIcon src="/assets/icons/boat-attack-points.png" width={13} height={12} /> : "Boat Attacks"}
+              {isMobile ? <ThIcon height={12} src="/assets/icons/boat-attack-points.png" width={13} /> : "Boat Attacks"}
               {showArrow("boats")}
             </ThDiv>
           </SortTh>
           <SortTh key="fame" onClick={() => toggleSort("fame")}>
             <ThDiv>
-              {isMobile ? <ThIcon src="/assets/icons/fame.png" width={9} height={12} /> : "Medals"}
+              {isMobile ? <ThIcon height={12} src="/assets/icons/fame.png" width={9} /> : "Medals"}
               {showArrow("fame")}
             </ThDiv>
           </SortTh>

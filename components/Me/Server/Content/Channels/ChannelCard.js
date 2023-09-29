@@ -38,13 +38,13 @@ const Description = styled.p`
 `
 
 export default function ChannelCard({
-  title,
-  description,
-  initialChannelID,
   activeChannelIDs,
   allChannels,
+  description,
   handleChange,
+  initialChannelID,
   marginTop,
+  title,
 }) {
   const isCommands = !!marginTop
 
@@ -55,20 +55,20 @@ export default function ChannelCard({
         <Description>{description}</Description>
         {isCommands ? (
           <ChannelList
-            allChannels={allChannels}
             activeChannelIDs={activeChannelIDs}
+            allChannels={allChannels}
             handleChange={handleChange}
           />
         ) : (
           <DropdownMenuComponent
             allChannels={allChannels}
+            handleChange={handleChange}
             initialChannel={
               initialChannelID
                 ? allChannels.find((c) => c.id === initialChannelID)
                 : allChannels[0]
             }
             type={title}
-            handleChange={handleChange}
           />
         )}
       </Body>

@@ -109,7 +109,7 @@ export default function SetDefault({ defaultClan, serverId }) {
     }
 
     setDefaultClan(tag, serverId).then(async (res) => {
-      const { success, name, message } = await res.json()
+      const { message, name, success } = await res.json()
 
       if (success) {
         setClan({ name, tag: formatTag(tag, true) })
@@ -152,13 +152,13 @@ export default function SetDefault({ defaultClan, serverId }) {
 
       <Form>
         <TagInput
-          placeholder="#CLANTAG"
-          onChange={handleChange}
-          value={tag}
           maxLength={10}
+          onChange={handleChange}
+          placeholder="#CLANTAG"
+          value={tag}
         />
         <Set onClick={handleSet}>
-          {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Set"}
+          {isLoading ? <LoadingSpinner lineWidth={2} size="0.75rem" /> : "Set"}
         </Set>
         <Error>{error}</Error>
       </Form>

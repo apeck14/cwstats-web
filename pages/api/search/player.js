@@ -16,7 +16,7 @@ export async function getPlayersFromSearch(q, limit) {
 export default async function handler(req, res) {
   try {
     const { query } = req
-    const { q, limit } = query
+    const { limit, q } = query
 
     const { error, message, players } = await getPlayersFromSearch(q, limit)
 

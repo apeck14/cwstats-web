@@ -1,7 +1,7 @@
 export default async function searchGuildMembers(req, res) {
   try {
     const { query } = req
-    const { serverId, query: search } = query
+    const { query: search, serverId } = query
 
     const resp = await fetch(
       `https://discordapp.com/api/guilds/${serverId}/members/search?query=${search}&&limit=5`,

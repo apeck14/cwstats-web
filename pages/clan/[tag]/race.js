@@ -101,7 +101,7 @@ const IndexText = styled.h3`
   }
 `
 
-export default function ClanRace({ clan, race, saved, badgeName }) {
+export default function ClanRace({ badgeName, clan, race, saved }) {
   const isColosseum = race.periodType === "colosseum"
   const dayOfWeek = race.periodIndex % 7
 
@@ -127,7 +127,6 @@ export default function ClanRace({ clan, race, saved, badgeName }) {
   return (
     <>
       <NextSeo
-        title={`${clan.name} ${clan.tag} | Race - CWStats`}
         description="View current river race stats and projections."
         openGraph={{
           description: "View current river race stats and projections.",
@@ -142,9 +141,10 @@ export default function ClanRace({ clan, race, saved, badgeName }) {
           ],
           title: `${clan.name} ${clan.tag} | Race - CWStats`,
         }}
+        title={`${clan.name} ${clan.tag} | Race - CWStats`}
       />
 
-      <ClanHeader clan={clan} badgeName={badgeName} saved={saved} />
+      <ClanHeader badgeName={badgeName} clan={clan} saved={saved} />
 
       <SubNav />
 
@@ -160,7 +160,7 @@ export default function ClanRace({ clan, race, saved, badgeName }) {
               <IndexText>{formatRaceIndex(race.periodType, race.periodIndex)}</IndexText>
             </IndexDiv>
 
-            <Race race={race} isColosseum={isColosseum} dayOfWeek={dayOfWeek} />
+            <Race dayOfWeek={dayOfWeek} isColosseum={isColosseum} race={race} />
 
             <StatsDiv>
               <Header>Stats & Projections</Header>
@@ -209,7 +209,7 @@ export default function ClanRace({ clan, race, saved, badgeName }) {
   )
 }
 
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params, req, res }) {
   const { tag } = params
   const formattedTag = formatTag(tag, false)
 

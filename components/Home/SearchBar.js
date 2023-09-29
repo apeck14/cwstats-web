@@ -108,7 +108,7 @@ const Column = styled.div`
   flex-direction: column;
 `
 
-export default function SearchBar({ placeholder, isPlayerSearch, defaultValue, showLiveResults }) {
+export default function SearchBar({ defaultValue, isPlayerSearch, placeholder, showLiveResults }) {
   const router = useRouter()
   const [search, setSearch] = useState("")
   const [results, setResults] = useState([])
@@ -222,9 +222,9 @@ export default function SearchBar({ placeholder, isPlayerSearch, defaultValue, s
   return (
     <Container ref={resultsRef}>
       <Main>
-        <InputBar id={inputId} placeholder={placeholder} onChange={handleChange} defaultValue={defaultValue} />
-        <Submit onClick={() => handleSubmit()} aria-label={`${isPlayerSearch ? "Player" : "Clan"} Search`}>
-          {showSpinner ? <LoadingSpinner size={width <= 380 ? "1.3rem" : "1.4rem"} lineWidth={3} /> : <Icon />}
+        <InputBar defaultValue={defaultValue} id={inputId} onChange={handleChange} placeholder={placeholder} />
+        <Submit aria-label={`${isPlayerSearch ? "Player" : "Clan"} Search`} onClick={() => handleSubmit()}>
+          {showSpinner ? <LoadingSpinner lineWidth={3} size={width <= 380 ? "1.3rem" : "1.4rem"} /> : <Icon />}
         </Submit>
       </Main>
       {results.length > 0 && (
@@ -233,8 +233,8 @@ export default function SearchBar({ placeholder, isPlayerSearch, defaultValue, s
             <Item key={item.tag} onClick={() => handleClick(item.tag)}>
               {!isPlayerSearch && (
                 <Badge
-                  src={`/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`}
                   height={30}
+                  src={`/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`}
                   width={23}
                 />
               )}

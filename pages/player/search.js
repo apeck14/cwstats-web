@@ -54,12 +54,12 @@ export default function PlayerSearch({ results }) {
   return (
     <>
       <NextSeo
-        title="Player Search"
         description="Search for players on CWStats."
         openGraph={{
           description: "Search for players on CWStats.",
           title: "Player Search",
         }}
+        title="Player Search"
       />
 
       <Header>Player Search</Header>
@@ -67,8 +67,8 @@ export default function PlayerSearch({ results }) {
       <SearchBarDiv>
         <SearchBar
           defaultValue={q}
-          placeholder="Name or tag, e.g. 9U82JJ0Y"
           isPlayerSearch
+          placeholder="Name or tag, e.g. 9U82JJ0Y"
         />
       </SearchBarDiv>
 
@@ -79,7 +79,7 @@ export default function PlayerSearch({ results }) {
         </Text>
       </HeaderDiv>
 
-      <SearchContent results={results} isPlayers />
+      <SearchContent isPlayers results={results} />
     </>
   )
 }

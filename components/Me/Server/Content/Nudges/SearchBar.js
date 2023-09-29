@@ -69,7 +69,7 @@ const Username = styled.p`
   color: ${gray["25"]};
 `
 
-export default function SearchBar({ setError, setClickedUser, query, setQuery }) {
+export default function SearchBar({ query, setClickedUser, setError, setQuery }) {
   const router = useRouter()
   const [results, setResults] = useState([])
 
@@ -105,7 +105,7 @@ export default function SearchBar({ setError, setClickedUser, query, setQuery })
 
   return (
     <Container>
-      <Input value={query} onChange={handleChange} placeholder="Search Members..." />
+      <Input onChange={handleChange} placeholder="Search Members..." value={query} />
       {results.length > 0 && (
         <Results>
           {results.map((result) => (

@@ -10,7 +10,7 @@ const Wrapper = styled.div`
 export default function HamburgerMenu({ isOpen, setIsOpen }) {
   return (
     <Wrapper>
-      <Hamburger toggled={isOpen} toggle={setIsOpen} color={gray["25"]} size={24} direction="right" rounded />
+      <Hamburger color={gray["25"]} direction="right" rounded size={24} toggle={setIsOpen} toggled={isOpen} />
     </Wrapper>
   )
 }

@@ -13,15 +13,15 @@ export default function ServerPage({ guild }) {
   return (
     <>
       <NextSeo
-        title={`CWStats - ${guild.name} | Abbreviations`}
         description="Customize CW2 Stats Discord bot settings for your server!"
         noindex
         openGraph={{
           description: "Customize CW2 Stats Discord bot settings for your server!",
           title: `CWStats - ${guild.name} | Abbreviations`,
         }}
+        title={`CWStats - ${guild.name} | Abbreviations`}
       />
-      <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
+      <ServerHeader icon={guild.icon} id={guild.guildID} name={guild.name} />
 
       <TabContent>
         <Abbreviations abbrList={guild.abbreviations} defaultClan={guild.defaultClan} />
@@ -30,7 +30,7 @@ export default function ServerPage({ guild }) {
   )
 }
 
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params, req, res }) {
   try {
     const { serverId } = params
 

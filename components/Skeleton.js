@@ -23,6 +23,6 @@ const Main = styled.div`
   background-repeat: no-repeat;
 `
 
-export default function Skeleton({ borderRadius, height, width, margin }) {
-  return <Main $borderRadius={borderRadius} $height={height} $width={width} $margin={margin} />
+export default function Skeleton({ borderRadius, height, margin, width }) {
+  return <Main $borderRadius={borderRadius} $height={height} $margin={margin} $width={width} />
 }

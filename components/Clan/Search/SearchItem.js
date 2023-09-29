@@ -38,7 +38,7 @@ const Gray = styled.p`
   color: ${gray["25"]};
 `
 
-export default function SearchItem({ item, skeleton, isPlayer }) {
+export default function SearchItem({ isPlayer, item, skeleton }) {
   const clanBadgeWidth = 38 * 0.75
   const kingWidth = 38 * 0.85
 
@@ -48,7 +48,7 @@ export default function SearchItem({ item, skeleton, isPlayer }) {
         <Skeleton height="38.5px" width="28px" />
         <InfoDiv>
           <Skeleton height="1rem" width="10rem" />
-          <Skeleton height="1rem" width="5rem" margin="0.25rem 0 0 0" />
+          <Skeleton height="1rem" margin="0.25rem 0 0 0" width="5rem" />
         </InfoDiv>
       </Main>
     )
@@ -57,6 +57,8 @@ export default function SearchItem({ item, skeleton, isPlayer }) {
   return (
     <Main>
       <Icon
+        alt="Badge"
+        height={38}
         src={
           isPlayer
             ? "/assets/icons/king-pink.png"
@@ -66,8 +68,6 @@ export default function SearchItem({ item, skeleton, isPlayer }) {
               )}.png`
         }
         width={isPlayer ? kingWidth : clanBadgeWidth}
-        height={38}
-        alt="Badge"
       />
 
       <InfoDiv>

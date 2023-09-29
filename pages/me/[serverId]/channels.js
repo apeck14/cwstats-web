@@ -33,7 +33,7 @@ const typeToProp = {
   "War Report": "reportChannelID",
 }
 
-export default function ServerPage({ guild, channels }) {
+export default function ServerPage({ channels, guild }) {
   const router = useRouter()
   const [showModal, setShowModal] = useState(false)
   const [showSaveSpinner, setShowSaveSpinner] = useState(false)
@@ -80,7 +80,7 @@ export default function ServerPage({ guild, channels }) {
     setShowSaveSpinner(true)
 
     setGuildChannels(unsavedChannels, router.query.serverId).then(async (res) => {
-      const { success, message } = await res.json()
+      const { message, success } = await res.json()
 
       if (success) {
         setSavedChannels(unsavedChannels)
@@ -97,59 +97,59 @@ export default function ServerPage({ guild, channels }) {
   return (
     <>
       <NextSeo
-        title={`CWStats - ${guild.name} | Channels`}
         description="Customize CW2 Stats Discord bot settings for your server!"
         noindex
         openGraph={{
           description: "Customize CW2 Stats Discord bot settings for your server!",
           title: `CWStats - ${guild.name} | Channels`,
         }}
+        title={`CWStats - ${guild.name} | Channels`}
       />
-      <ServerHeader name={guild.name} icon={guild.icon} id={guild.guildID} />
+      <ServerHeader icon={guild.icon} id={guild.guildID} name={guild.name} />
 
       <TabContent>
         <Header>Channels</Header>
 
         <SingleDiv>
           <ChannelCard
-            title="Applications"
+            allChannels={channels}
             description="The channel where all applications will be posted. Typically this would be a private channel."
+            handleChange={handleChange}
             initialChannelID={applicationsChannelID}
-            allChannels={channels}
-            handleChange={handleChange}
+            title="Applications"
           />
           <ChannelCard
-            title="Apply"
+            allChannels={channels}
             description="The channel where users will be able to apply from using /apply. Typically this would be a public channel."
-            initialChannelID={applyChannelID}
-            allChannels={channels}
             handleChange={handleChange}
+            initialChannelID={applyChannelID}
+            title="Apply"
           />
           <ChannelCard
-            title="War Report"
-            description="The channel where all war reports will be posted by the bot. Typically this would be a quiet channel."
-            initialChannelID={reportChannelID}
             allChannels={channels}
+            description="The channel where all war reports will be posted by the bot. Typically this would be a quiet channel."
             handleChange={handleChange}
+            initialChannelID={reportChannelID}
+            title="War Report"
           />
         </SingleDiv>
 
         <ChannelCard
-          title="Commands"
-          description="The channel(s) where commands are allowed to be used. By default, commands are allowed in every channel."
           activeChannelIDs={unsavedChannels.commandChannelIDs}
           allChannels={channels}
+          description="The channel(s) where commands are allowed to be used. By default, commands are allowed in every channel."
           handleChange={handleChange}
           marginTop="2rem"
+          title="Commands"
         />
       </TabContent>
 
-      <UnsavedChangesModal isOpen={showModal} onSave={handleSave} isLoading={showSaveSpinner} error={saveError} />
+      <UnsavedChangesModal error={saveError} isLoading={showSaveSpinner} isOpen={showModal} onSave={handleSave} />
     </>
   )
 }
 
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params, req, res }) {
   try {
     const { serverId } = params
 

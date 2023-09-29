@@ -51,15 +51,15 @@ export default function Players({ players }) {
   return (
     <>
       <NextSeo
-        title="My Players"
         description="View your saved players on CWStats."
         openGraph={{
           description: "View your saved players on CWStats.",
           title: "My Players",
         }}
+        title="My Players"
       />
 
-      <Header title="My Players" description="View all saved players." />
+      <Header description="View all saved players." title="My Players" />
       <SubNav />
       <Content>
         {players.length === 0 ? (
@@ -67,9 +67,9 @@ export default function Players({ players }) {
         ) : (
           players.slice(0, numShown).map((p) => (
             <SavedItem
-              key={p.tag}
               data={p}
               isPlayer
+              key={p.tag}
               links={[
                 {
                   name: "War",

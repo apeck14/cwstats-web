@@ -68,7 +68,7 @@ const ItemLink = styled(Link)`
   }
 `
 
-export default function SavedItem({ skeleton, data, isPlayer }) {
+export default function SavedItem({ data, isPlayer, skeleton }) {
   const { width } = useWindowSize()
 
   const iconHeight = width <= 480 ? 32 : 40
@@ -110,8 +110,8 @@ export default function SavedItem({ skeleton, data, isPlayer }) {
   return (
     <Main>
       <Icon
-        src={isPlayer ? "/assets/icons/king-pink.png" : `/assets/badges/${data.badge}.png`}
         height={iconHeight}
+        src={isPlayer ? "/assets/icons/king-pink.png" : `/assets/badges/${data.badge}.png`}
         width={isPlayer ? kingWidth : clanBadgeWidth}
       />
       <Content>

@@ -23,9 +23,9 @@ const TextBox = styled.textarea`
 export default function CustomMessage({ handleChange, value }) {
   return (
     <TextBox
-      placeholder="**You have attacks remaining.** Please get them in before the deadline!"
       maxLength={200}
       onChange={handleChange}
+      placeholder="**You have attacks remaining.** Please get them in before the deadline!"
       value={value}
     />
   )

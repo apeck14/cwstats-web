@@ -85,16 +85,16 @@ export default function SubNav() {
 
       <Nav>
         <Item
-          onClick={() => handleClick(`/abbreviations`)}
-          className="noselect"
           $isActive={currentTab === "abbreviations"}
+          className="noselect"
+          onClick={() => handleClick(`/abbreviations`)}
         >
           <Text>Abbreviations</Text>
         </Item>
-        <Item onClick={() => handleClick("/channels")} className="noselect" $isActive={currentTab === "channels"}>
+        <Item $isActive={currentTab === "channels"} className="noselect" onClick={() => handleClick("/channels")}>
           <Text>Channels</Text>
         </Item>
-        <Item onClick={() => handleClick("/nudges")} className="noselect" $isActive={currentTab === "nudges"}>
+        <Item $isActive={currentTab === "nudges"} className="noselect" onClick={() => handleClick("/nudges")}>
           <Text>Nudges</Text>
         </Item>
       </Nav>

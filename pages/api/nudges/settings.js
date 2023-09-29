@@ -3,7 +3,7 @@ import clientPromise from "../../../lib/mongodb"
 export default async function scheduledNudge(req, res) {
   try {
     const { body } = req
-    const { serverId, ignoreLeaders, message } = body
+    const { ignoreLeaders, message, serverId } = body
 
     const client = await clientPromise
     const db = client.db("General")

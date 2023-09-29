@@ -33,7 +33,7 @@ export default async function deleteDefaultClan(req, res) {
     )
 
     return res.status(200).json({ success: true })
-  } catch ({ status, message }) {
+  } catch ({ message, status }) {
     return res.status(status || 500).json({
       message: message || "Unexpected error. Please try again.",
     })

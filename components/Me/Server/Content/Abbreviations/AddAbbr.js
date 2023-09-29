@@ -58,7 +58,7 @@ const Error = styled.p`
   font-weight: 600;
 `
 
-export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
+export default function AddAbbr({ abbreviations, serverId, setAbbreviations }) {
   const [error, setError] = useState(null)
   const [isLoading, setIsLoading] = useState(false)
   const [abbr, setAbbr] = useState("")
@@ -80,7 +80,7 @@ export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
     }
 
     addAbbreviation(serverId, abbr, tag).then(async (res) => {
-      const { success, name, message } = await res.json()
+      const { message, name, success } = await res.json()
 
       if (success) {
         setAbbreviations([...abbreviations, { abbr, name, tag: formatTag(tag, true) }])
@@ -105,9 +105,9 @@ export default function AddAbbr({ abbreviations, setAbbreviations, serverId }) {
 
   return (
     <Main>
-      <Abbr placeholder="abbr" maxLength={4} onChange={handleAbbrChange} value={abbr} />
-      <Tag placeholder="#CLANTAG" maxLength={10} onChange={handleTagChange} value={tag} />
-      <Add onClick={handleClick}>{isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Add"}</Add>
+      <Abbr maxLength={4} onChange={handleAbbrChange} placeholder="abbr" value={abbr} />
+      <Tag maxLength={10} onChange={handleTagChange} placeholder="#CLANTAG" value={tag} />
+      <Add onClick={handleClick}>{isLoading ? <LoadingSpinner lineWidth={2} size="0.75rem" /> : "Add"}</Add>
       <Error>{error}</Error>
     </Main>
   )

@@ -66,14 +66,14 @@ const Error = styled.p`
   }
 `
 
-export default function UnsavedChangesModal({ isOpen, onSave, isLoading, error }) {
+export default function UnsavedChangesModal({ error, isLoading, isOpen, onSave }) {
   return (
     <ModalWrapper $isOpen={isOpen}>
       <Modal>
         <Content>
           <Text>You have unsaved changes. Would you like to save these changes?</Text>
           <SaveButton onClick={onSave}>
-            {isLoading ? <LoadingSpinner size="0.75rem" lineWidth={2} /> : "Save"}
+            {isLoading ? <LoadingSpinner lineWidth={2} size="0.75rem" /> : "Save"}
           </SaveButton>
         </Content>
 

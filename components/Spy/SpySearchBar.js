@@ -104,13 +104,13 @@ const getSearchResultsFromDB = async (query) => {
 }
 
 export default function SpySearchBar({
-  placeholder,
-  isPlayerSearch,
   defaultValue,
-  showLiveResults,
-  setShowDecksSpinner,
+  isPlayerSearch,
+  placeholder,
   setDecks,
   setPlayer,
+  setShowDecksSpinner,
+  showLiveResults,
 }) {
   const [search, setSearch] = useState("")
   const [results, setResults] = useState([])
@@ -207,14 +207,14 @@ export default function SpySearchBar({
     <Container ref={resultsRef}>
       <Row>
         <InputBar
-          id={inputId}
-          placeholder={placeholder}
-          onChange={handleChange}
           defaultValue={defaultValue}
+          id={inputId}
+          onChange={handleChange}
+          placeholder={placeholder}
           value={search}
         />
         {showSpinner ? (
-          <LoadingSpinner size={width <= 380 ? "1.3rem" : "1.4rem"} lineWidth={3} margin="0 0.5rem 0 0" />
+          <LoadingSpinner lineWidth={3} margin="0 0.5rem 0 0" size={width <= 380 ? "1.3rem" : "1.4rem"} />
         ) : (
           <Icon />
         )}
@@ -226,8 +226,8 @@ export default function SpySearchBar({
             <Item key={item.tag} onClick={() => handleClick(item.tag)}>
               {!isPlayerSearch && (
                 <Badge
-                  src={`/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`}
                   height={30}
+                  src={`/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`}
                   width={23}
                 />
               )}

@@ -184,7 +184,7 @@ export default function MembersTable({ members }) {
           <TH />
           <SortTh key="trophies" onClick={() => toggleSort("trophies")}>
             <ThDiv>
-              {isMobile ? <ThIcon src="/assets/icons/trophy.png" width={12} height={12} /> : "Trophies"}
+              {isMobile ? <ThIcon height={12} src="/assets/icons/trophy.png" width={12} /> : "Trophies"}
               {showArrow("trophies")}
             </ThDiv>
           </SortTh>
@@ -212,7 +212,7 @@ export default function MembersTable({ members }) {
           )}
           <SortTh key="level" onClick={() => toggleSort("level")}>
             <ThDiv>
-              {isMobile ? <ThIcon src="/assets/icons/level.png" width={12} height={12} /> : "Level"}
+              {isMobile ? <ThIcon height={12} src="/assets/icons/level.png" width={12} /> : "Level"}
               {showArrow("level")}
             </ThDiv>
           </SortTh>
@@ -227,7 +227,7 @@ export default function MembersTable({ members }) {
             <Row key={m.tag}>
               <CenterCell $backgroundColor={backgroundColor}>{m.clanRank}</CenterCell>
               <CenterCell $backgroundColor={backgroundColor}>
-                <Arena src={`/assets/arenas/${getArenaFileName(m.trophies)}.png`} height={32} width={32} alt="Arena" />
+                <Arena alt="Arena" height={32} src={`/assets/arenas/${getArenaFileName(m.trophies)}.png`} width={32} />
               </CenterCell>
               <CenterCell $backgroundColor={backgroundColor}>{m.trophies}</CenterCell>
               {isMobile ? (

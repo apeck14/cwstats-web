@@ -83,12 +83,12 @@ export default function Upgrade() {
   return (
     <>
       <NextSeo
-        title="CWStats | Upgrade"
         description="Enable detailed clan tracking, and other statistics with CWStats+...all for FREE!"
         openGraph={{
           description: "Enable detailed clan tracking, and other statistics with CWStats+...all for FREE!",
           title: "CWStats+",
         }}
+        title="CWStats | Upgrade"
       />
       <Header>
         <Premium>
@@ -106,8 +106,7 @@ export default function Upgrade() {
 
       <Cards>
         <Card
-          title="CWStats+"
-          price="FREE"
+          color={orange}
           perks={[
             "Clan average tracking throughout war day, up to last 5 seasons",
             "Gurantees clan to be tracked on daily leaderboards",
@@ -115,7 +114,8 @@ export default function Upgrade() {
             "Special clan badge on CWStats",
             "& more!",
           ]}
-          color={orange}
+          price="FREE"
+          title="CWStats+"
         />
         {/* <Card
           title="Premium"
@@ -131,10 +131,10 @@ export default function Upgrade() {
           color={pink}
         /> */}
         <Card
-          title="Premium"
-          price="🎉"
-          perks={["All perks from CWStats+", "Game-changing features soon 👀🤫", "& more!"]}
           color={pink}
+          perks={["All perks from CWStats+", "Game-changing features soon 👀🤫", "& more!"]}
+          price="🎉"
+          title="Premium"
         />
       </Cards>
       <PremiumOptionsTable />

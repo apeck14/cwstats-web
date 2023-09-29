@@ -5,7 +5,7 @@ import { fetchClan } from "../../../utils/services"
 export default async function scheduledNudge(req, res) {
   try {
     const { body, method } = req
-    const { clanTag, scheduledHourUTC, channelID, serverId } = body
+    const { channelID, clanTag, scheduledHourUTC, serverId } = body
 
     const client = await clientPromise
     const db = client.db("General")

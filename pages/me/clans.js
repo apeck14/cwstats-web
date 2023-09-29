@@ -51,15 +51,15 @@ export default function Clans({ clans }) {
   return (
     <>
       <NextSeo
-        title="My Clans"
         description="View your saved clans on CWStats."
         openGraph={{
           description: "View your saved clans on CWStats.",
           title: "My Clans",
         }}
+        title="My Clans"
       />
 
-      <Header title="My Clans" description="View all saved clans." />
+      <Header description="View all saved clans." title="My Clans" />
       <SubNav />
       <Content>
         {clans.length === 0 ? (
@@ -67,8 +67,8 @@ export default function Clans({ clans }) {
         ) : (
           clans.slice(0, numShown).map((c) => (
             <SavedItem
-              key={c.tag}
               data={c}
+              key={c.tag}
               links={[
                 {
                   name: "Race",

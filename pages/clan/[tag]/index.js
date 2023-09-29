@@ -82,7 +82,7 @@ const StatsValue = styled.p`
   }
 `
 
-export default function ClanHome({ clan, members, badgeName, saved }) {
+export default function ClanHome({ badgeName, clan, members, saved }) {
   const { width } = useWindowSize()
 
   const locationKey = getCountryKeyById(clan.location?.id)
@@ -93,7 +93,6 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
   return (
     <>
       <NextSeo
-        title={`${clan.name} ${clan.tag} | Home - CWStats`}
         description={clan.description}
         openGraph={{
           description: clan.description,
@@ -105,9 +104,10 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
           ],
           title: `${clan.name} ${clan.tag} | Home - CWStats`,
         }}
+        title={`${clan.name} ${clan.tag} | Home - CWStats`}
       />
 
-      <ClanHeader clan={clan} badgeName={badgeName} saved={saved} />
+      <ClanHeader badgeName={badgeName} clan={clan} saved={saved} />
 
       <SubNav />
 
@@ -118,10 +118,10 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
           <StatsRow>
             <StatsItem>
               <StatsIcon
-                src="/assets/icons/trophy-ribbon.png"
-                height={infoIconPx}
-                width={infoIconPx}
                 alt="Trophies"
+                height={infoIconPx}
+                src="/assets/icons/trophy-ribbon.png"
+                width={infoIconPx}
               />
               <StatsInfo>
                 <StatsTitle>Trophies</StatsTitle>
@@ -130,10 +130,10 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
             </StatsItem>
             <StatsItem>
               <StatsIcon
-                src="/assets/icons/trophy.png"
-                height={infoIconPx}
-                width={infoIconPx}
                 alt="Required Trophies"
+                height={infoIconPx}
+                src="/assets/icons/trophy.png"
+                width={infoIconPx}
               />
               <StatsInfo>
                 <StatsTitle>
@@ -144,10 +144,10 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
             </StatsItem>
             <StatsItem>
               <StatsIcon
-                src="/assets/icons/cards.png"
-                height={infoIconPx}
-                width={infoIconPx}
                 alt="Weekly Donations"
+                height={infoIconPx}
+                src="/assets/icons/cards.png"
+                width={infoIconPx}
               />
               <StatsInfo>
                 <StatsTitle>{width <= 480 ? "Donations" : "Weekly Donations"}</StatsTitle>
@@ -158,10 +158,10 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
           <StatsRow>
             <StatsItem>
               <StatsIcon
-                src="/assets/icons/social.png"
-                height={infoIconPx * 1.2}
-                width={infoIconPx}
                 alt="Members"
+                height={infoIconPx * 1.2}
+                src="/assets/icons/social.png"
+                width={infoIconPx}
               />
               <StatsInfo>
                 <StatsTitle>Members</StatsTitle>
@@ -170,10 +170,10 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
             </StatsItem>
             <StatsItem>
               <StatsIcon
-                src="/assets/icons/players.png"
-                height={infoIconPx}
-                width={infoIconPx}
                 alt="Type"
+                height={infoIconPx}
+                src="/assets/icons/players.png"
+                width={infoIconPx}
               />
               <StatsInfo>
                 <StatsTitle>Type</StatsTitle>
@@ -182,10 +182,10 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
             </StatsItem>
             <StatsItem>
               <FlagIcon
-                src={`/assets/flags/${locationKey}.png`}
-                height={infoIconPx}
-                width={infoIconPx}
                 alt="Region"
+                height={infoIconPx}
+                src={`/assets/flags/${locationKey}.png`}
+                width={infoIconPx}
               />
               <StatsInfo>
                 <StatsTitle>Region</StatsTitle>
@@ -201,7 +201,7 @@ export default function ClanHome({ clan, members, badgeName, saved }) {
   )
 }
 
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params, req, res }) {
   const { tag } = params
 
   try {

@@ -29,7 +29,7 @@ const Hashtag = styled.span`
   font-size: 1.1rem;
 `
 
-export default function ChannelList({ allChannels, activeChannelIDs, handleChange }) {
+export default function ChannelList({ activeChannelIDs, allChannels, handleChange }) {
   return (
     <Main>
       {allChannels.slice(1).map((c) => (

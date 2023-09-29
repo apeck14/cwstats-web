@@ -130,8 +130,8 @@ export default function ClanLogItem({ clan, week }) {
   const iconPx = isMobile ? 16 : 18
   return (
     <ContentDiv
-      key={`${week.seasonId}${week.sectionIndex}`}
       id={`${week.seasonId}-${week.sectionIndex}`}
+      key={`${week.seasonId}${week.sectionIndex}`}
     >
       <ContentHeaderDiv>
         <HeaderText>
@@ -156,29 +156,29 @@ export default function ClanLogItem({ clan, week }) {
               <ClanItemText flex={isMobile ? 0.15 : 0.25}>{c.rank}</ClanItemText>
               <ClanItemText flex={isMobile ? 0.85 : 0.75}>
                 <ClanBadge
+                  height={clanBadgeHeight}
                   src={`/assets/badges/${getClanBadgeFileName(
                     c.clan.badgeId,
                     c.clan.clanScore
                   )}.png`}
-                  height={clanBadgeHeight}
                   width={clanBadgeWidth}
                 />
                 {c.clan.name}
               </ClanItemText>
-              <ClanItemText flex={0.5} alignRight>
+              <ClanItemText alignRight flex={0.5}>
                 {c.clan.fame}
                 <ClanIcon
-                  src="/assets/icons/boat-movement.png"
                   height={iconPx}
+                  src="/assets/icons/boat-movement.png"
                   width={isMobile ? 19 : 21}
                 />
               </ClanItemText>
-              <ClanItemText flex={0.5} alignRight>
+              <ClanItemText alignRight flex={0.5}>
                 <TrophyChange>{changeVal}</TrophyChange>
                 {c.clan.clanScore}
                 <ClanIcon
-                  src="/assets/icons/cw-trophy.png"
                   height={iconPx}
+                  src="/assets/icons/cw-trophy.png"
                   width={iconPx}
                 />
               </ClanItemText>

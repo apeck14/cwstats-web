@@ -21,7 +21,7 @@ export async function getClansFromSearch(q, limit = 50) {
 
 export default async function handler(req, res) {
   try {
-    const { error, message, clans } = await getClansFromSearch(req)
+    const { clans, error, message } = await getClansFromSearch(req)
 
     if (error) throw message
 

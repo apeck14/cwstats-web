@@ -79,8 +79,8 @@ export default function Header() {
         <SearchDiv>
           <SearchHeader>Players</SearchHeader>
           <SearchBar
-            placeholder="Name or tag, e.g. VGRQ9CVG"
             isPlayerSearch
+            placeholder="Name or tag, e.g. VGRQ9CVG"
             showLiveResults
           />
         </SearchDiv>

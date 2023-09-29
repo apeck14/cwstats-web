@@ -42,10 +42,10 @@ const CheckboxLabel = styled.span`
   margin-left: 0.5rem;
 `
 
-export default function Checkbox({ isChecked, handleCheckboxChange }) {
+export default function Checkbox({ handleCheckboxChange, isChecked }) {
   return (
     <CheckboxContainer>
-      <CheckboxInput type="checkbox" checked={isChecked} onChange={handleCheckboxChange} />
+      <CheckboxInput checked={isChecked} onChange={handleCheckboxChange} type="checkbox" />
       <CheckboxStyled checked={isChecked} />
       <CheckboxLabel>Ignore Co-Leaders & Leaders</CheckboxLabel>
     </CheckboxContainer>

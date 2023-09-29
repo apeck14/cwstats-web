@@ -48,7 +48,7 @@ export default function SavedContent({ isPlayers, items }) {
           ) : (
             items.slice(0, lastIndex).map((e, index) => (
               <>
-                <SavedItem key={e.tag} data={e} isPlayer={isPlayers} />
+                <SavedItem data={e} isPlayer={isPlayers} key={e.tag} />
                 {index !== lastIndex - 1 && <Hr margin="0.25rem 0" />}
               </>
             ))

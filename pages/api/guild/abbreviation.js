@@ -5,7 +5,7 @@ import { fetchClan } from "../../../utils/services"
 export default async function putAbbreviation(req, res) {
   try {
     const { body } = req
-    const { abbr, serverId, clanTag } = body
+    const { abbr, clanTag, serverId } = body
 
     const client = await clientPromise
     const db = client.db("General")

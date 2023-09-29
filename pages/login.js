@@ -57,13 +57,13 @@ export default function Login({ loggedIn }) {
   return (
     <>
       <NextSeo
-        title="Login"
         description="Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers."
         openGraph={{
           description:
             "Log in to CWStats to save clans, players, and customize CWStats Discord bot settings for your servers.",
           title: "Login",
         }}
+        title="Login"
       />
 
       <Main>

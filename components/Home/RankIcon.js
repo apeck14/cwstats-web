@@ -20,17 +20,17 @@ const Main = styled.div`
   font-size: ${({ $fontSize }) => $fontSize || "1rem"};
 `
 
-export default function AvgFameIcon({ average, rank, width, height, borderRadius, maxWidth, borderWidth, fontSize }) {
+export default function AvgFameIcon({ average, borderRadius, borderWidth, fontSize, height, maxWidth, rank, width }) {
   return (
     <Main
-      $width={width}
-      $height={height}
-      $borderRadius={borderRadius}
-      $maxWidth={maxWidth}
       $backgroundColor={getBackgroundColor(rank)}
       $borderColor={getBorderColor(rank)}
+      $borderRadius={borderRadius}
       $borderWidth={borderWidth}
       $fontSize={fontSize}
+      $height={height}
+      $maxWidth={maxWidth}
+      $width={width}
     >
       {average.toFixed(2)}
     </Main>

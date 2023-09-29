@@ -102,7 +102,7 @@ const Card = styled(Image)``
 
 const Icon = styled(Image)``
 
-export default function DeckContent({ player, decks }) {
+export default function DeckContent({ decks, player }) {
   const { width } = useWindowSize()
 
   const missingDecks = 4 - decks.duel.length - decks.other.length
@@ -116,7 +116,7 @@ export default function DeckContent({ player, decks }) {
       <Header>
         <Name href={`/player/${player?.tag?.substring(1)}`}>{player?.name}</Name>
         <Clan>
-          <Badge src={`/assets/badges/${player?.badge}.png`} height={clanBadgeHeight} width={clanBadgeWidth} />
+          <Badge height={clanBadgeHeight} src={`/assets/badges/${player?.badge}.png`} width={clanBadgeWidth} />
           <ClanName>{player?.clanName || "None"}</ClanName>
         </Clan>
       </Header>
@@ -127,12 +127,12 @@ export default function DeckContent({ player, decks }) {
           <Decks>
             {decks.duel.map((d) => (
               <DeckContainer>
-                <Icon src={`/assets/gamemodes/${d.img}.png`} height={isMobile ? 30 : 50} width={isMobile ? 30 : 50} />
+                <Icon height={isMobile ? 30 : 50} src={`/assets/gamemodes/${d.img}.png`} width={isMobile ? 30 : 50} />
                 <Deck>
                   {d.cards.map((c) => (
                     <Card
-                      src={`/assets/cards/${c.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}.png`}
                       height={isMobile ? 42 : 60}
+                      src={`/assets/cards/${c.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}.png`}
                       width={isMobile ? 35 : 50}
                     />
                   ))}
@@ -149,12 +149,12 @@ export default function DeckContent({ player, decks }) {
           <Decks>
             {decks.other.map((d) => (
               <DeckContainer>
-                <Icon src={`/assets/gamemodes/${d.img}.png`} height={isMobile ? 30 : 50} width={isMobile ? 30 : 50} />
+                <Icon height={isMobile ? 30 : 50} src={`/assets/gamemodes/${d.img}.png`} width={isMobile ? 30 : 50} />
                 <Deck>
                   {d.cards.map((c) => (
                     <Card
-                      src={`/assets/cards/${c.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}.png`}
                       height={isMobile ? 42 : 60}
+                      src={`/assets/cards/${c.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}.png`}
                       width={isMobile ? 35 : 50}
                     />
                   ))}

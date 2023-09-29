@@ -34,13 +34,13 @@ export default function Matchmaking() {
   return (
     <>
       <NextSeo
-        title="Matchmaking..."
         description="Matchmaking is currently underway for the specified clan. Check back soon."
         openGraph={{
           description:
             "Matchmaking is currently underway for the specified clan. Check back soon.",
           title: "Matchmaking...",
         }}
+        title="Matchmaking..."
       />
 
       <Main>

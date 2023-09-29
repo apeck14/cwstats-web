@@ -157,7 +157,7 @@ const InGameLinkIcon = styled(BiLinkExternal)`
 
 const Arena = styled(Image)``
 
-export default function PlayerHeader({ saved, player, arenaName }) {
+export default function PlayerHeader({ arenaName, player, saved }) {
   const router = useRouter()
   const { width } = useWindowSize()
   const { status } = useSession()
@@ -192,8 +192,8 @@ export default function PlayerHeader({ saved, player, arenaName }) {
           </IconDiv>
           <InGameLink
             href={`https://link.clashroyale.com/?playerInfo?id=${player.tag.substring(1)}`}
-            target="_blank"
             rel="noopener noreferrer"
+            target="_blank"
           >
             <InGameLinkIcon />
           </InGameLink>
@@ -201,7 +201,7 @@ export default function PlayerHeader({ saved, player, arenaName }) {
         <Row>
           <Tag>{player.tag}</Tag>
           <Group>
-            <Icon src="/assets/icons/trophy.png" height={iconPx} width={iconPx} alt="Clash Royale Ladder Trophy" />
+            <Icon alt="Clash Royale Ladder Trophy" height={iconPx} src="/assets/icons/trophy.png" width={iconPx} />
             <Text>
               {player.trophies} / {player.bestTrophies}
             </Text>
@@ -209,10 +209,10 @@ export default function PlayerHeader({ saved, player, arenaName }) {
           {player.currentPathOfLegendSeasonResult.leagueNumber === 10 && (
             <Group>
               <Icon
-                src="/assets/icons/pol-medals.png"
-                height={iconPx}
-                width={iconPx}
                 alt="Clash Royale Path of Legends Trophy"
+                height={iconPx}
+                src="/assets/icons/pol-medals.png"
+                width={iconPx}
               />
               <Text>{player.currentPathOfLegendSeasonResult.trophies}</Text>
             </Group>
@@ -220,8 +220,8 @@ export default function PlayerHeader({ saved, player, arenaName }) {
         </Row>
         <Group>
           <ClanBadge
-            src={`/assets/badges/${player.clan.badge}.png`}
             height={width <= 480 ? 23 : 27}
+            src={`/assets/badges/${player.clan.badge}.png`}
             width={width <= 480 ? 18 : 21}
           />
           <ClanName $isClan={inClan} onClick={inClan ? () => handleClanClick(player?.clan?.tag.substring(1)) : null}>
@@ -235,7 +235,7 @@ export default function PlayerHeader({ saved, player, arenaName }) {
           )}
         </Group>
       </LeftDiv>
-      <Arena src={`/assets/arenas/${arenaName}.png`} height={arenaPx} width={arenaPx} />
+      <Arena height={arenaPx} src={`/assets/arenas/${arenaName}.png`} width={arenaPx} />
     </HeaderDiv>
   )
 }

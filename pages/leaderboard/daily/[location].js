@@ -85,15 +85,15 @@ const RightControlDiv = styled.div({
 })
 
 const ToggleDiv = styled.div({
-  "&:hover": {
-    cursor: "pointer",
-  },
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
   "@media (max-width: 480px)": {
     fontSize: "0.7rem",
     padding: "0.6rem",
+  },
+  "&:hover": {
+    cursor: "pointer",
   },
   alignItems: "center",
 
@@ -105,16 +105,16 @@ const ToggleDiv = styled.div({
 })
 
 const PaginationDiv = styled.div({
-  "&:hover": {
-    cursor: "pointer",
-    filter: "brightness(80%)",
-  },
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
   "@media (max-width: 480px)": {
     fontSize: "0.8rem",
     padding: "0.5rem",
+  },
+  "&:hover": {
+    cursor: "pointer",
+    filter: "brightness(80%)",
   },
   alignItems: "center",
   backgroundColor: orange,
@@ -128,16 +128,16 @@ const PaginationDiv = styled.div({
 })
 
 const RegionDropdown = styled.div({
-  "&:hover": {
-    color: gray["25"],
-    cursor: "pointer",
-  },
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
   "@media (max-width: 480px)": {
     fontSize: "0.6rem",
     padding: "0.6rem",
+  },
+  "&:hover": {
+    color: gray["25"],
+    cursor: "pointer",
   },
   alignItems: "center",
 
@@ -149,16 +149,16 @@ const RegionDropdown = styled.div({
 })
 
 const LeagueToggle = styled(Link)({
-  "&:hover": {
-    color: gray["25"],
-    cursor: "pointer",
-  },
   "@media (max-width: 1024px)": {
     padding: "0.75rem",
   },
   "@media (max-width: 480px)": {
     fontSize: "0.7rem",
     padding: "0.6rem",
+  },
+  "&:hover": {
+    color: gray["25"],
+    cursor: "pointer",
   },
   alignItems: "center",
   color: gray["0"],
@@ -226,12 +226,12 @@ const Cell = styled.td({
 })
 
 const Name = styled(Link)({
+  "@media (max-width: 480px)": {
+    fontSize: "0.8rem",
+  },
   "&:hover": {
     color: pink,
     cursor: "pointer",
-  },
-  "@media (max-width: 480px)": {
-    fontSize: "0.8rem",
   },
 
   color: gray["0"],
@@ -303,14 +303,14 @@ const NotRanked = styled.p`
   }
 `
 
-export default function Leaderboard({ region, data }) {
+export default function Leaderboard({ data, region }) {
   const router = useRouter()
   const { width } = useWindowSize()
   const [page, setPage] = useState(1)
   const [lastUpdated, setLastUpdated] = useState()
   const [isModalOpen, setIsModalOpen] = useState(false)
 
-  const { location: key, league } = router.query
+  const { league, location: key } = router.query
 
   if (league && league !== "5000" && league !== "4000") router.push(`/leaderboard/daily/${key}`)
 
@@ -349,7 +349,6 @@ export default function Leaderboard({ region, data }) {
   return (
     <>
       <NextSeo
-        title={`Daily War Leaderboard - ${region.name} | CWStats - Clash Royale`}
         description={`View the current daily leaderboard (${region.name}).`}
         openGraph={{
           description: `View the current daily leaderboard (${region.name}).`,
@@ -361,17 +360,18 @@ export default function Leaderboard({ region, data }) {
           ],
           title: `Daily War Leaderboard - ${region.name} | CWStats - Clash Royale`,
         }}
+        title={`Daily War Leaderboard - ${region.name} | CWStats - Clash Royale`}
       />
 
       <Main>
         <HeaderDiv>
           <Header>Top {region.name} Daily Rankings</Header>
           <HeaderIcon
+            alt="Location"
+            height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
             key={region.key}
             src={`/assets/flags/${region.key.toLowerCase()}.png`}
             width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
-            height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
-            alt="Location"
           />
         </HeaderDiv>
         <ControlDiv>
@@ -395,8 +395,8 @@ export default function Leaderboard({ region, data }) {
             </RegionDropdown>
 
             <LeagueToggle
-              id="All"
               href={navigateLeagues()}
+              id="All"
               style={
                 !league
                   ? {
@@ -408,8 +408,8 @@ export default function Leaderboard({ region, data }) {
               All
             </LeagueToggle>
             <LeagueToggle
-              id="5000"
               href={navigateLeagues("5000")}
+              id="5000"
               style={
                 league === "5000"
                   ? {
@@ -421,8 +421,8 @@ export default function Leaderboard({ region, data }) {
               5000+
             </LeagueToggle>
             <LeagueToggle
-              id="4000"
               href={navigateLeagues("4000")}
+              id="4000"
               style={
                 league === "4000"
                   ? {
@@ -471,10 +471,10 @@ export default function Leaderboard({ region, data }) {
                 <GlobeIcon />
               </THead>
               <THead>
-                <TrophiesIcon src="/assets/icons/cw-trophy.png" width={thPx} height={thPx} alt="Trophies" />
+                <TrophiesIcon alt="Trophies" height={thPx} src="/assets/icons/cw-trophy.png" width={thPx} />
               </THead>
               <THead>
-                <AtksIcon src="/assets/icons/decksRemaining.png" width={thPx} height={thPx} alt="Decks Remaining" />
+                <AtksIcon alt="Decks Remaining" height={thPx} src="/assets/icons/decksRemaining.png" width={thPx} />
               </THead>
               <THead />
             </Row>
@@ -499,7 +499,7 @@ export default function Leaderboard({ region, data }) {
                     }}
                   >
                     <ClanBadgeDiv>
-                      <ClanBadge src={`/assets/badges/${badgeName}.png`} alt="Badge" fill />
+                      <ClanBadge alt="Badge" fill src={`/assets/badges/${badgeName}.png`} />
                     </ClanBadgeDiv>
                   </Cell>
                   <Cell
@@ -515,10 +515,10 @@ export default function Leaderboard({ region, data }) {
                     }}
                   >
                     <Flag
-                      src={`/assets/flags/${getCountryKeyById(c.location.id)}.png`}
-                      height={flagHeightPx}
-                      width={flagWidthPx}
                       alt="Flag"
+                      height={flagHeightPx}
+                      src={`/assets/flags/${getCountryKeyById(c.location.id)}.png`}
+                      width={flagWidthPx}
                     />
                   </Cell>
                   <CenterCell
@@ -560,19 +560,19 @@ export default function Leaderboard({ region, data }) {
       </Main>
 
       <LocationsModal
-        setIsModalOpen={setIsModalOpen}
         isOpen={isModalOpen}
         locations={Locations.map((l) => ({
           name: l.name,
           url: `/leaderboard/daily/${l.key}${league ? `?league=${league}` : ""}`,
         }))}
+        setIsModalOpen={setIsModalOpen}
       />
     </>
   )
 }
 
 export async function getServerSideProps(context) {
-  const { location: key, league } = context.query
+  const { league, location: key } = context.query
   const region = getRegionByKey(key)
 
   if (!region) {

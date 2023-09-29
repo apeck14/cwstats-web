@@ -40,9 +40,9 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
     <SessionProvider session={session}>
       <Head>
         <meta
-          name="viewport"
           content="minimum-scale=1, initial-scale=1, width=device-width"
           key="viewport"
+          name="viewport"
         />
       </Head>
 
@@ -53,9 +53,7 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
 
       <Container className={SourceSans3.className}>
         <DefaultSeo
-          title="CWStats"
           description="The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks."
-          themeColor={gray["75"]}
           openGraph={{
             description:
               "The trusted source for everything Clan Wars. Explore advanced statistics, leaderboards and projections while you climb the ranks.",
@@ -70,6 +68,8 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
             type: "website",
             url: `https://www.cwstats.com${router.asPath}`,
           }}
+          themeColor={gray["75"]}
+          title="CWStats"
         />
         <Navbar />
         <Content>

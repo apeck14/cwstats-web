@@ -57,7 +57,7 @@ export default function Abbreviations({ abbrList, defaultClan }) {
         abbreviations
           .sort((a, b) => a.abbr.localeCompare(b.abbr))
           .map((a, index) => (
-            <Item key={a.abbr} abbr={a} index={index} handleDelete={handleDelete} />
+            <Item abbr={a} handleDelete={handleDelete} index={index} key={a.abbr} />
           ))
       )}
       <Remaining>
@@ -65,8 +65,8 @@ export default function Abbreviations({ abbrList, defaultClan }) {
       </Remaining>
       <AddAbbr
         abbreviations={abbreviations}
-        setAbbreviations={setAbbreviations}
         serverId={serverId}
+        setAbbreviations={setAbbreviations}
       />
     </>
   )

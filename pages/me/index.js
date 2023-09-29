@@ -43,18 +43,18 @@ export default function Me({ guilds }) {
   return (
     <>
       <NextSeo
-        title="My CWStats"
         description="View your saved players, clans, and customize CWStats Discord bot settings for your servers."
         openGraph={{
           description:
             "View your saved players, clans, and customize CWStats Discord bot settings for your servers.",
           title: "My CWStats",
         }}
+        title="My CWStats"
       />
 
       <Header
-        title="My CWStats"
         description="Manage your Discord servers, saved clans, and players!"
+        title="My CWStats"
       />
       <SubNav />
       <Content>
@@ -64,7 +64,7 @@ export default function Me({ guilds }) {
             <Here href={DISCORD_BOT_INVITE_LINK}>here</Here>.
           </NoGuilds>
         ) : (
-          guilds.map((g) => <Item key={g.id} guild={g} />)
+          guilds.map((g) => <Item guild={g} key={g.id} />)
         )}
       </Content>
     </>

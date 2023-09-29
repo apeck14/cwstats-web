@@ -93,16 +93,16 @@ export default function ClanLogsOverview({ clanTag, log }) {
             </TH>
             <TH>
               <ThIcon
-                src="/assets/icons/boat-movement.png"
                 height={iconPx}
+                src="/assets/icons/boat-movement.png"
                 width={isMobile ? 16 : 21}
               />
             </TH>
             <TH>
-              <ThIcon src="/assets/icons/battle.png" height={iconPx} width={iconPx} />
+              <ThIcon height={iconPx} src="/assets/icons/battle.png" width={iconPx} />
             </TH>
             <TH align="right">
-              <ThIcon src="/assets/icons/cw-trophy.png" height={iconPx} width={iconPx} />
+              <ThIcon height={iconPx} src="/assets/icons/cw-trophy.png" width={iconPx} />
             </TH>
           </Row>
         </thead>

@@ -67,7 +67,7 @@ const DayContent = styled.div`
   row-gap: 0.25rem;
 `
 
-export default function WeekCard({ setGraphDay, setGraphWeek, data, weekNum, graphDay, graphWeek }) {
+export default function WeekCard({ data, graphDay, graphWeek, setGraphDay, setGraphWeek, weekNum }) {
   const daysObj = groupBy(data, "day")
 
   const handleClick = (day, week) => {
@@ -91,9 +91,9 @@ export default function WeekCard({ setGraphDay, setGraphWeek, data, weekNum, gra
 
           return (
             <Day
+              $isActive={dayNum === graphDay && weekNum === graphWeek}
               key={d}
               onClick={() => handleClick(dayNum, weekNum)}
-              $isActive={dayNum === graphDay && weekNum === graphWeek}
             >
               <Row>
                 <DayTitle>Day {d}</DayTitle>

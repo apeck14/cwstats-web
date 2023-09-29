@@ -73,7 +73,7 @@ const SearchIcon = styled(BiSearchAlt)`
   font-size: 1.25rem;
 `
 
-export default function SearchDropdown({ showSearch, setShowSearch }) {
+export default function SearchDropdown({ setShowSearch, showSearch }) {
   const router = useRouter()
   const [clanSearch, setClanSearch] = useState("")
   const [playerSearch, setPlayerSearch] = useState("")
@@ -158,7 +158,7 @@ export default function SearchDropdown({ showSearch, setShowSearch }) {
         <SearchDiv>
           <Text>Players</Text>
           <SearchBarDiv>
-            <SearchBar placeholder="Name or tag, e.g. VGRQ9CVG" onChange={handlePlayerSearchChange} />
+            <SearchBar onChange={handlePlayerSearchChange} placeholder="Name or tag, e.g. VGRQ9CVG" />
             <SearchButton onClick={handlePlayerSubmit}>
               <SearchIcon />
             </SearchButton>

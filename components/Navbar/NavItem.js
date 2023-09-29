@@ -94,7 +94,7 @@ export default function NavItem({ children, isActive, type, url }) {
 
   return (
     <Container onMouseEnter={() => setShowSubMenu(true)} onMouseLeave={() => setShowSubMenu(false)}>
-      <Header onClick={handleHeaderClick} $isActive={isActive}>
+      <Header $isActive={isActive} onClick={handleHeaderClick}>
         {children}
       </Header>
       {showSubMenu && type === "leaderboards" && (

@@ -46,7 +46,7 @@ const NoData = styled.p`
   font-size: 1.25rem;
 `
 
-export default function ClanStats({ clan, saved, badgeName, plus }) {
+export default function ClanStats({ badgeName, clan, plus, saved }) {
   if (!plus) return <ComingSoon />
 
   const WEEK_KEYS = Object.keys(plus.dailyAverages)
@@ -72,7 +72,6 @@ export default function ClanStats({ clan, saved, badgeName, plus }) {
   return (
     <>
       <NextSeo
-        title={`${clan.name} ${clan.tag} | CWStats+ - CWStats`}
         description={clan.description}
         openGraph={{
           description: clan.description,
@@ -84,9 +83,10 @@ export default function ClanStats({ clan, saved, badgeName, plus }) {
           ],
           title: `${clan.name} ${clan.tag} | CWStats+ - CWStats`,
         }}
+        title={`${clan.name} ${clan.tag} | CWStats+ - CWStats`}
       />
 
-      <ClanHeader saved={saved} badgeName={badgeName} clan={clan} />
+      <ClanHeader badgeName={badgeName} clan={clan} saved={saved} />
 
       <SubNav />
 
@@ -108,13 +108,13 @@ export default function ClanStats({ clan, saved, badgeName, plus }) {
                 const weekNum = Number(w)
                 return (
                   <WeekCard
+                    data={plus.dailyAverages[weekNum]}
+                    graphDay={graphDay}
+                    graphWeek={graphWeek}
                     key={weekNum}
                     setGraphDay={setGraphDay}
                     setGraphWeek={setGraphWeek}
-                    data={plus.dailyAverages[weekNum]}
                     weekNum={weekNum}
-                    graphWeek={graphWeek}
-                    graphDay={graphDay}
                   />
                 )
               })
@@ -128,7 +128,7 @@ export default function ClanStats({ clan, saved, badgeName, plus }) {
   )
 }
 
-export async function getServerSideProps({ req, res, params }) {
+export async function getServerSideProps({ params, req, res }) {
   const { tag } = params
 
   try {

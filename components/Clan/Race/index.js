@@ -126,7 +126,7 @@ const AvgFame = styled.p`
   }
 `
 
-export default function Race({ race, isColosseum, dayOfWeek }) {
+export default function Race({ dayOfWeek, isColosseum, race }) {
   const router = useRouter()
   const { width } = useWindowSize()
 
@@ -147,14 +147,14 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
 
         return (
           <ClanDiv
-            key={c.tag}
             isClan={c.tag === race.clan.tag}
+            key={c.tag}
             onClick={() => handleClick(c.tag)}
           >
             {/* Rank Icon */}
             {(c.placement !== Infinity || c.crossedFinishLine) && (
               <IconDiv>
-                <RaceIcon place={c.placement} isFinished={c.crossedFinishLine} />
+                <RaceIcon isFinished={c.crossedFinishLine} place={c.placement} />
               </IconDiv>
             )}
 
@@ -162,13 +162,13 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
               <Row>
                 <Column>
                   <Badge
+                    alt={c.name}
+                    height={showMobileView ? 24 : 32}
                     src={`/assets/badges/${getClanBadgeFileName(
                       c.badgeId,
                       c.trophies
                     )}.png`}
-                    height={showMobileView ? 24 : 32}
                     width={showMobileView ? 18 : 24}
-                    alt={c.name}
                   />
                   <Name>{c.name}</Name>
                 </Column>
@@ -177,10 +177,10 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
                   <Column>
                     {c.trophies}
                     <Icon
-                      src="/assets/icons/cw-trophy.png"
-                      height={showMobileView ? 18 : 20}
-                      width={showMobileView ? 18 : 20}
                       alt="War Trophies"
+                      height={showMobileView ? 18 : 20}
+                      src="/assets/icons/cw-trophy.png"
+                      width={showMobileView ? 18 : 20}
                     />
                   </Column>
                 )}
@@ -188,20 +188,20 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
                 <Column>
                   {c.boatPoints}
                   <Icon
-                    src="/assets/icons/boat-movement.png"
-                    height={showMobileView ? 18 : 20}
-                    width={showMobileView ? 22 : 24}
                     alt="Boat Points"
+                    height={showMobileView ? 18 : 20}
+                    src="/assets/icons/boat-movement.png"
+                    width={showMobileView ? 22 : 24}
                   />
                 </Column>
 
                 <Column>
                   {c.fame}
                   <Icon
-                    src="/assets/icons/fame.png"
-                    height={showMobileView ? 18 : 20}
-                    width={showMobileView ? 13 : 15}
                     alt="Fame"
+                    height={showMobileView ? 18 : 20}
+                    src="/assets/icons/fame.png"
+                    width={showMobileView ? 13 : 15}
                   />
                 </Column>
               </Row>

@@ -14,8 +14,8 @@ export default async function SavedClan(req, res) {
       })
     }
 
-    const { method, body } = req
-    const { name, tag, badge } = body
+    const { body, method } = req
+    const { badge, name, tag } = body
 
     if (method !== "PUT" && method !== "POST") {
       return res.status(405).send({

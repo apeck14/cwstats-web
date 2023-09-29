@@ -68,7 +68,7 @@ const Option = styled.p({
   padding: "0.5rem 1rem",
 })
 
-export default function LocationsModal({ isOpen, setIsModalOpen, locations }) {
+export default function LocationsModal({ isOpen, locations, setIsModalOpen }) {
   const router = useRouter()
   const [search, setSearch] = useState("")
 
@@ -78,7 +78,7 @@ export default function LocationsModal({ isOpen, setIsModalOpen, locations }) {
     <Main onClick={() => setIsModalOpen(false)}>
       <Modal onClick={(e) => e.stopPropagation()}>
         <SearchDiv>
-          <SearchBar placeholder="Search locations..." onChange={(e) => setSearch(e.target.value)} />
+          <SearchBar onChange={(e) => setSearch(e.target.value)} placeholder="Search locations..." />
           <SearchIcon />
         </SearchDiv>
         <ContentDiv>

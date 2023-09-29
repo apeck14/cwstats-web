@@ -70,7 +70,7 @@ const ProfileUsername = styled.p`
   }
 `
 
-export default function MeHeader({ title, description }) {
+export default function MeHeader({ description, title }) {
   const { data: session } = useSession()
   const { width } = useWindowSize()
 
@@ -87,9 +87,9 @@ export default function MeHeader({ title, description }) {
 
       <ProfileDiv>
         <ProfilePicture
-          src={session?.user?.image || defaultImage}
           alt="Discord Profile"
           height={profilePicSize}
+          src={session?.user?.image || defaultImage}
           width={profilePicSize}
         />
         <ProfileUsername>{session?.user?.name || "N/A"}</ProfileUsername>

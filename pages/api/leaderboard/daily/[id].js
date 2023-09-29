@@ -5,7 +5,7 @@ import locations from "../../../../public/static/locations"
 export default async function getDailyLeaderboard(req, res) {
   try {
     const { query } = req
-    const { id: idStr, limit, minTrophies, maxTrophies } = query
+    const { id: idStr, limit, maxTrophies, minTrophies } = query
 
     const id = idStr === "global" ? "global" : Number(idStr)
 

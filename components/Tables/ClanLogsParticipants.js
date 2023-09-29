@@ -71,13 +71,13 @@ export default function ClanLogsParticipants({ participants }) {
           <TH>#</TH>
           <TH $textAlign="left">Participants: {sortedParticipants.length}</TH>
           <TH>
-            <Icon src="/assets/icons/decks.png" width={iconPx} height={iconPx} />
+            <Icon height={iconPx} src="/assets/icons/decks.png" width={iconPx} />
           </TH>
           <TH>
-            <Icon src="/assets/icons/boat-attack-points.png" width={isMobile ? 15 : 19} height={iconPx} />
+            <Icon height={iconPx} src="/assets/icons/boat-attack-points.png" width={isMobile ? 15 : 19} />
           </TH>
           <TH>
-            <Icon src="/assets/icons/fame.png" width={isMobile ? 10 : 13} height={iconPx} />
+            <Icon height={iconPx} src="/assets/icons/fame.png" width={isMobile ? 10 : 13} />
           </TH>
         </Row>
       </thead>

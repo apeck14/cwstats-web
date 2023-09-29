@@ -50,19 +50,19 @@ const RightDiv = styled.div({
 const Icon = styled(Image)({})
 
 const Name = styled(Link)({
-  "&:hover": {
-    color: gray["25"],
-    cursor: "pointer",
-  },
   "@media (max-width: 1024px)": {
     fontSize: "0.9rem",
   },
   "@media (max-width: 480px)": {
     fontSize: "0.75rem",
   },
-
   "@media (max-width: 768px)": {
     fontSize: "0.8rem",
+  },
+
+  "&:hover": {
+    color: gray["25"],
+    cursor: "pointer",
   },
 
   color: gray["0"],
@@ -82,12 +82,12 @@ const Tag = styled.p({
 })
 
 const ContentLink = styled(Link)({
+  "@media (max-width: 768px)": {
+    fontSize: "0.75rem",
+  },
   "&:hover": {
     cursor: "pointer",
     textDecoration: "underline",
-  },
-  "@media (max-width: 768px)": {
-    fontSize: "0.75rem",
   },
   color: orange,
 
@@ -109,11 +109,11 @@ const Bookmark = styled(FaBookmark)({})
 
 const BookmarkFill = styled(FaRegBookmark)({})
 
-export default function SavedItem({ data, links, isPlayer }) {
+export default function SavedItem({ data, isPlayer, links }) {
   const [isSaved, setIsSaved] = useState(true)
   const { width } = useWindowSize()
 
-  const { name, tag, badge } = data
+  const { badge, name, tag } = data
 
   const updateSavedItem = useDebouncedCallback(() => {
     if (isPlayer) {
@@ -139,10 +139,10 @@ export default function SavedItem({ data, links, isPlayer }) {
     <ContentItem>
       <IconDiv>
         <Icon
-          src={iconSrc}
           alt="Icon"
-          width={isPlayer ? profileIconWidth : clanBadgeWidthPx}
           height={isPlayer ? profileIconHeight : clanBadgeHeightPx}
+          src={iconSrc}
+          width={isPlayer ? profileIconWidth : clanBadgeWidthPx}
         />
       </IconDiv>
       <LeftDiv>
@@ -151,7 +151,7 @@ export default function SavedItem({ data, links, isPlayer }) {
       </LeftDiv>
       <RightDiv>
         {links.map((l) => (
-          <ContentLink key={tag} href={l.url}>
+          <ContentLink href={l.url} key={tag}>
             {l.name}
           </ContentLink>
         ))}
