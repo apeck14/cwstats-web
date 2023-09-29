@@ -15,7 +15,7 @@ const Rank = styled.div`
   color: ${gray["0"]};
   font-size: 1rem;
   background-color: ${({ $backgroundColor }) => $backgroundColor};
-  outline: ${({ $borderColor }) => `2px solid ${$borderColor}`};
+  box-shadow: ${({ $borderColor }) => `0 0 0 2px ${$borderColor}`};
   border-radius: 0.5rem;
   font-weight: 600;
 
