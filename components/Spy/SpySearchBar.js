@@ -186,20 +186,22 @@ export default function SpySearchBar({
     const [log, player] = await Promise.all([getBattleLog(pTag), getPlayer(pTag)])
     const playerDecks = await getWarDecksFromLog(log)
 
-    addPlayer()
-
     const { name, tag } = player
 
-    const clanName = player?.clan?.name
+    const clanName = player?.clan?.name || ""
     let badge = "no_clan"
+    let clanTag = ""
+
+    addPlayer(name, tag, clanName)
 
     if (clanName) {
       const clan = await getClan(player.clan.tag.substring(1))
       badge = getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)
+      clanTag = player.clan.tag
     }
 
     setDecks(playerDecks)
-    setPlayer({ badge, clanName, name, tag })
+    setPlayer({ badge, clanName, clanTag, name, tag })
     setShowDecksSpinner(false)
   }
 

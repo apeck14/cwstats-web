@@ -1,6 +1,6 @@
 import { bronze, bronzeOrange, goldOrange, goldYellow, gray, silver, silverWhite } from "../public/static/colors"
 import specialGamemodes from "../public/static/special-gamemodes"
-import { parseDate } from "./date-time"
+import { parseDate, relativeDateStr } from "./date-time"
 
 export const formatClanType = (type) => {
   if (type === "inviteOnly") return "Invite Only"
@@ -138,14 +138,14 @@ export const getRaceDetails = (race, isColosseum) => {
   const boatAccessor = isColosseum ? "periodPoints" : "fame"
 
   const newRace = race.map((c) => ({
-    name: c.name,
-    tag: c.tag,
-    fame: c[fameAccessor],
-    boatPoints: c[boatAccessor],
     badgeId: c.badgeId,
-    trophies: c.clanScore,
-    placement: Infinity,
+    boatPoints: c[boatAccessor],
     crossedFinishLine: c[boatAccessor] >= 10000,
+    fame: c[fameAccessor],
+    name: c.name,
+    placement: Infinity,
+    tag: c.tag,
+    trophies: c.clanScore,
   }))
 
   const clansWithPointsSorted = newRace.filter((cl) => cl.fame > 0).sort((a, b) => b.fame - a.fame)
@@ -250,8 +250,8 @@ export const getProjPlace = (race, isColosseum, dayOfWeek) => {
   if (!race || !race.clans) return "N/A"
 
   const clanProjections = race.clans.map((c) => ({
-    tag: c.tag,
     fame: getProjFame(c, isColosseum, dayOfWeek),
+    tag: c.tag,
   }))
 
   const projPlacements = getCurrentPlacements(clanProjections)
@@ -271,13 +271,13 @@ export const getBestPlace = (race, isColosseum, dayOfWeek) => {
   const clanProjections = race.clans.map((c) => {
     if (c.tag === race.clan.tag) {
       return {
-        tag: c.tag,
         fame: getMaxFame(c, isColosseum, dayOfWeek),
+        tag: c.tag,
       }
     }
     return {
-      tag: c.tag,
       fame: getMinFame(c, isColosseum, dayOfWeek),
+      tag: c.tag,
     }
   })
 
@@ -298,13 +298,13 @@ export const getWorstPlace = (race, isColosseum, dayOfWeek) => {
   const clanProjections = race.clans.map((c) => {
     if (c.tag === race.clan.tag) {
       return {
-        tag: c.tag,
         fame: getMinFame(c, isColosseum, dayOfWeek),
+        tag: c.tag,
       }
     }
     return {
-      tag: c.tag,
       fame: getMaxFame(c, isColosseum, dayOfWeek),
+      tag: c.tag,
     }
   })
 
@@ -344,8 +344,8 @@ export const handleSCResponse = async (res) => {
   if (res.ok) return data.items || data
 
   throw {
-    status: res.status,
     message: res.statusText,
+    status: res.status,
   }
 }
 
@@ -383,7 +383,7 @@ const sharesCards = (cards1, cards2) => {
   return false
 }
 
-const addDeck = (cards, playerDecks, img, type = "other") => {
+const addDeck = ({ cards, img, playerDecks, timestamp, type = "other" }) => {
   const allPlayerDecks = [...playerDecks.duel, ...playerDecks.other]
 
   for (const d of allPlayerDecks) {
@@ -393,15 +393,15 @@ const addDeck = (cards, playerDecks, img, type = "other") => {
   if (allPlayerDecks.length <= 3) {
     // if duel is already full add to other
     if (type === "duel" && playerDecks.duel.length >= 3) {
-      playerDecks.other.push({ img, cards })
+      playerDecks.other.push({ cards, dateStr: relativeDateStr(parseDate(timestamp), false), img })
     } else {
-      playerDecks[type].push({ img, cards })
+      playerDecks[type].push({ cards, dateStr: relativeDateStr(parseDate(timestamp), false), img })
     }
   }
 }
 
 /**
- * return { duel: [{ img: "", cards: []}], singles: [{ img: "", cards: []}]}
+ * return { duel: [{ img: "", dateStr: "", cards: []}], singles: [{ img: "", dateStr: "", cards: []}]}
  */
 export const getWarDecksFromLog = (log) =>
   new Promise((resolve) => {
@@ -416,8 +416,9 @@ export const getWarDecksFromLog = (log) =>
     if (mostRecentDuel) {
       for (const r of mostRecentDuel.team[0].rounds) {
         playerDecks.duel.push({
-          img: "duel",
           cards: r.cards.map((c) => `${c.name}${c.evolutionLevel ? " Evo" : ""}`),
+          dateStr: relativeDateStr(parseDate(mostRecentDuel.battleTime), false),
+          img: "duel",
         })
       }
     }
@@ -435,12 +436,12 @@ export const getWarDecksFromLog = (log) =>
             ? "battle"
             : specialGamemodes.find((gm) => gm.name === m.gameMode.name).img
 
-        addDeck(cards, playerDecks, imgPath)
+        addDeck({ cards, img: imgPath, playerDecks, timestamp: m.battleTime })
       } else if (m.type === "riverRaceDuel" || m.type === "riverRaceDuelColosseum") {
         for (const r of m.team[0].rounds) {
           const cards = r.cards.map((c) => `${c.name}${c.evolutionLevel ? " Evo" : ""}`)
 
-          addDeck(cards, playerDecks, "duel", "duel")
+          addDeck({ cards, img: "duel", playerDecks, timestamp: m.battleTime, type: "duel" })
         }
       }
       index++

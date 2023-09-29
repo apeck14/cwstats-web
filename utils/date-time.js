@@ -94,7 +94,7 @@ export const getUsersTimezone = () => {
   const timezone = tz.guess()
   const offset = tz(timezone).format("Z")
 
-  return { timezone, offset }
+  return { offset, timezone }
 }
 
 export const timestamptoHHMM = (timestamp) => {

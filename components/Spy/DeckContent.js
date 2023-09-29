@@ -38,10 +38,13 @@ const Clan = styled.div`
 
 const Badge = styled(Image)``
 
-const ClanName = styled.p`
+const ClanName = styled(Name)`
   font-size: 1.1rem;
-  font-weight: 600;
   color: ${gray["25"]};
+
+  &:hover {
+    color: ${({ isInClan }) => isInClan && pink};
+  }
 `
 
 const Title = styled.h4`
@@ -50,8 +53,8 @@ const Title = styled.h4`
   margin: 1.25rem 0 0.5rem 0;
 
   @media (max-width: 480px) {
-    font-size: 1.2rem;
-    margin: 0.5rem 0;
+    font-size: 1.3rem;
+    margin: 1rem 0 0.5rem 0;
   }
 `
 
@@ -64,10 +67,12 @@ const Decks = styled.div`
 const DeckContainer = styled.div`
   display: flex;
   align-items: center;
-  column-gap: 1rem;
+  gap: 1rem;
+  flex-wrap: wrap;
 
   @media (max-width: 480px) {
-    column-gap: 0.5rem;
+    column-gap: 1rem;
+    row-gap: 0.25rem;
   }
 `
 
@@ -102,6 +107,14 @@ const Card = styled(Image)``
 
 const Icon = styled(Image)``
 
+const Timestamp = styled.p`
+  color: ${gray["25"]};
+
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+`
+
 export default function DeckContent({ decks, player }) {
   const { width } = useWindowSize()
 
@@ -111,13 +124,17 @@ export default function DeckContent({ decks, player }) {
   const clanBadgeHeight = isMobile ? 22 : 26
   const clanBadgeWidth = isMobile ? 16 : 20
 
+  console.log(decks)
+
   return (
     <>
       <Header>
         <Name href={`/player/${player?.tag?.substring(1)}`}>{player?.name}</Name>
         <Clan>
           <Badge height={clanBadgeHeight} src={`/assets/badges/${player?.badge}.png`} width={clanBadgeWidth} />
-          <ClanName>{player?.clanName || "None"}</ClanName>
+          <ClanName href={player?.clanTag ? `/clan/${player?.clanTag?.substring(1)}` : ""} isInClan={player?.clanTag}>
+            {player?.clanName || "None"}
+          </ClanName>
         </Clan>
       </Header>
 
@@ -137,6 +154,7 @@ export default function DeckContent({ decks, player }) {
                     />
                   ))}
                 </Deck>
+                <Timestamp>{d.dateStr}</Timestamp>
               </DeckContainer>
             ))}
           </Decks>
@@ -159,6 +177,7 @@ export default function DeckContent({ decks, player }) {
                     />
                   ))}
                 </Deck>
+                <Timestamp>{d.dateStr}</Timestamp>
               </DeckContainer>
             ))}
           </Decks>

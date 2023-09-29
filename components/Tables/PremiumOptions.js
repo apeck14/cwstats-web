@@ -206,7 +206,7 @@ export default function PremiumOptionsTable() {
           <Cell $backgroundColor={gray["75"]} />
         </Row>
         <Row $backgroundColor={gray["90"]}>
-          <Cell align="left">Special clan badge on website</Cell>
+          <Cell $align="left">Special clan badge on website</Cell>
           {!isTablet && <Cell />}
           <Cell>✅</Cell>
           <Cell $backgroundColor={gray["75"]}>✅</Cell>
