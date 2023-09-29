@@ -1,3 +1,5 @@
+/* eslint perfectionist/sort-objects: 0 */
+
 import clientPromise from "../../../../lib/mongodb"
 import locations from "../../../../public/static/locations"
 
@@ -41,10 +43,10 @@ export default async function getDailyLeaderboard(req, res) {
           },
         })
         .sort({
-          clanScore: -1,
-          fameAvg: -1,
           notRanked: 1,
+          fameAvg: -1,
           rank: 1,
+          clanScore: -1,
         })
         .limit(limitQuery)
         .toArray(),

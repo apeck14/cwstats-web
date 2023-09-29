@@ -1,3 +1,5 @@
+/* eslint perfectionist/sort-objects: 0 */
+
 import Image from "next/image"
 import Link from "next/link"
 import { useRouter } from "next/router"
@@ -16,286 +18,254 @@ import Locations from "../../../public/static/locations"
 import { diffInMins } from "../../../utils/date-time"
 import { getClanBadgeFileName, getCountryKeyById, getRegionByKey } from "../../../utils/files"
 
-const Main = styled.div({
-  "@media (max-width: 1024px)": {
-    width: "100%",
-  },
-  "@media (max-width: 1200px)": {
-    width: "80%",
-  },
+const Main = styled.div`
+  @media (max-width: 1024px) {
+    width: 100%;
+  }
+  @media (max-width: 1200px) {
+    width: 80%;
+  }
+  margin: 0 auto;
+  width: 70rem;
+`
 
-  margin: "0 auto",
+const HeaderDiv = styled.div`
+  @media (max-width: 480px) {
+    padding: 0.75rem;
+  }
+  align-items: center;
+  background: linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%);
+  display: flex;
+  justify-content: space-between;
+  padding: 2rem;
+`
 
-  width: "70rem",
-})
+const Header = styled.h1`
+  @media (max-width: 1024px) {
+    font-size: 2rem;
+  }
+  @media (max-width: 400px) {
+    font-size: 0.9rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 1.15rem;
+  }
+  color: ${gray["0"]};
+  font-size: 2.5rem;
+`
 
-const HeaderDiv = styled.div({
-  "@media (max-width: 480px)": {
-    padding: "0.75rem",
-  },
-  alignItems: "center",
-  // eslint-disable-next-line no-dupe-keys
-  background: `linear-gradient(3600deg, ${gray["75"]} 0%, ${gray["50"]} 100%)`,
-  display: "flex",
-  justifyContent: "space-between",
+const HeaderIcon = styled(Image)``
 
-  padding: "2rem",
-})
+const ControlDiv = styled.div`
+  @media (max-width: 480px) {
+    height: 2rem;
+  }
+  background-color: ${gray["100"]};
+  display: flex;
+  height: 2.25rem;
+  justify-content: space-between;
+`
 
-const Header = styled.h1({
-  "@media (max-width: 1024px)": {
-    fontSize: "2rem",
-  },
-  "@media (max-width: 400px)": {
-    fontSize: "0.9rem",
-  },
+const LeftControlDiv = styled.div`
+  background-color: ${gray["100"]};
+  color: ${gray["0"]};
+  display: flex;
+`
 
-  "@media (max-width: 480px)": {
-    fontSize: "1.15rem",
-  },
+const RightControlDiv = styled.div`
+  background-color: green;
+  display: flex;
+`
 
-  color: gray["0"],
+const ToggleDiv = styled.div`
+  @media (max-width: 1024px) {
+    padding: 0.75rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 0.6rem;
+  }
+  &:hover {
+    cursor: pointer;
+  }
+  align-items: center;
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+`
 
-  fontSize: "2.5rem",
-})
+const PaginationDiv = styled.div`
+  @media (max-width: 1024px) {
+    padding: 0.75rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+  &:hover {
+    cursor: pointer;
+    filter: brightness(80%);
+  }
+  align-items: center;
+  background-color: ${orange};
+  color: ${gray["0"]};
+  display: flex;
+  justify-content: center;
+  padding: 1rem;
+`
 
-const HeaderIcon = styled(Image)({})
+const RegionDropdown = styled.div`
+  @media (max-width: 1024px) {
+    padding: 0.75rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.6rem;
+    padding: 0.6rem;
+  }
+  &:hover {
+    color: ${gray["25"]};
+    cursor: pointer;
+  }
+  align-items: center;
+  background-color: ${gray["75"]};
+  display: flex;
+  padding: 1rem;
+`
 
-const ControlDiv = styled.div({
-  "@media (max-width: 480px)": {
-    height: "2rem",
-  },
-  backgroundColor: gray["100"],
-  display: "flex",
-  height: "2.25rem",
+const LeagueToggle = styled(Link)`
+  @media (max-width: 1024px) {
+    padding: 0.75rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 0.6rem;
+  }
+  &:hover {
+    color: ${gray["25"]};
+    cursor: pointer;
+  }
+  align-items: center;
+  color: ${gray["0"]};
+  display: flex;
+  padding: 1rem;
+  text-decoration: none;
+`
 
-  justifyContent: "space-between",
-})
+const InfoDiv = styled.div`
+  @media (max-width: 1024px) {
+    padding: 0 0.5rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.75rem;
+    margin: 1rem 0;
+  }
+  color: ${gray["25"]};
+  display: flex;
+  justify-content: space-between;
+  margin: 1.5rem 0;
+`
 
-const LeftControlDiv = styled.div({
-  backgroundColor: gray["100"],
-  color: gray["0"],
-  display: "flex",
-})
+const LastUpdated = styled.p``
 
-const RightControlDiv = styled.div({
-  backgroundColor: "green",
-  display: "flex",
-})
+const PageData = styled.p``
 
-const ToggleDiv = styled.div({
-  "@media (max-width: 1024px)": {
-    padding: "0.75rem",
-  },
-  "@media (max-width: 480px)": {
-    fontSize: "0.7rem",
-    padding: "0.6rem",
-  },
-  "&:hover": {
-    cursor: "pointer",
-  },
-  alignItems: "center",
+const ContentTable = styled.table`
+  border-collapse: collapse;
+  margin-bottom: 1rem;
+  width: 100%;
+`
 
-  display: "flex",
+const Row = styled.tr`
+  color: ${gray["0"]};
+`
 
-  justifyContent: "center",
+const THead = styled.th`
+  @media (max-width: 480px) {
+    padding: 0.25rem 0.4rem;
+  }
+  border-bottom: 2px solid ${pink};
+  color: ${gray["25"]};
+  padding: 0.5rem 0.75rem;
+`
 
-  padding: "1rem",
-})
+const Cell = styled.td`
+  @media (max-width: 1024px) {
+    font-size: 0.8rem;
+    padding: 0.5rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 0.4rem;
+  }
+  border-top: 1px solid ${gray["50"]};
+  padding: 0.75rem;
+`
 
-const PaginationDiv = styled.div({
-  "@media (max-width: 1024px)": {
-    padding: "0.75rem",
-  },
-  "@media (max-width: 480px)": {
-    fontSize: "0.8rem",
-    padding: "0.5rem",
-  },
-  "&:hover": {
-    cursor: "pointer",
-    filter: "brightness(80%)",
-  },
-  alignItems: "center",
-  backgroundColor: orange,
-  color: gray["0"],
+const Name = styled(Link)`
+  @media (max-width: 480px) {
+    font-size: 0.8rem;
+  }
+  &:hover {
+    color: ${pink};
+    cursor: pointer;
+  }
+  color: ${gray["0"]};
+  text-decoration: none;
+`
 
-  display: "flex",
+const CenterCell = styled(Cell)`
+  text-align: center;
+`
 
-  justifyContent: "center",
+const FameCell = styled(Cell)`
+  @media (max-width: 1024px) {
+    font-size: 0.85rem;
+  }
+  @media (max-width: 480px) {
+    font-size: 0.7rem;
+    padding: 0.5rem;
+  }
+  background-color: ${gray["50"]};
+  font-size: 1.05rem;
+  text-align: center;
+`
 
-  padding: "1rem",
-})
+const ClanBadgeDiv = styled.div`
+  @media (max-width: 480px) {
+    height: 1.3rem;
+    width: 0.95rem;
+  }
+  height: 2rem;
+  overflow: hidden;
+  position: relative;
+  width: 1.4rem;
+`
 
-const RegionDropdown = styled.div({
-  "@media (max-width: 1024px)": {
-    padding: "0.75rem",
-  },
-  "@media (max-width: 480px)": {
-    fontSize: "0.6rem",
-    padding: "0.6rem",
-  },
-  "&:hover": {
-    color: gray["25"],
-    cursor: "pointer",
-  },
-  alignItems: "center",
+const ClanBadge = styled(Image)`
+  height: auto;
+  max-height: 100%;
+  max-width: 100%;
+  object-fit: contain;
+  width: auto;
+`
 
-  backgroundColor: gray["75"],
+const Flag = styled(Image)`
+  vertical-align: middle;
+`
 
-  display: "flex",
+const GlobeIcon = styled(FcGlobe)``
 
-  padding: "1rem",
-})
+const TrophiesIcon = styled(Image)``
 
-const LeagueToggle = styled(Link)({
-  "@media (max-width: 1024px)": {
-    padding: "0.75rem",
-  },
-  "@media (max-width: 480px)": {
-    fontSize: "0.7rem",
-    padding: "0.6rem",
-  },
-  "&:hover": {
-    color: gray["25"],
-    cursor: "pointer",
-  },
-  alignItems: "center",
-  color: gray["0"],
-
-  display: "flex",
-
-  padding: "1rem",
-
-  textDecoration: "none",
-})
-
-const InfoDiv = styled.div({
-  "@media (max-width: 1024px)": {
-    padding: "0 0.5rem",
-  },
-  "@media (max-width: 480px)": {
-    fontSize: "0.75rem",
-    margin: "1rem 0",
-  },
-  color: gray["25"],
-  display: "flex",
-
-  justifyContent: "space-between",
-
-  margin: "1.5rem 0",
-})
-
-const LastUpdated = styled.p({})
-
-const PageData = styled.p({})
-
-const ContentTable = styled.table({
-  borderCollapse: "collapse",
-  marginBottom: "1rem",
-  width: "100%",
-})
-
-const Row = styled.tr({
-  color: gray["0"],
-})
-
-const THead = styled.th({
-  "@media (max-width: 480px)": {
-    padding: "0.25rem 0.4rem",
-  },
-  borderBottom: `2px solid ${pink}`,
-  color: gray["25"],
-
-  padding: "0.5rem 0.75rem",
-})
-
-const Cell = styled.td({
-  "@media (max-width: 1024px)": {
-    fontSize: "0.8rem",
-    padding: "0.5rem",
-  },
-  "@media (max-width: 480px)": {
-    fontSize: "0.7rem",
-    padding: "0.4rem",
-  },
-
-  borderTop: `1px solid ${gray["50"]}`,
-
-  padding: "0.75rem",
-})
-
-const Name = styled(Link)({
-  "@media (max-width: 480px)": {
-    fontSize: "0.8rem",
-  },
-  "&:hover": {
-    color: pink,
-    cursor: "pointer",
-  },
-
-  color: gray["0"],
-
-  textDecoration: "none",
-})
-
-const CenterCell = styled(Cell)({
-  textAlign: "center",
-})
-
-const FameCell = styled(Cell)({
-  "@media (max-width: 1024px)": {
-    fontSize: "0.85rem",
-  },
-  "@media (max-width: 480px)": {
-    fontSize: "0.7rem",
-    padding: "0.5rem",
-  },
-  backgroundColor: gray["50"],
-
-  fontSize: "1.05rem",
-
-  textAlign: "center",
-})
-
-const ClanBadgeDiv = styled.div({
-  "@media (max-width: 480px)": {
-    height: "1.3rem",
-    width: "0.95rem",
-  },
-  height: "2rem",
-  overflow: "hidden",
-  position: "relative",
-
-  width: "1.4rem",
-})
-
-const ClanBadge = styled(Image)({
-  height: "auto",
-  maxHeight: "100%",
-  maxWidth: "100%",
-  objectFit: "contain",
-  width: "auto",
-})
-
-const Flag = styled(Image)({
-  verticalAlign: "middle",
-})
-
-const GlobeIcon = styled(FcGlobe)({})
-
-const TrophiesIcon = styled(Image)({})
-
-const AtksIcon = styled(Image)({})
+const AtksIcon = styled(Image)``
 
 const NotRanked = styled.p`
   color: ${gray["25"]};
   margin-bottom: 1rem;
-
   @media (max-width: 1024px) {
     font-size: 0.9rem;
     margin-left: 1rem;
   }
-
   @media (max-width: 480px) {
     font-size: 0.75rem;
     margin-left: 0.5rem;
@@ -610,15 +580,17 @@ export async function getServerSideProps(context) {
         },
       })
       .sort({
-        clanScore: -1,
-        fameAvg: -1,
         notRanked: 1,
+        fameAvg: -1,
         rank: 1,
+        clanScore: -1,
       })
       .limit(0)
       .toArray(),
     statistics.findOne(),
   ])
+
+  console.table(dailyLbArr.slice(0, 10))
 
   return {
     props: {
