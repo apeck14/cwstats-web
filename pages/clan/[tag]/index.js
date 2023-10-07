@@ -11,13 +11,7 @@ import clientPromise from "../../../lib/mongodb"
 import { gray } from "../../../public/static/colors"
 import { getLastSeenColor, parseDate, relativeDateStr } from "../../../utils/date-time"
 import { getClanBadgeFileName, getCountryKeyById } from "../../../utils/files"
-import {
-  formatClanType,
-  formatTag,
-  getCRErrorUrl,
-  handleSCResponse,
-  redirect,
-} from "../../../utils/functions"
+import { formatClanType, formatTag, getCRErrorUrl, handleSCResponse, redirect } from "../../../utils/functions"
 import { fetchClan } from "../../../utils/services"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
@@ -117,12 +111,7 @@ export default function ClanHome({ badgeName, clan, members, saved }) {
 
           <StatsRow>
             <StatsItem>
-              <StatsIcon
-                alt="Trophies"
-                height={infoIconPx}
-                src="/assets/icons/trophy-ribbon.png"
-                width={infoIconPx}
-              />
+              <StatsIcon alt="Trophies" height={infoIconPx} src="/assets/icons/trophy-ribbon.png" width={infoIconPx} />
               <StatsInfo>
                 <StatsTitle>Trophies</StatsTitle>
                 <StatsValue>{clan.clanScore}</StatsValue>
@@ -136,19 +125,12 @@ export default function ClanHome({ badgeName, clan, members, saved }) {
                 width={infoIconPx}
               />
               <StatsInfo>
-                <StatsTitle>
-                  {width <= 480 ? "Req. Trophies" : "Required Trophies"}
-                </StatsTitle>
+                <StatsTitle>{width <= 480 ? "Req. Trophies" : "Required Trophies"}</StatsTitle>
                 <StatsValue>{clan.requiredTrophies}</StatsValue>
               </StatsInfo>
             </StatsItem>
             <StatsItem>
-              <StatsIcon
-                alt="Weekly Donations"
-                height={infoIconPx}
-                src="/assets/icons/cards.png"
-                width={infoIconPx}
-              />
+              <StatsIcon alt="Weekly Donations" height={infoIconPx} src="/assets/icons/cards.png" width={infoIconPx} />
               <StatsInfo>
                 <StatsTitle>{width <= 480 ? "Donations" : "Weekly Donations"}</StatsTitle>
                 <StatsValue>{clan.donationsPerWeek}</StatsValue>
@@ -157,24 +139,14 @@ export default function ClanHome({ badgeName, clan, members, saved }) {
           </StatsRow>
           <StatsRow>
             <StatsItem>
-              <StatsIcon
-                alt="Members"
-                height={infoIconPx * 1.2}
-                src="/assets/icons/social.png"
-                width={infoIconPx}
-              />
+              <StatsIcon alt="Members" height={infoIconPx * 1.2} src="/assets/icons/social.png" width={infoIconPx} />
               <StatsInfo>
                 <StatsTitle>Members</StatsTitle>
                 <StatsValue>{clan.members} / 50</StatsValue>
               </StatsInfo>
             </StatsItem>
             <StatsItem>
-              <StatsIcon
-                alt="Type"
-                height={infoIconPx}
-                src="/assets/icons/players.png"
-                width={infoIconPx}
-              />
+              <StatsIcon alt="Type" height={infoIconPx} src="/assets/icons/players.png" width={infoIconPx} />
               <StatsInfo>
                 <StatsTitle>Type</StatsTitle>
                 <StatsValue>{clanType}</StatsValue>
@@ -185,6 +157,7 @@ export default function ClanHome({ badgeName, clan, members, saved }) {
                 alt="Region"
                 height={infoIconPx}
                 src={`/assets/flags/${locationKey}.png`}
+                unoptimized
                 width={infoIconPx}
               />
               <StatsInfo>
@@ -227,7 +200,7 @@ export async function getServerSideProps({ params, req, res }) {
       promises.push(
         linkedAccounts.findOne({
           discordID: user.providerAccountId,
-        })
+        }),
       )
     }
 

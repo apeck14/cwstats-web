@@ -292,6 +292,7 @@ export default function Leaderboard({ data, region }) {
             height={region.name === "Global" ? globalIconPx : flagIconHeightPx}
             key={region.key}
             src={`/assets/flags/${region?.key?.toLowerCase()}.png`}
+            unoptimized
             width={region.name === "Global" ? globalIconPx : flagIconWidthPx}
           />
         </HeaderDiv>
@@ -413,6 +414,7 @@ export default function Leaderboard({ data, region }) {
                       alt="Flag"
                       height={flagHeightPx}
                       src={`/assets/flags/${getCountryKeyById(c.location.id)}.png`}
+                      unoptimized
                       width={flagWidthPx}
                     />
                   </Cell>
