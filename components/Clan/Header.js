@@ -160,11 +160,7 @@ export default function ClanHeader({ badgeName, clan, saved }) {
         <TopHeaderDiv>
           <Name>{clan.name}</Name>
           <IconDiv>
-            {isSaved ? (
-              <BookmarkFill onClick={toggleSavedItem} />
-            ) : (
-              <Bookmark onClick={toggleSavedItem} />
-            )}
+            {isSaved ? <BookmarkFill onClick={toggleSavedItem} /> : <Bookmark onClick={toggleSavedItem} />}
           </IconDiv>
           <InGameLink
             href={`https://link.clashroyale.com/?clanInfo?id=${clan.tag.substring(1)}`}
@@ -177,19 +173,9 @@ export default function ClanHeader({ badgeName, clan, saved }) {
 
         <BottomHeaderDiv>
           <Tag>{clan.tag}</Tag>
-          <Trophy
-            alt="Trophy"
-            height={iconPx}
-            src="/assets/icons/trophy.png"
-            width={iconPx}
-          />
+          <Trophy alt="Trophy" height={iconPx} src="/assets/icons/trophy.png" width={iconPx} />
           {clan.clanScore}
-          <WarTrophy
-            alt="War Trophy"
-            height={iconPx}
-            src="/assets/icons/cw-trophy.png"
-            width={iconPx}
-          />
+          <WarTrophy alt="War Trophy" height={iconPx} src="/assets/icons/cw-trophy.png" width={iconPx} />
           {clan.clanWarTrophies}
         </BottomHeaderDiv>
       </LeftDiv>
@@ -198,6 +184,7 @@ export default function ClanHeader({ badgeName, clan, saved }) {
         alt="Badge"
         height={badgeHeightPx}
         src={`/assets/badges/${badgeName}.png`}
+        unoptimized
         width={badgeWidthPx}
       />
     </HeaderDiv>

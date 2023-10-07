@@ -222,6 +222,7 @@ export default function PlayerHeader({ arenaName, player, saved }) {
           <ClanBadge
             height={width <= 480 ? 23 : 27}
             src={`/assets/badges/${player.clan.badge}.png`}
+            unoptimized
             width={width <= 480 ? 18 : 21}
           />
           <ClanName $isClan={inClan} onClick={inClan ? () => handleClanClick(player?.clan?.tag.substring(1)) : null}>

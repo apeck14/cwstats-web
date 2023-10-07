@@ -131,7 +131,12 @@ export default function DeckContent({ decks, player }) {
       <Header>
         <Name href={`/player/${player?.tag?.substring(1)}`}>{player?.name}</Name>
         <Clan>
-          <Badge height={clanBadgeHeight} src={`/assets/badges/${player?.badge}.png`} width={clanBadgeWidth} />
+          <Badge
+            height={clanBadgeHeight}
+            src={`/assets/badges/${player?.badge}.png`}
+            unoptimized
+            width={clanBadgeWidth}
+          />
           <ClanName href={player?.clanTag ? `/clan/${player?.clanTag?.substring(1)}` : ""} isInClan={player?.clanTag}>
             {player?.clanName || "None"}
           </ClanName>

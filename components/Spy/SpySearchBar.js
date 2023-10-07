@@ -230,6 +230,7 @@ export default function SpySearchBar({
                 <Badge
                   height={30}
                   src={`/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`}
+                  unoptimized
                   width={23}
                 />
               )}

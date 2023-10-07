@@ -62,11 +62,9 @@ export default function SearchItem({ isPlayer, item, skeleton }) {
         src={
           isPlayer
             ? "/assets/icons/king-pink.png"
-            : `/assets/badges/${getClanBadgeFileName(
-                item.badgeId,
-                item.clanWarTrophies
-              )}.png`
+            : `/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`
         }
+        unoptimized
         width={isPlayer ? kingWidth : clanBadgeWidth}
       />
 

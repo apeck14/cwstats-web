@@ -218,6 +218,7 @@ export default function Navbar() {
               height={profilePicSize}
               onClick={() => router.push("/me")}
               src={session.user.image}
+              unoptimized
               width={profilePicSize}
             />
           ) : (

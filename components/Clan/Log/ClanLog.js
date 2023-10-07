@@ -129,10 +129,7 @@ export default function ClanLogItem({ clan, week }) {
 
   const iconPx = isMobile ? 16 : 18
   return (
-    <ContentDiv
-      id={`${week.seasonId}-${week.sectionIndex}`}
-      key={`${week.seasonId}${week.sectionIndex}`}
-    >
+    <ContentDiv id={`${week.seasonId}-${week.sectionIndex}`} key={`${week.seasonId}${week.sectionIndex}`}>
       <ContentHeaderDiv>
         <HeaderText>
           Season {week.seasonId} - Week {week.sectionIndex + 1}
@@ -149,38 +146,26 @@ export default function ClanLogItem({ clan, week }) {
             <ClanItem
               isClan={isClan}
               key={c.clan.tag}
-              onClick={() =>
-                isClan ? null : router.push(`/clan/${c.clan.tag.substring(1)}/log`)
-              }
+              onClick={() => (isClan ? null : router.push(`/clan/${c.clan.tag.substring(1)}/log`))}
             >
               <ClanItemText flex={isMobile ? 0.15 : 0.25}>{c.rank}</ClanItemText>
               <ClanItemText flex={isMobile ? 0.85 : 0.75}>
                 <ClanBadge
                   height={clanBadgeHeight}
-                  src={`/assets/badges/${getClanBadgeFileName(
-                    c.clan.badgeId,
-                    c.clan.clanScore
-                  )}.png`}
+                  src={`/assets/badges/${getClanBadgeFileName(c.clan.badgeId, c.clan.clanScore)}.png`}
+                  unoptimized
                   width={clanBadgeWidth}
                 />
                 {c.clan.name}
               </ClanItemText>
               <ClanItemText alignRight flex={0.5}>
                 {c.clan.fame}
-                <ClanIcon
-                  height={iconPx}
-                  src="/assets/icons/boat-movement.png"
-                  width={isMobile ? 19 : 21}
-                />
+                <ClanIcon height={iconPx} src="/assets/icons/boat-movement.png" width={isMobile ? 19 : 21} />
               </ClanItemText>
               <ClanItemText alignRight flex={0.5}>
                 <TrophyChange>{changeVal}</TrophyChange>
                 {c.clan.clanScore}
-                <ClanIcon
-                  height={iconPx}
-                  src="/assets/icons/cw-trophy.png"
-                  width={iconPx}
-                />
+                <ClanIcon height={iconPx} src="/assets/icons/cw-trophy.png" width={iconPx} />
               </ClanItemText>
             </ClanItem>
           )
@@ -191,9 +176,7 @@ export default function ClanLogItem({ clan, week }) {
         <ClanLogsParticipants participants={clan.clan.participants} />
       ) : (
         <ButtonDiv>
-          <ShowParticipantsBtn onClick={handleClick}>
-            Show Participants
-          </ShowParticipantsBtn>
+          <ShowParticipantsBtn onClick={handleClick}>Show Participants</ShowParticipantsBtn>
         </ButtonDiv>
       )}
     </ContentDiv>

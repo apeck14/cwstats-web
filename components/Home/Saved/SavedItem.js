@@ -112,6 +112,7 @@ export default function SavedItem({ data, isPlayer, skeleton }) {
       <Icon
         height={iconHeight}
         src={isPlayer ? "/assets/icons/king-pink.png" : `/assets/badges/${data.badge}.png`}
+        unoptimized={!isPlayer}
         width={isPlayer ? kingWidth : clanBadgeWidth}
       />
       <Content>

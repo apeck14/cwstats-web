@@ -160,6 +160,7 @@ export default function Race({ dayOfWeek, isColosseum, race }) {
                     alt={c.name}
                     height={showMobileView ? 24 : 32}
                     src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.trophies)}.png`}
+                    unoptimized
                     width={showMobileView ? 18 : 24}
                   />
                   <Name>{c.name}</Name>

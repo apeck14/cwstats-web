@@ -142,6 +142,7 @@ export default function SavedItem({ data, isPlayer, links }) {
           alt="Icon"
           height={isPlayer ? profileIconHeight : clanBadgeHeightPx}
           src={iconSrc}
+          unoptimized={!isPlayer}
           width={isPlayer ? profileIconWidth : clanBadgeWidthPx}
         />
       </IconDiv>
