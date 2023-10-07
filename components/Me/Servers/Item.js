@@ -77,6 +77,7 @@ export default function Item({ guild }) {
             alt={guild.name}
             height={iconSize}
             src={`https://cdn.discordapp.com/icons/${guild.id}/${guild.icon}.webp`}
+            unoptimized
             width={iconSize}
           />
         ) : (

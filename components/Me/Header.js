@@ -90,6 +90,7 @@ export default function MeHeader({ description, title }) {
           alt="Discord Profile"
           height={profilePicSize}
           src={session?.user?.image || defaultImage}
+          unoptimized
           width={profilePicSize}
         />
         <ProfileUsername>{session?.user?.name || "N/A"}</ProfileUsername>

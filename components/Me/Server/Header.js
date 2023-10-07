@@ -66,7 +66,13 @@ export default function ServerHeader({ icon, id, name }) {
     <>
       <Main>
         {icon ? (
-          <Icon alt={name} height={iconPx} src={`https://cdn.discordapp.com/icons/${id}/${icon}.webp`} width={iconPx} />
+          <Icon
+            alt={name}
+            height={iconPx}
+            src={`https://cdn.discordapp.com/icons/${id}/${icon}.webp`}
+            unoptimized
+            width={iconPx}
+          />
         ) : (
           <DefaultIcon />
         )}
