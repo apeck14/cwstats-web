@@ -124,8 +124,6 @@ export default function DeckContent({ decks, player }) {
   const clanBadgeHeight = isMobile ? 22 : 26
   const clanBadgeWidth = isMobile ? 16 : 20
 
-  console.log(decks)
-
   return (
     <>
       <Header>
@@ -155,6 +153,7 @@ export default function DeckContent({ decks, player }) {
                     <Card
                       height={isMobile ? 42 : 60}
                       src={`/assets/cards/${c.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}.png`}
+                      unoptimized
                       width={isMobile ? 35 : 50}
                     />
                   ))}
@@ -178,6 +177,7 @@ export default function DeckContent({ decks, player }) {
                     <Card
                       height={isMobile ? 42 : 60}
                       src={`/assets/cards/${c.toLowerCase().replaceAll(" ", "-").replaceAll(".", "")}.png`}
+                      unoptimized
                       width={isMobile ? 35 : 50}
                     />
                   ))}
