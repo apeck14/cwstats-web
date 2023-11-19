@@ -56,18 +56,12 @@ export default function Abbreviations({ abbrList, defaultClan }) {
       ) : (
         abbreviations
           .sort((a, b) => a.abbr.localeCompare(b.abbr))
-          .map((a, index) => (
-            <Item abbr={a} handleDelete={handleDelete} index={index} key={a.abbr} />
-          ))
+          .map((a, index) => <Item abbr={a} handleDelete={handleDelete} index={index} key={a.abbr} />)
       )}
       <Remaining>
         You have <RemNum>{15 - abbreviations.length}</RemNum> abbreviations left.
       </Remaining>
-      <AddAbbr
-        abbreviations={abbreviations}
-        serverId={serverId}
-        setAbbreviations={setAbbreviations}
-      />
+      <AddAbbr abbreviations={abbreviations} serverId={serverId} setAbbreviations={setAbbreviations} />
     </>
   )
 }

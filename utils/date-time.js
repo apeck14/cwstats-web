@@ -114,7 +114,7 @@ export const getTimeFromOffset = (hour) => {
   const day = now.date()
 
   const hourInteger = Math.floor(hour)
-  const decimalOver = hour % Math.floor(hour)
+  const decimalOver = hour === 0 ? 0 : hour % Math.floor(hour)
 
   const date = utc(
     `${year}-${month < 10 ? `0${month}` : month}-${day < 10 ? `0${day}` : day}T${
