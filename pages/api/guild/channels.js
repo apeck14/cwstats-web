@@ -13,8 +13,7 @@ export default async function postChannels(req, res) {
       guildID: serverId,
     })
 
-    if (!guildExists)
-      return res.status(404).json({ message: "Server not found." })
+    if (!guildExists) return res.status(404).json({ message: "Server not found." })
 
     await guilds.updateOne(
       {
@@ -22,7 +21,7 @@ export default async function postChannels(req, res) {
       },
       {
         $set: { channels },
-      }
+      },
     )
 
     return res.status(200).json({ success: true })

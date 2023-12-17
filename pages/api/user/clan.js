@@ -67,7 +67,7 @@ export default async function SavedClan(req, res) {
               tag,
             },
           },
-        }
+        },
       )
 
       return res.status(200).send({})
@@ -83,7 +83,7 @@ export default async function SavedClan(req, res) {
               tag,
             },
           },
-        }
+        },
       )
 
       return res.status(200).send({})

@@ -4,16 +4,13 @@ export default async function getBattleLog(req, res) {
     const { query } = req
     const { tag } = query
 
-    const resp = await fetch(
-      `https://proxy.royaleapi.dev/v1/players/%23${tag}/battlelog`,
-      {
-        headers: new Headers({
-          Authorization: `Bearer ${process.env.NEXT_PUBLIC_CR_API_TOKEN}`,
-          "Content-Type": "application/json",
-        }),
-        method: "GET",
-      }
-    )
+    const resp = await fetch(`https://proxy.royaleapi.dev/v1/players/%23${tag}/battlelog`, {
+      headers: new Headers({
+        Authorization: `Bearer ${process.env.NEXT_PUBLIC_CR_API_TOKEN}`,
+        "Content-Type": "application/json",
+      }),
+      method: "GET",
+    })
 
     const data = await resp.json()
 

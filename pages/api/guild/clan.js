@@ -15,8 +15,7 @@ export default async function postDefaultClan(req, res) {
       guildID: serverId,
     })
 
-    if (!guildExists)
-      return res.status(404).json({ message: "Server not found." })
+    if (!guildExists) return res.status(404).json({ message: "Server not found." })
 
     const { defaultClan } = guildExists
 
@@ -39,7 +38,7 @@ export default async function postDefaultClan(req, res) {
             tag: clan.tag,
           },
         },
-      }
+      },
     )
 
     return res.status(200).json({ name: clan.name, success: true })

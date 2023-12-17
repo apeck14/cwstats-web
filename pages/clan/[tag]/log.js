@@ -9,12 +9,7 @@ import ClanLogsOverview from "../../../components/Tables/ClanLogsOverview"
 import clientPromise from "../../../lib/mongodb"
 import { gray } from "../../../public/static/colors"
 import { getClanBadgeFileName } from "../../../utils/files"
-import {
-  formatTag,
-  getCRErrorUrl,
-  handleSCResponse,
-  redirect,
-} from "../../../utils/functions"
+import { formatTag, getCRErrorUrl, handleSCResponse, redirect } from "../../../utils/functions"
 import { fetchClan, fetchLog } from "../../../utils/services"
 import { authOptions } from "../../api/auth/[...nextauth]"
 
@@ -38,10 +33,7 @@ export default function ClanLog({ badgeName, clan, log, saved }) {
           images: [
             {
               alt: "Clan Badge",
-              url: `/assets/badges/${getClanBadgeFileName(
-                clan.badgeId,
-                clan.clanWarTrophies
-              )}.png`,
+              url: `/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.png`,
             },
           ],
           title: `${clan.name} ${clan.tag} | Race Log - CWStats`,
@@ -93,7 +85,7 @@ export async function getServerSideProps({ params, req, res }) {
       promises.push(
         linkedAccounts.findOne({
           discordID: user.providerAccountId,
-        })
+        }),
       )
     }
 
@@ -106,10 +98,7 @@ export async function getServerSideProps({ params, req, res }) {
     if (logResp.status === 404) {
       clan = await handleSCResponse(clanResp)
     } else {
-      const [clanData, logData] = await Promise.all([
-        handleSCResponse(clanResp),
-        handleSCResponse(logResp),
-      ])
+      const [clanData, logData] = await Promise.all([handleSCResponse(clanResp), handleSCResponse(logResp)])
 
       clan = clanData
       log = logData

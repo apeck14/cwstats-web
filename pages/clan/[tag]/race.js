@@ -133,10 +133,7 @@ export default function ClanRace({ badgeName, clan, race, saved }) {
           images: [
             {
               alt: "Clan Badge",
-              url: `/assets/badges/${getClanBadgeFileName(
-                clan.badgeId,
-                clan.clanWarTrophies
-              )}.png`,
+              url: `/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.png`,
             },
           ],
           title: `${clan.name} ${clan.tag} | Race - CWStats`,
@@ -154,9 +151,7 @@ export default function ClanRace({ badgeName, clan, race, saved }) {
         ) : (
           <>
             <IndexDiv>
-              <IndexText>
-                {isColosseum ? "Colosseum" : `Week ${race.sectionIndex + 1}`}
-              </IndexText>
+              <IndexText>{isColosseum ? "Colosseum" : `Week ${race.sectionIndex + 1}`}</IndexText>
               <IndexText>{formatRaceIndex(race.periodType, race.periodIndex)}</IndexText>
             </IndexDiv>
 
@@ -236,7 +231,7 @@ export async function getServerSideProps({ params, req, res }) {
       promises.push(
         linkedAccounts.findOne({
           discordID: user.providerAccountId,
-        })
+        }),
       )
     }
 
@@ -249,10 +244,7 @@ export async function getServerSideProps({ params, req, res }) {
     if (raceResp.status === 404) {
       clan = await handleSCResponse(clanResp)
     } else {
-      const [clanData, raceData] = await Promise.all([
-        handleSCResponse(clanResp),
-        handleSCResponse(raceResp),
-      ])
+      const [clanData, raceData] = await Promise.all([handleSCResponse(clanResp), handleSCResponse(raceResp)])
 
       if (raceData.state === "matchmaking") {
         return redirect("/matchmaking")

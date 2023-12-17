@@ -15,15 +15,12 @@ export default async function putAbbreviation(req, res) {
       guildID: serverId,
     })
 
-    if (!guildExists)
-      return res.status(404).json({ message: "Server not found." })
+    if (!guildExists) return res.status(404).json({ message: "Server not found." })
 
     const { abbreviations } = guildExists
 
     if (abbreviations.length >= 15) {
-      return res
-        .status(400)
-        .json({ message: "Max number of abbreviations reached." })
+      return res.status(400).json({ message: "Max number of abbreviations reached." })
     }
 
     if (abbr.length > 4) {
@@ -33,9 +30,7 @@ export default async function putAbbreviation(req, res) {
     }
 
     if (!abbr.match(/^[0-9a-zA-Z]+$/)) {
-      return res
-        .status(400)
-        .json({ message: "Abbreviation must be alphanumeric." })
+      return res.status(400).json({ message: "Abbreviation must be alphanumeric." })
     }
 
     const uppercaseAbbr = abbr.toUpperCase()
@@ -67,7 +62,7 @@ export default async function putAbbreviation(req, res) {
             tag: clan.tag,
           },
         },
-      }
+      },
     )
     return res.status(200).json({ name: clan.name, success: true })
   } catch (err) {

@@ -26,7 +26,7 @@ export default async function scheduledNudge(req, res) {
           "nudges.ignoreLeaders": ignoreLeaders,
           "nudges.message": message,
         },
-      }
+      },
     )
 
     return res.status(200).json({ success: true })

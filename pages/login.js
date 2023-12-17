@@ -67,14 +67,10 @@ export default function Login({ loggedIn }) {
       />
 
       <Main>
-        <Header>
-          {loggedIn ? "You are already logged in!" : "You are not logged in."}
-        </Header>
+        <Header>{loggedIn ? "You are already logged in!" : "You are not logged in."}</Header>
 
         <SubHeader>
-          {loggedIn
-            ? "Go enjoy all of the neat features!"
-            : "To access the full site, please log in with Discord."}
+          {loggedIn ? "Go enjoy all of the neat features!" : "To access the full site, please log in with Discord."}
         </SubHeader>
 
         {!loggedIn && (

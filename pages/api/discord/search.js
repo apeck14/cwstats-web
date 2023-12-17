@@ -3,14 +3,11 @@ export default async function searchGuildMembers(req, res) {
     const { query } = req
     const { query: search, serverId } = query
 
-    const resp = await fetch(
-      `https://discordapp.com/api/guilds/${serverId}/members/search?query=${search}&&limit=5`,
-      {
-        headers: {
-          Authorization: `Bot ${process.env.BOT_TOKEN}`,
-        },
-      }
-    )
+    const resp = await fetch(`https://discordapp.com/api/guilds/${serverId}/members/search?query=${search}&&limit=5`, {
+      headers: {
+        Authorization: `Bot ${process.env.BOT_TOKEN}`,
+      },
+    })
 
     const data = await resp.json()
 
@@ -25,7 +22,7 @@ export default async function searchGuildMembers(req, res) {
         global_name: m.user.global_name,
         id: m.user.id,
         username: m.user.username,
-      }))
+      })),
     )
   } catch (err) {
     res.status(500).json({

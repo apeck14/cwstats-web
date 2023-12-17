@@ -13,13 +13,11 @@ export default async function deleteDefaultClan(req, res) {
       guildID: serverId,
     })
 
-    if (!guildExists)
-      return res.status(404).json({ message: "Server not found." })
+    if (!guildExists) return res.status(404).json({ message: "Server not found." })
 
     const { defaultClan } = guildExists
 
-    if (!defaultClan)
-      return res.status(404).json({ message: "No default clan not set." })
+    if (!defaultClan) return res.status(404).json({ message: "No default clan not set." })
 
     await guilds.updateOne(
       {
@@ -29,7 +27,7 @@ export default async function deleteDefaultClan(req, res) {
         $unset: {
           defaultClan: "",
         },
-      }
+      },
     )
 
     return res.status(200).json({ success: true })

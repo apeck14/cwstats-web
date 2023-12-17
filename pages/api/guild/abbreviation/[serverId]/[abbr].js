@@ -13,8 +13,7 @@ export default async function abbreviation(req, res) {
       guildID: serverId,
     })
 
-    if (!guildExists)
-      return res.status(404).json({ message: "Server not found." })
+    if (!guildExists) return res.status(404).json({ message: "Server not found." })
 
     const { abbreviations } = guildExists
 
@@ -34,7 +33,7 @@ export default async function abbreviation(req, res) {
             abbr,
           },
         },
-      }
+      },
     )
 
     return res.status(200).json({ success: true })

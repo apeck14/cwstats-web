@@ -30,8 +30,7 @@ export const getClanBadgeFileName = (badgeId, trophyCount) => {
 export const getArenaFileName = (trophies) => {
   if (!trophies || Number.isNaN(trophies)) return "arena0"
 
-  for (const a of arenas)
-    if (trophies >= a.trophyLimit) return `arena${a.arena}`
+  for (const a of arenas) if (trophies >= a.trophyLimit) return `arena${a.arena}`
 }
 
 export const getCountryKeyById = (countryId) => {

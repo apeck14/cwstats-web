@@ -3,8 +3,8 @@ import { useEffect, useState } from "react"
 export default function useWindowSize() {
     // Initialize state with undefined width/height so server and client renders match
     const [windowSize, setWindowSize] = useState({
-        width: undefined,
         height: undefined,
+        width: undefined,
     })
 
     useEffect(() => {
@@ -12,8 +12,8 @@ export default function useWindowSize() {
         function handleResize() {
             // Set window width/height to state
             setWindowSize({
-                width: window.innerWidth,
                 height: window.innerHeight,
+                width: window.innerWidth,
             })
         }
 

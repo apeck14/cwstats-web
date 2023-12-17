@@ -45,9 +45,7 @@ export default function Error429() {
       <Main>
         <ErrorCode>429</ErrorCode>
         <Header>Rate limit reached.</Header>
-        <SubHeader>
-          There are too many requests being made at this time. Check back soon.
-        </SubHeader>
+        <SubHeader>There are too many requests being made at this time. Check back soon.</SubHeader>
       </Main>
     </>
   )

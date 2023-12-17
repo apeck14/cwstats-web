@@ -45,9 +45,7 @@ export default function Error404() {
       <Main>
         <ErrorCode>404</ErrorCode>
         <Header>Oops! Not found.</Header>
-        <SubHeader>
-          What you&apos;re looking for was deleted, or doesn&apos;t exist.
-        </SubHeader>
+        <SubHeader>What you&apos;re looking for was deleted, or doesn&apos;t exist.</SubHeader>
       </Main>
     </>
   )

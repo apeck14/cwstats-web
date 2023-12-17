@@ -45,10 +45,7 @@ export default function Error503() {
       <Main>
         <ErrorCode>503</ErrorCode>
         <Header>Maintenance Break.</Header>
-        <SubHeader>
-          Supercell&apos;s servers are currently under maintenance. Check back
-          soon.
-        </SubHeader>
+        <SubHeader>Supercell&apos;s servers are currently under maintenance. Check back soon.</SubHeader>
       </Main>
     </>
   )

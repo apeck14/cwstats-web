@@ -70,8 +70,7 @@ export default function ClanSearch({ results }) {
 
       <HeaderDiv>
         <Text>
-          Showing top {results.length} search result(s).{" "}
-          <Gray>Search by tag if you cannot find clan by name.</Gray>
+          Showing top {results.length} search result(s). <Gray>Search by tag if you cannot find clan by name.</Gray>
         </Text>
       </HeaderDiv>
 

@@ -45,9 +45,7 @@ export default function Error500() {
       <Main>
         <ErrorCode>500</ErrorCode>
         <Header>Internal server error.</Header>
-        <SubHeader>
-          Something went wrong, and we are working hard to get it fixed.
-        </SubHeader>
+        <SubHeader>Something went wrong, and we are working hard to get it fixed.</SubHeader>
       </Main>
     </>
   )

@@ -34,7 +34,11 @@
     "react/prop-types": "off",
     "react/jsx-props-no-spreading": "off",
     "perfectionist/sort-objects": "error",
-    "perfectionist/sort-jsx-props": "error"
+    "perfectionist/sort-jsx-props": "error",
+    "import/no-dynamic-require": "off",
+    "global-require": "off",
+    "no-await-in-loop": "off",
+    "no-shadow": "off"
   },
   "overrides": []
 }

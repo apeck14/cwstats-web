@@ -45,23 +45,18 @@ export default function Me({ guilds }) {
       <NextSeo
         description="View your saved players, clans, and customize CWStats Discord bot settings for your servers."
         openGraph={{
-          description:
-            "View your saved players, clans, and customize CWStats Discord bot settings for your servers.",
+          description: "View your saved players, clans, and customize CWStats Discord bot settings for your servers.",
           title: "My CWStats",
         }}
         title="My CWStats"
       />
 
-      <Header
-        description="Manage your Discord servers, saved clans, and players!"
-        title="My CWStats"
-      />
+      <Header description="Manage your Discord servers, saved clans, and players!" title="My CWStats" />
       <SubNav />
       <Content>
         {guilds.length === 0 ? (
           <NoGuilds>
-            No servers to manage! Invite the bot{" "}
-            <Here href={DISCORD_BOT_INVITE_LINK}>here</Here>.
+            No servers to manage! Invite the bot <Here href={DISCORD_BOT_INVITE_LINK}>here</Here>.
           </NoGuilds>
         ) : (
           guilds.map((g) => <Item guild={g} key={g.id} />)
@@ -118,9 +113,7 @@ export async function getServerSideProps({ req, res }) {
     }
 
     const filteredGuilds = rawGuilds
-      .filter(
-        (g) => (g.owner || hasPermissions(g.permissions)) && botGuildIds.includes(g.id)
-      )
+      .filter((g) => (g.owner || hasPermissions(g.permissions)) && botGuildIds.includes(g.id))
       .sort((a, b) => a.name.localeCompare(b.name))
 
     return {

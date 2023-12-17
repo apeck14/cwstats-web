@@ -33,9 +33,7 @@ export default async function scheduledNudge(req, res) {
       const tagExists = guildExists?.nudges?.links?.some((la) => la.tag === formattedTag)
 
       if (tagExists) {
-        return res
-          .status(409)
-          .json({ message: "This tag is already linked to a Discord user." })
+        return res.status(409).json({ message: "This tag is already linked to a Discord user." })
       }
 
       const player = await fetchPlayer(formattedTag.substring(1)).then(handleSCResponse)
@@ -50,7 +48,7 @@ export default async function scheduledNudge(req, res) {
               tag: player.tag,
             },
           },
-        }
+        },
       )
 
       return res.status(200).json({ name: player.name, success: true })
@@ -66,7 +64,7 @@ export default async function scheduledNudge(req, res) {
             tag: formattedTag,
           },
         },
-      }
+      },
     )
 
     return res.status(200).json({ success: true })

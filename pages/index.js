@@ -8,8 +8,7 @@ export default function Home() {
     <>
       <NextSeo
         openGraph={{
-          title:
-            "CWStats - Clash Royale Clan Wars Analytics, Leaderboards, Stats & more!",
+          title: "CWStats - Clash Royale Clan Wars Analytics, Leaderboards, Stats & more!",
         }}
         title="CWStats - Clash Royale Clan Wars Analytics, Leaderboards, Stats & more!"
       />

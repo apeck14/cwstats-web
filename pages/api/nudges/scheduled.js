@@ -29,7 +29,7 @@ export default async function scheduledNudge(req, res) {
       }
 
       const duplicateExists = guildExists?.nudges?.scheduled?.find(
-        (sn) => sn.clanTag === clanTag && sn.scheduledHourUTC === scheduledHourUTC
+        (sn) => sn.clanTag === clanTag && sn.scheduledHourUTC === scheduledHourUTC,
       )
 
       if (duplicateExists) {
@@ -49,7 +49,7 @@ export default async function scheduledNudge(req, res) {
               scheduledHourUTC,
             },
           },
-        }
+        },
       )
 
       return res.status(200).json({ clanName: clan.name, success: true })
@@ -65,7 +65,7 @@ export default async function scheduledNudge(req, res) {
             scheduledHourUTC,
           },
         },
-      }
+      },
     )
 
     return res.status(200).json({ success: true })

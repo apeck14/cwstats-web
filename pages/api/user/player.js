@@ -66,7 +66,7 @@ export default async function SavedPlayer(req, res) {
               tag,
             },
           },
-        }
+        },
       )
 
       return res.status(200).send({})
@@ -82,7 +82,7 @@ export default async function SavedPlayer(req, res) {
               tag,
             },
           },
-        }
+        },
       )
 
       return res.status(200).send({})

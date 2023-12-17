@@ -23,9 +23,7 @@ export default function SearchContent({ isPlayers, results, skeleton }) {
   return (
     <Main>
       {results.length > 0 ? (
-        results.map((item) => (
-          <SearchItem isPlayer={isPlayers} item={item} key={item.tag} />
-        ))
+        results.map((item) => <SearchItem isPlayer={isPlayers} item={item} key={item.tag} />)
       ) : (
         <NoClans>No {isPlayers ? "players" : "clans"} found</NoClans>
       )}

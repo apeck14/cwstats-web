@@ -77,7 +77,7 @@ export async function getServerSideProps({ params, req, res }) {
             ...guild,
             icon,
             name,
-          })
+          }),
         ),
       },
     }

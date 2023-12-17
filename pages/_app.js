@@ -39,17 +39,10 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
   return (
     <SessionProvider session={session}>
       <Head>
-        <meta
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-          key="viewport"
-          name="viewport"
-        />
+        <meta content="minimum-scale=1, initial-scale=1, width=device-width" key="viewport" name="viewport" />
       </Head>
 
-      <GoogleAnalytics
-        gaMeasurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}
-        trackPageViews
-      />
+      <GoogleAnalytics gaMeasurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID} trackPageViews />
 
       <Container className={SourceSans3.className}>
         <DefaultSeo
