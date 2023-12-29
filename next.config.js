@@ -1,6 +1,7 @@
+const { withAxiom } = require("next-axiom")
 const headers = require("./headers")
 
-module.exports = {
+module.exports = withAxiom({
   reactStrictMode: false,
   poweredByHeader: false,
   swcMinify: true,
@@ -20,4 +21,4 @@ module.exports = {
       headers,
     },
   ],
-}
+})

@@ -4,6 +4,7 @@ import { Source_Sans_3 } from "next/font/google"
 import Head from "next/head"
 import { useRouter } from "next/router"
 import { SessionProvider } from "next-auth/react"
+import { AxiomWebVitals } from "next-axiom"
 import { DefaultSeo } from "next-seo"
 import { GoogleAnalytics } from "nextjs-google-analytics"
 import styled from "styled-components"
@@ -39,17 +40,12 @@ export default function App({ Component, pageProps: { session, ...pageProps } })
   return (
     <SessionProvider session={session}>
       <Head>
-        <meta
-          name="viewport"
-          content="minimum-scale=1, initial-scale=1, width=device-width"
-          key="viewport"
-        />
+        <meta name="viewport" content="minimum-scale=1, initial-scale=1, width=device-width" key="viewport" />
       </Head>
 
-      <GoogleAnalytics
-        gaMeasurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}
-        trackPageViews
-      />
+      <GoogleAnalytics gaMeasurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID} trackPageViews />
+
+      <AxiomWebVitals />
 
       <Container className={SourceSans3.className}>
         <DefaultSeo
