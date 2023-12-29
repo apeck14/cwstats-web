@@ -1,0 +1,10 @@
+.header {
+  background: linear-gradient(0deg, var(--mantine-color-gray-9) 0%, var(--mantine-color-gray-10) 100%);
+  border-bottom-left-radius: 0.5rem;
+  border-bottom-right-radius: 0.5rem;
+  box-shadow: var(--mantine-color-gray-10) 0px 2px 5px;
+}
+
+.activeLink {
+  border-bottom: 3px solid var(--mantine-color-pink-6);
+}

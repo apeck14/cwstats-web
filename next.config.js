@@ -1,9 +1,6 @@
 const headers = require("./headers")
 
 module.exports = {
-  compiler: {
-    styledComponents: true,
-  },
   headers: async () => [
     {
       headers,
@@ -15,9 +12,12 @@ module.exports = {
     locales: ["en-US"],
   },
   images: {
-    domains: ["cdn.discordapp.com", "imgur.com"],
+    remotePatterns: [
+      { hostname: "cdn.discord.app", protocol: "https" },
+      { hostname: "imgur.com", protocol: "https" },
+    ],
   },
   poweredByHeader: false,
-  reactStrictMode: false,
+  reactStrictMode: true,
   swcMinify: true,
 }

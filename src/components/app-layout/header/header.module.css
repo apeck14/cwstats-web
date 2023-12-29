@@ -1,0 +1,30 @@
+.active {
+  border-bottom: 3px solid var(--mantine-color-pink-6);
+}
+
+.active > a > div {
+  margin-top: 3px;
+}
+
+.navItem {
+  border-radius: 0.25rem;
+  color: var(--mantine-color-white);
+  background-color: transparent;
+  height: fit-content;
+  padding: 0.25rem 0.5rem;
+  transition: 0.2s ease-out;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.navItem:hover {
+  background-color: var(--mantine-color-gray-7);
+}
+
+.avatar:hover {
+  cursor: pointer;
+}
+
+.searchButton {
+  outline: 1px solid var(--mantine-color-gray-6);
+}
