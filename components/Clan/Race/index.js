@@ -147,11 +147,7 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
         const clanInRace = race.clans.find((cl) => cl.tag === c.tag)
 
         return (
-          <ClanDiv
-            key={c.tag}
-            isClan={c.tag === race.clan.tag}
-            onClick={() => handleClick(c.tag)}
-          >
+          <ClanDiv key={c.tag} isClan={c.tag === race.clan.tag} onClick={() => handleClick(c.tag)}>
             {/* Rank Icon */}
             {(c.placement !== Infinity || c.crossedFinishLine) && (
               <IconDiv>
@@ -163,10 +159,7 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
               <Row>
                 <Column>
                   <Badge
-                    src={`/assets/badges/${getClanBadgeFileName(
-                      c.badgeId,
-                      c.trophies
-                    )}.png`}
+                    src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.trophies)}.png`}
                     height={showMobileView ? 24 : 32}
                     width={showMobileView ? 18 : 24}
                     alt={c.name}
@@ -215,9 +208,7 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
                     isColosseum={isColosseum}
                     projectedFame={getProjFame(clanInRace, isColosseum, dayOfWeek)}
                   />
-                  <AvgFame>
-                    {getAvgFame(clanInRace, isColosseum, dayOfWeek).toFixed(2)}
-                  </AvgFame>
+                  <AvgFame>{getAvgFame(clanInRace, isColosseum, dayOfWeek).toFixed(2)}</AvgFame>
                 </Row>
               )}
             </Content>

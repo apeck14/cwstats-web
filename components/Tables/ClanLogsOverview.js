@@ -93,11 +93,7 @@ export default function ClanLogsOverview({ clanTag, log }) {
               <Trophy />
             </TH>
             <TH>
-              <ThIcon
-                src="/assets/icons/boat-movement.png"
-                height={iconPx}
-                width={isMobile ? 16 : 21}
-              />
+              <ThIcon src="/assets/icons/boat-movement.png" height={iconPx} width={isMobile ? 16 : 21} />
             </TH>
             <TH>
               <ThIcon src="/assets/icons/battle.png" height={iconPx} width={iconPx} />
@@ -111,21 +107,15 @@ export default function ClanLogsOverview({ clanTag, log }) {
           {groupedLogsBySeason[sId].map((w) => {
             const clan = w.standings.find((c) => c.clan.tag === clanTag)
             const trophyChange = `${clan.trophyChange < 0 ? "" : "+"}${clan.trophyChange}`
+            const isColosseum = w.standings.reduce((a, b) => a + b.trophyChange, 0) <= -25
 
             return (
-              <Row
-                key={`${w.seasonId}${w.sectionIndex}`}
-                onClick={() => handleClickScroll(w.seasonId, w.sectionIndex)}
-              >
+              <Row key={`${w.seasonId}${w.sectionIndex}`} onClick={() => handleClickScroll(w.seasonId, w.sectionIndex)}>
                 <Cell>W{w.sectionIndex + 1}</Cell>
                 <Cell align="center">{clan.rank}</Cell>
                 <Cell align="center">{clan.clan.fame}</Cell>
                 <Cell align="center">
-                  {getAvgFameOfLog(
-                    clan.clan,
-                    w.createdDate,
-                    clan.clan.finishTime
-                  ).toFixed(1)}
+                  {getAvgFameOfLog(clan.clan, w.createdDate, clan.clan.finishTime, isColosseum).toFixed(1)}
                 </Cell>
                 <Cell align="right">
                   <TrophyChange>{trophyChange}</TrophyChange>
