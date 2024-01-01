@@ -10,7 +10,11 @@ import { authOptions } from "./api/auth/[...nextauth]/route"
 import ThemeProvider from "./theme"
 
 export const viewport = {
+  colorScheme: "dark",
+  initialScale: 1,
+  maximumScale: 1,
   themeColor: "#1A191B",
+  width: "device-width",
 }
 
 export const metadata = {

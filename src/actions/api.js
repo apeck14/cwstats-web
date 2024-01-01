@@ -12,6 +12,9 @@ export async function getLinkedAccount() {
   return linkedAccount.json()
 }
 
-export async function getPlayerByQuery() {
-  return 1
+export async function getPlayersByQuery(query, limit = 5) {
+  const options = { cache: "no-store" }
+  const players = await fetch(`${HOST}/api/search-players?q=${encodeURIComponent(query)}&limit=${limit}`, options)
+
+  return players.json()
 }

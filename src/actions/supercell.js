@@ -42,10 +42,11 @@ async function supercellRequest(url) {
 }
 
 export async function addPlayer({ clanName, name, tag }) {
-  if (!clanName || !name || !tag) return
+  if ((!clanName && clanName !== "") || !name || !tag) return
 
   try {
-    const db = await clientPromise
+    const client = await clientPromise
+    const db = client.db("General")
     const players = db.collection("Players")
 
     const query = { tag }
@@ -59,14 +60,29 @@ export async function addPlayer({ clanName, name, tag }) {
   }
 }
 
-export async function getClan(tag) {
-  return supercellRequest(`/clans/%23${formatTag(tag)}`)
+export async function getPlayer(tag) {
+  const player = await supercellRequest(`/players/%23${formatTag(tag)}`)
+
+  if (!player.error) {
+    const {
+      data: { clan, name, tag: pTag },
+    } = player
+    addPlayer({ clanName: clan ? clan.name : "", name, tag: pTag })
+  }
+
+  return player
 }
 
 export async function getPlayerBattleLog(tag) {
   return supercellRequest(`/players/%23${formatTag(tag)}/battlelog`)
+}
 
-  // add player
+export async function getClan(tag) {
+  return supercellRequest(`/clans/%23${formatTag(tag)}`)
+}
+
+export async function getClanMembers(tag) {
+  return supercellRequest(`/clans/%23${formatTag(tag)}/members`)
 }
 
 export async function searchClans(query, sortByWarTrophies = true, limit = 5) {

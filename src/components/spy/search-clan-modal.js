@@ -1,43 +1,83 @@
 "use client"
 
-import { Autocomplete, Button, Group, Modal, rem, SegmentedControl, Stack, Text, Title } from "@mantine/core"
+import { Button, Group, Modal, ScrollArea, Stack, Title, UnstyledButton } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { IconSearch } from "@tabler/icons-react"
 import { useState } from "react"
 
-import { searchClans } from "../../actions/supercell"
+import { getClanMembers } from "../../actions/supercell"
+import useWindowSize from "../../hooks/useWindowSize"
+import { breakpointObj, getClanBadgeFileName } from "../../lib/functions"
+import DebouncedSearch from "../ui/debounced-search"
+import Image from "../ui/image"
 
-export default function SearchByClanModal() {
-  const [query, setQuery] = useState("")
-  const [clans, setClans] = useState([])
+export default function SearchByClanModal({ onPlayerSelect }) {
+  const { breakpoint } = useWindowSize()
+  const [members, setMembers] = useState([])
+  const [clan, setClan] = useState(null)
   const [opened, { close, open }] = useDisclosure(false)
 
-  // starting at 3 chars, debounce to every x ms
-  const handleChange = async (val) => {
-    setQuery(val)
-    setClans([])
-
-    if (val.length < 3) return
-
-    const { data, status } = await searchClans(val)
-
-    if (status === 200) setClans(data.map((c) => c.name))
+  const handleClose = () => {
+    close()
+    setMembers([])
+    setClan(null)
   }
+
+  const handleClanSelect = async (clan) => {
+    setClan(clan)
+    const { data: memberList, status } = await getClanMembers(clan?.tag)
+
+    if (status === 200) {
+      setMembers(memberList.map((m) => ({ name: m.name, tag: m.tag })).sort((a, b) => a.name.localeCompare(b.name)))
+    }
+  }
+
+  const handlePlayerSelect = (player, clan) => {
+    handleClose()
+    onPlayerSelect(player, clan)
+  }
+
+  const centerModal = breakpoint === "md" || breakpoint === "lg" || breakpoint === "xl"
 
   return (
     <>
-      <Modal centered onClose={close} opened={opened} title={<Title fz="1.25rem">Find Player by Clan</Title>}>
-        <Autocomplete
-          data={clans}
-          label="Clan Name"
-          leftSection={<IconSearch style={{ height: rem(16), width: rem(16) }} />}
-          onChange={handleChange}
-          placeholder="Search clans..."
-          required
-          value={query}
-        />
+      <Modal
+        centered={centerModal}
+        onClose={handleClose}
+        opened={opened}
+        title={<Title fz="1.25rem">Find Player by Clan</Title>}
+      >
+        {clan ? (
+          <Group fw={600} gap="xs">
+            <Image
+              height={26}
+              src={`/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.png`}
+              width={12}
+            />
+            {clan?.name}
+          </Group>
+        ) : (
+          <DebouncedSearch isClans label="Clan Name" onSelect={handleClanSelect} required />
+        )}
+
+        {members.length ? (
+          <ScrollArea bg="gray.9" h="30vh" mt="md" type="always">
+            <Stack gap={0}>
+              {members.map((m) => (
+                <UnstyledButton
+                  bg="gray.9"
+                  className="buttonHover"
+                  onClick={() => handlePlayerSelect(m, clan)}
+                  px="xs"
+                  py="0.25rem"
+                >
+                  {m.name}
+                </UnstyledButton>
+              ))}
+            </Stack>
+          </ScrollArea>
+        ) : null}
       </Modal>
-      <Button onClick={open} variant="default" w="fit-content">
+      <Button onClick={open} size={breakpointObj("xs", "xs", "sm")[breakpoint]} variant="default" w="fit-content">
         Search by clan?
       </Button>
     </>

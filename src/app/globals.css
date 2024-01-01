@@ -10,6 +10,10 @@
   background-color: var(--mantine-color-gray-9);
 }
 
+.mantine-ScrollArea-root {
+  border-radius: 0.25rem;
+}
+
 a {
   text-decoration: none;
   color: var(--mantine-color-white);

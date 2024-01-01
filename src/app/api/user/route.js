@@ -17,7 +17,7 @@ export async function GET() {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session) return NextResponse.json({ success: false }, { status: 403 })
+    if (!session) return NextResponse.json({}, { status: 403 })
 
     const client = await clientPromise
     const db = client.db("General")
@@ -30,13 +30,13 @@ export async function GET() {
       userId,
     })
 
-    if (!user) return NextResponse.json({ success: false }, { status: 404 })
+    if (!user) return NextResponse.json({}, { status: 404 })
 
     const linkedAccount = await linkedAccounts.findOne({
       discordID: user.providerAccountId,
     })
 
-    if (!linkedAccount) return NextResponse.json({ success: false }, { status: 404 })
+    if (!linkedAccount) return NextResponse.json({}, { status: 404 })
 
     return NextResponse.json({ success: true, ...linkedAccount }, { status: 200 })
   } catch (err) {
