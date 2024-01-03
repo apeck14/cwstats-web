@@ -84,7 +84,7 @@ export default function DebouncedSearch({ isClans, label, onSelect, placeholder,
         <Combobox.Dropdown>
           <Combobox.Options>
             {results.length === 0 ? (
-              <Combobox.Empty>No Results</Combobox.Empty>
+              <Combobox.Empty c="gray.1">No Results</Combobox.Empty>
             ) : (
               results.map((r) => (
                 <Combobox.Option key={r.tag} value={r.tag}>

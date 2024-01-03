@@ -30,7 +30,7 @@ export default function DeckContent({ decks, loading }) {
 
   return (
     <Stack
-      align={decks ? "flex-start" : "center"}
+      align={loading ? "center" : "flex-start"}
       bg="gray.8"
       mt="sm"
       p="md"

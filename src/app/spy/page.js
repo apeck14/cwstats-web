@@ -1,6 +1,6 @@
 "use client"
 
-import { Container, Flex, Group, Stack, Title } from "@mantine/core"
+import { Container, Flex, Group, Skeleton, Stack, Title } from "@mantine/core"
 import { IconSpy } from "@tabler/icons-react"
 import Link from "next/link"
 import { useState } from "react"
@@ -19,10 +19,13 @@ export default function SpyPage() {
   const [decks, setDecks] = useState(null)
   const [player, setPlayer] = useState(null)
   const [decksLoading, setDecksLoading] = useState(false)
+  const [showSkeleton, setShowSkeleton] = useState(false)
 
   const handlePlayerSelect = async (selPlayer, selClan) => {
     if (player?.tag === selPlayer?.tag) return
 
+    setShowSkeleton(true)
+    setDecksLoading(true)
     setPlayer(null)
     let clanData = selClan
 
@@ -37,6 +40,8 @@ export default function SpyPage() {
       }
     }
 
+    setShowSkeleton(false)
+
     setPlayer({
       clan: {
         badge: getClanBadgeFileName(clanData.badgeId, clanData.clanWarTrophies),
@@ -46,8 +51,6 @@ export default function SpyPage() {
       name: selPlayer.name,
       tag: selPlayer.tag,
     })
-
-    setDecksLoading(true)
 
     const { data: log } = await getPlayerBattleLog(selPlayer.tag)
 
@@ -81,25 +84,36 @@ export default function SpyPage() {
             size={breakpointObj("md", "md", "lg")[breakpoint]}
           />
 
-          {player && (
-            <Stack fw={600} gap="0.15rem" mt="md">
+          <Stack fw={600} gap="0.15rem" mt="md">
+            {showSkeleton ? (
+              <Skeleton height="1.5rem" my="0.4rem" width="10rem" />
+            ) : (
               <Link className="text" href="/" style={{ fontSize: "1.5rem" }}>
-                {player.name}
+                {player?.name}
               </Link>
-              <Group gap="xs">
-                <Image height={24} src={`/assets/badges/${player.clan.badge}.png`} width={12} />
+            )}
+
+            <Group gap="xs">
+              {showSkeleton ? (
+                <Skeleton height={24} width={20} />
+              ) : (
+                <Image height={24} src={`/assets/badges/${player?.clan?.badge}.png`} width={12} />
+              )}
+
+              {showSkeleton ? (
+                <Skeleton height="1rem" width="10rem" />
+              ) : (
                 <Link
                   className="text"
-                  href={player.clan.tag ? `/clan/${player.clan.tag.substring(1)}` : "/"}
+                  href={player?.clan?.tag ? `/clan/${player.clan.tag.substring(1)}` : "/"}
                   style={{ color: "var(--mantine-color-gray-1)" }}
                 >
-                  {player.clan.name}
+                  {player?.clan?.name}
                 </Link>
-              </Group>
-
-              <DeckContent decks={decks} loading={decksLoading} />
-            </Stack>
-          )}
+              )}
+            </Group>
+            {player && <DeckContent decks={decks} loading={decksLoading} />}
+          </Stack>
         </Stack>
       </Container>
     </Flex>
