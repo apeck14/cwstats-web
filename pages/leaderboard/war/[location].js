@@ -426,6 +426,7 @@ export default function Leaderboard({ region, data }) {
                       height={flagHeightPx}
                       width={flagWidthPx}
                       alt="Flag"
+                      unoptimized
                     />
                   </Cell>
                   <CenterCell
