@@ -9,5 +9,5 @@ export default async function ClanPage() {
   const tag = getTagFromHeaders(headers)
   const clan = await getClan(tag)
 
-  return <ClanHeader clan={clan.data} />
+  return <ClanHeader clan={clan.data} url={headers.get("x-url")} />
 }

@@ -22,6 +22,10 @@ export const darkTheme = [
   "#121113",
 ]
 
+// brandPink: [
+//   ["#ffe9f6", "#ffd1e6", "#faa1c9", "#f66eab", "#f24391", "#f02881", "#f01879", "#d60867", "#c0005c", "#a9004f"],
+// ],
+
 const theme = createTheme({
   black: darkTheme[darkTheme.length - 1],
   breakpoints: {
@@ -34,9 +38,6 @@ const theme = createTheme({
   colors: {
     dark: darkTheme,
     gray: darkTheme,
-    pink: [
-      ["#ffe9f6", "#ffd1e6", "#faa1c9", "#f66eab", "#f24391", "#f02881", "#f01879", "#d60867", "#c0005c", "#a9004f"],
-    ],
     orange: [
       "#fff4e2",
       "#ffe9cc",
