@@ -109,7 +109,12 @@ export default function DeckContent({ player, decks }) {
       <Header>
         <Name>{player?.name}</Name>
         <Clan>
-          <Badge src={`/assets/badges/${player?.badge}.png`} height={clanBadgeHeight} width={clanBadgeWidth} />
+          <Badge
+            src={`/assets/badges/${player?.badge}.png`}
+            height={clanBadgeHeight}
+            width={clanBadgeWidth}
+            unoptimized
+          />
           <ClanName>{player?.clanName || "None"}</ClanName>
         </Clan>
       </Header>

@@ -192,16 +192,10 @@ export default function PlayerHeader({ saved, player, arenaName }) {
         <Row gap="0.5rem">
           <Name>{player.name}</Name>
           <IconDiv>
-            {isSaved ? (
-              <BookmarkFill onClick={toggleSavedItem} />
-            ) : (
-              <Bookmark onClick={toggleSavedItem} />
-            )}
+            {isSaved ? <BookmarkFill onClick={toggleSavedItem} /> : <Bookmark onClick={toggleSavedItem} />}
           </IconDiv>
           <InGameLink
-            href={`https://link.clashroyale.com/?playerInfo?id=${player.tag.substring(
-              1
-            )}`}
+            href={`https://link.clashroyale.com/?playerInfo?id=${player.tag.substring(1)}`}
             target="_blank"
             rel="noopener noreferrer"
           >
@@ -211,12 +205,7 @@ export default function PlayerHeader({ saved, player, arenaName }) {
         <Row>
           <Tag>{player.tag}</Tag>
           <Group>
-            <Icon
-              src="/assets/icons/trophy.png"
-              height={iconPx}
-              width={iconPx}
-              alt="Clash Royale Ladder Trophy"
-            />
+            <Icon src="/assets/icons/trophy.png" height={iconPx} width={iconPx} alt="Clash Royale Ladder Trophy" />
             <Text>
               {player.trophies} / {player.bestTrophies}
             </Text>
@@ -238,13 +227,9 @@ export default function PlayerHeader({ saved, player, arenaName }) {
             src={`/assets/badges/${player.clan.badge}.png`}
             height={width <= 480 ? 23 : 27}
             width={width <= 480 ? 18 : 21}
+            unoptimized
           />
-          <ClanName
-            isClan={inClan}
-            onClick={
-              inClan ? () => handleClanClick(player?.clan?.tag.substring(1)) : null
-            }
-          >
+          <ClanName isClan={inClan} onClick={inClan ? () => handleClanClick(player?.clan?.tag.substring(1)) : null}>
             {player.clan?.name || "None"}
           </ClanName>
           {inClan && (

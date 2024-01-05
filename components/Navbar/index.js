@@ -208,6 +208,7 @@ export default function Navbar() {
               width={profilePicSize}
               height={profilePicSize}
               alt="Discord Profile"
+              unoptimized
             />
           ) : (
             <LoginButton onClick={() => signIn("discord")}>

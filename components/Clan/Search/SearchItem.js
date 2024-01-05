@@ -61,14 +61,12 @@ export default function SearchItem({ item, skeleton, isPlayer }) {
         src={
           isPlayer
             ? "/assets/icons/king-pink.png"
-            : `/assets/badges/${getClanBadgeFileName(
-                item.badgeId,
-                item.clanWarTrophies
-              )}.png`
+            : `/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`
         }
         width={isPlayer ? kingWidth : clanBadgeWidth}
         height={38}
         alt="Badge"
+        unoptimized
       />
 
       <InfoDiv>

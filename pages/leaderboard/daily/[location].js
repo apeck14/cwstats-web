@@ -499,7 +499,7 @@ export default function Leaderboard({ region, data }) {
                     }}
                   >
                     <ClanBadgeDiv>
-                      <ClanBadge src={`/assets/badges/${badgeName}.png`} alt="Badge" fill />
+                      <ClanBadge src={`/assets/badges/${badgeName}.png`} alt="Badge" fill unoptimized />
                     </ClanBadgeDiv>
                   </Cell>
                   <Cell

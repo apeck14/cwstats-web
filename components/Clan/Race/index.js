@@ -163,6 +163,7 @@ export default function Race({ race, isColosseum, dayOfWeek }) {
                     height={showMobileView ? 24 : 32}
                     width={showMobileView ? 18 : 24}
                     alt={c.name}
+                    unoptimized
                   />
                   <Name>{c.name}</Name>
                 </Column>

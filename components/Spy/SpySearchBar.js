@@ -208,6 +208,7 @@ export default function SpySearchBar({
                   src={`/assets/badges/${getClanBadgeFileName(item.badgeId, item.clanWarTrophies)}.png`}
                   height={30}
                   width={23}
+                  unoptimized
                 />
               )}
               <Column>
