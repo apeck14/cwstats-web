@@ -71,15 +71,14 @@ export default function ServerHeader({ name, icon, id }) {
             alt={name}
             height={iconPx}
             width={iconPx}
+            unoptimized
           />
         ) : (
           <DefaultIcon />
         )}
         <Name>{name}</Name>
       </Main>
-      <SubHeader>
-        Customize CW2 Stats Discord bot settings for your server!
-      </SubHeader>
+      <SubHeader>Customize CW2 Stats Discord bot settings for your server!</SubHeader>
       <SubNav />
     </>
   )
