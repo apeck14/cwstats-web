@@ -1,4 +1,4 @@
-import { AppShell, Button, Group, Text } from "@mantine/core"
+import { AppShell, Button, Group, Stack, Text } from "@mantine/core"
 import Link from "next/link"
 import { useRouter } from "next/navigation"
 
@@ -14,11 +14,14 @@ export default function Header() {
         <Group gap="xl" h="100%">
           <Group gap="xs">
             <Image height={36} src="/assets/icons/logo.png" width={36} />
-            <Link href="/">
+            <Stack className="noselect" component={Link} gap={0} href="/">
               <Text fw={800} size="1.5rem">
                 CWStats
               </Text>
-            </Link>
+              <Text c="pink.6" fw={800} fz="0.6rem" lh="1px" ta="right">
+                BETA
+              </Text>
+            </Stack>
           </Group>
           <Group h="100%" visibleFrom="md">
             <NavLinks />

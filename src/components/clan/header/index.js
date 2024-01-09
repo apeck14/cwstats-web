@@ -2,7 +2,7 @@ import { getLinkedAccount } from "../../../actions/api"
 import { followClan, unfollowClan } from "../../../actions/user"
 import HeaderContent from "./header-content"
 
-export default async function ClanHeader({ clan, url }) {
+export default async function ClanHeader({ clan }) {
   const linkedAccount = await getLinkedAccount()
   const clanFollowed = !!linkedAccount?.savedClans?.find((c) => c.tag === clan.tag)
 
@@ -13,7 +13,6 @@ export default async function ClanHeader({ clan, url }) {
       discordID={linkedAccount?.discordID}
       followClan={followClan}
       unfollowClan={unfollowClan}
-      url={url}
     />
   )
 }

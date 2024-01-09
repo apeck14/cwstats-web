@@ -1,3 +1,9 @@
+:root {
+  --table-striped-color: var(--mantine-color-gray-7);
+  --table-highlight-on-hover-color: var(--mantine-color-gray-6);
+  --table-border-color: var(--mantine-color-gray-6);
+}
+
 .mantine-Button-root {
   font-weight: 700;
 }
@@ -43,9 +49,15 @@ a {
 }
 
 .text:hover {
-  filter: brightness(90%);
+  filter: brightness(85%);
   transition: 0.2s ease;
   cursor: pointer;
+}
+
+.pinkText:hover {
+  cursor: pointer;
+  color: var(--mantine-color-pink-6);
+  transition: 0.2s ease;
 }
 
 .buttonHover:hover {
@@ -56,4 +68,18 @@ a {
 .waves-bg {
   background-size: 100% auto;
   background-color: green;
+}
+
+.noselect {
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+  -khtml-user-select: none; /* Konqueror HTML */
+  -moz-user-select: none; /* Old versions of Firefox */
+  -ms-user-select: none; /* Internet Explorer/Edge */
+  user-select: none;
+}
+
+.ignoreContainerPadding {
+  margin: -1rem 0 0 -1rem;
+  width: calc(100% + 2rem);
 }

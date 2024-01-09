@@ -52,7 +52,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
       <Stack className="circuit" py={`${breakpointObj(4.5, 5, 6.5, 8)[breakpoint]}rem`}>
         <HomeContainer>
           <Stack gap="xl">
-            <Title className={classes.title} fw={800} fz={titleSize} lh={titleSize}>
+            <Title className={classes.title} fw={800} fz={titleSize}>
               The trusted source for everything <span className="gradientText">Clan Wars</span>
             </Title>
             <Title c="gray.2" fw={500} fz={`${breakpointObj(1.1, 1.15, 1.3, 1.5)[breakpoint]}rem`}>

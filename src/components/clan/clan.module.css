@@ -1,0 +1,10 @@
+.th {
+  border-bottom: 2px solid var(--mantine-color-pink-6);
+  border-top-right-radius: var(--mantine-radius-sm);
+  border-top-left-radius: var(--mantine-radius-sm);
+}
+
+.th:hover {
+  background-color: var(--mantine-color-gray-8);
+  cursor: pointer;
+}

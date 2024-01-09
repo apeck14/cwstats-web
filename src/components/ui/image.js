@@ -1,6 +1,20 @@
 import { Image as MantineImage } from "@mantine/core"
 import NextImage from "next/image"
 
-export default function Image({ alt, fill, height, src, width }) {
-  return <MantineImage alt={alt} component={NextImage} fill={fill} height={height} src={src} width={width} />
+export default function Image({ alt, circle, fill, fit, height, hiddenFrom, radius, src, unoptimized, width }) {
+  return (
+    <MantineImage
+      alt={alt}
+      component={NextImage}
+      fill={fill}
+      fit={fit || "contain"}
+      height={height}
+      hiddenFrom={hiddenFrom}
+      radius={radius}
+      src={src}
+      style={circle ? { borderRadius: "50%" } : {}}
+      unoptimized={unoptimized}
+      width={circle ? height : width || height}
+    />
+  )
 }

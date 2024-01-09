@@ -6,9 +6,9 @@ const getBreakpoint = (width) =>
 
 export default function useWindowSize() {
   const [windowSize, setWindowSize] = useState({
-    breakpoint: undefined,
-    height: undefined,
-    width: undefined,
+    breakpoint: getBreakpoint(window.innerWidth),
+    height: window.innerHeight,
+    width: window.innerWidth,
   })
 
   useEffect(() => {

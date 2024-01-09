@@ -4,21 +4,27 @@ import { ActionIcon, Button, Container, Group, Stack, Text, Title } from "@manti
 import { useDebounceCallback } from "@mantine/hooks"
 import { IconExternalLink } from "@tabler/icons-react"
 import Link from "next/link"
+import { usePathname, useRouter } from "next/navigation"
 import { useState } from "react"
 
 import { CLAN_IN_GAME_LINK } from "../../../../public/static/constants"
-import { getClanBadgeFileName } from "../../../lib/functions"
+import useWindowSize from "../../../hooks/useWindowSize"
+import { breakpointObj, getClanBadgeFileName } from "../../../lib/functions"
 import Image from "../../ui/image"
 import FollowButton from "./follow-button"
 import classes from "./header.module.css"
 
-export default function HeaderContent({ clan, clanFollowed, discordID, followClan, unfollowClan, url }) {
+export default function HeaderContent({ clan, clanFollowed, discordID, followClan, unfollowClan }) {
+  const router = useRouter()
+  const pathname = usePathname()
   const [followed, setFollowed] = useState(clanFollowed)
-  const activeTab = url.includes("/race")
+  const { breakpoint } = useWindowSize()
+
+  const activeTab = pathname.includes("/race")
     ? "race"
-    : url.includes("/log")
+    : pathname.includes("/log")
       ? "log"
-      : url.includes("/plus")
+      : pathname.includes("/plus")
         ? "plus"
         : "home"
 
@@ -30,19 +36,23 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
   }, 1500)
 
   const handleFollowToggle = () => {
-    updateFollowed()
-    setFollowed(!followed)
+    // not logged in
+    if (!discordID) router.push(`/login?callback=${pathname}`)
+    else {
+      updateFollowed()
+      setFollowed(!followed)
+    }
   }
 
   return (
     <Stack>
       <Stack className={classes.header}>
         <Container py="lg" size="lg" w="100%">
-          <Group gap="xl">
-            <Image height={60} src={`/assets/badges/${badge}.png`} width={36} />
+          <Group gap={breakpointObj("md", "md", "lg", "xl")[breakpoint]}>
+            <Image height={breakpointObj(40, 40, 60)[breakpoint]} src={`/assets/badges/${badge}.png`} width={45} />
             <Stack gap="xs" style={{ flex: "1 1 auto" }}>
               <Group justify="space-between">
-                <Title>{clan.name}</Title>
+                <Title fz={breakpointObj("1.5rem", "1.5rem", "2rem")[breakpoint]}>{clan.name}</Title>
                 <FollowButton followed={followed} handleToggle={handleFollowToggle} showText />
                 <Group gap="xs" hiddenFrom="md">
                   <FollowButton followed={followed} handleToggle={handleFollowToggle} />
@@ -54,7 +64,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                 </Group>
               </Group>
               <Group justify="space-between">
-                <Group gap="xl">
+                <Group gap={breakpointObj("lg", "lg", "xl")[breakpoint]}>
                   <Text fw={600}>{clan.tag}</Text>
                   <Group gap="xs">
                     <Image height={16} src="/assets/icons/trophy.png" width={14} />
