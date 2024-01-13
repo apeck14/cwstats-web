@@ -128,7 +128,7 @@ export default function MembersTable({ members }) {
   }
 
   return (
-    <Table className="ignoreContainerPadding" highlightOnHover striped>
+    <Table className="ignoreContainerPadding" highlightOnHover mt="xs" striped>
       <Table.Thead>
         <Table.Tr>
           <Table.Th className={classes.th} onClick={() => handleThClick("rank")} ta="center">

@@ -4,7 +4,7 @@ import HeaderContent from "./header-content"
 
 export default async function ClanHeader({ clan }) {
   const linkedAccount = await getLinkedAccount()
-  const clanFollowed = !!linkedAccount?.savedClans?.find((c) => c.tag === clan.tag)
+  const clanFollowed = !!linkedAccount?.savedClans?.find((c) => c.tag === clan?.tag)
 
   return (
     <HeaderContent

@@ -4,6 +4,7 @@
 import { createTheme, MantineProvider, TextInput } from "@mantine/core"
 import { Notifications } from "@mantine/notifications"
 import { Source_Sans_3 } from "next/font/google"
+import { AppProgressBar } from "next-nprogress-bar"
 
 const SourceSans3 = Source_Sans_3({ display: "swap", subsets: ["latin"] })
 
@@ -56,6 +57,7 @@ export default function ThemeProvider({ children }) {
   return (
     <MantineProvider forceColorScheme="dark" theme={theme}>
       <Notifications />
+      <AppProgressBar color="#ff237a" options={{ showSpinner: false }} shallowRouting />
       {children}
     </MantineProvider>
   )

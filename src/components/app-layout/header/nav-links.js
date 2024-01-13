@@ -1,7 +1,8 @@
 import { Group } from "@mantine/core"
 import { IconNotes, IconSpy, IconTrophy } from "@tabler/icons-react"
 import Link from "next/link"
-import { usePathname, useRouter } from "next/navigation"
+import { usePathname } from "next/navigation"
+import { useRouter } from "next-nprogress-bar"
 
 import classes from "./header.module.css"
 
@@ -21,19 +22,16 @@ export default function NavLinks() {
       h="100%"
       key={l.label}
     >
-      <Link href={l.link} passHref>
-        <Group
-          className={classes.navItem}
-          gap="0.25rem"
-          onClick={(e) => {
-            e.preventDefault()
-            router.push(l.link)
-          }}
-        >
-          {l.icon}
-          {l.label}
-        </Group>
-      </Link>
+      <Group
+        className={classes.navItem}
+        component={Link}
+        gap="0.25rem"
+        href={l.link}
+        onClick={() => router.push(l.link)}
+      >
+        {l.icon}
+        {l.label}
+      </Group>
     </Group>
   ))
 }

@@ -1,11 +1,13 @@
 "use server"
 
+import { redirect } from "next/navigation"
+
 import { formatTag } from "../lib/functions"
 import clientPromise from "../lib/mongodb"
 
 const BASE_URL = "https://proxy.royaleapi.dev/v1"
 
-const formatSupercellResponse = async (resp) => {
+const formatSupercellResponse = async (resp, redirectOnError) => {
   const { status } = resp
 
   if (status === 200) {
@@ -23,19 +25,23 @@ const formatSupercellResponse = async (resp) => {
   else if (status === 429) error = "API limit exceeded. Please try again later."
   else if (status === 503) error = "Maintenence break."
 
+  const redirectTo500 = status !== 404 && status !== 429 && status !== 503
+
+  if (redirectOnError) redirect(redirectTo500 ? "/500" : `/${status}`)
+
   return {
     error,
     status,
   }
 }
 
-async function supercellRequest(url) {
+async function supercellRequest(url, redirectOnError) {
   const options = { cache: "no-store", headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_CR_API_TOKEN}` } }
 
   try {
     const resp = await fetch(`${BASE_URL}${url}`, options)
 
-    return formatSupercellResponse(resp)
+    return formatSupercellResponse(resp, redirectOnError)
   } catch {
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
@@ -60,8 +66,8 @@ export async function addPlayer({ clanName, name, tag }) {
   }
 }
 
-export async function getPlayer(tag) {
-  const player = await supercellRequest(`/players/%23${formatTag(tag)}`)
+export async function getPlayer(tag, redirectOnError = false) {
+  const player = await supercellRequest(`/players/%23${formatTag(tag)}`, redirectOnError)
 
   if (!player.error) {
     const {
@@ -73,20 +79,20 @@ export async function getPlayer(tag) {
   return player
 }
 
-export async function getPlayerBattleLog(tag) {
-  return supercellRequest(`/players/%23${formatTag(tag)}/battlelog`)
+export async function getPlayerBattleLog(tag, redirectOnError = false) {
+  return supercellRequest(`/players/%23${formatTag(tag)}/battlelog`, redirectOnError)
 }
 
-export async function getClan(tag) {
-  return supercellRequest(`/clans/%23${formatTag(tag)}`)
+export async function getClan(tag, redirectOnError = false) {
+  return supercellRequest(`/clans/%23${formatTag(tag)}`, redirectOnError)
 }
 
-export async function getClanMembers(tag) {
-  return supercellRequest(`/clans/%23${formatTag(tag)}/members`)
+export async function getClanMembers(tag, redirectOnError = false) {
+  return supercellRequest(`/clans/%23${formatTag(tag)}/members`, redirectOnError)
 }
 
-export async function searchClans(query, sortByWarTrophies = true, limit = 5) {
-  const resp = await supercellRequest(`/clans?name=${encodeURIComponent(query)}`)
+export async function searchClans(query, sortByWarTrophies = true, limit = 5, redirectOnError = false) {
+  const resp = await supercellRequest(`/clans?name=${encodeURIComponent(query)}`, redirectOnError)
 
   if (resp.status === 200) {
     if (sortByWarTrophies) {

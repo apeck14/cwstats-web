@@ -16,7 +16,7 @@ import {
   Title,
 } from "@mantine/core"
 import { IconBrandDiscord, IconSearch } from "@tabler/icons-react"
-import { useRouter } from "next/navigation"
+import Link from "next/link"
 import { useState } from "react"
 
 import { DISCORD_BOT_INVITE } from "../../../public/static/constants"
@@ -38,7 +38,6 @@ function HomeContainer({ children, ...props }) {
 
 export default function Home({ loggedIn, savedClans, savedPlayers }) {
   const { breakpoint } = useWindowSize()
-  const router = useRouter()
   const [currentSegment, setCurrentSegment] = useState("Clans")
   const onSegmentChange = (val) => {
     setCurrentSegment(val)
@@ -137,10 +136,12 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                 </Text>
                 <Button
                   color="#7289da"
+                  component={Link}
+                  href={DISCORD_BOT_INVITE}
                   leftSection={<IconBrandDiscord />}
                   maw="10rem"
                   mt="1rem"
-                  onClick={() => router.push(DISCORD_BOT_INVITE)}
+                  target="_blank"
                 >
                   Invite to Server
                 </Button>

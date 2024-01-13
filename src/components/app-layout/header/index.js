@@ -1,13 +1,11 @@
 import { AppShell, Button, Group, Stack, Text } from "@mantine/core"
 import Link from "next/link"
-import { useRouter } from "next/navigation"
 
 import Image from "../../ui/image"
 import AvatarDropdown from "./avatar"
 import NavLinks from "./nav-links"
 
 export default function Header() {
-  const router = useRouter()
   return (
     <AppShell.Header bg="gray.10" h={60} px="sm">
       <Group align="center" h="100%" justify="space-between">
@@ -29,7 +27,7 @@ export default function Header() {
         </Group>
 
         <Group>
-          <Button onClick={() => router.push("/upgrade")} size="xs">
+          <Button component={Link} href="/upgrade" radius="xl" size="xs">
             Upgrade
           </Button>
           <AvatarDropdown />

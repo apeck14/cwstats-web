@@ -84,36 +84,38 @@ export default function SpyPage() {
             size={breakpointObj("md", "md", "lg")[breakpoint]}
           />
 
-          <Stack fw={600} gap="0.15rem" mt="md">
-            {showSkeleton ? (
-              <Skeleton height="1.5rem" my="0.4rem" width="10rem" />
-            ) : (
-              <Link className="text" href="/" style={{ fontSize: "1.5rem" }}>
-                {player?.name}
-              </Link>
-            )}
-
-            <Group gap="xs">
+          {(player || showSkeleton) && (
+            <Stack fw={600} gap="0.15rem" mt="md">
               {showSkeleton ? (
-                <Skeleton height={24} width={20} />
+                <Skeleton height="1.5rem" my="0.4rem" width="10rem" />
               ) : (
-                <Image height={24} src={`/assets/badges/${player?.clan?.badge}.png`} width={12} />
-              )}
-
-              {showSkeleton ? (
-                <Skeleton height="1rem" width="10rem" />
-              ) : (
-                <Link
-                  className="text"
-                  href={player?.clan?.tag ? `/clan/${player.clan.tag.substring(1)}` : "/"}
-                  style={{ color: "var(--mantine-color-gray-1)" }}
-                >
-                  {player?.clan?.name}
+                <Link className="text" href="/" style={{ fontSize: "1.5rem" }}>
+                  {player?.name}
                 </Link>
               )}
-            </Group>
-            {player && <DeckContent decks={decks} loading={decksLoading} />}
-          </Stack>
+
+              <Group gap="xs">
+                {showSkeleton ? (
+                  <Skeleton height={24} width={20} />
+                ) : (
+                  <Image height={24} src={`/assets/badges/${player?.clan?.badge}.png`} width={12} />
+                )}
+
+                {showSkeleton ? (
+                  <Skeleton height="1rem" width="10rem" />
+                ) : (
+                  <Link
+                    className="text"
+                    href={player?.clan?.tag ? `/clan/${player.clan.tag.substring(1)}` : "/"}
+                    style={{ color: "var(--mantine-color-gray-1)" }}
+                  >
+                    {player?.clan?.name}
+                  </Link>
+                )}
+              </Group>
+              {player && <DeckContent decks={decks} loading={decksLoading} />}
+            </Stack>
+          )}
         </Stack>
       </Container>
     </Flex>
