@@ -1,6 +1,7 @@
 "use client"
 
 import { Container, Flex, Group, Skeleton, Stack, Title } from "@mantine/core"
+import { useMediaQuery } from "@mantine/hooks"
 import { IconSpy } from "@tabler/icons-react"
 import Link from "next/link"
 import { useState } from "react"
@@ -10,16 +11,16 @@ import DeckContent from "../../components/spy/deck-content"
 import SearchByClanModal from "../../components/spy/search-clan-modal"
 import DebouncedSearch from "../../components/ui/debounced-search"
 import Image from "../../components/ui/image"
-import useWindowSize from "../../hooks/useWindowSize"
-import { getWarDecksFromLog } from "../../lib/decks"
-import { breakpointObj, getClanBadgeFileName } from "../../lib/functions"
+import { getWarDecksFromLog } from "../../lib/functions/decks"
+import { getClanBadgeFileName } from "../../lib/functions/utils"
 
 export default function SpyPage() {
-  const { breakpoint } = useWindowSize()
   const [decks, setDecks] = useState(null)
   const [player, setPlayer] = useState(null)
   const [decksLoading, setDecksLoading] = useState(false)
   const [showSkeleton, setShowSkeleton] = useState(false)
+  const isMobile = useMediaQuery("(max-width: 30em)")
+  const isTablet = useMediaQuery("(max-width: 48em)")
 
   const handlePlayerSelect = async (selPlayer, selClan) => {
     if (player?.tag === selPlayer?.tag) return
@@ -64,14 +65,14 @@ export default function SpyPage() {
 
   return (
     <Flex className="circuit" mih="calc(100dvh - 3.75rem)" w="100%">
-      <Container my={`${breakpointObj(3, 3, 5, 10)[breakpoint]}rem`} pb="1rem" size="lg" w="100%">
+      <Container my={`${isMobile ? 3 : isTablet ? 5 : 10}rem`} pb="1rem" size="lg" w="100%">
         <Stack gap="xs">
           <Group>
-            <IconSpy color="var(--mantine-color-pink-6)" size={`${breakpointObj(2.5, 2.5, 3.75)[breakpoint]}rem`} />
-            <Title fz={`${breakpointObj(2.5, 2.5, 3.75)[breakpoint]}rem`}>Deck Spy</Title>
+            <IconSpy color="var(--mantine-color-pink-6)" size={`${isMobile ? 2.5 : 3.75}rem`} />
+            <Title fz={`${isMobile ? 2.5 : 3.75}rem`}>Deck Spy</Title>
           </Group>
           <Group justify="space-between">
-            <Title c="gray.2" fw={600} size={breakpointObj("h4", "h4", "h3")[breakpoint]}>
+            <Title c="gray.2" fw={600} size={isMobile ? "h4" : "h3"}>
               View your opponent&apos;s decks in real-time!
             </Title>
             <SearchByClanModal onPlayerSelect={handlePlayerSelect} />
@@ -81,7 +82,7 @@ export default function SpyPage() {
             isClans={false}
             onSelect={handlePlayerSelect}
             searchIconSize={24}
-            size={breakpointObj("md", "md", "lg")[breakpoint]}
+            size={isMobile ? "md" : "lg"}
           />
 
           {(player || showSkeleton) && (

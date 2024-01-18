@@ -1,18 +1,26 @@
 "use client"
 
 import { Combobox, Group, InputBase, Loader, rem, Text, useCombobox } from "@mantine/core"
-import { useDebouncedValue } from "@mantine/hooks"
+import { useDebouncedValue, useMediaQuery } from "@mantine/hooks"
 import { IconSearch } from "@tabler/icons-react"
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 
 import { getPlayersByQuery } from "../../actions/api"
 import { searchClans } from "../../actions/supercell"
-import useWindowSize from "../../hooks/useWindowSize"
-import { breakpointObj, getClanBadgeFileName } from "../../lib/functions"
+import { getClanBadgeFileName } from "../../lib/functions/utils"
 import Image from "./image"
 
-export default function DebouncedSearch({ isClans, label, onSelect, placeholder, required, searchIconSize, size }) {
-  const { breakpoint } = useWindowSize()
+export default function DebouncedSearch({
+  autoFocus = true,
+  isClans,
+  label,
+  onSelect,
+  placeholder,
+  required,
+  searchIconSize,
+  size,
+}) {
+  const inputRef = useRef(null)
   const combobox = useCombobox({
     onDropdownClose: () => {
       combobox.resetSelectedOption()
@@ -23,6 +31,7 @@ export default function DebouncedSearch({ isClans, label, onSelect, placeholder,
   const [debounced] = useDebouncedValue(search, 600)
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
+  const isMobile = useMediaQuery("(max-width: 30em)")
 
   const showDropdown = search && debounced && !loading
 
@@ -46,7 +55,11 @@ export default function DebouncedSearch({ isClans, label, onSelect, placeholder,
     updateResults()
   }, [debounced])
 
-  const clanBadgePx = breakpointObj(28, 28, 32)[breakpoint]
+  const blurInputFocus = () => {
+    inputRef.current.blur()
+  }
+
+  const clanBadgePx = isMobile ? 28 : 32
 
   return (
     <Combobox
@@ -60,7 +73,7 @@ export default function DebouncedSearch({ isClans, label, onSelect, placeholder,
     >
       <Combobox.Target>
         <InputBase
-          autoFocus
+          autoFocus={autoFocus}
           label={label}
           leftSection={
             loading ? (
@@ -74,6 +87,7 @@ export default function DebouncedSearch({ isClans, label, onSelect, placeholder,
             setSearch(e.currentTarget.value)
           }}
           placeholder={placeholder || `Search ${isClans ? "clans" : "players"}...`}
+          ref={inputRef}
           required={required}
           size={size || "md"}
           value={search}
@@ -84,10 +98,10 @@ export default function DebouncedSearch({ isClans, label, onSelect, placeholder,
         <Combobox.Dropdown>
           <Combobox.Options>
             {results.length === 0 ? (
-              <Combobox.Empty c="gray.1">No Results</Combobox.Empty>
+              <Combobox.Empty c="white">No Results</Combobox.Empty>
             ) : (
               results.map((r) => (
-                <Combobox.Option key={r.tag} value={r.tag}>
+                <Combobox.Option key={r.tag} onClick={blurInputFocus} value={r.tag}>
                   <Group justify="space-between">
                     <Group>
                       {isClans && (

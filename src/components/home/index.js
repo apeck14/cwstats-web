@@ -1,32 +1,16 @@
-/* eslint-disable perfectionist/sort-objects */
-
 "use client"
 
-import {
-  Button,
-  Card,
-  Container,
-  Divider,
-  Group,
-  rem,
-  SegmentedControl,
-  Stack,
-  Text,
-  TextInput,
-  Title,
-} from "@mantine/core"
-import { IconBrandDiscord, IconSearch } from "@tabler/icons-react"
+import { Button, Card, Container, Divider, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { useMediaQuery } from "@mantine/hooks"
+import { IconBrandDiscord, IconClockBolt, IconTools } from "@tabler/icons-react"
 import Link from "next/link"
-import { useState } from "react"
 
 import { DISCORD_BOT_INVITE } from "../../../public/static/constants"
-import useWindowSize from "../../hooks/useWindowSize"
-import { breakpointObj } from "../../lib/functions"
 import Image from "../ui/image"
-import FeatureIcons from "./feature-icons"
 import classes from "./Home.module.css"
 import LoginOverlay from "./loginOverlay"
 import SavedItem from "./saved-item"
+import SegmentedSearch from "./segmented-search"
 
 function HomeContainer({ children, ...props }) {
   return (
@@ -37,30 +21,68 @@ function HomeContainer({ children, ...props }) {
 }
 
 export default function Home({ loggedIn, savedClans, savedPlayers }) {
-  const { breakpoint } = useWindowSize()
-  const [currentSegment, setCurrentSegment] = useState("Clans")
-  const onSegmentChange = (val) => {
-    setCurrentSegment(val)
-  }
+  const isPhone = useMediaQuery("(max-width: 23.75em)")
+  const isMobile = useMediaQuery("(max-width: 30em)")
+  const isTablet = useMediaQuery("(max-width: 48em)")
+  const isLaptop = useMediaQuery("(max-width: 64em)")
 
-  const savedCardSize = breakpointObj("100%", "100%", "100%", "100%", "28rem")[breakpoint]
-  const titleSize = `${breakpointObj(2.5, 2.5, 3.5, 4.5, 6)[breakpoint]}rem`
+  const savedCardSize = isLaptop ? "100%" : "28rem"
+  const titleSize = isMobile ? 2.5 : isLaptop ? 4 : 6
+  const titleYPadding = isMobile ? 4.5 : isTablet ? 6.5 : 8
+  const subTitleSize = isPhone ? 1.1 : isMobile ? 1.15 : isTablet ? 1.3 : 1.5
+
+  const direction = isMobile ? "row" : "column"
+  const featureTitleSize = isMobile ? 1.2 : 1.5
 
   return (
     <Stack mt="-1rem">
-      <Stack className="circuit" py={`${breakpointObj(4.5, 5, 6.5, 8)[breakpoint]}rem`}>
+      <Stack className="circuit" py={`${titleYPadding}rem`}>
         <HomeContainer>
           <Stack gap="xl">
-            <Title className={classes.title} fw={800} fz={titleSize}>
+            <Title className={classes.title} fw={800} fz={`${titleSize}rem`}>
               The trusted source for everything <span className="gradientText">Clan Wars</span>
             </Title>
-            <Title c="gray.2" fw={500} fz={`${breakpointObj(1.1, 1.15, 1.3, 1.5)[breakpoint]}rem`}>
+            <Title c="gray.2" fw={500} fz={`${subTitleSize}rem`}>
               Unleash the power of analytics, dive into comprehensive insights, strategize with precision, and elevate
               your clan&apos;s CW2 expierence with real-time data &mdash; trusted by 2500+ of the most competitive CW2
               clans
             </Title>
 
-            <FeatureIcons breakpoint={breakpoint} />
+            <Flex direction={isMobile ? "column" : "row"} gap="xl" pt="xl">
+              <Flex direction={direction} gap="sm" key="s1">
+                <ThemeIcon size="xl" variant="gradient">
+                  <IconBrandDiscord />
+                </ThemeIcon>
+                <Flex direction="column">
+                  <Title fz={`${featureTitleSize}rem`}>Discord Bot</Title>
+                  <Text c="gray.1" fw={500}>
+                    Bring the analytics you love directly to your Discord servers
+                  </Text>
+                </Flex>
+              </Flex>
+              <Flex direction={direction} gap="sm" key="s2">
+                <ThemeIcon size="xl" variant="gradient">
+                  <IconClockBolt />
+                </ThemeIcon>
+                <Flex direction="column">
+                  <Title fz={`${featureTitleSize}rem`}>Real-Time Data</Title>
+                  <Text c="gray.1" fw={500}>
+                    Foster quick, informed decisions to maximize your clan&apos;s success
+                  </Text>
+                </Flex>
+              </Flex>
+              <Flex direction={direction} gap="sm" key="s3">
+                <ThemeIcon size="xl" variant="gradient">
+                  <IconTools />
+                </ThemeIcon>
+                <Flex direction="column">
+                  <Title fz={`${featureTitleSize}rem`}>CW2 Tools</Title>
+                  <Text c="gray.1" fw={500}>
+                    Explore cutting-edge tools to always give you and your clan the advantage
+                  </Text>
+                </Flex>
+              </Flex>
+            </Flex>
           </Stack>
         </HomeContainer>
       </Stack>
@@ -68,21 +90,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
         <HomeContainer py="3rem">
           <Stack>
             <Title size="h1">Quick Search</Title>
-            <SegmentedControl
-              color={currentSegment === "Clans" ? "pink" : "#FFA500"}
-              data={["Clans", "Players"]}
-              onChange={onSegmentChange}
-              radius="sm"
-              size="xs"
-              w="8rem"
-            />
-            <TextInput
-              color="pink"
-              leftSection={<IconSearch stroke={1.5} style={{ height: rem(18), width: rem(18) }} />}
-              placeholder="Search by name or tag, e.g. ABC123"
-              size="md"
-              w="100%"
-            />
+            <SegmentedSearch />
             <Group gap="2rem" grow justify="space-between" mt="3rem">
               <Stack miw={savedCardSize}>
                 <Title size="h2">My Clans</Title>
@@ -121,16 +129,12 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
       <Stack bg="gray.9" mt="-1rem">
         <Stack className="polka2">
           <HomeContainer key="3" py="3rem">
-            <Group
-              className={classes.stockPhotoContainer}
-              gap={`3rem ${breakpointObj(8, 8, 8, 10)[breakpoint]}rem`}
-              justify="space-between"
-            >
+            <Group className={classes.stockPhotoContainer} gap={`3rem ${isTablet ? 8 : 10}rem`} justify="space-between">
               <Stack className={classes.discordPhotoText}>
                 <Title fz="2.5rem">
                   Get the <span className="gradientText">Discord Bot</span>
                 </Title>
-                <Text c="gray.1" fw={500} fz={`${breakpointObj(1, 1, 1.25)[breakpoint]}rem`}>
+                <Text c="gray.1" fw={500} fz={`${isMobile ? 1 : 1.25}rem`}>
                   Enhance your Discord community, and bring all the CWStats features you know and love directly to your
                   server!
                 </Text>

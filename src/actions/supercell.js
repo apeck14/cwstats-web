@@ -2,7 +2,8 @@
 
 import { redirect } from "next/navigation"
 
-import { formatTag } from "../lib/functions"
+import { getRaceDetails } from "../lib/functions/race"
+import { formatTag } from "../lib/functions/utils"
 import clientPromise from "../lib/mongodb"
 
 const BASE_URL = "https://proxy.royaleapi.dev/v1"
@@ -85,6 +86,19 @@ export async function getPlayerBattleLog(tag, redirectOnError = false) {
 
 export async function getClan(tag, redirectOnError = false) {
   return supercellRequest(`/clans/%23${formatTag(tag)}`, redirectOnError)
+}
+
+export async function getRace(tag, redirectOnError = false, getRaceStats = false) {
+  const race = await supercellRequest(`/clans/%23${formatTag(tag)}/currentriverrace`, redirectOnError)
+
+  if (!race.error && getRaceStats) {
+    return {
+      ...race,
+      data: getRaceDetails(race.data),
+    }
+  }
+
+  return race
 }
 
 export async function getClanMembers(tag, redirectOnError = false) {

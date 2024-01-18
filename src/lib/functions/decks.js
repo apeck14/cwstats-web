@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import specialGamemodes from "../../public/static/special-gamemodes"
+import specialGamemodes from "../../../public/static/special-gamemodes"
 
 const sharesCards = (cards1, cards2) => {
   for (const c of cards1) {
@@ -35,7 +35,6 @@ export const getWarDecksFromLog = (log) =>
 
     const mostRecentDuel = log.find((m) => m.type === "riverRaceDuel" || m.type === "riverRaceDuelColosseum")
 
-    // set first duel
     if (mostRecentDuel) {
       for (const r of mostRecentDuel.team[0].rounds) {
         playerDecks.duel.push({
@@ -45,7 +44,6 @@ export const getWarDecksFromLog = (log) =>
       }
     }
 
-    // set other decks
     let index = 0
     while (playerDecks.duel.length + playerDecks.other.length < 4 && index < log.length) {
       const m = log[index]

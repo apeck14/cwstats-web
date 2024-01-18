@@ -7,7 +7,7 @@ import { IconCheck, IconHash } from "@tabler/icons-react"
 import { useState } from "react"
 
 import { addPlus } from "../../actions/upgrade"
-import { formatTag } from "../../lib/functions"
+import { formatTag } from "../../lib/functions/utils"
 
 export default function PlusFormModal() {
   const [tag, setTag] = useState("")
@@ -52,8 +52,9 @@ export default function PlusFormModal() {
     else {
       close()
       notifications.show({
-        color: "orange.5",
-        description: `${name} will now have full access to all CWStats+ perks.`,
+        autoClose: 5000,
+        color: "green",
+        message: `${name} will now have full access to all CWStats+ perks.`,
         title: "CWStats+ Activated!",
       })
     }
@@ -104,7 +105,7 @@ export default function PlusFormModal() {
       </Modal>
       <Button
         className="buttonHover"
-        gradient={{ deg: 90, from: "orange.5", to: "orange.6" }}
+        gradient={{ deg: 180, from: "orange.5", to: "orange.6" }}
         onClick={handleOpen}
         variant="gradient"
         w="100%"

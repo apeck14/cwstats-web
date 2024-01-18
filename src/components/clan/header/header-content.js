@@ -1,7 +1,7 @@
 "use client"
 
 import { ActionIcon, Button, Container, Group, Stack, Text, Title } from "@mantine/core"
-import { useDebounceCallback } from "@mantine/hooks"
+import { useDebounceCallback, useMediaQuery } from "@mantine/hooks"
 import { IconExternalLink } from "@tabler/icons-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -9,8 +9,7 @@ import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
 import { CLAN_IN_GAME_LINK } from "../../../../public/static/constants"
-import useWindowSize from "../../../hooks/useWindowSize"
-import { breakpointObj, getClanBadgeFileName } from "../../../lib/functions"
+import { getClanBadgeFileName } from "../../../lib/functions/utils"
 import Image from "../../ui/image"
 import FollowButton from "./follow-button"
 import classes from "./header.module.css"
@@ -19,7 +18,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
   const router = useRouter()
   const pathname = usePathname()
   const [followed, setFollowed] = useState(clanFollowed)
-  const { breakpoint } = useWindowSize()
+  const isMobile = useMediaQuery("(max-width: 30em)")
 
   const formattedTag = clan?.tag.substring(1)
 
@@ -51,11 +50,11 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
     <Stack>
       <Stack className={classes.header}>
         <Container py="lg" size="lg" w="100%">
-          <Group gap={breakpointObj("md", "md", "lg", "xl")[breakpoint]}>
-            <Image height={breakpointObj(40, 40, 60)[breakpoint]} src={`/assets/badges/${badge}.png`} width={45} />
+          <Group gap={isMobile ? "md" : "lg"}>
+            <Image height={isMobile ? 40 : 60} src={`/assets/badges/${badge}.png`} width={45} />
             <Stack gap="xs" style={{ flex: "1 1 auto" }}>
               <Group justify="space-between">
-                <Title fz={breakpointObj("1.5rem", "1.5rem", "2rem")[breakpoint]}>{clan?.name}</Title>
+                <Title fz={`${isMobile ? 1.5 : 2}rem`}>{clan?.name}</Title>
                 <FollowButton followed={followed} handleToggle={handleFollowToggle} showText />
                 <Group gap="xs" hiddenFrom="md">
                   <FollowButton followed={followed} handleToggle={handleFollowToggle} />
@@ -67,7 +66,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                 </Group>
               </Group>
               <Group justify="space-between">
-                <Group gap={breakpointObj("lg", "lg", "xl")[breakpoint]}>
+                <Group gap={isMobile ? "lg" : "xl"}>
                   <Text fw={600}>{clan?.tag}</Text>
                   <Group gap="xs">
                     <Image height={16} src="/assets/icons/trophy.png" width={14} />

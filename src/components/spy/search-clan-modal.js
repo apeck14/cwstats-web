@@ -1,20 +1,20 @@
 "use client"
 
 import { Button, Group, Modal, ScrollArea, Stack, Title, UnstyledButton } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
+import { useDisclosure, useMediaQuery } from "@mantine/hooks"
 import { useState } from "react"
 
 import { getClanMembers } from "../../actions/supercell"
-import useWindowSize from "../../hooks/useWindowSize"
-import { breakpointObj, getClanBadgeFileName } from "../../lib/functions"
+import { getClanBadgeFileName } from "../../lib/functions/utils"
 import DebouncedSearch from "../ui/debounced-search"
 import Image from "../ui/image"
 
 export default function SearchByClanModal({ onPlayerSelect }) {
-  const { breakpoint } = useWindowSize()
   const [members, setMembers] = useState([])
   const [clan, setClan] = useState(null)
   const [opened, { close, open }] = useDisclosure(false)
+  const isMobile = useMediaQuery("(max-width: 30em)")
+  const isTablet = useMediaQuery("(max-width: 48em)")
 
   const handleClose = () => {
     close()
@@ -36,12 +36,10 @@ export default function SearchByClanModal({ onPlayerSelect }) {
     onPlayerSelect(player, clan)
   }
 
-  const centerModal = breakpoint === "md" || breakpoint === "lg" || breakpoint === "xl"
-
   return (
     <>
       <Modal
-        centered={centerModal}
+        centered={!isTablet}
         onClose={handleClose}
         opened={opened}
         title={<Title fz="1.25rem">Find Player by Clan</Title>}
@@ -77,7 +75,7 @@ export default function SearchByClanModal({ onPlayerSelect }) {
           </ScrollArea>
         ) : null}
       </Modal>
-      <Button onClick={open} size={breakpointObj("xs", "xs", "sm")[breakpoint]} variant="default" w="fit-content">
+      <Button onClick={open} size={isMobile ? "xs" : "sm"} variant="default" w="fit-content">
         Search by clan?
       </Button>
     </>

@@ -11,7 +11,7 @@ export async function addPlus(tag) {
 
   if (error) return { error }
   if (clan.members === 0) return { error: "Clan cannot have 0 members." }
-  if (clan.clanWarTrophies < 3000) return { error: "Clan must be above 3000 war trophies." }
+  if (clan.clanWarTrophies < 3000) return { error: "Clan must have at least 3000 war trophies." }
 
   // check description for "cwstats.com"
   const hasUrlInDescription = clan.description.toLowerCase().includes("cwstats.com")

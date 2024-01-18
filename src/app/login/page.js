@@ -22,7 +22,7 @@ export default function LoginPage() {
         mt="sm"
         onClick={() =>
           signIn("discord", {
-            callbackUrl: callback || "/",
+            callbackUrl: callback,
           })
         }
         variant="light"

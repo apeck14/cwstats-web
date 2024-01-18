@@ -39,7 +39,8 @@
     "global-require": "off",
     "no-await-in-loop": "off",
     "no-shadow": "off",
-    "react/jsx-pascal-case": "off"
+    "react/jsx-pascal-case": "off",
+    "no-unsafe-optional-chaining": "off"
   },
   "overrides": []
 }

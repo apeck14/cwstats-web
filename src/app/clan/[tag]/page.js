@@ -1,15 +1,13 @@
 import { Avatar, Container, Group, SimpleGrid, Stack, Text } from "@mantine/core"
-import { headers as getHeaders } from "next/headers"
 
 import { getClan } from "../../../actions/supercell"
 import ClanHeader from "../../../components/clan/header"
 import MembersTable from "../../../components/clan/members-table"
 import Image from "../../../components/ui/image"
-import { formatClanType, getCountryKeyById, getTagFromHeaders } from "../../../lib/functions"
+import { formatClanType, getCountryKeyById } from "../../../lib/functions/utils"
 
-export default async function ClanPage() {
-  const headers = getHeaders()
-  const tag = getTagFromHeaders(headers)
+export default async function ClanPage({ params }) {
+  const { tag } = params
   const { data: clan } = await getClan(tag, true)
 
   const locationKey = getCountryKeyById(clan?.location?.id)

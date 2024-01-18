@@ -1,9 +1,8 @@
 import { Group, Loader, Popover, SimpleGrid, Stack, Text, Title } from "@mantine/core"
-import { useDisclosure } from "@mantine/hooks"
+import { useDisclosure, useMediaQuery } from "@mantine/hooks"
 import { IconInfoCircle } from "@tabler/icons-react"
 
-import useWindowSize from "../../hooks/useWindowSize"
-import { breakpointObj, getCardFileName } from "../../lib/functions"
+import { getCardFileName } from "../../lib/functions/utils"
 import Image from "../ui/image"
 
 function InfoPopover() {
@@ -22,11 +21,11 @@ function InfoPopover() {
 }
 
 export default function DeckContent({ decks, loading }) {
-  const { breakpoint } = useWindowSize()
+  const isTablet = useMediaQuery("(max-width: 48em)")
 
-  const modeIconPx = breakpointObj(24, 24, 24, 32)[breakpoint]
-  const cardIconPx = breakpointObj(38, 38, 38, 44)[breakpoint]
-  const deckGap = breakpointObj("0.25rem", "0.25rem", "0.25rem", "0.25rem", "0.5rem")[breakpoint]
+  const modeIconPx = isTablet ? 24 : 32
+  const cardIconPx = isTablet ? 38 : 44
+  const deckGap = `${isTablet ? 0.25 : 0.5}rem`
 
   return (
     <Stack
