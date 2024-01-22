@@ -1,24 +1,9 @@
-import { Group, Loader, Popover, SimpleGrid, Stack, Text, Title } from "@mantine/core"
-import { useDisclosure, useMediaQuery } from "@mantine/hooks"
-import { IconInfoCircle } from "@tabler/icons-react"
+import { Group, Loader, SimpleGrid, Stack, Text, Title } from "@mantine/core"
+import { useMediaQuery } from "@mantine/hooks"
 
 import { getCardFileName } from "../../lib/functions/utils"
 import Image from "../ui/image"
-
-function InfoPopover() {
-  const [opened, { close, open }] = useDisclosure(false)
-
-  return (
-    <Popover opened={opened} position="bottom" shadow="md" width={175} withArrow>
-      <Popover.Target>
-        <IconInfoCircle color="var(--mantine-color-pink-6)" onMouseEnter={open} onMouseLeave={close} size="1rem" />
-      </Popover.Target>
-      <Popover.Dropdown p="xs" style={{ fontSize: "0.75rem", pointerEvents: "none" }}>
-        Player battle logs only contain last 25 matches.
-      </Popover.Dropdown>
-    </Popover>
-  )
-}
+import InfoPopover from "../ui/info-popover"
 
 export default function DeckContent({ decks, loading }) {
   const isTablet = useMediaQuery("(max-width: 48em)")
@@ -43,9 +28,9 @@ export default function DeckContent({ decks, loading }) {
             {!decks.duel.length ? (
               <Group c="gray.2" gap="0.25rem">
                 <Text c="gray.2" fw={500}>
-                  No decks found
+                  No duel found
                 </Text>
-                <InfoPopover />
+                <InfoPopover text="Player battle logs only contain last 25 matches." width={175} />
               </Group>
             ) : (
               decks.duel.map((d) => (
@@ -65,7 +50,7 @@ export default function DeckContent({ decks, loading }) {
                 <Text c="gray.2" fw={500}>
                   No decks found
                 </Text>
-                <InfoPopover />
+                <InfoPopover text="Player battle logs only contain last 25 matches." width={175} />
               </Group>
             ) : (
               decks.other.map((d) => (

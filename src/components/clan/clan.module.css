@@ -8,3 +8,31 @@
   background-color: var(--mantine-color-gray-8);
   cursor: pointer;
 }
+
+.ringStat:hover {
+  background-color: var(--mantine-color-gray-8);
+  cursor: pointer;
+}
+
+.raceItem:hover {
+  outline: 3px solid var(--mantine-color-gray-6);
+  cursor: pointer;
+}
+
+.raceItem[data-active] {
+  outline: 3px solid var(--mantine-color-gray-6);
+}
+
+.nameItem {
+  flex: 3 1 0px;
+  width: 0;
+}
+
+.topItem {
+  flex: 1 1 0px;
+  width: 0;
+}
+
+.rankIcon {
+  border-radius: var(--mantine-radius-sm);
+}

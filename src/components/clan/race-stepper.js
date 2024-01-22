@@ -7,7 +7,7 @@ import { IconSwords, IconTargetArrow } from "@tabler/icons-react"
 export default function RaceStepper({ dayDescriptions, dayOfWeek }) {
   const isTablet = useMediaQuery("(max-width: 48em)")
 
-  const index = dayOfWeek <= 3 ? (isTablet ? -1 : 0) : isTablet ? dayOfWeek - 3 : dayOfWeek - 2
+  const index = dayOfWeek < 3 ? (isTablet ? -1 : 0) : isTablet ? dayOfWeek - 3 : dayOfWeek - 2
   const iconSize = isTablet ? "0.75rem" : "1.25rem"
 
   // TODO: handle colosseum? descriptions etc

@@ -34,13 +34,16 @@ export default function FeatureTable() {
   const isMobile = useMediaQuery("(max-width: 30em)")
   const isTablet = useMediaQuery("(max-width: 48em)")
 
+  const headerFz = isMobile ? "0.9rem" : "1.25rem"
+  const textFz = isMobile ? "0.8rem" : "1.1rem"
+
   const rows = data.map((f) => (
     <Table.Tr fw={500} fz={`${isPhone ? 0.7 : isMobile ? 0.8 : 1}rem`} key={f}>
       <Table.Td
         c={f.isHeader ? "white" : "gray.1"}
         fw={f.isHeader && 700}
-        fz={f.isHeader && isMobile ? "1rem" : "1.25rem"}
-        pl={!f.isHeader && isPhone ? "xs" : isMobile ? "sm" : "xl"}
+        fz={f.isHeader ? headerFz : textFz}
+        pl={f.isHeader && isPhone ? "xs" : isMobile ? "sm" : "xl"}
         pt={f.isHeader && isPhone ? "sm" : isMobile ? "md" : "xl"}
       >
         {f.name}
@@ -58,7 +61,12 @@ export default function FeatureTable() {
   ))
 
   return (
-    <Table my="3rem" verticalSpacing={isPhone ? "xs" : isMobile ? "sm" : "md"} w="100%" withRowBorders={false}>
+    <Table
+      className={isMobile ? "ignoreContainerPadding" : ""}
+      my="3rem"
+      verticalSpacing={isPhone ? "xs" : isMobile ? "sm" : "md"}
+      withRowBorders={false}
+    >
       <Table.Thead>
         <Table.Tr
           fz={`${isPhone ? 0.8 : isMobile ? 1 : isTablet ? 1.25 : 1.5}rem`}

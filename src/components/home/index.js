@@ -5,7 +5,6 @@ import { useMediaQuery } from "@mantine/hooks"
 import { IconBrandDiscord, IconClockBolt, IconTools } from "@tabler/icons-react"
 import Link from "next/link"
 
-import { DISCORD_BOT_INVITE } from "../../../public/static/constants"
 import Image from "../ui/image"
 import classes from "./Home.module.css"
 import LoginOverlay from "./loginOverlay"
@@ -49,7 +48,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
             </Title>
 
             <Flex direction={isMobile ? "column" : "row"} gap="xl" pt="xl">
-              <Flex direction={direction} gap="sm" key="s1">
+              <Flex direction={direction} gap="sm">
                 <ThemeIcon size="xl" variant="gradient">
                   <IconBrandDiscord />
                 </ThemeIcon>
@@ -60,7 +59,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                   </Text>
                 </Flex>
               </Flex>
-              <Flex direction={direction} gap="sm" key="s2">
+              <Flex direction={direction} gap="sm">
                 <ThemeIcon size="xl" variant="gradient">
                   <IconClockBolt />
                 </ThemeIcon>
@@ -71,7 +70,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                   </Text>
                 </Flex>
               </Flex>
-              <Flex direction={direction} gap="sm" key="s3">
+              <Flex direction={direction} gap="sm">
                 <ThemeIcon size="xl" variant="gradient">
                   <IconTools />
                 </ThemeIcon>
@@ -97,10 +96,10 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                 {loggedIn ? (
                   <Card bg="transparent" className={classes.card} h="23.25rem" p={0} withBorder>
                     {savedClans.slice(0, 5).map((c, i) => (
-                      <>
-                        <SavedItem key={c.tag} {...c} />
-                        {i < 4 && <Divider color="gray.7" key={`${c.tag}-d`} />}
-                      </>
+                      <span key={c.tag}>
+                        <SavedItem {...c} />
+                        {i < 4 && <Divider color="gray.7" />}
+                      </span>
                     ))}
                   </Card>
                 ) : (
@@ -112,10 +111,10 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                 {loggedIn ? (
                   <Card bg="transparent" className={classes.card} h="23.25rem" p={0} withBorder>
                     {savedPlayers.slice(0, 5).map((p, i) => (
-                      <>
-                        <SavedItem key={p.tag} {...p} />
-                        {i < 4 && <Divider color="gray.7" key={`${p.tag}-d`} />}
-                      </>
+                      <span key={p.tag}>
+                        <SavedItem {...p} />
+                        {i < 4 && <Divider color="gray.7" />}
+                      </span>
                     ))}
                   </Card>
                 ) : (
@@ -128,7 +127,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
       </Stack>
       <Stack bg="gray.9" mt="-1rem">
         <Stack className="polka2">
-          <HomeContainer key="3" py="3rem">
+          <HomeContainer py="3rem">
             <Group className={classes.stockPhotoContainer} gap={`3rem ${isTablet ? 8 : 10}rem`} justify="space-between">
               <Stack className={classes.discordPhotoText}>
                 <Title fz="2.5rem">
@@ -141,7 +140,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                 <Button
                   color="#7289da"
                   component={Link}
-                  href={DISCORD_BOT_INVITE}
+                  href="/invite"
                   leftSection={<IconBrandDiscord />}
                   maw="10rem"
                   mt="1rem"

@@ -1,52 +1,13 @@
-import { Container, Stack, Title } from "@mantine/core"
+import { Container, Group, Stack, Title } from "@mantine/core"
 
 import { getClan, getRace } from "../../../../actions/supercell"
 import ClanHeader from "../../../../components/clan/header"
+import ParticipantsTable from "../../../../components/clan/participants-table"
+import RaceItems from "../../../../components/clan/race-items"
+import RaceStats from "../../../../components/clan/race-stats"
 import RaceStepper from "../../../../components/clan/race-stepper"
+import InfoPopover from "../../../../components/ui/info-popover"
 import classes from "./Race.module.css"
-
-const fakeRace = [
-  {
-    badgeId: 16000144,
-    clanScore: 4157,
-    fame: 10000,
-    name: "PTROYALEKINGS 2",
-    periodPoints: 0,
-    tag: "#PVRCVY29",
-  },
-  {
-    badgeId: 16000026,
-    clanScore: 4155,
-    fame: 0,
-    name: "huskers",
-    periodPoints: 35000,
-    tag: "#20QPP90R",
-  },
-  {
-    badgeId: 16000081,
-    clanScore: 4187,
-    fame: 0,
-    name: "gli evasi",
-    periodPoints: 35000,
-    tag: "#P0GRUY2U",
-  },
-  {
-    badgeId: 16000138,
-    clanScore: 4115,
-    fame: 0,
-    name: "Amo los Gatitos",
-    periodPoints: 35100,
-    tag: "#YGQ892RY",
-  },
-  {
-    badgeId: 16000133,
-    clanScore: 4215,
-    fame: 0,
-    name: "China 听雨楼",
-    periodPoints: 0,
-    tag: "#PGVGVLLU",
-  },
-]
 
 export default async function ClanRace({ params }) {
   const { tag } = params
@@ -56,14 +17,6 @@ export default async function ClanRace({ params }) {
   const selectedClan = race?.clans?.find((c) => c.tag === clan?.tag)
   const dayOfWeek = race?.periodIndex % 7
   const isColosseum = race?.periodType === "colosseum"
-
-  const getShownParticipants = () => {
-    if (!selectedClan || !selectedClan?.participants) return []
-
-    const memberTags = new Set(selectedClan.participants.map((p) => p.tag))
-
-    return selectedClan.participants.filter((p) => memberTags.has(p.tag) || p.fame > 0)
-  }
 
   return (
     <>
@@ -83,6 +36,16 @@ export default async function ClanRace({ params }) {
               dayOfWeek={dayOfWeek}
               week={++race.sectionIndex}
             />
+            <RaceItems clans={race.clans} isColosseum={isColosseum} />
+            <Group gap="xs" justify="center">
+              <Title>Clan Stats</Title>
+              <InfoPopover iconSize="1.25rem" text="All projections assume no missed attacks." />
+            </Group>
+            <RaceStats clan={selectedClan} isColosseum={isColosseum} />
+            <Title mt="xl" ta="center">
+              Participants
+            </Title>
+            <ParticipantsTable memberList={clan.memberList} participants={selectedClan.participants} />
           </Stack>
         )}
       </Container>

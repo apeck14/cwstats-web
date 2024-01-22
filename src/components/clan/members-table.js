@@ -77,7 +77,7 @@ export default function MembersTable({ members }) {
   const rows = useMemo(
     () =>
       mappedMembers.sort(columns[sortConfig.col][sortConfig.dir]).map((m) => (
-        <Table.Tr fw={500} fz="0.85rem">
+        <Table.Tr fw={500} fz="0.85rem" key={m.tag}>
           <Table.Td ta="center">{m.rank}</Table.Td>
           <Table.Td>
             <Image height={32} src={`/assets/arenas/${m.arena}.png`} />
@@ -100,14 +100,14 @@ export default function MembersTable({ members }) {
                 <Text c="gray.1" size="xs">
                   {m.role}
                 </Text>
-                <Text c={m.lastSeenColor} size="xs">
+                <Text c={m.lastSeenColor} size="xs" suppressHydrationWarning>
                   {m.lastSeenStr}
                 </Text>
               </Group>
             </Stack>
           </Table.Td>
           {/*  */}
-          <Table.Td c={m.lastSeenColor} ta="center" visibleFrom="md">
+          <Table.Td c={m.lastSeenColor} suppressHydrationWarning ta="center" visibleFrom="md">
             {m.lastSeenStr}
           </Table.Td>
           <Table.Td ta="center" visibleFrom="md">
