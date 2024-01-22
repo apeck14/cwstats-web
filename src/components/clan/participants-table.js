@@ -95,7 +95,7 @@ export default function ParticipantsTable({ memberList, participants }) {
   }
 
   return (
-    <Table className="ignoreContainerPadding" highlightOnHover mt="xs" striped>
+    <Table className="ignoreContainerPadding" highlightOnHover my="md" striped>
       <Table.Thead>
         <Table.Tr>
           <Table.Th style={{ borderBottom: "2px solid var(--mantine-color-pink-6)" }} ta="center">

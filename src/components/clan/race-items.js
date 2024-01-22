@@ -56,7 +56,7 @@ export default function RaceItems({ clans, isColosseum }) {
                   </Group>
                   <Group gap={itemGap}>
                     <Text fw={600} fz={{ base: "xs", md: "md", sm: "sm" }}>
-                      138888
+                      {c.fame}
                     </Text>
                     <Image height={iconSize} src="/assets/icons/fame.png" />
                   </Group>
