@@ -1,0 +1,19 @@
+import { Container } from "@mantine/core"
+
+import { getClan } from "../../../../actions/supercell"
+import ClanHeader from "../../../../components/clan/header"
+import ComingSoon from "../../../../components/ui/coming-soon"
+
+export default async function ClanLogPage({ params }) {
+  const { tag } = params
+  const [{ data: clan }] = await Promise.all([getClan(tag, true)])
+
+  return (
+    <>
+      <ClanHeader clan={clan} />
+      <Container size="lg">
+        <ComingSoon />
+      </Container>
+    </>
+  )
+}

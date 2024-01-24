@@ -57,3 +57,58 @@ export async function unfollowClan({ discordID, tag }) {
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
 }
+
+export async function followPlayer({ discordID, name, tag }) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const linkedAccounts = db.collection("Linked Accounts")
+
+    const linkedAccount = await linkedAccounts.findOne({ discordID })
+
+    if (linkedAccount?.savedPlayers?.find((p) => p.tag === tag)) return { error: "Player already saved." }
+
+    await linkedAccounts.updateOne(
+      {
+        discordID,
+      },
+      {
+        $push: {
+          savedPlayers: {
+            name,
+            tag,
+          },
+        },
+      },
+    )
+
+    return { status: 200 }
+  } catch {
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function unfollowPlayer({ discordID, tag }) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const linkedAccounts = db.collection("Linked Accounts")
+
+    await linkedAccounts.updateOne(
+      {
+        discordID,
+      },
+      {
+        $pull: {
+          savedPlayers: {
+            tag,
+          },
+        },
+      },
+    )
+
+    return { status: 200 }
+  } catch {
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}

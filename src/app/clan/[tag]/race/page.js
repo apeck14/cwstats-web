@@ -13,7 +13,7 @@ export default async function ClanRace({ params }) {
   const { tag } = params
   const [{ data: clan }, { data: race }] = await Promise.all([getClan(tag, true), getRace(tag, false, true)])
 
-  const noActiveRace = race?.clans?.length === 0
+  const noActiveRace = !race || race?.clans?.length === 0
   const selectedClan = race?.clans?.find((c) => c.tag === clan?.tag)
   const dayOfWeek = race?.periodIndex % 7
   const isColosseum = race?.periodType === "colosseum"
@@ -23,8 +23,8 @@ export default async function ClanRace({ params }) {
       <ClanHeader clan={clan} />
       <Container size="lg">
         {noActiveRace ? (
-          <Title mt="xl" size="h3" ta="center">
-            Clan not in an active race.
+          <Title c="gray.1" mt="xl" size="h2" ta="center">
+            No active race.
           </Title>
         ) : (
           <Stack mt="md">

@@ -88,6 +88,10 @@ export async function getClan(tag, redirectOnError = false) {
   return supercellRequest(`/clans/%23${formatTag(tag)}`, redirectOnError)
 }
 
+export async function getRaceLog(tag, redirectOnError = false) {
+  return supercellRequest(`/clans/%23${formatTag(tag)}/riverracelog`, redirectOnError)
+}
+
 export async function getRace(tag, redirectOnError = false, getRaceStats = false) {
   const race = await supercellRequest(`/clans/%23${formatTag(tag)}/currentriverrace`, redirectOnError)
 

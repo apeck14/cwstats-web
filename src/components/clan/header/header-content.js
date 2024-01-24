@@ -10,8 +10,8 @@ import { useState } from "react"
 
 import { CLAN_IN_GAME_LINK } from "../../../../public/static/constants"
 import { getClanBadgeFileName } from "../../../lib/functions/utils"
+import FollowButton from "../../ui/follow-button"
 import Image from "../../ui/image"
-import FollowButton from "./follow-button"
 import classes from "./header.module.css"
 
 export default function HeaderContent({ clan, clanFollowed, discordID, followClan, unfollowClan }) {
@@ -59,7 +59,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                 <Group gap="xs" hiddenFrom="md">
                   <FollowButton followed={followed} handleToggle={handleFollowToggle} />
                   <ActionIcon color="gray" variant="light">
-                    <Link href={CLAN_IN_GAME_LINK + clan?.tag?.substring(1)} target="_blank">
+                    <Link href={CLAN_IN_GAME_LINK + formattedTag} target="_blank">
                       <IconExternalLink size={20} />
                     </Link>
                   </ActionIcon>
@@ -78,7 +78,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                   </Group>
                 </Group>
 
-                <Link href={CLAN_IN_GAME_LINK + clan?.tag.substring(1)} target="_blank">
+                <Link href={CLAN_IN_GAME_LINK + formattedTag} target="_blank">
                   <Button
                     color="gray"
                     leftSection={<IconExternalLink size={20} />}

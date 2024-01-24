@@ -76,46 +76,50 @@ export default function MembersTable({ members }) {
 
   const rows = useMemo(
     () =>
-      mappedMembers.sort(columns[sortConfig.col][sortConfig.dir]).map((m) => (
-        <Table.Tr fw={500} fz="0.85rem" key={m.tag}>
-          <Table.Td ta="center">{m.rank}</Table.Td>
-          <Table.Td>
-            <Image height={32} src={`/assets/arenas/${m.arena}.png`} />
-          </Table.Td>
-          <Table.Td ta="center">{m.trophies}</Table.Td>
-          <Table.Td visibleFrom="md">
-            <Link className="pinkText" href={`/player/${m.tag}`}>
-              {m.name}
-            </Link>
-          </Table.Td>
-          {/* mobile player name cell */}
-          <Table.Td hiddenFrom="md">
-            <Stack gap={0}>
-              <Link className="pinkText" href={`/player/${m.tag}`}>
-                <Text fw={600} fz="0.9rem">
-                  {m.name}
-                </Text>
+      mappedMembers.sort(columns[sortConfig.col][sortConfig.dir]).map((m) => {
+        const formattedTag = m.tag.substring(1)
+
+        return (
+          <Table.Tr fw={500} fz={{ base: "0.85rem", md: "1rem" }} key={m.tag}>
+            <Table.Td ta="center">{m.rank}</Table.Td>
+            <Table.Td>
+              <Image height={32} src={`/assets/arenas/${m.arena}.png`} />
+            </Table.Td>
+            <Table.Td ta="center">{m.trophies}</Table.Td>
+            <Table.Td visibleFrom="md">
+              <Link className="pinkText" href={`/player/${formattedTag}`}>
+                {m.name}
               </Link>
-              <Group gap="sm">
-                <Text c="gray.1" size="xs">
-                  {m.role}
-                </Text>
-                <Text c={m.lastSeenColor} size="xs" suppressHydrationWarning>
-                  {m.lastSeenStr}
-                </Text>
-              </Group>
-            </Stack>
-          </Table.Td>
-          {/*  */}
-          <Table.Td c={m.lastSeenColor} suppressHydrationWarning ta="center" visibleFrom="md">
-            {m.lastSeenStr}
-          </Table.Td>
-          <Table.Td ta="center" visibleFrom="md">
-            {m.role}
-          </Table.Td>
-          <Table.Td ta="center">{m.level}</Table.Td>
-        </Table.Tr>
-      )),
+            </Table.Td>
+            {/* mobile player name cell */}
+            <Table.Td hiddenFrom="md">
+              <Stack gap={0}>
+                <Link className="pinkText" href={`/player/${formattedTag}`}>
+                  <Text fw={600} fz="0.9rem">
+                    {m.name}
+                  </Text>
+                </Link>
+                <Group gap="sm">
+                  <Text c="gray.1" size="xs">
+                    {m.role}
+                  </Text>
+                  <Text c={m.lastSeenColor} size="xs" suppressHydrationWarning>
+                    {m.lastSeenStr}
+                  </Text>
+                </Group>
+              </Stack>
+            </Table.Td>
+            {/*  */}
+            <Table.Td c={m.lastSeenColor} suppressHydrationWarning ta="center" visibleFrom="md">
+              {m.lastSeenStr}
+            </Table.Td>
+            <Table.Td ta="center" visibleFrom="md">
+              {m.role}
+            </Table.Td>
+            <Table.Td ta="center">{m.level}</Table.Td>
+          </Table.Tr>
+        )
+      }),
     [sortConfig],
   )
 

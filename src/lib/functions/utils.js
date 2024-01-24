@@ -11,7 +11,7 @@ export const formatTag = (str, withHastag = false) => {
 }
 
 export const getClanBadgeFileName = (badgeId, trophyCount) => {
-  if (badgeId === -1 || badgeId === null) return "no_clan"
+  if (badgeId === -1 || !badgeId) return "no_clan"
 
   const badgeName = badges.find((b) => b.id === badgeId)?.name
 
