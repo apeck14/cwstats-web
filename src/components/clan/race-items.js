@@ -1,11 +1,12 @@
 "use client"
 
-import { Group, Paper, Progress, Stack, Text } from "@mantine/core"
+import { Group, Paper, Stack, Text } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 
 import { getClanBadgeFileName } from "../../lib/functions/utils"
 import Image from "../ui/image"
 import classes from "./clan.module.css"
+import RaceProgressBar from "./race-progress-bar"
 import RankIcon from "./rank-icon"
 
 export default function RaceItems({ clans, isColosseum }) {
@@ -63,10 +64,7 @@ export default function RaceItems({ clans, isColosseum }) {
                 </Group>
                 {!c.crossedFinishLine && (
                   <Group gap={isMobile ? "xs" : "md"}>
-                    <Progress.Root className={classes.topItem} size={isMobile ? "lg" : "xl"}>
-                      <Progress.Section color="pink" value={famePerc} />
-                      <Progress.Section color="orange.4" value={projPerc} />
-                    </Progress.Root>
+                    <RaceProgressBar famePerc={famePerc} isMobile={isMobile} projPerc={projPerc} />
                     <Paper
                       fw={700}
                       fz={{ base: "xs", md: "md" }}

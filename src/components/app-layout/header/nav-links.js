@@ -10,7 +10,7 @@ const links = [
   {
     icon: <IconTrophy color="var(--mantine-color-pink-6)" height="1.3rem" />,
     label: "Leaderboards",
-    link: "/leaderboard",
+    link: "/leaderboard/daily/global",
   },
   { icon: <IconSpy color="var(--mantine-color-pink-6)" height="1.3rem" />, label: "Spy", link: "/spy" },
   { icon: <IconNotes color="var(--mantine-color-pink-6)" height="1.3rem" />, label: "Docs", link: "/docs" },

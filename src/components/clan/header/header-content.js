@@ -26,8 +26,8 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
     ? "race"
     : pathname.includes("/log")
       ? "log"
-      : pathname.includes("/plus")
-        ? "plus"
+      : pathname.includes("/stats")
+        ? "stats"
         : "home"
 
   const badge = getClanBadgeFileName(clan?.badgeId, clan?.clanWarTrophies)
@@ -106,8 +106,8 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
             <Link className={classes.link} data-active={activeTab === "log"} href={`/clan/${formattedTag}/log`}>
               Log
             </Link>
-            <Link className={classes.link} data-active={activeTab === "plus"} href={`/clan/${formattedTag}/plus`}>
-              Plus
+            <Link className={classes.link} data-active={activeTab === "stats"} href={`/clan/${formattedTag}/stats`}>
+              Stats
             </Link>
           </Group>
         </Container>

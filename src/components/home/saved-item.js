@@ -33,9 +33,9 @@ export default function SavedItem({ badge, name, tag }) {
           </Link>
           <Link
             className={classes.link}
-            href={badge ? `/clan/${tag.substring(1)}/plus` : `/player/${tag.substring(1)}/war`}
+            href={badge ? `/clan/${tag.substring(1)}/stats` : `/player/${tag.substring(1)}/war`}
           >
-            {badge ? "CWStats+" : "War"}
+            {badge ? "Stats" : "War"}
           </Link>
         </Group>
       </Stack>
