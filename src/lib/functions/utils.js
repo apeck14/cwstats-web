@@ -63,6 +63,20 @@ export const getCountryKeyById = (countryId) => {
   return "unknown"
 }
 
+export const getRegionByKey = (key) => {
+  if (!key) return false
+
+  const formattedKey = key.toLowerCase()
+
+  return locations.find((l) => l.key.toLowerCase() === formattedKey)
+}
+
+export const getRegionById = (id) => {
+  if (!id) return false
+
+  return locations.find((l) => l.id === id)
+}
+
 export const getArenaFileName = (arenaStr) => {
   if (!arenaStr) return "arena0"
 
@@ -83,3 +97,6 @@ export const formatRole = (role) => {
 
   return "Leader"
 }
+
+export const truncateString = (str, maxLength = 20) =>
+  str.length > maxLength ? `${str.substring(0, maxLength - 3)}...` : str

@@ -65,7 +65,7 @@ export default async function ClanPage({ params }) {
               </Stack>
             </Group>
             <Group>
-              <Avatar size={32} src={`/assets/flags/${locationKey}.png`} />
+              <Avatar size={32} src={`/assets/flag-icons/${locationKey}.webp`} />
               <Stack gap={0}>
                 <Text c="gray.1" fw={600}>
                   Region

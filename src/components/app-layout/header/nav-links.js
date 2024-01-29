@@ -11,10 +11,26 @@ const links = [
     icon: <IconTrophy color="var(--mantine-color-pink-6)" height="1.3rem" />,
     label: "Leaderboards",
     link: "/leaderboard/daily/global",
+    query: "leaderboard",
   },
-  { icon: <IconSpy color="var(--mantine-color-pink-6)" height="1.3rem" />, label: "Spy", link: "/spy" },
-  { icon: <IconNotes color="var(--mantine-color-pink-6)" height="1.3rem" />, label: "Docs", link: "/docs" },
-  { icon: <IconCards color="var(--mantine-color-pink-6)" height="1.3rem" />, label: "Decks", link: "/decks" },
+  {
+    icon: <IconSpy color="var(--mantine-color-pink-6)" height="1.3rem" />,
+    label: "Spy",
+    link: "/spy",
+    query: "spy",
+  },
+  {
+    icon: <IconNotes color="var(--mantine-color-pink-6)" height="1.3rem" />,
+    label: "Docs",
+    link: "/docs",
+    query: "docs",
+  },
+  {
+    icon: <IconCards color="var(--mantine-color-pink-6)" height="1.3rem" />,
+    label: "Decks",
+    link: "/decks",
+    query: "decks",
+  },
 ]
 
 export default function NavLinks() {
@@ -23,7 +39,7 @@ export default function NavLinks() {
 
   return links.map((l) => (
     <Group
-      className={`${classes.navItemWrapper}${pathname === l.link ? ` ${classes.active}` : ""}`}
+      className={`${classes.navItemWrapper}${pathname.includes(l.query) ? ` ${classes.active}` : ""}`}
       h="100%"
       key={l.label}
     >

@@ -2,6 +2,7 @@
 
 import { Group, Paper, Stack, Text } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
+import Link from "next/link"
 
 import { getClanBadgeFileName } from "../../lib/functions/utils"
 import Image from "../ui/image"
@@ -27,7 +28,9 @@ export default function RaceItems({ clans, isColosseum }) {
           <Paper
             bg="gray.8"
             className={classes.raceItem}
+            component={Link}
             data-active={c?.bestPlace}
+            href={`/clan/${c.tag.substring(1)}/race`}
             key={c.tag}
             p={{ base: "sm", md: "md" }}
             radius="md"

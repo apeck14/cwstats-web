@@ -48,7 +48,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
 
   return (
     <Stack>
-      <Stack className={classes.header}>
+      <Stack className="header">
         <Container py="lg" size="lg" w="100%">
           <Group gap={isMobile ? "md" : "lg"}>
             <Image height={isMobile ? 40 : 60} src={`/assets/badges/${badge}.png`} width={45} />

@@ -9,8 +9,6 @@ export default function LoginPage() {
   const params = useSearchParams()
   const callback = params.get("callback")
 
-  console.log(callback)
-
   return (
     <Container pt="10rem" size="lg" ta="center">
       <Title>Oops! Looks like you&apos;re not logged in...</Title>
@@ -23,6 +21,7 @@ export default function LoginPage() {
         onClick={() =>
           signIn("discord", {
             callbackUrl: callback,
+            redirect: true,
           })
         }
         variant="light"

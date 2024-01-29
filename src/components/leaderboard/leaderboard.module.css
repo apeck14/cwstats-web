@@ -1,0 +1,7 @@
+.th {
+  border-bottom: 2px solid var(--mantine-color-pink-6);
+}
+
+.flag:hover {
+  filter: brightness(70%);
+}
