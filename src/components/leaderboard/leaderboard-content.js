@@ -13,7 +13,7 @@ import LeaderboardTable from "./leaderboard-table"
 import LeagueSegmentControl from "./league-segment-control"
 import SavedClansToggle from "./saved-clans-toggle"
 
-export default function LeaderboardContent({ clans, lastUpdated, linkedAccount, location }) {
+export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linkedAccount, location }) {
   const region = getRegionByKey(location)
   const searchParamsData = useSearchParams()
   const searchParams = searchParamsData.toString()
@@ -23,6 +23,8 @@ export default function LeaderboardContent({ clans, lastUpdated, linkedAccount, 
   const [league, setLeague] = useState(searchParams && searchParams.slice(searchParams.indexOf("=") + 1))
 
   if (!region) notFound()
+
+  const showTrackingWarning = !isWarLb && !region.isAdded && region.key !== "global"
 
   const onLeagueChange = (val) => {
     const params = new URLSearchParams(searchParams)
@@ -47,15 +49,17 @@ export default function LeaderboardContent({ clans, lastUpdated, linkedAccount, 
 
   return (
     <>
-      <LeaderboardHeader lastUpdated={lastUpdated} region={region} />
+      <LeaderboardHeader isWarLb={isWarLb} lastUpdated={lastUpdated} region={region} />
       <Container pb="md" size="lg">
         <Stack>
           <Group w="100%" wrap="nowrap">
             <CountryDropdown />
+
             <LeagueSegmentControl
               onChange={onLeagueChange}
               value={searchParams && searchParams.slice(searchParams.indexOf("=") + 1)}
             />
+
             <SavedClansToggle handleChange={handleSavedToggle} loggedIn={!!linkedAccount?.discordID} visibleFrom="md" />
           </Group>
           <Group>
@@ -71,12 +75,13 @@ export default function LeaderboardContent({ clans, lastUpdated, linkedAccount, 
 
           <LeaderboardTable
             clans={clans}
+            isWarLb={isWarLb}
             league={league}
             savedClans={linkedAccount?.savedClans?.map((c) => c.tag)}
             search={search}
             showSavedClans={showSaved}
           />
-          {!region.isAdded && region.key !== "global" && (
+          {showTrackingWarning && (
             <Alert
               color="orange"
               icon={<IconInfoCircle />}

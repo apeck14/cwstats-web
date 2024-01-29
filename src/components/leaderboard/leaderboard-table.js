@@ -2,6 +2,7 @@
 
 import { Group, Pagination, Progress, Stack, Table, Text, Tooltip } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
+import { IconArrowDown, IconArrowUp } from "@tabler/icons-react"
 import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
@@ -10,7 +11,7 @@ import { getClanBadgeFileName, getRegionById } from "../../lib/functions/utils"
 import Image from "../ui/image"
 import classes from "./leaderboard.module.css"
 
-export default function LeaderboardTable({ clans, league, savedClans, search, showSavedClans }) {
+export default function LeaderboardTable({ clans, isWarLb, league, savedClans, search, showSavedClans }) {
   const [leaderboard, setLeaderboard] = useState(clans)
   const [page, setPage] = useState(1)
   const pathname = usePathname()
@@ -28,15 +29,20 @@ export default function LeaderboardTable({ clans, league, savedClans, search, sh
     return (
       <Table.Tr fw={500} fz={{ base: "0.8rem", md: "1rem" }} key={c.tag}>
         <Table.Td py="sm" ta="center">
-          <Group fz={{ base: "0.65rem", md: "0.95rem" }} gap="0.2rem" justify="center">
-            {c.notRanked ? "NR" : i + start + 1}
-            {!c.notRanked && (
-              <span style={{ color: "var(--mantine-color-gray-2)" }}>
-                ({clans.findIndex((cl) => cl.tag === c.tag) + 1})
-              </span>
-            )}
-          </Group>
+          {isWarLb ? (
+            c.rank
+          ) : (
+            <Group fz={{ base: "0.65rem", md: "0.95rem" }} gap="0.2rem" justify="center">
+              {c.notRanked ? "NR" : i + start + 1}
+              {!c.notRanked && (
+                <span style={{ color: "var(--mantine-color-gray-2)" }}>
+                  ({clans.findIndex((cl) => cl.tag === c.tag) + 1})
+                </span>
+              )}
+            </Group>
+          )}
         </Table.Td>
+
         <Table.Td>
           <Group gap={isMobile ? "xs" : "md"}>
             <Image
@@ -48,6 +54,7 @@ export default function LeaderboardTable({ clans, league, savedClans, search, sh
             </Link>
           </Group>
         </Table.Td>
+
         <Table.Td className={classes.flagCell} ta="center">
           <Link href={flagHref}>
             <Image
@@ -57,23 +64,45 @@ export default function LeaderboardTable({ clans, league, savedClans, search, sh
             />
           </Link>
         </Table.Td>
+
         <Table.Td fz={{ base: "0.65rem", md: "0.95rem" }} ta="center">
-          {Number(c.rank) ? `#${c.rank}` : <span style={{ color: "var(--mantine-color-gray-4)" }}>N/A</span>}
+          {isWarLb ? (
+            <Group gap="0.2rem" justify="center">
+              {c.rank === c.previousRank || c.previousRank === -1 ? (
+                <span style={{ color: "var(--mantine-color-gray-4)" }}>--</span>
+              ) : c.rank < c.previousRank ? (
+                <IconArrowUp color="green" size="1rem" />
+              ) : (
+                <IconArrowDown color="red" size="1rem" />
+              )}
+              {c.rank !== c.previousRank && c.previousRank !== -1 && Math.abs(c.rank - c.previousRank)}
+            </Group>
+          ) : Number(c.rank) ? (
+            `#${c.rank}`
+          ) : (
+            <span style={{ color: "var(--mantine-color-gray-4)" }}>N/A</span>
+          )}
         </Table.Td>
+
         <Table.Td fz={{ base: "0.65rem", md: "0.95rem" }} ta="center" visibleFrom="md">
           {c.clanScore}
         </Table.Td>
-        <Table.Td fz={{ base: "0.65rem", md: "0.95rem" }} ta="center">
-          {c.decksRemaining}
-        </Table.Td>
-        <Table.Td ta="center">
-          <Stack gap="0.2rem">
-            <Text fw={600} fz={{ base: "0.7rem", md: "0.95rem" }}>
-              {c.fameAvg.toFixed(2)}
-            </Text>
-            <Progress size="xs" value={((c.fameAvg - 100) / 125) * 100} />
-          </Stack>
-        </Table.Td>
+
+        {!isWarLb && (
+          <>
+            <Table.Td fz={{ base: "0.65rem", md: "0.95rem" }} ta="center">
+              {c.decksRemaining}
+            </Table.Td>
+            <Table.Td ta="center">
+              <Stack gap="0.2rem">
+                <Text fw={600} fz={{ base: "0.7rem", md: "0.95rem" }}>
+                  {c.fameAvg.toFixed(2)}
+                </Text>
+                <Progress size="xs" value={((c.fameAvg - 100) / 125) * 100} />
+              </Stack>
+            </Table.Td>
+          </>
+        )}
       </Table.Tr>
     )
   })
@@ -116,18 +145,31 @@ export default function LeaderboardTable({ clans, league, savedClans, search, sh
                 </Text>
               </Tooltip>
             </Table.Th>
+
             <Table.Th />
             <Table.Th />
-            <Table.Th>
-              <Image height={16} src="/assets/flag-icons/global.webp" />
-            </Table.Th>
+
+            {isWarLb ? (
+              <Table.Th />
+            ) : (
+              <Table.Th>
+                <Image height={16} src="/assets/flag-icons/global.webp" />
+              </Table.Th>
+            )}
+
             <Table.Th visibleFrom="md">
               <Image height={16} src="/assets/icons/cw-trophy.png" />
             </Table.Th>
-            <Table.Th>
-              <Image height={16} src="/assets/icons/decksRemaining.png" />
-            </Table.Th>
-            <Table.Th />
+
+            {!isWarLb && (
+              <>
+                <Table.Th>
+                  <Image height={16} src="/assets/icons/decksRemaining.png" />
+                </Table.Th>
+
+                <Table.Th />
+              </>
+            )}
           </Table.Tr>
         </Table.Thead>
         {rows.length ? <Table.Tbody>{rows}</Table.Tbody> : null}

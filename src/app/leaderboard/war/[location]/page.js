@@ -1,13 +1,18 @@
 import { notFound } from "next/navigation"
 
-import LeaderboardHeader from "../../../../components/leaderboard/header"
+import { getLinkedAccount } from "../../../../actions/api"
+import { getWarLeaderboard } from "../../../../actions/supercell"
+import LeaderboardContent from "../../../../components/leaderboard/leaderboard-content"
 import { getRegionByKey } from "../../../../lib/functions/utils"
 
-export default function WarLeaderboardPage({ params }) {
+export default async function WarLeaderboardPage({ params }) {
   const { location } = params
   const region = getRegionByKey(location)
 
   if (!region) notFound()
 
-  return <LeaderboardHeader region={region} />
+  const { data: leaderboard } = await getWarLeaderboard(region?.id)
+  const linkedAccount = await getLinkedAccount()
+
+  return <LeaderboardContent clans={leaderboard || []} isWarLb linkedAccount={linkedAccount} location={location} />
 }

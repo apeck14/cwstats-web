@@ -122,3 +122,7 @@ export async function searchClans(query, sortByWarTrophies = true, limit = 5, re
 
   return resp
 }
+
+export async function getWarLeaderboard(id, redirectOnError = false) {
+  return supercellRequest(`/locations/${id}/rankings/clanwars`, redirectOnError)
+}
