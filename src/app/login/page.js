@@ -21,7 +21,7 @@ export default function LoginPage() {
         onClick={() =>
           signIn("discord", {
             callbackUrl: callback,
-            redirect: true,
+            redirect: false,
           })
         }
         variant="light"
