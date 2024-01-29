@@ -64,7 +64,7 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linked
           </Group>
           <Group>
             <Group w="100%">
-              <ClanSearch onChange={handleSearch} value={search} />
+              <ClanSearch onChange={handleSearch} reset={() => setSearch("")} value={search} />
               <SavedClansToggle
                 handleChange={handleSavedToggle}
                 hiddenFrom="md"
