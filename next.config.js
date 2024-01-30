@@ -10,10 +10,6 @@ module.exports = {
       source: "/(.*)",
     },
   ],
-  i18n: {
-    defaultLocale: "en-US",
-    locales: ["en-US"],
-  },
   images: {
     remotePatterns: [
       { hostname: "cdn.discord.app", protocol: "https" },
