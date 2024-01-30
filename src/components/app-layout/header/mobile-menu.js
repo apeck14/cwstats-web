@@ -25,6 +25,7 @@ export default function MobileMenu({ open, toggle }) {
           component={Link}
           gap="sm"
           href={l.link}
+          key={l.label}
           onClick={toggle}
           p="sm"
         >

@@ -29,6 +29,16 @@ module.exports = {
       permanent: true,
       source: "/invite",
     },
+    {
+      destination: "https://discord.gg/fFY3cnMmnH",
+      permanent: true,
+      source: "/support",
+    },
+    {
+      destination: "https://www.paypal.com/paypalme/cw2stats",
+      permanent: true,
+      source: "/donate",
+    },
   ],
   swcMinify: true,
 }

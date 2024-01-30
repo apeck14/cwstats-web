@@ -3,12 +3,15 @@
 import { Container, Flex, Group, SegmentedControl, Text, Title } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { useRouter } from "next-nprogress-bar"
+import { useEffect, useState } from "react"
 
 import { relativeDateStr } from "../../lib/functions/date-time"
 import { truncateString } from "../../lib/functions/utils"
 import Image from "../ui/image"
 
 export default function LeaderboardHeader({ isWarLb, lastUpdated, region }) {
+  const [dateStr, setDateStr] = useState(null)
+
   const router = useRouter()
   const isMobile = useMediaQuery("(max-width: 30em)")
 
@@ -17,6 +20,10 @@ export default function LeaderboardHeader({ isWarLb, lastUpdated, region }) {
   const handleSegmentChange = (val) => {
     router.push(`/leaderboard/${val.toLowerCase()}/${formattedKey}`)
   }
+
+  useEffect(() => {
+    setDateStr(relativeDateStr(new Date(lastUpdated), false))
+  }, [])
 
   return (
     <Group className="header">
@@ -45,10 +52,10 @@ export default function LeaderboardHeader({ isWarLb, lastUpdated, region }) {
               withItemsBorders={false}
             />
             {!isWarLb && (
-              <Group c="dimmed" fw={600} fz={{ base: "sm", md: "md" }} gap="0.2rem">
+              <Group c="dimmed" fw={600} fz={{ base: "xs", md: "md" }} gap="0.2rem">
                 Last Updated:
-                <Text c="pink" fw={600}>
-                  {relativeDateStr(new Date(lastUpdated), false)} ago
+                <Text c="pink" fw={600} fz={{ base: "xs", md: "md" }}>
+                  {dateStr} ago
                 </Text>
               </Group>
             )}
