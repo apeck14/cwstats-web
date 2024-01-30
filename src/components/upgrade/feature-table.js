@@ -3,6 +3,7 @@
 import { Button, Popover, Stack, Table, Text } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 
+import ComingSoon from "../ui/coming-soon"
 import PlusFormModal from "./plus-form-modal"
 
 const data = [
@@ -29,7 +30,10 @@ const data = [
   { name: "...more coming soon! 🎉", plus: true, premium: true },
 ]
 
+const featureFlag = true
+
 export default function FeatureTable() {
+  if (featureFlag) return <ComingSoon />
   const isPhone = useMediaQuery("(max-width: 23.75em)")
   const isMobile = useMediaQuery("(max-width: 30em)")
   const isTablet = useMediaQuery("(max-width: 48em)")

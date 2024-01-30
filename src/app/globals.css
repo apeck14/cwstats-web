@@ -6,6 +6,14 @@ body {
   min-height: 100dvh;
 }
 
+.hiddenOverflow {
+  overflow: hidden;
+}
+
+body:has(div.hiddenOverflow) {
+  overflow: hidden;
+}
+
 h1,
 h2,
 h3,

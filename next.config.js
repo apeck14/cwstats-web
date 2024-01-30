@@ -1,6 +1,9 @@
 const headers = require("./headers")
 
 module.exports = {
+  experimental: {
+    optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
+  },
   headers: async () => [
     {
       headers,

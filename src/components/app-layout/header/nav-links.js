@@ -6,7 +6,7 @@ import { useRouter } from "next-nprogress-bar"
 
 import classes from "./header.module.css"
 
-const links = [
+export const links = [
   {
     icon: <IconTrophy color="var(--mantine-color-pink-6)" height="1.3rem" />,
     label: "Leaderboards",

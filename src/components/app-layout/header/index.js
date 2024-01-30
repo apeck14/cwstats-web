@@ -1,11 +1,12 @@
-import { AppShell, Button, Group, Stack, Text } from "@mantine/core"
+import { AppShell, Burger, Button, Group, Stack, Text } from "@mantine/core"
 import Link from "next/link"
 
 import Image from "../../ui/image"
 import AvatarDropdown from "./avatar"
+import MobileMenu from "./mobile-menu"
 import NavLinks from "./nav-links"
 
-export default function Header() {
+export default function Header({ opened, toggle }) {
   return (
     <AppShell.Header bg="gray.10" h={60} px="sm">
       <Group align="center" h="100%" justify="space-between">
@@ -27,11 +28,13 @@ export default function Header() {
         </Group>
 
         <Group>
-          <Button component={Link} href="/upgrade" radius="xl" size="xs">
+          <Button component={Link} href="/upgrade" radius="xl" size="xs" visibleFrom="sm">
             Upgrade
           </Button>
           <AvatarDropdown />
+          <Burger color="gray.1" hiddenFrom="sm" onClick={toggle} opened={opened} size="sm" />
         </Group>
+        <MobileMenu open={opened} toggle={toggle} />
       </Group>
     </AppShell.Header>
   )
