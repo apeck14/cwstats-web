@@ -28,7 +28,7 @@ const formatSupercellResponse = async (resp, redirectOnError) => {
 
   const redirectTo500 = status !== 404 && status !== 429 && status !== 503
 
-  if (redirectOnError) redirect(redirectTo500 ? "/500" : `/${status}`)
+  if (redirectOnError) redirect(redirectTo500 ? "/500_" : `/${status}_`)
 
   return {
     error,

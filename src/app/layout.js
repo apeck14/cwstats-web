@@ -20,7 +20,9 @@ export const viewport = {
 }
 
 export const metadata = {
-  title: "CWStats",
+  description: "The trusted source for everything clan wars.",
+  "opengraph-image": "/assets/icons/logo.png",
+  title: "CWStats - Clash Royale Clan Wars Analytics, Leaderboards, Stats & more!",
 }
 
 export default async function RootLayout({ children }) {

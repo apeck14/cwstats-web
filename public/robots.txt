@@ -1,8 +1,8 @@
 User-agent: *
 Disallow: /assets/
 Disallow: /static/
-Disallow: /404
-Disallow: /429
-Disallow: /500
-Disallow: /503
+Disallow: /404_
+Disallow: /429_
+Disallow: /500_
+Disallow: /503_
 Disallow: /matchmaking

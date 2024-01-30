@@ -16,7 +16,7 @@ export default function Page404() {
         Resource not found.
       </Title>
       <Text c="gray.2" fw={600} fz={isMobile ? "1.2rem" : "1.5rem"} mt="sm">
-        We looked everywhere, but what you&apos;re looking for was deleted, or doesn&apos;t exist.
+        We looked everywhere, but what you&apos;re looking for was deleted or doesn&apos;t exist.
       </Text>
       <Button component={Link} href="/" mt="md" variant="light">
         Go to Home page
