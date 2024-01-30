@@ -106,6 +106,7 @@ export default function DebouncedSearch({
                     <Group>
                       {isClans && (
                         <Image
+                          alt="Clan Badge"
                           height={clanBadgePx}
                           src={`/assets/badges/${getClanBadgeFileName(r.badgeId, r.clanWarTrophies)}.png`}
                           width={clanBadgePx}

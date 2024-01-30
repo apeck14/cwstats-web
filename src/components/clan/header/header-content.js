@@ -51,7 +51,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
       <Stack className="header">
         <Container py="lg" size="lg" w="100%">
           <Group gap={isMobile ? "md" : "lg"}>
-            <Image height={isMobile ? 40 : 60} src={`/assets/badges/${badge}.png`} width={45} />
+            <Image alt="Badge" height={isMobile ? 40 : 60} src={`/assets/badges/${badge}.png`} width={45} />
             <Stack gap="xs" style={{ flex: "1 1 auto" }}>
               <Group justify="space-between">
                 <Title fz={`${isMobile ? 1.5 : 2}rem`}>{clan?.name}</Title>
@@ -69,11 +69,11 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                 <Group gap={isMobile ? "lg" : "xl"}>
                   <Text fw={600}>{clan?.tag}</Text>
                   <Group gap="xs">
-                    <Image height={16} src="/assets/icons/trophy.png" width={14} />
+                    <Image alt="Trophy" height={16} src="/assets/icons/trophy.png" width={14} />
                     <Text fw={600}>{clan?.clanScore}</Text>
                   </Group>
                   <Group gap="xs">
-                    <Image height={16} src="/assets/icons/cw-trophy.png" width={14} />
+                    <Image alt="CW Trophy" height={16} src="/assets/icons/cw-trophy.png" width={14} />
                     <Text fw={600}>{clan?.clanWarTrophies}</Text>
                   </Group>
                 </Group>

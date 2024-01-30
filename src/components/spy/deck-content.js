@@ -34,10 +34,16 @@ export default function DeckContent({ decks, loading }) {
               </Group>
             ) : (
               decks.duel.map((d) => (
-                <Group gap={deckGap}>
-                  <Image height={modeIconPx} src={`/assets/gamemodes/${d.img}.png`} width={modeIconPx} />
+                <Group gap={deckGap} key={d.cards[0]}>
+                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.png`} width={modeIconPx} />
                   {d.cards.map((c) => (
-                    <Image height={cardIconPx} src={`/assets/cards/${getCardFileName(c)}.png`} width={cardIconPx} />
+                    <Image
+                      alt={c}
+                      height={cardIconPx}
+                      key={c}
+                      src={`/assets/cards/${getCardFileName(c)}.png`}
+                      width={cardIconPx}
+                    />
                   ))}
                 </Group>
               ))
@@ -54,10 +60,16 @@ export default function DeckContent({ decks, loading }) {
               </Group>
             ) : (
               decks.other.map((d) => (
-                <Group gap={deckGap}>
-                  <Image height={modeIconPx} src={`/assets/gamemodes/${d.img}.png`} width={modeIconPx} />
+                <Group gap={deckGap} key={d.cards[0]}>
+                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.png`} width={modeIconPx} />
                   {d.cards.map((c) => (
-                    <Image height={cardIconPx} src={`/assets/cards/${getCardFileName(c)}.png`} width={cardIconPx} />
+                    <Image
+                      alt={c}
+                      height={cardIconPx}
+                      key={c}
+                      src={`/assets/cards/${getCardFileName(c)}.png`}
+                      width={cardIconPx}
+                    />
                   ))}
                 </Group>
               ))

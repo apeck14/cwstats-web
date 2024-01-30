@@ -46,6 +46,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
         <Table.Td>
           <Group gap={isMobile ? "xs" : "md"}>
             <Image
+              alt="Clan Badge"
               height={isMobile ? 20 : 28}
               src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.clanScore)}.png`}
             />
@@ -58,6 +59,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
         <Table.Td className={classes.flagCell} ta="center">
           <Link href={flagHref}>
             <Image
+              alt={formattedKey}
               className={classes.flag}
               height={isMobile ? 16 : 24}
               src={`/assets/flag-icons/${formattedKey}.webp`}
@@ -153,18 +155,18 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
               <Table.Th />
             ) : (
               <Table.Th>
-                <Image height={16} src="/assets/flag-icons/global.webp" />
+                <Image alt="Globe" height={16} src="/assets/flag-icons/global.webp" />
               </Table.Th>
             )}
 
             <Table.Th visibleFrom="md">
-              <Image height={16} src="/assets/icons/cw-trophy.png" />
+              <Image alt="CW Trophy" height={16} src="/assets/icons/cw-trophy.png" />
             </Table.Th>
 
             {!isWarLb && (
               <>
                 <Table.Th>
-                  <Image height={16} src="/assets/icons/decksRemaining.png" />
+                  <Image alt="Decks Remaining" height={16} src="/assets/icons/decksRemaining.png" />
                 </Table.Th>
 
                 <Table.Th />

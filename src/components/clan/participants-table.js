@@ -118,7 +118,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Boat Attacks
               </Text>
-              <Image height={16} hiddenFrom="md" src="/assets/icons/boat-movement.png" />
+              <Image alt="Boat Movement" height={16} hiddenFrom="md" src="/assets/icons/boat-movement.png" />
               {showCaret("boatAttacks")}
             </Group>
           </Table.Th>
@@ -127,7 +127,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Decks Used
               </Text>
-              <Image height={16} hiddenFrom="md" src="/assets/icons/decks.png" />
+              <Image alt="Decks" height={16} hiddenFrom="md" src="/assets/icons/decks.png" />
               {showCaret("decksUsed")}
             </Group>
           </Table.Th>
@@ -136,7 +136,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Decks Used Today
               </Text>
-              <Image height={16} hiddenFrom="md" src="/assets/icons/decksRemaining.png" />
+              <Image alt="Decks Remaining" height={16} hiddenFrom="md" src="/assets/icons/decksRemaining.png" />
               {showCaret("decksUsedToday")}
             </Group>
           </Table.Th>
@@ -145,7 +145,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Medals
               </Text>
-              <Image height={16} hiddenFrom="md" src="/assets/icons/fame.png" />
+              <Image alt="Fame" height={16} hiddenFrom="md" src="/assets/icons/fame.png" />
               {showCaret("fame")}
             </Group>
           </Table.Th>

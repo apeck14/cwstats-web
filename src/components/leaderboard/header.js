@@ -30,7 +30,7 @@ export default function LeaderboardHeader({ isWarLb, lastUpdated, region }) {
       <Container py="xl" size="lg" w="100%">
         <Group justify="space-between">
           <Group wrap="nowrap">
-            <Image height={isMobile ? 40 : 60} priority src={`/assets/flag-icons/${formattedKey}.webp`} />
+            <Image alt="Flag" height={isMobile ? 40 : 60} priority src={`/assets/flag-icons/${formattedKey}.webp`} />
             <Title
               fz={{ base: "1.75rem", md: "2.75rem" }}
             >{`${truncateString(region.name, 25)} ${isWarLb ? "War" : "Daily"} Rankings`}</Title>

@@ -41,6 +41,7 @@ export default function RaceItems({ clans, isColosseum }) {
                 <Group justify="space-between">
                   <Group className={classes.nameItem} gap={itemGap}>
                     <Image
+                      alt="Badge"
                       height={badgeSize}
                       src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.trophies)}.png`}
                     />
@@ -50,19 +51,19 @@ export default function RaceItems({ clans, isColosseum }) {
                   </Group>
                   <Group className={classes.topItem} gap="xs" visibleFrom="md">
                     <Text fw={600}>{c.trophies}</Text>
-                    <Image height={iconSize} src="/assets/icons/cw-trophy.png" />
+                    <Image alt="CW Trophy" height={iconSize} src="/assets/icons/cw-trophy.png" />
                   </Group>
                   <Group className={classes.topItem} gap={itemGap}>
                     <Text fw={600} fz={{ base: "xs", md: "md", sm: "sm" }}>
                       {c.boatPoints}
                     </Text>
-                    <Image height={iconSize} src="/assets/icons/boat-movement.png" />
+                    <Image alt="Boat Movement" height={iconSize} src="/assets/icons/boat-movement.png" />
                   </Group>
                   <Group gap={itemGap}>
                     <Text fw={600} fz={{ base: "xs", md: "md", sm: "sm" }}>
                       {c.fame}
                     </Text>
-                    <Image height={iconSize} src="/assets/icons/fame.png" />
+                    <Image alt="Fame" height={iconSize} src="/assets/icons/fame.png" />
                   </Group>
                 </Group>
                 {!c.crossedFinishLine && (

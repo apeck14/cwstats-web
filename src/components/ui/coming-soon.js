@@ -5,7 +5,7 @@ import Image from "./image"
 export default function ComingSoon({ size, subText }) {
   return (
     <Group justify="center" my="10dvh" wrap="nowrap">
-      <Image height={size || 50} src="/assets/icons/confetti.png" />
+      <Image alt="Confetti" height={size || 50} src="/assets/icons/confetti.png" />
       <Stack gap={0}>
         <Title c="gray.1" fz={{ base: "1.25rem", md: "2rem" }}>
           Coming Soon!

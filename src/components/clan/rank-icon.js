@@ -28,7 +28,7 @@ export default function RankIcon({ isFinished, place }) {
   const fontSize = `${isMobile ? 0.9 : 1}rem`
   const size = isMobile ? 20 : 24
 
-  if (isFinished) return <Image height={size} src="/assets/icons/flag.png" />
+  if (isFinished) return <Image alt="Flag" height={size} src="/assets/icons/flag.png" />
   if (!place) return null
 
   return (

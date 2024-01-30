@@ -8,7 +8,7 @@ export default function SavedItem({ badge, name, tag }) {
   return (
     <Group className={classes.main} p="sm">
       <Group>
-        <Image height={40} src={`/assets/${badge ? `badges/${badge}` : "icons/king-pink"}.png`} width={40} />
+        <Image alt="Icon" height={40} src={`/assets/${badge ? `badges/${badge}` : "icons/king-pink"}.png`} width={40} />
       </Group>
 
       <Stack gap={0}>

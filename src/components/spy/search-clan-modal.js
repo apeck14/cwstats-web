@@ -47,6 +47,7 @@ export default function SearchByClanModal({ onPlayerSelect }) {
         {clan ? (
           <Group fw={600} gap="xs">
             <Image
+              alt="Clan Badge"
               height={26}
               src={`/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.png`}
               width={12}
@@ -64,6 +65,7 @@ export default function SearchByClanModal({ onPlayerSelect }) {
                 <UnstyledButton
                   bg="gray.9"
                   className="buttonHover"
+                  key={m.tag}
                   onClick={() => handlePlayerSelect(m, clan)}
                   px="xs"
                   py="0.25rem"

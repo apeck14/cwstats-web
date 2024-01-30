@@ -31,7 +31,7 @@ export default function AppFooter() {
         <Group align="top" gap="xl" justify="space-between">
           <Stack gap="0.2rem">
             <Group gap="0.25rem">
-              <Image height={32} src="/assets/icons/logo.png" />
+              <Image alt="CWStats Logo" height={32} src="/assets/icons/logo.png" />
               <Text fw={700} fz="1.75rem">
                 CWStats
               </Text>
