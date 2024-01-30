@@ -40,7 +40,7 @@ export default function AppFooter() {
               The trusted source for everything Clan Wars.
             </Text>
           </Stack>
-          <Group align="top" gap="xl">
+          <Group align="top" gap="5rem">
             {Object.keys(categories).map((key) => {
               const links = categories[key]
 
