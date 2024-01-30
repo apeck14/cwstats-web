@@ -52,9 +52,9 @@ export default function LeaderboardHeader({ isWarLb, lastUpdated, region }) {
               withItemsBorders={false}
             />
             {!isWarLb && (
-              <Group c="dimmed" fw={600} fz={{ base: "xs", md: "md" }} gap="0.2rem">
+              <Group c="dimmed" fw={600} fz={{ base: "xs", md: "sm" }} gap="0.2rem">
                 Last Updated:
-                <Text c="pink" fw={600} fz={{ base: "xs", md: "md" }}>
+                <Text c="pink" fw={600} fz={{ base: "xs", md: "sm" }}>
                   {dateStr} ago
                 </Text>
               </Group>

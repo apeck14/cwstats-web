@@ -90,7 +90,7 @@ export default function SpyPage() {
               {showSkeleton ? (
                 <Skeleton height="1.5rem" my="0.4rem" width="10rem" />
               ) : (
-                <Link className="text" href="/" style={{ fontSize: "1.5rem" }}>
+                <Link className="text" href={`/player/${player.tag.substring(1)}`} style={{ fontSize: "1.5rem" }}>
                   {player?.name}
                 </Link>
               )}

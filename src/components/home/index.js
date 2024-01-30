@@ -92,7 +92,9 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
             <SegmentedSearch />
             <Group gap="2rem" grow justify="space-between" mt="3rem">
               <Stack miw={savedCardSize}>
-                <Title size="h2">My Clans</Title>
+                <Title className="text" component={Link} href="/me/clans" size="h2" w="fit-content">
+                  My Clans
+                </Title>
                 {loggedIn ? (
                   <Card bg="transparent" className={classes.card} h="23.25rem" p={0} withBorder>
                     {savedClans.slice(0, 5).map((c, i) => (
@@ -107,7 +109,9 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                 )}
               </Stack>
               <Stack miw={savedCardSize}>
-                <Title size="h2">My Players</Title>
+                <Title className="text" component={Link} href="/me/players" size="h2" w="fit-content">
+                  My Players
+                </Title>
                 {loggedIn ? (
                   <Card bg="transparent" className={classes.card} h="23.25rem" p={0} withBorder>
                     {savedPlayers.slice(0, 5).map((p, i) => (
