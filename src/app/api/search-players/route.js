@@ -1,5 +1,6 @@
 /* eslint-disable import/prefer-default-export */
 import { NextResponse } from "next/server"
+import { Logger } from "next-axiom"
 import * as Realm from "realm-web"
 
 /**
@@ -21,6 +22,8 @@ export async function GET(req) {
 
     return NextResponse.json({ players: players ?? [], success: true }, { status: 200 })
   } catch (err) {
+    const log = new Logger()
+    log.error("search-players Error", err)
     return NextResponse.json({ message: err.message }, { status: 500 })
   }
 }
