@@ -28,7 +28,7 @@ export default function Header({ opened, toggle }) {
         </Group>
 
         <Group>
-          <Button component={Link} href="/upgrade" radius="xl" size="xs" visibleFrom="sm">
+          <Button component={Link} href="/upgrade" radius="xl" size="xs" variant="gradient" visibleFrom="sm">
             Upgrade
           </Button>
           <AvatarDropdown />
