@@ -3,10 +3,12 @@
 import { Button, Container, Text, Title } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { usePathname } from "next/navigation"
+import { useLogger } from "next-axiom"
 import { useRouter } from "next-nprogress-bar"
 import { useEffect } from "react"
 
 export default function Error({ error, reset }) {
+  const log = useLogger()
   const router = useRouter()
   const isMobile = useMediaQuery("(max-width: 30em)")
   const pathname = usePathname()
@@ -19,8 +21,7 @@ export default function Error({ error, reset }) {
   }
 
   useEffect(() => {
-    // TODO: log error here
-    console.log(error)
+    log.error("Error", error)
   }, [error])
 
   return (

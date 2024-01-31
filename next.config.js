@@ -1,6 +1,7 @@
+const { withAxiom } = require("next-axiom")
 const headers = require("./headers")
 
-module.exports = {
+module.exports = withAxiom({
   experimental: {
     optimizePackageImports: ["@mantine/core", "@mantine/hooks"],
   },
@@ -37,4 +38,4 @@ module.exports = {
     },
   ],
   swcMinify: true,
-}
+})

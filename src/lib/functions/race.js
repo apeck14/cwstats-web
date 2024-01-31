@@ -8,6 +8,7 @@ export const formatPlacement = (place) => {
 }
 
 export const getRaceIndexDescriptions = (periodLogs, tag) => {
+  // TODO: colosseum - possibly return value at end of each day?
   // return { mobile: ["+3000", ...], standard: ["1st (+3450)", ...]}
   const mobile = []
   const standard = []

@@ -53,9 +53,7 @@ export default function SpyPage() {
       tag: selPlayer.tag,
     })
 
-    const { data: log } = await getPlayerBattleLog(selPlayer.tag)
-
-    // TODO: handle error (maybe gloabl error handler)
+    const { data: log } = await getPlayerBattleLog(selPlayer.tag, true)
 
     const decks = await getWarDecksFromLog(log)
 

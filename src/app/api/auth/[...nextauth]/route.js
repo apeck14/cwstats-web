@@ -1,6 +1,7 @@
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
 import NextAuth from "next-auth/next"
 import DiscordProvider from "next-auth/providers/discord"
+import { Logger } from "next-axiom"
 
 import clientPromise from "../../../../lib/mongodb"
 
@@ -48,7 +49,8 @@ export const authOptions = {
             },
           })
         } catch (err) {
-          console.error("Error refreshing access token", err)
+          const log = new Logger()
+          log.warn("session error (refreshing access token)", err)
 
           // used client-side
           session.error = "RefreshAccessTokenError"
@@ -79,7 +81,8 @@ export const authOptions = {
 
         return true
       } catch (e) {
-        console.log(e)
+        const log = new Logger()
+        log.warn("signIn Error", e)
 
         return false
       }

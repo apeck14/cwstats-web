@@ -31,8 +31,6 @@ export default function RaceStats({ clan, isColosseum }) {
     },
   ]
 
-  // TODO: handle "N/A" for colors
-
   const stats = data.map((stat) => (
     <Paper key={stat.label} p="xs" radius="md">
       <Group>

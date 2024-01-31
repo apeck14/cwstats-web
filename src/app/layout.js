@@ -4,12 +4,23 @@ import "@mantine/nprogress/styles.css"
 import "@mantine/notifications/styles.css"
 
 import { getServerSession } from "next-auth"
+import { AxiomWebVitals } from "next-axiom"
+import { event, GoogleAnalytics } from "nextjs-google-analytics"
 
 import AppLayout from "../components/app-layout"
 import AppFooter from "../components/app-layout/footer"
 import NextAuthProvider from "../components/session-provider"
 import { authOptions } from "./api/auth/[...nextauth]/route"
 import ThemeProvider from "./theme"
+
+export function reportWebVitals({ id, label, name, value }) {
+  event(name, {
+    category: label === "web-vital" ? "Web Vitals" : "Next.js custom metric",
+    label: id,
+    nonInteraction: true,
+    value: Math.round(name === "CLS" ? value * 1000 : value),
+  })
+}
 
 export const viewport = {
   colorScheme: "dark",
@@ -30,6 +41,12 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
+      <AxiomWebVitals />
+      <GoogleAnalytics
+        gaMeasurementId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID}
+        trackPageViews={{ ignoreHashChange: true }}
+      />
+
       <body>
         <NextAuthProvider session={session}>
           <ThemeProvider>

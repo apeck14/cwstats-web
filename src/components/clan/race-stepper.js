@@ -10,8 +10,6 @@ export default function RaceStepper({ dayDescriptions, dayOfWeek }) {
   const index = dayOfWeek < 3 ? (isTablet ? -1 : 0) : isTablet ? dayOfWeek - 3 : dayOfWeek - 2
   const iconSize = isTablet ? "0.75rem" : "1.25rem"
 
-  // TODO: handle colosseum? descriptions etc
-
   return (
     <Stepper active={index} iconSize={isTablet ? 20 : 32} radius="md" size={isTablet ? "0.65rem" : "sm"} wrap={false}>
       {!isTablet && (

@@ -45,8 +45,6 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linked
     setShowSaved(!showSaved)
   }
 
-  // TODO: useMemo / useCallback anywhere?
-
   return (
     <>
       <LeaderboardHeader isWarLb={isWarLb} lastUpdated={lastUpdated} region={region} />

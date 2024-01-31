@@ -1,6 +1,7 @@
 "use server"
 
 import { redirect } from "next/navigation"
+import { Logger } from "next-axiom"
 
 import { getRaceDetails } from "../lib/functions/race"
 import { formatTag } from "../lib/functions/utils"
@@ -62,8 +63,8 @@ export async function addPlayer({ clanName, name, tag }) {
 
     players.updateOne(query, update, options)
   } catch (err) {
-    console.log("Error adding player to db...")
-    console.log(err)
+    const log = new Logger()
+    log.error("addPlayer Error", err)
   }
 }
 
