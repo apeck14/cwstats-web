@@ -83,7 +83,7 @@ export default function MembersTable({ members }) {
           <Table.Tr fw={500} fz={{ base: "0.85rem", md: "1rem" }} key={m.tag}>
             <Table.Td ta="center">{m.rank}</Table.Td>
             <Table.Td>
-              <Image alt="Arena" height={32} src={`/assets/arenas/${m.arena}.png`} />
+              <Image alt="Arena" height={32} src={`/assets/arenas/${m.arena}.webp`} />
             </Table.Td>
             <Table.Td ta="center">{m.trophies}</Table.Td>
             <Table.Td visibleFrom="md">
@@ -150,7 +150,7 @@ export default function MembersTable({ members }) {
               <Text fw={700} fz="0.9rem" visibleFrom="md">
                 Trophies
               </Text>
-              <Image alt="Trophy" height={16} hiddenFrom="md" src="/assets/icons/trophy.png" />
+              <Image alt="Trophy" height={16} hiddenFrom="md" src="/assets/icons/trophy.webp" />
               {showCaret("trophies")}
             </Group>
           </Table.Th>
@@ -183,7 +183,7 @@ export default function MembersTable({ members }) {
               <Text fw={700} fz="0.9rem" visibleFrom="md">
                 Level
               </Text>
-              <Image alt="Level" height={16} hiddenFrom="md" src="/assets/icons/level.png" />
+              <Image alt="Level" height={16} hiddenFrom="md" src="/assets/icons/level.webp" />
               {showCaret("level")}
             </Group>
           </Table.Th>

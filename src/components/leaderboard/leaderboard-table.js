@@ -48,7 +48,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
             <Image
               alt="Clan Badge"
               height={isMobile ? 20 : 28}
-              src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.clanScore)}.png`}
+              src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.clanScore)}.webp`}
               unoptimized
             />
             <Link className="pinkText" href={`/clan/${c.tag.substring(1)}/race`}>
@@ -162,13 +162,13 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
             )}
 
             <Table.Th visibleFrom="md">
-              <Image alt="CW Trophy" height={16} src="/assets/icons/cw-trophy.png" />
+              <Image alt="CW Trophy" height={16} src="/assets/icons/cw-trophy.webp" />
             </Table.Th>
 
             {!isWarLb && (
               <>
                 <Table.Th>
-                  <Image alt="Decks Remaining" height={16} src="/assets/icons/decksRemaining.png" />
+                  <Image alt="Decks Remaining" height={16} src="/assets/icons/decksRemaining.webp" />
                 </Table.Th>
 
                 <Table.Th />

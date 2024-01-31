@@ -35,13 +35,13 @@ export default function DeckContent({ decks, loading }) {
             ) : (
               decks.duel.map((d) => (
                 <Group gap={deckGap} key={d.cards[0]}>
-                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.png`} width={modeIconPx} />
+                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.webp`} width={modeIconPx} />
                   {d.cards.map((c) => (
                     <Image
                       alt={c}
                       height={cardIconPx}
                       key={c}
-                      src={`/assets/cards/${getCardFileName(c)}.png`}
+                      src={`/assets/cards/${getCardFileName(c)}.webp`}
                       width={cardIconPx}
                     />
                   ))}
@@ -61,13 +61,13 @@ export default function DeckContent({ decks, loading }) {
             ) : (
               decks.other.map((d) => (
                 <Group gap={deckGap} key={d.cards[0]}>
-                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.png`} width={modeIconPx} />
+                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.webp`} width={modeIconPx} />
                   {d.cards.map((c) => (
                     <Image
                       alt={c}
                       height={cardIconPx}
                       key={c}
-                      src={`/assets/cards/${getCardFileName(c)}.png`}
+                      src={`/assets/cards/${getCardFileName(c)}.webp`}
                       width={cardIconPx}
                     />
                   ))}

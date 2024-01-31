@@ -12,7 +12,7 @@ export default function Header({ opened, toggle }) {
       <Group align="center" h="100%" justify="space-between">
         <Group gap="xl" h="100%">
           <Group gap="xs">
-            <Image alt="CWStats Logo" height={36} priority src="/assets/icons/logo.png" width={36} />
+            <Image alt="CWStats Logo" height={36} priority src="/assets/icons/logo.webp" width={36} />
             <Stack className="noselect" component={Link} gap={0} href="/">
               <Text fw={800} size="1.5rem">
                 CWStats

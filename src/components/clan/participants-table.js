@@ -118,7 +118,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Boat Attacks
               </Text>
-              <Image alt="Boat Movement" height={16} hiddenFrom="md" src="/assets/icons/boat-movement.png" />
+              <Image alt="Boat Movement" height={16} hiddenFrom="md" src="/assets/icons/boat-movement.webp" />
               {showCaret("boatAttacks")}
             </Group>
           </Table.Th>
@@ -127,7 +127,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Decks Used
               </Text>
-              <Image alt="Decks" height={16} hiddenFrom="md" src="/assets/icons/decks.png" />
+              <Image alt="Decks" height={16} hiddenFrom="md" src="/assets/icons/decks.webp" />
               {showCaret("decksUsed")}
             </Group>
           </Table.Th>
@@ -136,7 +136,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Decks Used Today
               </Text>
-              <Image alt="Decks Remaining" height={16} hiddenFrom="md" src="/assets/icons/decksRemaining.png" />
+              <Image alt="Decks Remaining" height={16} hiddenFrom="md" src="/assets/icons/decksRemaining.webp" />
               {showCaret("decksUsedToday")}
             </Group>
           </Table.Th>
@@ -145,7 +145,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Medals
               </Text>
-              <Image alt="Fame" height={16} hiddenFrom="md" src="/assets/icons/fame.png" />
+              <Image alt="Fame" height={16} hiddenFrom="md" src="/assets/icons/fame.webp" />
               {showCaret("fame")}
             </Group>
           </Table.Th>

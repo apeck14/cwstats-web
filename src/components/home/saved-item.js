@@ -11,7 +11,7 @@ export default function SavedItem({ badge, name, tag }) {
         <Image
           alt="Icon"
           height={40}
-          src={`/assets/${badge ? `badges/${badge}` : "icons/king-pink"}.png`}
+          src={`/assets/${badge ? `badges/${badge}` : "icons/king-pink"}.webp`}
           unoptimized
           width={40}
         />

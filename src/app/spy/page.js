@@ -100,7 +100,7 @@ export default function SpyPage() {
                   <Image
                     alt="Clan Badge"
                     height={24}
-                    src={`/assets/badges/${player?.clan?.badge}.png`}
+                    src={`/assets/badges/${player?.clan?.badge}.webp`}
                     unoptimized
                     width={12}
                   />

@@ -20,7 +20,7 @@ export default async function ClanPage({ params }) {
           <Text>{clan?.description}</Text>
           <SimpleGrid cols={{ base: 2, md: 3 }}>
             <Group>
-              <Image alt="Trophies" height={32} src="/assets/icons/trophy-ribbon.png" />
+              <Image alt="Trophies" height={32} src="/assets/icons/trophy-ribbon.webp" />
               <Stack gap={0}>
                 <Text c="gray.1" fw={600}>
                   Trophies
@@ -29,7 +29,7 @@ export default async function ClanPage({ params }) {
               </Stack>
             </Group>
             <Group>
-              <Image alt="Trophy" height={32} src="/assets/icons/trophy.png" />
+              <Image alt="Trophy" height={32} src="/assets/icons/trophy.webp" />
               <Stack gap={0}>
                 <Text c="gray.1" fw={600}>
                   Req. Trophies
@@ -38,7 +38,7 @@ export default async function ClanPage({ params }) {
               </Stack>
             </Group>
             <Group>
-              <Image alt="Donations" height={32} src="/assets/icons/cards.png" />
+              <Image alt="Donations" height={32} src="/assets/icons/cards.webp" />
               <Stack gap={0}>
                 <Text c="gray.1" fw={600}>
                   Donations
@@ -47,7 +47,7 @@ export default async function ClanPage({ params }) {
               </Stack>
             </Group>
             <Group>
-              <Image alt="Members" height={32} src="/assets/icons/social.png" />
+              <Image alt="Members" height={32} src="/assets/icons/social.webp" />
               <Stack gap={0}>
                 <Text c="gray.1" fw={600}>
                   Members
@@ -56,7 +56,7 @@ export default async function ClanPage({ params }) {
               </Stack>
             </Group>
             <Group>
-              <Image alt="Players" height={32} src="/assets/icons/players.png" />
+              <Image alt="Players" height={32} src="/assets/icons/players.webp" />
               <Stack gap={0}>
                 <Text c="gray.1" fw={600}>
                   Type
