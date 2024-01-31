@@ -1,4 +1,5 @@
 import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
+import { ObjectId } from "mongodb"
 import NextAuth from "next-auth/next"
 import DiscordProvider from "next-auth/providers/discord"
 import { Logger } from "next-axiom"
@@ -11,9 +12,6 @@ export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
   callbacks: {
     session: async ({ session, user }) => {
-      // eslint-disable-next-line global-require
-      const { ObjectId } = require("mongodb")
-
       if (session?.user) session.user.id = user.id
 
       const client = await clientPromise
