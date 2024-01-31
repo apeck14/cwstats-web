@@ -50,6 +50,7 @@ export default function SearchByClanModal({ onPlayerSelect }) {
               alt="Clan Badge"
               height={26}
               src={`/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.png`}
+              unoptimized
               width={12}
             />
             {clan?.name}

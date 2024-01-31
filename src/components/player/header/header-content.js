@@ -94,6 +94,7 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
                     alt="Clan Badge"
                     height={isMobile ? 20 : 24}
                     src={`/assets/badges/${getClanBadgeFileName(clan?.badgeId, clan?.clanWarTrophies)}.png`}
+                    unoptimized
                   />
                   <Text
                     className={inClan ? "text" : ""}

@@ -9,6 +9,7 @@ export default function Image({
   fit,
   height,
   hiddenFrom,
+  priority,
   radius,
   src,
   unoptimized,
@@ -23,6 +24,7 @@ export default function Image({
       fit={fit || "contain"}
       height={height}
       hiddenFrom={hiddenFrom}
+      priority={priority}
       radius={radius}
       src={src}
       style={circle ? { borderRadius: "50%" } : {}}

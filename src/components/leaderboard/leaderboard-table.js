@@ -49,6 +49,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
               alt="Clan Badge"
               height={isMobile ? 20 : 28}
               src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.clanScore)}.png`}
+              unoptimized
             />
             <Link className="pinkText" href={`/clan/${c.tag.substring(1)}/race`}>
               {c.name}
@@ -63,6 +64,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
               className={classes.flag}
               height={isMobile ? 16 : 24}
               src={`/assets/flag-icons/${formattedKey}.webp`}
+              unoptimized
             />
           </Link>
         </Table.Td>

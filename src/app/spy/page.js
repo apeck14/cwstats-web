@@ -97,7 +97,13 @@ export default function SpyPage() {
                 {showSkeleton ? (
                   <Skeleton height={24} width={20} />
                 ) : (
-                  <Image alt="Clan Badge" height={24} src={`/assets/badges/${player?.clan?.badge}.png`} width={12} />
+                  <Image
+                    alt="Clan Badge"
+                    height={24}
+                    src={`/assets/badges/${player?.clan?.badge}.png`}
+                    unoptimized
+                    width={12}
+                  />
                 )}
 
                 {showSkeleton ? (

@@ -44,6 +44,7 @@ export default function RaceItems({ clans, isColosseum }) {
                       alt="Badge"
                       height={badgeSize}
                       src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.trophies)}.png`}
+                      unoptimized
                     />
                     <Text fw={{ base: 600, md: 700 }} fz={{ base: "sm", md: "lg" }}>
                       {c.name}
