@@ -52,8 +52,8 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
     <Stack>
       <Stack className={classes.header}>
         <Container py="lg" size="lg" w="100%">
-          <Group gap={isMobile ? "md" : "lg"}>
-            <Image alt="Arena" height={isMobile ? 40 : 60} src={`/assets/arenas/${arena}.webp`} width={45} />
+          <Group gap={isMobile ? "sm" : "md"} wrap="nowrap">
+            <Image alt="Arena" height={isMobile ? 48 : 60} src={`/assets/arenas/${arena}.webp`} />
             <Stack gap="0.15rem" style={{ flex: "1 1 auto" }}>
               <Group justify="space-between">
                 <Title fz={`${isMobile ? 1.5 : 2}rem`}>{player?.name}</Title>
@@ -107,7 +107,7 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
                   </Text>
                   {inClan && (
                     <>
-                      <Divider color="gray.7" h="1.25rem" m="auto" orientation="vertical" size="md" />
+                      <Divider color="gray.7" h="1.25rem" orientation="vertical" size="md" />
                       <Text c="gray.1" fw={600} fz={itemFz}>
                         {formatRole(player?.role)}
                       </Text>

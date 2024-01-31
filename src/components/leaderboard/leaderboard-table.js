@@ -27,27 +27,27 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
     const flagHref = `${pathname.slice(0, pathname.lastIndexOf("/"))}/${formattedKey}?${searchParams.toString()}`
 
     return (
-      <Table.Tr fw={500} fz={{ base: "0.8rem", md: "1rem" }} key={c.tag}>
+      <Table.Tr fw={600} fz={{ base: "0.9rem", md: "1rem" }} key={c.tag}>
         <Table.Td py="sm" ta="center">
           {isWarLb ? (
             c.rank
           ) : (
-            <Group fz={{ base: "0.65rem", md: "0.95rem" }} gap="0.2rem" justify="center">
+            <Stack fz={{ base: "0.65rem", md: "0.95rem" }} gap={0} justify="center">
               {c.notRanked ? "NR" : i + start + 1}
               {!c.notRanked && (
                 <span style={{ color: "var(--mantine-color-gray-2)" }}>
                   ({clans.findIndex((cl) => cl.tag === c.tag) + 1})
                 </span>
               )}
-            </Group>
+            </Stack>
           )}
         </Table.Td>
 
         <Table.Td>
-          <Group gap={isMobile ? "xs" : "md"}>
+          <Group gap={isMobile ? "xs" : "md"} wrap="nowrap">
             <Image
               alt="Clan Badge"
-              height={isMobile ? 20 : 28}
+              height={isMobile ? 24 : 28}
               src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.clanScore)}.webp`}
               unoptimized
             />

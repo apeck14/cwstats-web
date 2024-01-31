@@ -21,6 +21,10 @@
   background-color: var(--mantine-color-gray-7);
 }
 
+.avatar {
+  border: 2px solid var(--mantine-color-gray-6);
+}
+
 .avatar:hover {
   cursor: pointer;
 }

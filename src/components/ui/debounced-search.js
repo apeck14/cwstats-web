@@ -101,24 +101,29 @@ export default function DebouncedSearch({
               <Combobox.Empty c="white">No Results</Combobox.Empty>
             ) : (
               results.map((r) => (
-                <Combobox.Option key={r.tag} onClick={blurInputFocus} value={r.tag}>
-                  <Group justify="space-between">
-                    <Group>
-                      {isClans && (
-                        <Image
-                          alt="Clan Badge"
-                          height={clanBadgePx}
-                          src={`/assets/badges/${getClanBadgeFileName(r.badgeId, r.clanWarTrophies)}.webp`}
-                          unoptimized
-                          width={clanBadgePx}
-                        />
-                      )}
-                      <Text fw={600}>{r.name}</Text>
-                    </Group>
-                    <Text c="gray.1" size="sm">
-                      {isClans ? r.tag : r.clanName}
-                    </Text>
+                <Combobox.Option
+                  component={Group}
+                  justify="space-between"
+                  key={r.tag}
+                  onClick={blurInputFocus}
+                  value={r.tag}
+                  wrap="nowrap"
+                >
+                  <Group gap="xs">
+                    {isClans && (
+                      <Image
+                        alt="Clan Badge"
+                        height={clanBadgePx}
+                        src={`/assets/badges/${getClanBadgeFileName(r.badgeId, r.clanWarTrophies)}.webp`}
+                        unoptimized
+                        width={clanBadgePx}
+                      />
+                    )}
+                    <Text fw={600}>{r.name}</Text>
                   </Group>
+                  <Text c="gray.1" miw="fit-content" size="sm">
+                    {isClans ? r.tag : r.clanName}
+                  </Text>
                 </Combobox.Option>
               ))
             )}
