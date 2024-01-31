@@ -1,15 +1,46 @@
 "use server"
 
-/* eslint-disable import/prefer-default-export */
-// import { headers } from "next/headers"
+import { ObjectId } from "mongodb"
+import { getServerSession } from "next-auth"
+import { Logger } from "next-axiom"
+
+import { authOptions } from "../app/api/auth/[...nextauth]/route"
+import clientPromise from "../lib/mongodb"
 
 const HOST = process.env.NEXTAUTH_URL
 
 export async function getLinkedAccount() {
-  const options = { cache: "no-store" }
-  const linkedAccount = await fetch(`${HOST}/api/user`, options)
+  try {
+    const session = await getServerSession(authOptions)
 
-  return linkedAccount.json()
+    if (!session) return { message: "Not logged in.", status: 403 }
+
+    const client = await clientPromise
+    const db = client.db("General")
+    const accounts = db.collection("accounts")
+    const linkedAccounts = db.collection("Linked Accounts")
+
+    const userId = new ObjectId(session?.user?.id)
+
+    const user = await accounts.findOne({
+      userId,
+    })
+
+    if (!user) return { status: 404 }
+
+    const linkedAccount = await linkedAccounts.findOne({
+      discordID: user.providerAccountId,
+    })
+
+    if (!linkedAccount) return { status: 404 }
+
+    return { success: true, ...linkedAccount, status: 200 }
+  } catch (err) {
+    const log = new Logger()
+    log.warn("getLinkedAccount Error", err)
+
+    return { message: err.message, status: 500 }
+  }
 }
 
 export async function getPlayersByQuery(query, limit = 5) {
