@@ -7,7 +7,21 @@ import RaceItems from "../../../../components/clan/race-items"
 import RaceStats from "../../../../components/clan/race-stats"
 import RaceStepper from "../../../../components/clan/race-stepper"
 import InfoPopover from "../../../../components/ui/info-popover"
+import { getClanBadgeFileName } from "../../../../lib/functions/utils"
 import classes from "./Race.module.css"
+
+export async function generateMetadata({ params }) {
+  const { tag } = params
+  const { data: clan } = await getClan(tag)
+
+  return {
+    description: clan.description,
+    openGraph: {
+      images: `/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.webp`,
+    },
+    title: `${clan.name} ${clan.tag} | Race - CWStats`,
+  }
+}
 
 export default async function ClanRace({ params }) {
   const { tag } = params
