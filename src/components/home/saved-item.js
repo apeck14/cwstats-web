@@ -9,7 +9,7 @@ export default function SavedItem({ badge, name, tag }) {
     <Group className={classes.main} p="sm" wrap="nowrap">
       <Image alt="Icon" height={40} src={`/assets/${badge ? `badges/${badge}` : "icons/king-pink"}.webp`} unoptimized />
 
-      <Stack gap={0}>
+      <Stack gap={0} w="100%">
         <Group justify="space-between" wrap="nowrap">
           <Link className={classes.name} href={badge ? `/clan/${tag.substring(1)}` : `/player/${tag.substring(1)}`}>
             {name}
