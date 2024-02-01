@@ -38,7 +38,11 @@ export const getAvgFame = (clan, isColosseum, dayOfWeek) => {
 const getPossibleRemainingFame = (attacksCompletedToday, maxDuelsCompletedToday, isColosseum, dayOfWeek) => {
   const duelsRemainingToday = 50 - maxDuelsCompletedToday
   const totalAttacksRemaining = 200 - attacksCompletedToday
-  const maxPossibleRemainingFame = duelsRemainingToday * 500 + (totalAttacksRemaining - duelsRemainingToday * 2) * 200
+  let maxPossibleRemainingFame = duelsRemainingToday * 500 + (totalAttacksRemaining - duelsRemainingToday * 2) * 200
+
+  if (isColosseum) {
+    maxPossibleRemainingFame += 45000 * (6 - dayOfWeek)
+  }
 
   return isColosseum
     ? Math.min(180000, maxPossibleRemainingFame + 45000 * (dayOfWeek - 3))
@@ -185,8 +189,10 @@ export const getWorstPlace = (race, isColosseum, dayOfWeek) => {
   return formatPlacement(placement)
 }
 
-export const getRaceDetails = (race, isColosseum) => {
+export const getRaceDetails = (race) => {
   if (!race || !race?.clans || !race.clans.length) return { clans: [] }
+
+  const isColosseum = race.periodType === "colosseum"
 
   const dayOfWeek = race.periodIndex % 7
   const { boatAccessor, fameAccessor } = isColosseum

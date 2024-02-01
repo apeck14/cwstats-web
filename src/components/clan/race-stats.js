@@ -26,7 +26,7 @@ export default function RaceStats({ clan, isColosseum }) {
       color: colors[parseInt(clan.worstPlace[0] - 1)],
       label: "Worst Possible Finish",
       place: clan.worstPlace,
-      progress: 52,
+      progress: (clan.minFame / maxPossibleFame) * 100,
       value: clan.minFame,
     },
   ]
