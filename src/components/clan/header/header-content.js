@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation"
 import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
-import { CLAN_IN_GAME_LINK } from "../../../../public/static/constants"
+import { CLAN_IN_GAME_LINK, CLAN_IN_GAME_LINK_MOBILE } from "../../../../public/static/constants"
 import { getClanBadgeFileName } from "../../../lib/functions/utils"
 import FollowButton from "../../ui/follow-button"
 import Image from "../../ui/image"
@@ -65,7 +65,10 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                 <Group gap="xs" hiddenFrom="md">
                   <FollowButton followed={followed} handleToggle={handleFollowToggle} />
                   <ActionIcon color="gray" variant="light">
-                    <Link href={CLAN_IN_GAME_LINK + formattedTag} target="_blank">
+                    <Link
+                      href={(isMobile ? CLAN_IN_GAME_LINK_MOBILE : CLAN_IN_GAME_LINK) + formattedTag}
+                      target="_blank"
+                    >
                       <IconExternalLink size={20} />
                     </Link>
                   </ActionIcon>

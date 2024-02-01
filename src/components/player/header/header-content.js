@@ -8,7 +8,7 @@ import { usePathname } from "next/navigation"
 import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
-import { PLAYER_IN_GAME_LINK } from "../../../../public/static/constants"
+import { PLAYER_IN_GAME_LINK, PLAYER_IN_GAME_LINK_MOBILE } from "../../../../public/static/constants"
 import { formatRole, getArenaFileName, getClanBadgeFileName } from "../../../lib/functions/utils"
 import FollowButton from "../../ui/follow-button"
 import Image from "../../ui/image"
@@ -61,7 +61,10 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
                 <Group gap="xs" hiddenFrom="md">
                   <FollowButton followed={followed} handleToggle={handleFollowToggle} />
                   <ActionIcon color="gray" variant="light">
-                    <Link href={PLAYER_IN_GAME_LINK + formattedTag} target="_blank">
+                    <Link
+                      href={(isMobile ? PLAYER_IN_GAME_LINK_MOBILE : PLAYER_IN_GAME_LINK) + formattedTag}
+                      target="_blank"
+                    >
                       <IconExternalLink size={20} />
                     </Link>
                   </ActionIcon>
@@ -117,7 +120,7 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
                 <Button
                   color="gray"
                   component={Link}
-                  href={PLAYER_IN_GAME_LINK + formattedTag}
+                  href={(isMobile ? PLAYER_IN_GAME_LINK_MOBILE : PLAYER_IN_GAME_LINK) + formattedTag}
                   leftSection={<IconExternalLink size={20} />}
                   size="xs"
                   target="_blank"
