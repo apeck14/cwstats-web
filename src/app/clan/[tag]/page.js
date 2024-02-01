@@ -4,7 +4,20 @@ import { getClan } from "../../../actions/supercell"
 import ClanHeader from "../../../components/clan/header"
 import MembersTable from "../../../components/clan/members-table"
 import Image from "../../../components/ui/image"
-import { formatClanType, getCountryKeyById } from "../../../lib/functions/utils"
+import { formatClanType, getClanBadgeFileName, getCountryKeyById } from "../../../lib/functions/utils"
+
+export async function generateMetadata({ params }) {
+  const { tag } = params
+  const { data: clan } = await getClan(tag)
+
+  return {
+    description: clan.description,
+    openGraph: {
+      images: `/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.webp`,
+    },
+    title: `${clan.name} ${clan.tag} | Home - CWStats`,
+  }
+}
 
 export default async function ClanPage({ params }) {
   const { tag } = params
