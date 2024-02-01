@@ -6,15 +6,8 @@ import classes from "./Home.module.css"
 
 export default function SavedItem({ badge, name, tag }) {
   return (
-    <Group className={classes.main} p="sm">
-      <Group w="fit-content">
-        <Image
-          alt="Icon"
-          height={40}
-          src={`/assets/${badge ? `badges/${badge}` : "icons/king-pink"}.webp`}
-          unoptimized
-        />
-      </Group>
+    <Group className={classes.main} p="sm" wrap="nowrap">
+      <Image alt="Icon" height={40} src={`/assets/${badge ? `badges/${badge}` : "icons/king-pink"}.webp`} unoptimized />
 
       <Stack gap={0}>
         <Group justify="space-between" wrap="nowrap">
