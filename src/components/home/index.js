@@ -5,6 +5,7 @@ import { useMediaQuery } from "@mantine/hooks"
 import { IconBrandDiscord, IconClockBolt, IconTools } from "@tabler/icons-react"
 import Link from "next/link"
 
+import { CWSTATS_DESC } from "../../../public/static/constants"
 import Image from "../ui/image"
 import classes from "./Home.module.css"
 import LoginOverlay from "./loginOverlay"
@@ -42,9 +43,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
               The trusted source for everything <span className="gradientText">Clan Wars</span>
             </Title>
             <Title c="gray.2" fw={500} fz={`${subTitleSize}rem`}>
-              Unleash the power of analytics, dive into comprehensive insights, strategize with precision, and elevate
-              your clan&apos;s CW2 expierence with real-time data &mdash; trusted by 2500+ of the most competitive CW2
-              clans
+              {CWSTATS_DESC}
             </Title>
 
             <Flex direction={isMobile ? "column" : "row"} gap="xl" pt="xl">

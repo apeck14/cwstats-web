@@ -5,6 +5,7 @@ import "@mantine/notifications/styles.css"
 
 import { getServerSession } from "next-auth"
 
+import { CWSTATS_DESC } from "../../public/static/constants"
 import Analytics from "../components/analytics"
 import AppLayout from "../components/app-layout"
 import AppFooter from "../components/app-layout/footer"
@@ -21,8 +22,8 @@ export const viewport = {
 }
 
 export const metadata = {
-  description: "The trusted source for everything clan wars.",
-  "opengraph-image": "/assets/icons/logo.webp",
+  description: CWSTATS_DESC,
+  "opengraph-image": "/public/assets/icons/logo.webp",
   title: "CWStats - Clash Royale Clan Wars Analytics, Leaderboards, Stats & more!",
 }
 
