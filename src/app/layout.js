@@ -25,7 +25,7 @@ export const metadata = {
   description: CWSTATS_DESC,
   metadataBase: new URL("https://cwstats.com"),
   openGraph: {
-    images: { height: 64, url: "/assets/icons/logo.webp", width: 64 },
+    images: "/assets/icons/logo-og.webp",
     locale: "en_US",
     siteName: "CWStats",
     type: "website",
