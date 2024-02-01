@@ -23,7 +23,6 @@ export const viewport = {
 
 export const metadata = {
   description: CWSTATS_DESC,
-  "opengraph-image": "/public/assets/icons/logo.webp",
   title: "CWStats - Clash Royale Clan Wars Analytics, Leaderboards, Stats & more!",
 }
 
