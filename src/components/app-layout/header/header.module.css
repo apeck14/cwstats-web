@@ -22,7 +22,8 @@
 }
 
 .avatar {
-  border: 2px solid var(--mantine-color-gray-6);
+  border: 2px solid var(--mantine-color-gray-5);
+  border-radius: 100%;
 }
 
 .avatar:hover {

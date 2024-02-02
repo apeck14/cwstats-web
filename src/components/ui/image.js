@@ -9,6 +9,8 @@ export default function Image({
   fit,
   height,
   hiddenFrom,
+  onError,
+  onLoad,
   priority,
   radius,
   src,
@@ -24,6 +26,8 @@ export default function Image({
       fit={fit || "contain"}
       height={height}
       hiddenFrom={hiddenFrom}
+      onError={onError}
+      onLoad={onLoad}
       priority={priority}
       radius={radius}
       src={src}

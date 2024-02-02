@@ -13,7 +13,8 @@ module.exports = withAxiom({
   ],
   images: {
     remotePatterns: [
-      { hostname: "cdn.discord.app", protocol: "https" },
+      { hostname: "cdn.discord.app.com", protocol: "https" },
+      { hostname: "cdn.discordapp.com", protocol: "https" },
       { hostname: "imgur.com", protocol: "https" },
     ],
   },

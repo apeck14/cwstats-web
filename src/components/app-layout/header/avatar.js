@@ -1,13 +1,11 @@
-import { ActionIcon, Avatar, Menu } from "@mantine/core"
-import { useMediaQuery } from "@mantine/hooks"
+import { ActionIcon, Group, Menu } from "@mantine/core"
 import { IconBrandDiscordFilled, IconLogout2, IconServer2, IconShield, IconUsers } from "@tabler/icons-react"
 import Link from "next/link"
 import { signIn, signOut, useSession } from "next-auth/react"
 
-import classes from "./header.module.css"
+import AvatarWithFallback from "./avatar-with-fallback"
 
 export default function AvatarDropdown() {
-  const isMobile = useMediaQuery("(max-width: 30em)")
   const { data: session } = useSession()
 
   return session ? (
@@ -21,7 +19,9 @@ export default function AvatarDropdown() {
       withArrow
     >
       <Menu.Target>
-        <Avatar className={classes.avatar} size={isMobile ? "2rem" : "md"} src={session?.user?.image} />
+        <Group>
+          <AvatarWithFallback session={session} />
+        </Group>
       </Menu.Target>
 
       <Menu.Dropdown bg="gray.8" style={{ borderColor: "var(--mantine-color-gray-6" }}>

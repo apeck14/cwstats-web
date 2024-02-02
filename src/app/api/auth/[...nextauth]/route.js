@@ -6,7 +6,7 @@ import { Logger } from "next-axiom"
 
 import clientPromise from "../../../../lib/mongodb"
 
-const scope = ["identify guilds guilds.members.read"].join(" ")
+const scope = ["identify", "guilds", "guilds.members.read"].join(" ")
 
 export const authOptions = {
   adapter: MongoDBAdapter(clientPromise),
@@ -22,6 +22,7 @@ export const authOptions = {
 
       const account = await accounts.findOne({ userId })
 
+      // if session expired
       if (account.expires_at * 1000 < Date.now()) {
         try {
           // refresh token
@@ -57,18 +58,22 @@ export const authOptions = {
 
       return session
     },
-    signIn: async ({ user }) => {
-      // if user doesn't exist in DB (aka never used /link before) then create user
+    signIn: async ({ profile, user }) => {
       try {
         const client = await clientPromise
         const db = client.db("General")
         const linkedAccounts = db.collection("Linked Accounts")
+        const users = db.collection("users")
 
         const userExists = await linkedAccounts.findOne({
           discordID: user.id,
         })
 
-        if (!userExists) {
+        if (userExists) {
+          // update profile picture
+          users.updateOne({ _id: new ObjectId(user.id) }, { $set: { image: profile.image_url } })
+        } else {
+          // if user doesn't exist in DB (aka never used /link before) then create user
           linkedAccounts.insertOne({
             discordID: user.id,
             savedClans: [],

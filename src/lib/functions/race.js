@@ -7,11 +7,12 @@ export const formatPlacement = (place) => {
   return "N/A"
 }
 
-export const getRaceIndexDescriptions = (periodLogs, tag) => {
-  // TODO: colosseum - possibly return value at end of each day?
+export const getRaceIndexDescriptions = (periodLogs, tag, isColosseum) => {
   // return { mobile: ["+3000", ...], standard: ["1st (+3450)", ...]}
   const mobile = []
   const standard = []
+
+  if (isColosseum) return { mobile, standard }
 
   for (let i = 0; i < periodLogs.length; i++) {
     const period = periodLogs[i]
@@ -28,7 +29,8 @@ export const getRaceIndexDescriptions = (periodLogs, tag) => {
 export const getAvgFame = (clan, isColosseum, dayOfWeek) => {
   const attacksCompletedToday = clan.participants.reduce((sum, p) => sum + p.decksUsedToday, 0)
 
-  if ((!isColosseum && clan.fame >= 10000) || dayOfWeek < 3 || attacksCompletedToday === 0) return 0
+  if (isColosseum && dayOfWeek === 3 && attacksCompletedToday === 0) return 0
+  if ((!isColosseum && (clan.fame >= 10000 || attacksCompletedToday === 0)) || dayOfWeek < 3) return 0
 
   const totalAttacksUsed = isColosseum ? attacksCompletedToday + 200 * (dayOfWeek - 3) : attacksCompletedToday
 
@@ -44,9 +46,7 @@ const getPossibleRemainingFame = (attacksCompletedToday, maxDuelsCompletedToday,
     maxPossibleRemainingFame += 45000 * (6 - dayOfWeek)
   }
 
-  return isColosseum
-    ? Math.min(180000, maxPossibleRemainingFame + 45000 * (dayOfWeek - 3))
-    : Math.min(45000, maxPossibleRemainingFame)
+  return isColosseum ? Math.min(180000, maxPossibleRemainingFame) : Math.min(45000, maxPossibleRemainingFame)
 }
 
 export const getProjFame = (clan, isColosseum, dayOfWeek) => {
@@ -60,7 +60,8 @@ export const getProjFame = (clan, isColosseum, dayOfWeek) => {
     if (p.decksUsedToday >= 2) maxDuelsCompletedToday++
   }
 
-  if (attacksCompletedToday === 0) return 0
+  if ((!isColosseum && attacksCompletedToday === 0) || (isColosseum && dayOfWeek === 3 && attacksCompletedToday === 0))
+    return 0
 
   const fame = isColosseum ? clan.fame : clan.periodPoints
   const multiple = fame % 10 === 0 ? 50 : 25
@@ -72,9 +73,16 @@ export const getProjFame = (clan, isColosseum, dayOfWeek) => {
   }
 
   const winRate = fame / currentPossibleFame
+  const possibleRemainingFame = getPossibleRemainingFame(
+    attacksCompletedToday,
+    maxDuelsCompletedToday,
+    isColosseum,
+    dayOfWeek,
+  )
 
-  const projectedFame =
-    fame + getPossibleRemainingFame(attacksCompletedToday, maxDuelsCompletedToday, isColosseum, dayOfWeek) * winRate
+  const projectedFame = fame + possibleRemainingFame * winRate
+
+  console.log({ attacksCompletedToday, currentPossibleFame, projectedFame })
 
   return Math.min(isColosseum ? 180000 : 45000, Math.ceil(projectedFame / multiple) * multiple)
 }
@@ -226,7 +234,7 @@ export const getRaceDetails = (race) => {
         maxFame: getMaxFame(clan, isColosseum, dayOfWeek),
         minFame: getMinFame(clan, isColosseum, dayOfWeek),
         participants: clan.participants || [],
-        periodLogDescriptions: getRaceIndexDescriptions(thisWeeksLogs, clan.tag),
+        periodLogDescriptions: getRaceIndexDescriptions(thisWeeksLogs, clan.tag, isColosseum),
         projPlace: getProjPlace(race, isColosseum, dayOfWeek),
         worstPlace: getWorstPlace(race, isColosseum, dayOfWeek),
       }
