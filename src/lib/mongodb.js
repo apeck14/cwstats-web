@@ -4,10 +4,6 @@ import { MongoClient } from "mongodb"
 if (!process.env.URI) throw new Error('Invalid/Missing environment variable: "URI"')
 
 const uri = process.env.URI
-const options = {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-}
 
 let client
 let clientPromise
@@ -16,7 +12,7 @@ if (process.env.NODE_ENV === "development") {
   // In development mode, use a global variable so that the value
   // is preserved across module reloads caused by HMR (Hot Module Replacement).
   if (!global._mongoClientPromise) {
-    client = new MongoClient(uri, options)
+    client = new MongoClient(uri)
     global._mongoClientPromise = client.connect()
 
     console.log("Connected to MongoDB! (dev)")
@@ -24,7 +20,7 @@ if (process.env.NODE_ENV === "development") {
   clientPromise = global._mongoClientPromise
 } else {
   // In production mode, it's best to not use a global variable.
-  client = new MongoClient(uri, options)
+  client = new MongoClient(uri)
   clientPromise = client.connect()
 }
 
