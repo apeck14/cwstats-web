@@ -28,10 +28,7 @@ export default function CountryDropdown() {
   })
   const [search, setSearch] = useState("")
 
-  const shouldFilterOptions = countries.every((c) => c.name !== search)
-  const filteredOptions = shouldFilterOptions
-    ? countries.filter((c) => c.name.toLowerCase().includes(search.toLowerCase().trim()))
-    : countries
+  const filteredOptions = countries.filter((c) => c.name.toLowerCase().includes(search.toLowerCase().trim()))
 
   const options = filteredOptions.map((c) => (
     <Combobox.Option key={c.key} value={c.key}>
