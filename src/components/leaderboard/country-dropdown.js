@@ -16,7 +16,7 @@ const countries = locations.map((l) => ({
     </Group>
   ),
   key: l.key,
-  name: l.name,
+  name: l.name.toLowerCase(),
 }))
 
 export default function CountryDropdown() {
@@ -28,7 +28,7 @@ export default function CountryDropdown() {
   })
   const [search, setSearch] = useState("")
 
-  const filteredOptions = countries.filter((c) => c.name.toLowerCase().includes(search.toLowerCase().trim()))
+  const filteredOptions = countries.filter((c) => c.name.includes(search.toLowerCase().trim()))
 
   const options = filteredOptions.map((c) => (
     <Combobox.Option key={c.key} value={c.key}>
