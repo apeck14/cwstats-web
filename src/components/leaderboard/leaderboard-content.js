@@ -17,10 +17,11 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linked
   const region = getRegionByKey(location)
   const searchParamsData = useSearchParams()
   const searchParams = searchParamsData.toString()
+  const formattedParam = searchParams.slice(searchParams.indexOf("=") + 1)
 
   const [search, setSearch] = useState("")
   const [showSaved, setShowSaved] = useState(false)
-  const [league, setLeague] = useState(searchParams && searchParams.slice(searchParams.indexOf("=") + 1))
+  const [league, setLeague] = useState(formattedParam === "5000" ? "5000+" : formattedParam)
 
   if (!region) notFound()
 
@@ -53,10 +54,7 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linked
           <Group w="100%" wrap="nowrap">
             <CountryDropdown />
 
-            <LeagueSegmentControl
-              onChange={onLeagueChange}
-              value={searchParams && searchParams.slice(searchParams.indexOf("=") + 1)}
-            />
+            <LeagueSegmentControl onChange={onLeagueChange} value={formattedParam} />
 
             <SavedClansToggle handleChange={handleSavedToggle} loggedIn={!!linkedAccount?.discordID} visibleFrom="md" />
           </Group>

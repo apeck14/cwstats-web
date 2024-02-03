@@ -21,6 +21,15 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
   const start = 0 + 50 * (page - 1)
   const end = 50 * page
 
+  const getFilteredClans = (clans) =>
+    clans.filter((c) => {
+      if (showSavedClans && !savedClans.includes(c.tag)) return false
+      if (league === "5000+" && c.clanScore < 5000) return false
+      if (league === "4000" && (c.clanScore >= 5000 || c.clanScore < 4000)) return false
+      if (search && !c.name.toLowerCase().includes(search)) return false
+      return true
+    })
+
   const rows = leaderboard.slice(start, end).map((c, i) => {
     const key = c.location?.countryCode || getRegionById(c.location.id)?.key || "unknown"
     const formattedKey = key.toLowerCase()
@@ -112,16 +121,8 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
   })
 
   useEffect(() => {
-    const filtered = clans.filter((c) => {
-      if (showSavedClans && !savedClans.includes(c.tag)) return false
-      if (league === "5000+" && c.clanScore < 5000) return false
-      if (league === "4000" && (c.clanScore >= 5000 || c.clanScore < 4000)) return false
-      if (search && !c.name.toLowerCase().includes(search)) return false
-      return true
-    })
-
     setPage(1)
-    setLeaderboard(filtered)
+    setLeaderboard(getFilteredClans(clans))
   }, [league, showSavedClans, search])
 
   return (
