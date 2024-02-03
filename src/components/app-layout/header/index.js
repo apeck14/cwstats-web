@@ -8,7 +8,7 @@ import NavLinks from "./nav-links"
 
 export default function Header({ opened, toggle }) {
   return (
-    <AppShell.Header bg="gray.10" h={60} px="sm">
+    <AppShell.Header bg="gray.10" h={60} opacity="99%" px="sm">
       <Group align="center" h="100%" justify="space-between">
         <Group gap="xl" h="100%">
           <Group gap="xs">

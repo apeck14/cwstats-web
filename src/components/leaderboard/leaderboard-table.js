@@ -111,7 +111,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
                 <Text fw={600} fz={{ base: "0.7rem", md: "0.95rem" }}>
                   {c.fameAvg.toFixed(2)}
                 </Text>
-                <Progress size="xs" value={((c.fameAvg - 100) / 125) * 100} />
+                <Progress color="orange" size="xs" value={((c.fameAvg - 100) / 125) * 100} />
               </Stack>
             </Table.Td>
           </>
