@@ -114,7 +114,7 @@ export const getMinFame = (clan, isColosseum, dayOfWeek) => {
 
   let totalAttacksRemaining = 200 - clan.participants.reduce((sum, p) => sum + p.decksUsedToday, 0)
 
-  if (isColosseum) totalAttacksRemaining += 200 * (dayOfWeek - 3)
+  if (isColosseum) totalAttacksRemaining += 200 * (6 - dayOfWeek)
 
   const fame = isColosseum ? clan.fame : clan.periodPoints
 
