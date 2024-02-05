@@ -82,7 +82,7 @@ export const getProjFame = (clan, isColosseum, dayOfWeek) => {
 
   const projectedFame = fame + possibleRemainingFame * winRate
 
-  return Math.min(isColosseum ? 180000 : 45000, Math.ceil(projectedFame / multiple) * multiple)
+  return Math.min(isColosseum ? 180000 : 45000, Math.round(projectedFame / multiple) * multiple)
 }
 
 export const getMaxFame = (clan, isColosseum, dayOfWeek) => {
