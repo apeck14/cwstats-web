@@ -43,5 +43,12 @@
     "no-unsafe-optional-chaining": "off",
     "react-hooks/exhaustive-deps": "off"
   },
-  "overrides": []
+  "overrides": [
+    {
+      "files": ["tests/**/*"],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }
