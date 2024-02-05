@@ -19,7 +19,6 @@ module.exports = withAxiom({
     ],
   },
   poweredByHeader: false,
-  profiler: true,
   reactStrictMode: true,
   redirects: async () => [
     {

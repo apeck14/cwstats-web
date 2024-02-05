@@ -82,7 +82,7 @@ export const getProjFame = (clan, isColosseum, dayOfWeek) => {
 
   const projectedFame = fame + possibleRemainingFame * winRate
 
-  return Math.min(isColosseum ? 180000 : 45000, Math.round(projectedFame / multiple) * multiple)
+  return Math.min(isColosseum ? 180000 : 45000, Math.ceil(projectedFame / multiple) * multiple)
 }
 
 export const getMaxFame = (clan, isColosseum, dayOfWeek) => {
@@ -220,7 +220,7 @@ export const getRaceDetails = (race) => {
 
     if (clan.tag === race.clan.tag) {
       const battleDaysCompleted = dayOfWeek - 3
-      const thisWeeksLogs = race.periodLogs.length
+      const thisWeeksLogs = race.periodLogs?.length
         ? race.periodLogs.splice(race.periodLogs.length - battleDaysCompleted)
         : []
 
