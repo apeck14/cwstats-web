@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 function profile(callback, ...args) {
   const iterations = 250
   let totalMs = 0
