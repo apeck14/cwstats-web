@@ -37,24 +37,6 @@ export const getClanBadgeFileName = (badgeId, trophyCount) => {
 
 export const getCardFileName = (str) => str.toLowerCase().replace(/ /g, "-").replace(/\./g, "")
 
-const getTagFromURL = (url) => {
-  const routeType = url.includes("clan") ? "clan" : "player"
-  const tagPlusPage = url.substring(url.indexOf(routeType) + routeType.length + 1)
-
-  const indexOfSlash = tagPlusPage.indexOf("/")
-  if (indexOfSlash >= 0) {
-    // remove everything after first /
-    return tagPlusPage.substring(0, indexOfSlash)
-  }
-
-  return tagPlusPage
-}
-
-export const getTagFromHeaders = (headers) => {
-  const url = headers.get("x-url")
-  return getTagFromURL(url)
-}
-
 export const getCountryKeyById = (countryId) => {
   const countryKey = locations.find((l) => l.id === countryId)?.key
 
