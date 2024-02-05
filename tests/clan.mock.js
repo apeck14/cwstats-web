@@ -55,8 +55,9 @@ const participants = [
   },
 ]
 
-module.exports = [
+const clanData = [
   {
+    avgFame: 187.8,
     clan: {
       fame: 7700,
       participants,
@@ -64,6 +65,12 @@ module.exports = [
     },
     dayOfWeek: 3,
     isColosseum: true,
+    maxFame: 178400,
     minFame: 83600,
+    projFame: 149050,
   },
 ]
+
+export const measurePerf = true
+
+export default clanData
