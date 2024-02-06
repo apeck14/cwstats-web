@@ -75,7 +75,7 @@ export const authOptions = {
         } else {
           // if user doesn't exist in DB (aka never used /link before) then create user
           linkedAccounts.insertOne({
-            discordID: user.id,
+            discordID: profile.id,
             savedClans: [],
             savedPlayers: [],
             tag: null,
