@@ -66,12 +66,12 @@ export const authOptions = {
         const users = db.collection("users")
 
         const userExists = await linkedAccounts.findOne({
-          discordID: user.id,
+          discordID: profile.id,
         })
 
         if (userExists) {
           // update profile picture
-          users.updateOne({ _id: user.id }, { $set: { image: profile.image_url } })
+          users.updateOne({ _id: new ObjectId(user.id) }, { $set: { image: profile.image_url } })
         } else {
           // if user doesn't exist in DB (aka never used /link before) then create user
           linkedAccounts.insertOne({
