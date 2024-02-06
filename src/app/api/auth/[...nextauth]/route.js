@@ -71,7 +71,7 @@ export const authOptions = {
 
         if (userExists) {
           // update profile picture
-          users.updateOne({ _id: new ObjectId(user.id) }, { $set: { image: profile.image_url } })
+          users.updateOne({ _id: user.id }, { $set: { image: profile.image_url } })
         } else {
           // if user doesn't exist in DB (aka never used /link before) then create user
           linkedAccounts.insertOne({
@@ -85,7 +85,7 @@ export const authOptions = {
         return true
       } catch (e) {
         const log = new Logger()
-        log.warn("signIn Error", e)
+        log.error("signIn Error", e)
 
         return false
       }
