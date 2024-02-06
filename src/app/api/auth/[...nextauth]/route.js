@@ -87,7 +87,7 @@ export const authOptions = {
         return true
       } catch (e) {
         const log = new Logger()
-        log.error("signIn Error", e)
+        log.error("signIn Error", { user, ...e })
 
         return false
       }
