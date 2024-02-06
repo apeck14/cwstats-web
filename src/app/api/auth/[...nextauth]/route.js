@@ -70,9 +70,9 @@ export const authOptions = {
         })
 
         if (userExists) {
-          if (user?.id) {
-            // update profile picture
-            users.updateOne({ _id: new ObjectId(user.id) }, { $set: { image: profile.image_url } })
+          // user.id is not discord ID, meaning not a new user (update image)
+          if (!/^\d+$/.test(user.id)) {
+            users.updateOne({ id: new ObjectId(user.id) }, { $set: { image: profile.image_url } })
           }
         } else {
           // if user doesn't exist in DB (aka never used /link before) then create user
