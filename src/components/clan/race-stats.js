@@ -6,27 +6,28 @@ const colors = ["green", "lime.4", "yellow", "orange", "red"]
 
 export default function RaceStats({ clan, isColosseum }) {
   const maxPossibleFame = isColosseum ? 180000 : 45000
+  const minPossibleFame = isColosseum ? 80000 : 20000
 
   const data = [
     {
       color: colors[parseInt(clan.projPlace[0]) - 1],
       label: "Projected Finish",
       place: clan.projPlace,
-      progress: (clan.projFame / maxPossibleFame) * 100,
+      progress: ((clan.projFame - minPossibleFame) / (maxPossibleFame - minPossibleFame)) * 100,
       value: clan.projFame,
     },
     {
       color: colors[parseInt(clan.bestPlace[0] - 1)],
       label: "Best Possible Finish",
       place: clan.bestPlace,
-      progress: (clan.maxFame / maxPossibleFame) * 100,
+      progress: ((clan.maxFame - minPossibleFame) / (maxPossibleFame - minPossibleFame)) * 100,
       value: clan.maxFame,
     },
     {
       color: colors[parseInt(clan.worstPlace[0] - 1)],
       label: "Worst Possible Finish",
       place: clan.worstPlace,
-      progress: (clan.minFame / maxPossibleFame) * 100,
+      progress: ((clan.minFame - minPossibleFame) / (maxPossibleFame - minPossibleFame)) * 100,
       value: clan.minFame,
     },
   ]
