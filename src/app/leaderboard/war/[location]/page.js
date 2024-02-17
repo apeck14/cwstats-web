@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 
-import { getLinkedAccount } from "../../../../actions/api"
 import { getWarLeaderboard } from "../../../../actions/supercell"
+import { getLinkedAccount } from "../../../../actions/user"
 import LeaderboardContent from "../../../../components/leaderboard/leaderboard-content"
 import { getRegionByKey } from "../../../../lib/functions/utils"
 

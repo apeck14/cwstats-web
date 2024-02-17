@@ -16,7 +16,7 @@ export default function Page500() {
         Unexpected error.
       </Title>
       <Text c="gray.2" fw={600} fz={isMobile ? "1.2rem" : "1.5rem"} mt="sm">
-        Something went wrong on Supercell&apos;s end. If this issue persists, please join the Support Server.
+        Something went wrong behind the scenes. If this issue persists, please join the Support Server.
       </Text>
       <Button component={Link} href="/" mt="md" variant="light">
         Go to Home page

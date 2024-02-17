@@ -45,6 +45,7 @@ async function supercellRequest(url, redirectOnError) {
 
     return formatSupercellResponse(resp, redirectOnError)
   } catch {
+    if (redirectOnError) redirect("/500_")
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
 }

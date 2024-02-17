@@ -1,5 +1,4 @@
-import { getLinkedAccount } from "../../../actions/api"
-import { followClan, unfollowClan } from "../../../actions/user"
+import { followClan, getLinkedAccount , unfollowClan } from "../../../actions/user"
 import HeaderContent from "./header-content"
 
 export default async function ClanHeader({ clan }) {

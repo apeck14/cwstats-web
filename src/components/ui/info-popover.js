@@ -18,7 +18,7 @@ export default function InfoPopover({ color, fontSize, iconSize, text, ...props 
         />
       </Popover.Target>
       <Popover.Dropdown p="xs">
-        <Text fz={fontSize || "0.75rem"} size="xs">
+        <Text fz={fontSize || "0.75rem"} size="xs" ta="center">
           {text}
         </Text>
       </Popover.Dropdown>

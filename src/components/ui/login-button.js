@@ -11,7 +11,7 @@ export default function LoginButton({ callbackUrl }) {
       mt="sm"
       onClick={() =>
         signIn("discord", {
-          callbackUrl,
+          callbackUrl: callbackUrl || "/",
           redirect: false,
         })
       }

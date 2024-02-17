@@ -1,4 +1,4 @@
-import { getLinkedAccount } from "../actions/api"
+import { getLinkedAccount } from "../actions/user"
 import Home from "../components/home"
 
 export default async function Page() {

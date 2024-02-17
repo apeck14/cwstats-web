@@ -1,4 +1,5 @@
-import { getDailyLeaderboard, getLinkedAccount } from "../../../../actions/api"
+import { getDailyLeaderboard } from "../../../../actions/api"
+import { getLinkedAccount } from "../../../../actions/user"
 import LeaderboardContent from "../../../../components/leaderboard/leaderboard-content"
 import { getRegionByKey } from "../../../../lib/functions/utils"
 

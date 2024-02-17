@@ -82,3 +82,17 @@ export const formatRole = (role) => {
 
 export const truncateString = (str, maxLength = 20) =>
   str.length > maxLength ? `${str.substring(0, maxLength - 3)}...` : str
+
+export const getShortenedDiscordServerName = (name) => {
+  const words = name.split(" ")
+
+  if (words.length === 1) return words[0].slice(0, 3).toUpperCase()
+
+  let shortName = ""
+
+  for (const word of words) {
+    shortName += word[0]
+  }
+
+  return shortName.toUpperCase()
+}

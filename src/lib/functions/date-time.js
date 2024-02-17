@@ -85,3 +85,11 @@ export const relativeDateStr = (date, showSeconds = true) => {
 
   return str.trim() || "0m"
 }
+
+export const getUTCOffset = (timezone) => {
+  const offset = new Intl.DateTimeFormat("en", { timeZone: timezone, timeZoneName: "shortOffset" })
+    .formatToParts()
+    .find((part) => part.type === "timeZoneName").value
+
+  return parseInt(offset.replace("GMT", ""))
+}

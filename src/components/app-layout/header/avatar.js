@@ -24,7 +24,7 @@ export default function AvatarDropdown() {
         </Group>
       </Menu.Target>
 
-      <Menu.Dropdown bg="gray.8" style={{ borderColor: "var(--mantine-color-gray-6" }}>
+      <Menu.Dropdown fw={500}>
         <Menu.Label>Account</Menu.Label>
         <Menu.Item
           component={Link}

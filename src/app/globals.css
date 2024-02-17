@@ -49,6 +49,23 @@ p {
   border-radius: 0.25rem;
 }
 
+.mantine-Notification-description {
+  color: var(--mantine-color-gray-1) !important;
+}
+
+.mantine-TimeInput-input {
+  --_input-bd: transparent;
+}
+
+.mantineNoBorder {
+  --_input-bd: transparent !important;
+}
+
+/* remove default clock icon from time inputs */
+input[type="time"]::-webkit-calendar-picker-indicator {
+  background: none;
+}
+
 a {
   text-decoration: none;
   color: var(--mantine-color-white);
