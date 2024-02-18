@@ -98,6 +98,7 @@ export async function addAbbreviation(id, abbr, tag) {
 
     if (status === 404) return { message: "Clan does not exist.", status: 404, type: "clan" }
     if (error) return { message: "Unexpected Supercell error.", status, type: "abbr" }
+    if (clan.members === 0) return { message: "Clan has been deleted.", status: 404, type: "clan" }
 
     await guilds.updateOne(
       {
@@ -158,6 +159,7 @@ export async function setWarReport(id, tag, timeStr, channelId) {
 
     if (status === 404) return { message: "Clan does not exist.", status: 404 }
     if (error) return { message: "Unexpected Supercell error.", status }
+    if (clan.members === 0) return { message: "Clan has been deleted.", status: 404 }
 
     const client = await clientPromise
     const db = client.db("General")
@@ -225,6 +227,7 @@ export async function setDefaultClan(id, tag) {
 
     if (status === 404) return { message: "Clan does not exist.", status: 404 }
     if (error) return { message: "Unexpected Supercell error.", status }
+    if (clan.members === 0) return { message: "Clan has been deleted.", status: 404 }
 
     const client = await clientPromise
     const db = client.db("General")
