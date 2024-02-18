@@ -6,6 +6,7 @@ import { useForm } from "@mantine/form"
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications"
 import { IconClock, IconHash } from "@tabler/icons-react"
+import { useLogger } from "next-axiom"
 import { useMemo, useRef, useState } from "react"
 
 import { setWarReport } from "../../actions/server"
@@ -14,6 +15,7 @@ import { formatTag } from "../../lib/functions/utils"
 import ChannelDropdown from "./channel-dropdown"
 
 export default function SetReportModal({ channels, id, setReport }) {
+  const logger = useLogger()
   const timeRef = useRef(null)
   const [loading, setLoading] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
@@ -83,6 +85,8 @@ export default function SetReportModal({ channels, id, setReport }) {
       form.setErrors({ clanTag: message })
     } else {
       const channelName = channels.find((c) => c.id === form.values.channel).name
+
+      logger.info("War Report Time Set", timeStr)
 
       close()
       setReport({
