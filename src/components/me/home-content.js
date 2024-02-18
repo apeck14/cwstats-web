@@ -32,13 +32,18 @@ export default function HomeContent({ channels, guild }) {
     const hour = parseInt(report.scheduledReportTimeHHMM.substring(0, 2))
     const colonIndex = report.scheduledReportTimeHHMM.indexOf(":")
     const minutes = parseInt(report.scheduledReportTimeHHMM.substring(colonIndex + 1, colonIndex + 3))
-    const date = new Date(Date.UTC(1900, 1, 1, hour, minutes)).toLocaleString("en", {
+
+    // const date = new Date(Date.UTC(1900, 1, 1, hour, minutes))
+
+    const now = new Date()
+    const utcDate = new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), now.getUTCDate(), hour, minutes))
+    const timeStr = utcDate.toLocaleString("en", {
       hour: "numeric",
       minute: "2-digit",
       timeZoneName: "short",
     })
 
-    return date
+    return timeStr
   }, [report])
 
   return (
