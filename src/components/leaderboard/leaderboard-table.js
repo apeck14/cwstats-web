@@ -97,7 +97,11 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
           )}
         </Table.Td>
 
-        <Table.Td fz={{ base: "0.65rem", md: "0.95rem" }} ta="center" visibleFrom="md">
+        <Table.Td
+          fz={{ base: isWarLb ? "0.75rem" : "0.65rem", md: "0.95rem" }}
+          ta="center"
+          visibleFrom={isWarLb ? "0" : "md"}
+        >
           {c.clanScore}
         </Table.Td>
 
@@ -162,7 +166,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
               </Table.Th>
             )}
 
-            <Table.Th visibleFrom="md">
+            <Table.Th visibleFrom={isWarLb ? "0" : "md"}>
               <Image alt="CW Trophy" height={16} src="/assets/icons/cw-trophy.webp" />
             </Table.Th>
 
