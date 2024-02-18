@@ -91,5 +91,5 @@ export const getUTCOffset = (timezone) => {
     .formatToParts()
     .find((part) => part.type === "timeZoneName").value
 
-  return parseInt(offset.replace("GMT", ""))
+  return offset ? parseInt(offset.replace("GMT", "")) : 0
 }
