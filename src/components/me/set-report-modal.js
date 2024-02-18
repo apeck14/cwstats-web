@@ -68,14 +68,15 @@ export default function SetReportModal({ channels, id, setReport }) {
     const offset = getUTCOffset(usersTimezone)
     const inverseOffset = offset * -1
     const hour = parseInt(form.values.time.substring(0, 2))
-    const minutes = parseInt(form.values.time.substring(3, 5))
+    const colonIndex = form.values.time.indexOf(":")
+    const minutes = parseInt(form.values.time.substring(colonIndex + 1, colonIndex + 3))
 
     let utcHour = hour + inverseOffset
 
     if (utcHour >= 24) utcHour -= 24
     else if (utcHour < 0) utcHour += 24
 
-    const timeStr = `${utcHour}:${minutes}`
+    const timeStr = `${utcHour}:${minutes < 10 ? `0${minutes}` : minutes}`
 
     const { message, name, success } = await setWarReport(id, form.values.clanTag, timeStr, form.values.channel)
 
