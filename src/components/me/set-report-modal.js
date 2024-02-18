@@ -86,7 +86,7 @@ export default function SetReportModal({ channels, id, setReport }) {
     } else {
       const channelName = channels.find((c) => c.id === form.values.channel).name
 
-      logger.info("War Report Time Set", timeStr)
+      logger.info("War Report Time Set", { timeStr, value: form.values.time })
 
       close()
       setReport({
