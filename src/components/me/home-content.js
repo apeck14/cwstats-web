@@ -30,7 +30,8 @@ export default function HomeContent({ channels, guild }) {
     if (!report) return null
 
     const hour = parseInt(report.scheduledReportTimeHHMM.substring(0, 2))
-    const minutes = parseInt(report.scheduledReportTimeHHMM.substring(3))
+    const colonIndex = report.scheduledReportTimeHHMM.indexOf(":")
+    const minutes = parseInt(report.scheduledReportTimeHHMM.substring(colonIndex + 1, colonIndex + 3))
     const date = new Date(Date.UTC(1900, 1, 1, hour, minutes)).toLocaleString("en", {
       hour: "numeric",
       minute: "2-digit",
