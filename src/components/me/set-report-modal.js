@@ -76,7 +76,7 @@ export default function SetReportModal({ channels, id, setReport }) {
     if (utcHour >= 24) utcHour -= 24
     else if (utcHour < 0) utcHour += 24
 
-    const timeStr = `${utcHour}:${minutes < 10 ? `0${minutes}` : minutes}`
+    const timeStr = `${utcHour < 10 ? `0${utcHour}` : utcHour}:${minutes < 10 ? `0${minutes}` : minutes}`
 
     const { message, name, success } = await setWarReport(id, form.values.clanTag, timeStr, form.values.channel)
 
