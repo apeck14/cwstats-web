@@ -68,7 +68,7 @@ export default function SetReportModal({ channels, id, setReport }) {
     const offset = getUTCOffset(usersTimezone)
     const inverseOffset = offset * -1
     const hour = parseInt(form.values.time.substring(0, 2))
-    const minutes = parseInt(form.values.time.substring(3))
+    const minutes = parseInt(form.values.time.substring(3, 5))
 
     let utcHour = hour + inverseOffset
 
