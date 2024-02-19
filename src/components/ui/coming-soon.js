@@ -4,7 +4,7 @@ import Image from "./image"
 
 export default function ComingSoon({ size, subText }) {
   return (
-    <Group justify="center" my="10dvh" wrap="nowrap">
+    <Group justify="center" my="10dvh" px="md" wrap="nowrap">
       <Image alt="Confetti" height={size || 50} src="/assets/icons/confetti.webp" />
       <Stack gap={0}>
         <Title c="gray.1" fz={{ base: "1.25rem", md: "2rem" }}>
