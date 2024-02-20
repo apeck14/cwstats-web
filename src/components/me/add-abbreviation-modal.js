@@ -93,6 +93,7 @@ export default function AddAbbreviationModal({ abbreviations, id, setAbbreviatio
       <Modal centered onClose={close} opened={opened} title={<Title fz="1.5rem">Add Abbreviation</Title>}>
         <Stack gap="md">
           <TextInput
+            data-autofocus
             error={tagError}
             label="Clan Tag"
             leftSection={<IconHash />}

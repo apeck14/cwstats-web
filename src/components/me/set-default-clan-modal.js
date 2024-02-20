@@ -64,9 +64,10 @@ export default function SetDefaultClanModal({ id, setDefClan }) {
 
   return (
     <>
-      <Modal centered onClose={close} opened={opened} title={<Title fz="1.5rem">Add Abbreviation</Title>}>
+      <Modal centered onClose={close} opened={opened} title={<Title fz="1.5rem">Set Default Clan</Title>}>
         <Stack gap="md">
           <TextInput
+            data-autofocus
             error={error}
             label="Clan Tag"
             leftSection={<IconHash />}

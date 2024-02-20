@@ -56,7 +56,7 @@ export default function SearchByClanModal({ onPlayerSelect }) {
             {clan?.name}
           </Group>
         ) : (
-          <DebouncedSearch isClans label="Clan Name" onSelect={handleClanSelect} required />
+          <DebouncedSearch dataAutoFocus isClans label="Clan Name" onSelect={handleClanSelect} required />
         )}
 
         {members.length ? (

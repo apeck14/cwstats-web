@@ -73,7 +73,7 @@ export default function DebouncedSearch({
     >
       <Combobox.Target>
         <InputBase
-          autoFocus={autoFocus}
+          data-autofocus={autoFocus}
           label={label}
           leftSection={
             loading ? (

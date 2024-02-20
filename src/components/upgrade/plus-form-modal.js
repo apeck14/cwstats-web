@@ -83,6 +83,7 @@ export default function PlusFormModal() {
             </List.Item>
           </List>
           <TextInput
+            data-autofocus
             error={error}
             label="Clan Tag"
             leftSection={<IconHash />}

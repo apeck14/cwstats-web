@@ -118,6 +118,7 @@ export default function SetReportModal({ channels, id, setReport }) {
             variant="filled"
             withAsterisk
             {...form.getInputProps("clanTag")}
+            data-autofocus
             onChange={handleTagChange}
           />
 
