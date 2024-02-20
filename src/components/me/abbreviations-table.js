@@ -18,9 +18,8 @@ export default function AbbreviationsTable({ data, id }) {
 
   const rows = abbreviations
     .sort((a, b) => a.abbr.localeCompare(b.abbr))
-    .map((a, i) => (
+    .map((a) => (
       <Table.Tr key={a.tag}>
-        <Table.Td ta="center">{i + 1}</Table.Td>
         <Table.Td fw={600} ta="center" tt="lowercase">
           {a.abbr}
         </Table.Td>
@@ -50,7 +49,6 @@ export default function AbbreviationsTable({ data, id }) {
       <Table className="ignoreContainerPadding" mt="0.1rem" striped>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th ta="center">#</Table.Th>
             <Table.Th ta="center">Abbr.</Table.Th>
             <Table.Th>Clan Name</Table.Th>
             <Table.Th>Tag</Table.Th>
