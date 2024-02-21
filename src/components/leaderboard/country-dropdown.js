@@ -5,7 +5,8 @@ import { usePathname, useSearchParams } from "next/navigation"
 import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
-import locations from "../../../public/static/locations"
+import locations from "@/static/locations"
+
 import Image from "../ui/image"
 
 const countries = locations.map((l) => ({

@@ -7,7 +7,8 @@ import Link from "next/link"
 import { usePathname, useSearchParams } from "next/navigation"
 import { useEffect, useState } from "react"
 
-import { getClanBadgeFileName, getRegionById } from "../../lib/functions/utils"
+import { getClanBadgeFileName, getRegionById } from "@/lib/functions/utils"
+
 import Image from "../ui/image"
 import classes from "./leaderboard.module.css"
 

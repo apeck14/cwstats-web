@@ -1,10 +1,10 @@
 import { Avatar, Container, Group, SimpleGrid, Stack, Text } from "@mantine/core"
 
-import { getClan } from "../../../actions/supercell"
-import ClanHeader from "../../../components/clan/header"
-import MembersTable from "../../../components/clan/members-table"
-import Image from "../../../components/ui/image"
-import { formatClanType, getClanBadgeFileName, getCountryKeyById } from "../../../lib/functions/utils"
+import { getClan } from "@/actions/supercell"
+import ClanHeader from "@/components/clan/header"
+import MembersTable from "@/components/clan/members-table"
+import Image from "@/components/ui/image"
+import { formatClanType, getClanBadgeFileName, getCountryKeyById } from "@/lib/functions/utils"
 
 export async function generateMetadata({ params }) {
   const { tag } = params

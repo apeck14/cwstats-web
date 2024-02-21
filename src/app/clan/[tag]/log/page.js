@@ -1,9 +1,9 @@
 import { Container } from "@mantine/core"
 
-import { getClan } from "../../../../actions/supercell"
-import ClanHeader from "../../../../components/clan/header"
-import ComingSoon from "../../../../components/ui/coming-soon"
-import { getClanBadgeFileName } from "../../../../lib/functions/utils"
+import { getClan } from "@/actions/supercell"
+import ClanHeader from "@/components/clan/header"
+import ComingSoon from "@/components/ui/coming-soon"
+import { getClanBadgeFileName } from "@/lib/functions/utils"
 
 export async function generateMetadata({ params }) {
   const { tag } = params

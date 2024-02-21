@@ -1,7 +1,8 @@
 import { Group, Loader, SimpleGrid, Stack, Text, Title } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 
-import { getCardFileName } from "../../lib/functions/utils"
+import { getCardFileName } from "@/lib/functions/utils"
+
 import Image from "../ui/image"
 import InfoPopover from "../ui/info-popover"
 

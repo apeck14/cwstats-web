@@ -6,9 +6,10 @@ import { IconSpy } from "@tabler/icons-react"
 import Link from "next/link"
 import { useState } from "react"
 
-import { getClan, getPlayer, getPlayerBattleLog } from "../../actions/supercell"
-import { getWarDecksFromLog } from "../../lib/functions/decks"
-import { getClanBadgeFileName } from "../../lib/functions/utils"
+import { getClan, getPlayer, getPlayerBattleLog } from "@/actions/supercell"
+import { getWarDecksFromLog } from "@/lib/functions/decks"
+import { getClanBadgeFileName } from "@/lib/functions/utils"
+
 import DebouncedSearch from "../ui/debounced-search"
 import Image from "../ui/image"
 import DeckContent from "./deck-content"

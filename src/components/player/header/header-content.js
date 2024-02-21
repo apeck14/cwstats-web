@@ -8,8 +8,9 @@ import { usePathname } from "next/navigation"
 import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
-import { PLAYER_IN_GAME_LINK, PLAYER_IN_GAME_LINK_MOBILE } from "../../../../public/static/constants"
-import { formatRole, getArenaFileName, getClanBadgeFileName } from "../../../lib/functions/utils"
+import { formatRole, getArenaFileName, getClanBadgeFileName } from "@/lib/functions/utils"
+import { PLAYER_IN_GAME_LINK, PLAYER_IN_GAME_LINK_MOBILE } from "@/static/constants"
+
 import FollowButton from "../../ui/follow-button"
 import Image from "../../ui/image"
 import classes from "./header.module.css"

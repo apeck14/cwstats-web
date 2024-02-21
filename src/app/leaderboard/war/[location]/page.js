@@ -1,9 +1,9 @@
 import { notFound } from "next/navigation"
 
-import { getWarLeaderboard } from "../../../../actions/supercell"
-import { getLinkedAccount } from "../../../../actions/user"
-import LeaderboardContent from "../../../../components/leaderboard/leaderboard-content"
-import { getRegionByKey } from "../../../../lib/functions/utils"
+import { getWarLeaderboard } from "@/actions/supercell"
+import { getLinkedAccount } from "@/actions/user"
+import LeaderboardContent from "@/components/leaderboard/leaderboard-content"
+import { getRegionByKey } from "@/lib/functions/utils"
 
 export async function generateMetadata({ params }) {
   const { location } = params

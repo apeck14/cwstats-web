@@ -1,4 +1,5 @@
-import { getGuild } from "../../../actions/discord"
+import { getGuild } from "@/actions/discord"
+
 import ServerHeaderContent from "./header-content"
 
 export default async function ServerHeader({ id }) {

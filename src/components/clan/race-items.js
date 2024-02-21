@@ -4,7 +4,8 @@ import { Group, Paper, Stack, Text } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import Link from "next/link"
 
-import { getClanBadgeFileName } from "../../lib/functions/utils"
+import { getClanBadgeFileName } from "@/lib/functions/utils"
+
 import Image from "../ui/image"
 import classes from "./clan.module.css"
 import RaceProgressBar from "./race-progress-bar"

@@ -57,5 +57,20 @@
         "jest": true
       }
     }
-  ]
+  ],
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "map": [
+          ["@/components", "./src/components"],
+          ["@/lib", "./src/lib"],
+          ["@/app", "./src/app"],
+          ["@/actions", "./src/actions"],
+          ["@/assets", "./public/assets"],
+          ["@/static", "./public/static"]
+        ],
+        "extensions": [".js", ".json"]
+      }
+    }
+  }
 }

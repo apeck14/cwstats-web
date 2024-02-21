@@ -4,8 +4,9 @@ import { Button, Group, Modal, ScrollArea, Stack, Title, UnstyledButton } from "
 import { useDisclosure, useMediaQuery } from "@mantine/hooks"
 import { useState } from "react"
 
-import { getClanMembers } from "../../actions/supercell"
-import { getClanBadgeFileName } from "../../lib/functions/utils"
+import { getClanMembers } from "@/actions/supercell"
+import { getClanBadgeFileName } from "@/lib/functions/utils"
+
 import DebouncedSearch from "../ui/debounced-search"
 import Image from "../ui/image"
 

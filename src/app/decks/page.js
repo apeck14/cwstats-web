@@ -1,6 +1,6 @@
 import { Container } from "@mantine/core"
 
-import ComingSoon from "../../components/ui/coming-soon"
+import ComingSoon from "@/components/ui/coming-soon"
 
 export const metadata = {
   description: "Navigate the top rated war decks to boost your gameplay!",

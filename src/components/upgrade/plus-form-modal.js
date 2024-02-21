@@ -6,8 +6,8 @@ import { notifications } from "@mantine/notifications"
 import { IconCheck, IconHash } from "@tabler/icons-react"
 import { useState } from "react"
 
-import { addPlus } from "../../actions/upgrade"
-import { formatTag } from "../../lib/functions/utils"
+import { addPlus } from "@/actions/upgrade"
+import { formatTag } from "@/lib/functions/utils"
 
 export default function PlusFormModal() {
   const [tag, setTag] = useState("")

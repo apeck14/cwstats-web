@@ -2,8 +2,8 @@
 /* eslint-disable perfectionist/sort-objects */
 import { NextResponse } from "next/server"
 
-import locations from "../../../../public/static/locations"
-import clientPromise from "../../../lib/mongodb"
+import clientPromise from "@/lib/mongodb"
+import locations from "@/static/locations"
 
 // /api/leaderboard/:id
 export async function GET(req) {

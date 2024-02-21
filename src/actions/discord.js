@@ -7,8 +7,8 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
-import { authOptions } from "../app/api/auth/[...nextauth]/route"
-import clientPromise from "../lib/mongodb"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import clientPromise from "@/lib/mongodb"
 
 const hasAdminPermissions = (permissions) => {
   const ADMIN = 0x8

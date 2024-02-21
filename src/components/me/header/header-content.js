@@ -5,7 +5,8 @@ import { useMediaQuery } from "@mantine/hooks"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 
-import { truncateString } from "../../../lib/functions/utils"
+import { truncateString } from "@/lib/functions/utils"
+
 import classes from "../../clan/header/header.module.css"
 import DiscordServerIcon from "../discord-server-icon"
 

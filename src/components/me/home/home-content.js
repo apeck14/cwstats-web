@@ -5,7 +5,8 @@ import { useDisclosure } from "@mantine/hooks"
 import { IconTrash } from "@tabler/icons-react"
 import { useMemo, useState } from "react"
 
-import { deleteDefaultClan, deleteWarReport } from "../../../actions/server"
+import { deleteDefaultClan, deleteWarReport } from "@/actions/server"
+
 import InfoPopover from "../../ui/info-popover"
 import AbbreviationsTable from "./abbreviations-table"
 import SetDefaultClanModal from "./set-default-clan-modal"

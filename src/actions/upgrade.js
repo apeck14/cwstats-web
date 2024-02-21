@@ -3,7 +3,8 @@
 /* eslint-disable perfectionist/sort-objects */
 /* eslint-disable import/prefer-default-export */
 
-import clientPromise from "../lib/mongodb"
+import clientPromise from "@/lib/mongodb"
+
 import { getClan } from "./supercell"
 
 export async function addPlus(tag) {

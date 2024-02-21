@@ -6,9 +6,10 @@ import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
-import { authOptions } from "../app/api/auth/[...nextauth]/route"
-import { formatTag } from "../lib/functions/utils"
-import clientPromise from "../lib/mongodb"
+import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { formatTag } from "@/lib/functions/utils"
+import clientPromise from "@/lib/mongodb"
+
 import { getClan } from "./supercell"
 
 export async function getServerSettings(id, redirectOnError = false, authenticate = false) {

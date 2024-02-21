@@ -1,5 +1,5 @@
-import badges from "../../../public/static/badges.json"
-import locations from "../../../public/static/locations"
+import badges from "@/static/badges.json"
+import locations from "@/static/locations"
 
 export const formatTag = (str, withHastag = false) => {
   const tag = str

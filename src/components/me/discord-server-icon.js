@@ -1,6 +1,7 @@
 import { Group } from "@mantine/core"
 
-import { getShortenedDiscordServerName } from "../../lib/functions/utils"
+import { getShortenedDiscordServerName } from "@/lib/functions/utils"
+
 import Image from "../ui/image"
 import classes from "./me.module.css"
 

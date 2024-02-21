@@ -1,9 +1,9 @@
 import { Container, Group, SimpleGrid, Text, Title } from "@mantine/core"
 import Link from "next/link"
 
-import { getGuilds } from "../../../actions/discord"
-import ServerCard from "../../../components/me/server-card"
-import InfoPopover from "../../../components/ui/info-popover"
+import { getGuilds } from "@/actions/discord"
+import ServerCard from "@/components/me/server-card"
+import InfoPopover from "@/components/ui/info-popover"
 
 export const metadata = {
   description: "View my Discord servers in CWStats.",

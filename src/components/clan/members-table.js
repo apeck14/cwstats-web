@@ -5,8 +5,9 @@ import { IconCaretDownFilled, IconCaretUpFilled } from "@tabler/icons-react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
 
-import { getLastSeenColor, parseDate, relativeDateStr } from "../../lib/functions/date-time"
-import { formatRole, getArenaFileName } from "../../lib/functions/utils"
+import { getLastSeenColor, parseDate, relativeDateStr } from "@/lib/functions/date-time"
+import { formatRole, getArenaFileName } from "@/lib/functions/utils"
+
 import Image from "../ui/image"
 import classes from "./clan.module.css"
 

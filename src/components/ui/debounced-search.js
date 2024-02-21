@@ -5,9 +5,10 @@ import { useDebouncedValue, useMediaQuery } from "@mantine/hooks"
 import { IconSearch } from "@tabler/icons-react"
 import { useEffect, useRef, useState } from "react"
 
-import { getPlayersByQuery } from "../../actions/api"
-import { searchClans } from "../../actions/supercell"
-import { getClanBadgeFileName } from "../../lib/functions/utils"
+import { getPlayersByQuery } from "@/actions/api"
+import { searchClans } from "@/actions/supercell"
+import { getClanBadgeFileName } from "@/lib/functions/utils"
+
 import Image from "./image"
 
 export default function DebouncedSearch({

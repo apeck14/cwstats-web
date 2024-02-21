@@ -6,8 +6,8 @@ import { notifications } from "@mantine/notifications"
 import { IconHash } from "@tabler/icons-react"
 import { useState } from "react"
 
-import { setDefaultClan } from "../../../actions/server"
-import { formatTag } from "../../../lib/functions/utils"
+import { setDefaultClan } from "@/actions/server"
+import { formatTag } from "@/lib/functions/utils"
 
 export default function SetDefaultClanModal({ id, setDefClan }) {
   const [tag, setTag] = useState("")

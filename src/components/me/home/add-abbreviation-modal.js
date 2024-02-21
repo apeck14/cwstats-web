@@ -6,8 +6,8 @@ import { notifications } from "@mantine/notifications"
 import { IconHash } from "@tabler/icons-react"
 import { useState } from "react"
 
-import { addAbbreviation } from "../../../actions/server"
-import { formatTag } from "../../../lib/functions/utils"
+import { addAbbreviation } from "@/actions/server"
+import { formatTag } from "@/lib/functions/utils"
 
 export default function AddAbbreviationModal({ abbreviations, id, setAbbreviations }) {
   const [tag, setTag] = useState("")

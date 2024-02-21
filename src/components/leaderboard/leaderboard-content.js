@@ -5,7 +5,8 @@ import { IconInfoCircle } from "@tabler/icons-react"
 import { notFound, useSearchParams } from "next/navigation"
 import { useState } from "react"
 
-import { getRegionByKey } from "../../lib/functions/utils"
+import { getRegionByKey } from "@/lib/functions/utils"
+
 import ClanSearch from "./clan-search"
 import CountryDropdown from "./country-dropdown"
 import LeaderboardHeader from "./header"

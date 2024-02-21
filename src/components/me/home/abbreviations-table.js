@@ -4,7 +4,8 @@ import { ActionIcon, Group, Table, Title } from "@mantine/core"
 import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 
-import { deleteAbbreviation } from "../../../actions/server"
+import { deleteAbbreviation } from "@/actions/server"
+
 import InfoPopover from "../../ui/info-popover"
 import AddAbbreviationModal from "./add-abbreviation-modal"
 

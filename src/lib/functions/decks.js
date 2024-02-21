@@ -1,5 +1,5 @@
 /* eslint-disable import/prefer-default-export */
-import specialGamemodes from "../../../public/static/special-gamemodes"
+import specialGamemodes from "@/static/special-gamemodes"
 
 const sharesCards = (cards1, cards2) => {
   for (const c of cards1) {

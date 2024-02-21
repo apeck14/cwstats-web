@@ -1,6 +1,6 @@
 import { Container, Text, Title } from "@mantine/core"
 
-import LoginButton from "../../components/ui/login-button"
+import LoginButton from "@/components/ui/login-button"
 
 export const metadata = {
   description: "Log in with Discord to access all of CWStats!",

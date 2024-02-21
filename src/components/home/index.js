@@ -5,7 +5,8 @@ import { useMediaQuery } from "@mantine/hooks"
 import { IconBrandDiscord, IconClockBolt, IconTools } from "@tabler/icons-react"
 import Link from "next/link"
 
-import { CWSTATS_DESC } from "../../../public/static/constants"
+import { CWSTATS_DESC } from "@/static/constants"
+
 import Image from "../ui/image"
 import classes from "./Home.module.css"
 import LoginOverlay from "./loginOverlay"

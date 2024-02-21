@@ -1,9 +1,9 @@
 import { Container } from "@mantine/core"
 
-import { getPlayer } from "../../../actions/supercell"
-import PlayerHeader from "../../../components/player/header"
-import ComingSoon from "../../../components/ui/coming-soon"
-import { getArenaFileName } from "../../../lib/functions/utils"
+import { getPlayer } from "@/actions/supercell"
+import PlayerHeader from "@/components/player/header"
+import ComingSoon from "@/components/ui/coming-soon"
+import { getArenaFileName } from "@/lib/functions/utils"
 
 export async function generateMetadata({ params }) {
   const { tag } = params

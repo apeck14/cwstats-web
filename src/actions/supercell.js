@@ -3,9 +3,9 @@
 import { redirect } from "next/navigation"
 import { Logger } from "next-axiom"
 
-import { getRaceDetails } from "../lib/functions/race"
-import { formatTag } from "../lib/functions/utils"
-import clientPromise from "../lib/mongodb"
+import { getRaceDetails } from "@/lib/functions/race"
+import { formatTag } from "@/lib/functions/utils"
+import clientPromise from "@/lib/mongodb"
 
 const BASE_URL = "https://proxy.royaleapi.dev/v1"
 

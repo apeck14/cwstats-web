@@ -5,8 +5,9 @@ import { useMediaQuery } from "@mantine/hooks"
 import { useRouter } from "next-nprogress-bar"
 import { useEffect, useState } from "react"
 
-import { relativeDateStr } from "../../lib/functions/date-time"
-import { truncateString } from "../../lib/functions/utils"
+import { relativeDateStr } from "@/lib/functions/date-time"
+import { truncateString } from "@/lib/functions/utils"
+
 import Image from "../ui/image"
 
 export default function LeaderboardHeader({ isWarLb, lastUpdated, region }) {

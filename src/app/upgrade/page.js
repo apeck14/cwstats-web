@@ -1,7 +1,7 @@
 import { Container, Stack, Title } from "@mantine/core"
 
-import FeatureTable from "../../components/upgrade/feature-table"
-import UpgradeHeader from "../../components/upgrade/header"
+import FeatureTable from "@/components/upgrade/feature-table"
+import UpgradeHeader from "@/components/upgrade/header"
 
 export const metadata = {
   description: "Upgrade to CWStats+ or Premium, and take full advantage of all CWStats features.",

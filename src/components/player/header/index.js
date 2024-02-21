@@ -1,5 +1,6 @@
-import { getClan } from "../../../actions/supercell"
-import { followPlayer, getLinkedAccount , unfollowPlayer } from "../../../actions/user"
+import { getClan } from "@/actions/supercell"
+import { followPlayer, getLinkedAccount , unfollowPlayer } from "@/actions/user"
+
 import HeaderContent from "./header-content"
 
 export default async function PlayerHeader({ player }) {

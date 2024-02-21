@@ -1,13 +1,14 @@
 import { Container, Group, Stack, Title } from "@mantine/core"
 
-import { getClan, getRace } from "../../../../actions/supercell"
-import ClanHeader from "../../../../components/clan/header"
-import ParticipantsTable from "../../../../components/clan/participants-table"
-import RaceItems from "../../../../components/clan/race-items"
-import RaceStats from "../../../../components/clan/race-stats"
-import RaceStepper from "../../../../components/clan/race-stepper"
-import InfoPopover from "../../../../components/ui/info-popover"
-import { getClanBadgeFileName } from "../../../../lib/functions/utils"
+import { getClan, getRace } from "@/actions/supercell"
+import ClanHeader from "@/components/clan/header"
+import ParticipantsTable from "@/components/clan/participants-table"
+import RaceItems from "@/components/clan/race-items"
+import RaceStats from "@/components/clan/race-stats"
+import RaceStepper from "@/components/clan/race-stepper"
+import InfoPopover from "@/components/ui/info-popover"
+import { getClanBadgeFileName } from "@/lib/functions/utils"
+
 import classes from "./Race.module.css"
 
 export async function generateMetadata({ params }) {

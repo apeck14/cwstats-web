@@ -1,4 +1,4 @@
-import SpyContent from "../../components/spy/spy-content"
+import SpyContent from "@/components/spy/spy-content"
 
 export const metadata = {
   description: "Find your opponent's war decks by name or clan in real-time!",

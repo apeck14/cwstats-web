@@ -4,7 +4,7 @@ import NextAuth from "next-auth/next"
 import DiscordProvider from "next-auth/providers/discord"
 import { Logger } from "next-axiom"
 
-import clientPromise from "../../../../lib/mongodb"
+import clientPromise from "@/lib/mongodb"
 
 const scope = ["identify", "guilds", "guilds.members.read"].join(" ")
 

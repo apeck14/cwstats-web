@@ -4,7 +4,8 @@ import { Button, Card, Group, Text } from "@mantine/core"
 import { IconArrowNarrowRight } from "@tabler/icons-react"
 import Link from "next/link"
 
-import { truncateString } from "../../lib/functions/utils"
+import { truncateString } from "@/lib/functions/utils"
+
 import DiscordServerIcon from "./discord-server-icon"
 
 export default function ServerCard({ icon, id, name }) {

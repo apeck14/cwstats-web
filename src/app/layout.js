@@ -5,11 +5,12 @@ import "@mantine/notifications/styles.css"
 
 import { getServerSession } from "next-auth"
 
-import { CWSTATS_DESC } from "../../public/static/constants"
-import Analytics from "../components/analytics"
-import AppLayout from "../components/app-layout"
-import AppFooter from "../components/app-layout/footer"
-import NextAuthProvider from "../components/session-provider"
+import Analytics from "@/components/analytics"
+import AppLayout from "@/components/app-layout"
+import AppFooter from "@/components/app-layout/footer"
+import NextAuthProvider from "@/components/session-provider"
+import { CWSTATS_DESC } from "@/static/constants"
+
 import { authOptions } from "./api/auth/[...nextauth]/route"
 import ThemeProvider from "./theme"
 

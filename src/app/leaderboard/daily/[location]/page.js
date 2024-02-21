@@ -1,7 +1,7 @@
-import { getDailyLeaderboard } from "../../../../actions/api"
-import { getLinkedAccount } from "../../../../actions/user"
-import LeaderboardContent from "../../../../components/leaderboard/leaderboard-content"
-import { getRegionByKey } from "../../../../lib/functions/utils"
+import { getDailyLeaderboard } from "@/actions/api"
+import { getLinkedAccount } from "@/actions/user"
+import LeaderboardContent from "@/components/leaderboard/leaderboard-content"
+import { getRegionByKey } from "@/lib/functions/utils"
 
 export async function generateMetadata({ params }) {
   const { location } = params

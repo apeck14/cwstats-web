@@ -9,9 +9,10 @@ import { IconClock, IconHash } from "@tabler/icons-react"
 import { useLogger } from "next-axiom"
 import { useMemo, useRef, useState } from "react"
 
-import { setWarReport } from "../../../actions/server"
-import { getUTCOffset } from "../../../lib/functions/date-time"
-import { formatTag } from "../../../lib/functions/utils"
+import { setWarReport } from "@/actions/server"
+import { getUTCOffset } from "@/lib/functions/date-time"
+import { formatTag } from "@/lib/functions/utils"
+
 import ChannelDropdown from "./channel-dropdown"
 
 export default function SetReportModal({ channels, id, setReport }) {
