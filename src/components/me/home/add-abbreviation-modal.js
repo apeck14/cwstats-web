@@ -6,8 +6,8 @@ import { notifications } from "@mantine/notifications"
 import { IconHash } from "@tabler/icons-react"
 import { useState } from "react"
 
-import { addAbbreviation } from "../../actions/server"
-import { formatTag } from "../../lib/functions/utils"
+import { addAbbreviation } from "../../../actions/server"
+import { formatTag } from "../../../lib/functions/utils"
 
 export default function AddAbbreviationModal({ abbreviations, id, setAbbreviations }) {
   const [tag, setTag] = useState("")
@@ -120,13 +120,13 @@ export default function AddAbbreviationModal({ abbreviations, id, setAbbreviatio
           />
 
           <Group justify="flex-end">
-            <Button color="green" loading={loading} onClick={handleSubmit}>
+            <Button loading={loading} onClick={handleSubmit}>
               Add
             </Button>
           </Group>
         </Stack>
       </Modal>
-      <Button color="green" fz="0.9rem" onClick={handleOpen} size="xs">
+      <Button fz="0.9rem" onClick={handleOpen} size="xs">
         Add
       </Button>
     </>

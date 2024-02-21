@@ -1,7 +1,7 @@
 import { getGuildChannels } from "../../../../actions/discord"
 import { getServerSettings } from "../../../../actions/server"
 import ServerHeader from "../../../../components/me/header"
-import HomeContent from "../../../../components/me/home-content"
+import HomeContent from "../../../../components/me/home/home-content"
 
 export const metadata = {
   description: "View my Discord servers in CWStats.",

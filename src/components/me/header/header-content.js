@@ -25,7 +25,7 @@ export default function ServerHeaderContent({ guild }) {
                 {isMobile ? truncateString(guild.name, 20) : guild.name}
               </Title>
               <Text c="gray.1" fw={500} fz={{ base: "0.9rem", md: "1.25rem" }}>
-                Mange your server&apos;s CWStats settings!
+                Manage your server&apos;s CWStats settings!
               </Text>
             </Stack>
           </Group>
