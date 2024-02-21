@@ -1,5 +1,6 @@
 /* eslint-disable no-console */
-import { getAvgFame, getMaxFame, getMinFame, getProjFame } from "../src/lib/functions/race"
+import { getAvgFame, getMaxFame, getMinFame, getProjFame } from "@/lib/functions/race"
+
 import MockClanData, { measurePerf } from "./clan.mock"
 import profile from "./profile"
 
