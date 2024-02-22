@@ -100,7 +100,7 @@ export const getShortenedDiscordServerName = (name) => {
 export const mongoSanitize = (val) => {
   if (typeof val === "object" && val !== null) {
     for (const key in val) {
-      if (val.hasOwnProperty(key) && key[0] === "$") {
+      if (key[0] === "$") {
         delete val[key]
       }
     }
