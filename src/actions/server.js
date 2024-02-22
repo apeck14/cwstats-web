@@ -7,43 +7,34 @@ import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import { formatTag } from "@/lib/functions/utils"
+import { formatTag, mongoSanitize } from "@/lib/functions/utils"
 import clientPromise from "@/lib/mongodb"
 
 import { getClan } from "./supercell"
 
 export async function getServerSettings(id, redirectOnError = false, authenticate = false) {
-  try {
-    if (authenticate) {
-      const session = await getServerSession(authOptions)
+  if (authenticate) {
+    const session = await getServerSession(authOptions)
 
-      if (!session) {
-        redirect("/login?callback=/me/servers")
-      }
+    if (!session) {
+      redirect("/login?callback=/me/servers")
     }
-
-    const client = await clientPromise
-    const db = client.db("General")
-    const guilds = db.collection("Guilds")
-
-    const guild = await guilds.findOne({ guildID: id })
-
-    if (!guild) {
-      if (redirectOnError) redirect("/404_")
-      return { message: "Guild not found in DB.", status: 404 }
-    }
-
-    delete guild._id
-
-    return { guild, status: 200 }
-  } catch (err) {
-    const logger = new Logger()
-    logger.error("getServerSettings error", err)
-
-    if (redirectOnError) redirect("/500_")
-
-    return { error: "Unexpected error. Please try again.", status: 500 }
   }
+
+  const client = await clientPromise
+  const db = client.db("General")
+  const guilds = db.collection("Guilds")
+
+  const guild = await guilds.findOne({ guildID: id })
+
+  if (!guild) {
+    if (redirectOnError) redirect("/404_")
+    return { message: "Guild not found in DB.", status: 404 }
+  }
+
+  delete guild._id
+
+  return { guild, status: 200 }
 }
 
 export async function addAbbreviation(id, abbr, tag) {
@@ -215,7 +206,7 @@ export async function deleteWarReport(id) {
     return { status: 200, success: true }
   } catch (err) {
     const logger = new Logger()
-    logger.error("setWarReport error", err)
+    logger.error("deleteWarReport error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
@@ -251,7 +242,7 @@ export async function setDefaultClan(id, tag) {
     return { name: clan.name, status: 200, success: true }
   } catch (err) {
     const logger = new Logger()
-    logger.error("deleteDefaultClan error", err)
+    logger.error("setDefaultClan error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
@@ -278,6 +269,33 @@ export async function deleteDefaultClan(id) {
   } catch (err) {
     const logger = new Logger()
     logger.error("deleteDefaultClan error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function updateNudgeSettings(id, settings = { ignoreLeaders: false, message: "" }) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    await guilds.updateOne(
+      {
+        guildID: id,
+      },
+      {
+        $set: {
+          "nudges.ignoreLeaders": settings.ignoreLeaders,
+          "nudges.message": mongoSanitize(settings.message),
+        },
+      },
+    )
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("updateNudgeSettings error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
