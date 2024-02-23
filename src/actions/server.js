@@ -13,8 +13,13 @@ import clientPromise from "@/lib/mongodb"
 import { getClan } from "./supercell"
 
 export async function getServerSettings(id, redirectOnError = false, authenticate = false) {
+  const logger = new Logger()
+  logger.info("Server ID", id)
+
   if (authenticate) {
     const session = await getServerSession(authOptions)
+
+    logger.info("Session", session)
 
     if (!session) {
       redirect("/login?callback=/me/servers")
