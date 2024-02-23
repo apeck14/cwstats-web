@@ -46,14 +46,18 @@ export async function getGuilds(redirectOnError = false) {
 
     const [allGuilds, botGuildIds] = await Promise.all([data.json(), guilds.distinct("guildID")])
 
-    const filteredGuildsByPermissions = allGuilds
-      .filter((g) => (g.owner || hasAdminPermissions(g.permissions)) && botGuildIds.includes(g.id))
-      .sort((a, b) => {
-        if (!a.icon && !b.icon) return a.name.localeCompare(b.name)
-        return !!b.icon - !!a.icon
-      })
+    if (Array.isArray(allGuilds)) {
+      const filteredGuildsByPermissions = allGuilds
+        .filter((g) => (g.owner || hasAdminPermissions(g.permissions)) && botGuildIds.includes(g.id))
+        .sort((a, b) => {
+          if (!a.icon && !b.icon) return a.name.localeCompare(b.name)
+          return !!b.icon - !!a.icon
+        })
 
-    return { data: filteredGuildsByPermissions, status: 200, success: true }
+      return { data: filteredGuildsByPermissions, status: 200, success: true }
+    }
+
+    throw allGuilds
   } catch (err) {
     const log = new Logger()
     log.warn("getGuilds Error", err)
