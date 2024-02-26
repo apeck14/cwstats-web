@@ -57,7 +57,7 @@ export default function AddAbbreviationModal({ abbreviations, id, setAbbreviatio
 
   const handleSubmit = async () => {
     if (tag.length < 5) {
-      setTagError("Clan tag is too short.")
+      setTagError("Invalid clan tag.")
       return
     }
 
@@ -80,7 +80,7 @@ export default function AddAbbreviationModal({ abbreviations, id, setAbbreviatio
       close()
       setAbbreviations([...abbreviations, { abbr: lowerCaseAbbr, name, tag: formatTag(tag, true) }])
       notifications.show({
-        autoClose: 5000,
+        autoClose: 8000,
         color: "green",
         message: `${name} can now be referenced with: "${lowerCaseAbbr}".`,
         title: "New abbreviation!",

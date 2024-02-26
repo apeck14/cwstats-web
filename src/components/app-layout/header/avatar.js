@@ -67,7 +67,7 @@ export default function AvatarDropdown() {
       size="lg"
       variant="filled"
     >
-      <IconBrandDiscordFilled stroke={1.5} style={{ height: "1.25rem" }} />
+      <IconBrandDiscordFilled size="1.25rem" stroke={1.5} />
     </ActionIcon>
   )
 }

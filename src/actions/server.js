@@ -10,16 +10,11 @@ import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { formatTag, mongoSanitize } from "@/lib/functions/utils"
 import clientPromise from "@/lib/mongodb"
 
-import { getClan } from "./supercell"
+import { getClan, getPlayer } from "./supercell"
 
 export async function getServerSettings(id, redirectOnError = false, authenticate = false) {
-  const logger = new Logger()
-  logger.info("Server ID", id)
-
   if (authenticate) {
     const session = await getServerSession(authOptions)
-
-    logger.info("Session", session)
 
     if (!session) {
       redirect("/login?callback=/me/servers")
@@ -301,6 +296,187 @@ export async function updateNudgeSettings(id, settings = { ignoreLeaders: false,
   } catch (err) {
     const logger = new Logger()
     logger.error("updateNudgeSettings error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function addScheduledNudge(id, tag, hourUTC, channelID) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    const guildExists = await guilds.findOne({
+      guildID: id,
+    })
+
+    if (!guildExists) return { message: "Server not found.", status: 404 }
+
+    const { nudges } = guildExists
+    const { scheduled } = nudges || {}
+
+    if (scheduled) {
+      if (scheduled.length >= 5) {
+        return { message: "Max number of nudges reached.", status: 400 }
+      }
+
+      const duplicateExists = scheduled.find((sn) => sn.clanTag === tag && sn.scheduledHourUTC === hourUTC)
+
+      if (duplicateExists) {
+        return {
+          message: "You cannot have duplicate nudges.",
+          status: 400,
+          type: "clan",
+        }
+      }
+    }
+
+    const { data: clan, error, status } = await getClan(tag)
+
+    if (status === 404) return { message: "Clan does not exist.", status: 404, type: "clan" }
+    if (error) return { message: "Unexpected Supercell error.", status, type: "clan" }
+    if (clan.members === 0) return { message: "Clan has been deleted.", status: 404, type: "clan" }
+
+    await guilds.updateOne(
+      {
+        guildID: id,
+      },
+      {
+        $push: {
+          "nudges.scheduled": {
+            channelID,
+            clanName: clan.name,
+            clanTag: clan.tag,
+            scheduledHourUTC: parseInt(hourUTC),
+          },
+        },
+      },
+    )
+
+    return { name: clan.name, status: 200, success: true }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("addScheduledNudge error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function deleteScheduledNudge(id, tag, hourUTC) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    await guilds.updateOne(
+      {
+        guildID: id,
+      },
+      {
+        $pull: {
+          "nudges.scheduled": {
+            clanTag: formatTag(tag, true),
+            scheduledHourUTC: parseInt(hourUTC),
+          },
+        },
+      },
+    )
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("deleteScheduledNudge error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function addLinkedAccount(id, tag, discordID) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    const guildExists = await guilds.findOne({
+      guildID: id,
+    })
+
+    if (!guildExists) return { message: "Server not found.", status: 404 }
+
+    const { nudges } = guildExists
+    const { links } = nudges || {}
+
+    const formattedTag = formatTag(tag, true)
+
+    if (links) {
+      if (links.length >= 300) {
+        return { message: "Max number of linked accounts reached.", status: 400 }
+      }
+
+      const tagAlreadyLinked = guildExists.nudges.links.some((l) => l.tag === formattedTag)
+
+      if (tagAlreadyLinked) {
+        return {
+          message: "This tag is already linked to a Discord user.",
+          status: 400,
+        }
+      }
+    }
+
+    const { data: player, error, status } = await getPlayer(tag)
+
+    if (status === 404) return { message: "Player does not exist.", status: 404 }
+    if (error) return { message: "Unexpected Supercell error.", status }
+
+    await guilds.updateOne(
+      {
+        guildID: id,
+      },
+      {
+        $push: {
+          "nudges.links": {
+            discordID,
+            name: player.name,
+            tag: player.tag,
+          },
+        },
+      },
+    )
+
+    return { name: player.name, status: 200, success: true }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("addLinkedAccount error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function deleteLinkedAccount(id, tag, discordID) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    await guilds.updateOne(
+      {
+        guildID: id,
+      },
+      {
+        $pull: {
+          "nudges.links": {
+            discordID,
+            tag,
+          },
+        },
+      },
+    )
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("deleteLinkedAccount error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
   }

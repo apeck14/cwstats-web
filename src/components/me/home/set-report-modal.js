@@ -6,7 +6,6 @@ import { useForm } from "@mantine/form"
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications"
 import { IconClock, IconHash } from "@tabler/icons-react"
-import { useLogger } from "next-axiom"
 import { useMemo, useRef, useState } from "react"
 
 import { setWarReport } from "@/actions/server"
@@ -16,7 +15,6 @@ import { formatTag } from "@/lib/functions/utils"
 import ChannelDropdown from "./channel-dropdown"
 
 export default function SetReportModal({ channels, id, setReport }) {
-  const logger = useLogger()
   const timeRef = useRef(null)
   const [loading, setLoading] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
@@ -29,7 +27,7 @@ export default function SetReportModal({ channels, id, setReport }) {
     },
     validate: {
       channel: (val) => (!val ? "You must select a channel." : null),
-      clanTag: (val) => (val.length < 5 ? "Clan tag is too short." : null),
+      clanTag: (val) => (val.length < 5 ? "Invalid clan tag." : null),
       time: (val) => (!val ? "You must set a time." : null),
     },
   })
@@ -88,8 +86,6 @@ export default function SetReportModal({ channels, id, setReport }) {
     } else {
       const channelName = channels.find((c) => c.id === form.values.channel).name
 
-      logger.info("War Report Time Set", { timeStr, value: form.values.time })
-
       close()
       setReport({
         clanTag: formatTag(form.values.clanTag, true),
@@ -97,7 +93,7 @@ export default function SetReportModal({ channels, id, setReport }) {
         scheduledReportTimeHHMM: timeStr,
       })
       notifications.show({
-        autoClose: 5000,
+        autoClose: 8000,
         color: "green",
         message: `War report successfully set to track ${name} in #${channelName}.`,
         title: "War Report Set!",
@@ -129,7 +125,7 @@ export default function SetReportModal({ channels, id, setReport }) {
             ref={timeRef}
             rightSection={
               <ActionIcon color="gray" onClick={() => timeRef.current?.showPicker()} variant="subtle">
-                <IconClock stroke={1.5} style={{ height: "1rem", width: "1rem" }} />
+                <IconClock size="1rem" stroke={1.5} />
               </ActionIcon>
             }
             size="md"

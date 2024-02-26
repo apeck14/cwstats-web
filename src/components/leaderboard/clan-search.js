@@ -4,7 +4,7 @@ import { IconSearch } from "@tabler/icons-react"
 export default function ClanSearch({ onChange, reset, value }) {
   return (
     <TextInput
-      leftSection={<IconSearch style={{ height: "1rem", width: "1rem" }} />}
+      leftSection={<IconSearch size="1rem" />}
       miw="30%"
       onChange={onChange}
       placeholder="Search clans..."

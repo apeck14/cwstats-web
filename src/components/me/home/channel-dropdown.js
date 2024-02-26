@@ -41,7 +41,7 @@ export default function ChannelDropdown({ channels, error, setChannel }) {
 
   return (
     <Combobox
-      label="Channels"
+      label="Channel"
       middlewares={{ flip: false }}
       onOptionSubmit={(val) => {
         combobox.closeDropdown()

@@ -90,7 +90,6 @@ export async function getGuild(id, redirectOnError = false) {
   }
 }
 
-// /guilds/{guild.id}/channels
 export async function getGuildChannels(id, redirectOnError = false) {
   try {
     const res = await fetch(`https://discordapp.com/api/guilds/${id}/channels`, {
@@ -105,10 +104,30 @@ export async function getGuildChannels(id, redirectOnError = false) {
     return { data, status: 200, success: true }
   } catch (err) {
     const log = new Logger()
-    log.warn("getGuild Error", err)
+    log.warn("getGuildChannels Error", err)
 
     if (redirectOnError) redirect("/500_")
 
     return { message: err?.message || err, status: 500 }
+  }
+}
+
+export async function searchGuildUsers(id, query) {
+  try {
+    const res = await fetch(`https://discordapp.com/api/guilds/${id}/members/search?query=${query}&&limit=5`, {
+      headers: {
+        Authorization: `Bot ${process.env.BOT_TOKEN}`,
+      },
+    })
+    const data = await res.json()
+
+    if (!Array.isArray(data)) throw new Error(data)
+
+    return { data, status: 200, success: true }
+  } catch (err) {
+    const log = new Logger()
+    log.warn("searchGuildUsers Error", err)
+
+    return { message: "Unexpected error. Please try again.", status: 500 }
   }
 }

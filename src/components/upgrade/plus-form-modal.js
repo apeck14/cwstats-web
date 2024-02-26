@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Group, List, Modal, rem, Stack, TextInput, ThemeIcon, Title } from "@mantine/core"
+import { Button, Group, List, Modal, Stack, TextInput, ThemeIcon, Title } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications"
 import { IconCheck, IconHash } from "@tabler/icons-react"
@@ -38,7 +38,7 @@ export default function PlusFormModal() {
 
   const handleSubmit = async () => {
     if (tag.length < 5) {
-      setError("Clan tag is too short.")
+      setError("Invalid clan tag.")
       return
     }
 
@@ -52,7 +52,7 @@ export default function PlusFormModal() {
     else {
       close()
       notifications.show({
-        autoClose: 5000,
+        autoClose: 8000,
         color: "green",
         message: `${name} will now have full access to all CWStats+ perks.`,
         title: "CWStats+ Activated!",
@@ -68,7 +68,7 @@ export default function PlusFormModal() {
             center
             icon={
               <ThemeIcon color="orange.5" radius="xl" size={20}>
-                <IconCheck style={{ height: rem(16), width: rem(16) }} />
+                <IconCheck size="1rem" />
               </ThemeIcon>
             }
             size="sm"

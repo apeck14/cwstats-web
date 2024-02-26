@@ -38,7 +38,7 @@ export default function SetDefaultClanModal({ id, setDefClan }) {
 
   const handleSubmit = async () => {
     if (tag.length < 5) {
-      setError("Clan tag is too short.")
+      setError("Invalid clan tag.")
       return
     }
 
@@ -54,7 +54,7 @@ export default function SetDefaultClanModal({ id, setDefClan }) {
       close()
       setDefClan({ name, tag: formatTag(tag, true) })
       notifications.show({
-        autoClose: 5000,
+        autoClose: 8000,
         color: "green",
         message: `${name} has been set as the server default.`,
         title: "Default Clan Set!",
