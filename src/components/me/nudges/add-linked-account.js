@@ -7,7 +7,7 @@ import { searchGuildUsers } from "@/actions/discord"
 import { addLinkedAccount } from "@/actions/server"
 import { formatTag } from "@/lib/functions/utils"
 
-export default function AddLinkedAccount({ id, linkedAccounts, setLinkedAccounts }) {
+export default function AddLinkedAccount({ disabled, id, linkedAccounts, setLinkedAccounts }) {
   const inputRef = useRef(null)
   const combobox = useCombobox({
     onDropdownClose: () => {
@@ -144,7 +144,9 @@ export default function AddLinkedAccount({ id, linkedAccounts, setLinkedAccounts
           w="8rem"
           withAsterisk
         />
-        <Button onClick={handleAdd}>{loading ? <Loader color="white" size="xs" /> : "Add"}</Button>
+        <Button disabled={disabled} onClick={handleAdd}>
+          {loading ? <Loader color="white" size="xs" /> : "Add"}
+        </Button>
       </Group>
       <Text c="red.6" size="sm">
         {error}

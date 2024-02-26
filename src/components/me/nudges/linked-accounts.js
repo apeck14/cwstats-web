@@ -59,7 +59,12 @@ export default function LinkedAccounts({ guild }) {
         </Group>
       </Group>
 
-      <AddLinkedAccount id={guildID} linkedAccounts={linkedAccounts} setLinkedAccounts={setLinkedAccounts} />
+      <AddLinkedAccount
+        disabled={linkedAccounts.length >= 300}
+        id={guildID}
+        linkedAccounts={linkedAccounts}
+        setLinkedAccounts={setLinkedAccounts}
+      />
 
       <Stack align="flex-end" gap="0.2rem">
         <Pagination

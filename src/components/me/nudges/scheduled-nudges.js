@@ -71,7 +71,7 @@ export default function ScheduledNudges({ channels, guild }) {
           <InfoPopover text="Scheduled Nudges are automated messages posted on Discord to ping users with remaining attacks. Players MUST be linked so the bot knows who to ping." />
         </Group>
 
-        <AddNudgeModal channels={channels} id={guildID} onAdd={handleAdd} />
+        <AddNudgeModal channels={channels} disabled={scheduledNudges.length >= 5} id={guildID} onAdd={handleAdd} />
       </Group>
 
       <Table className="ignoreContainerPadding" mt="0.1rem" striped>

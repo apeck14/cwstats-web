@@ -14,7 +14,7 @@ import { formatTag } from "@/lib/functions/utils"
 
 import ChannelDropdown from "../home/channel-dropdown"
 
-export default function AddNudgeModal({ channels, id, onAdd }) {
+export default function AddNudgeModal({ channels, disabled, id, onAdd }) {
   const logger = useLogger()
   const [loading, setLoading] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
@@ -172,7 +172,7 @@ export default function AddNudgeModal({ channels, id, onAdd }) {
           </Group>
         </Stack>
       </Modal>
-      <Button fz="0.9rem" onClick={handleOpen} size="xs">
+      <Button disabled={disabled} fz="0.9rem" onClick={handleOpen} size="xs">
         Add
       </Button>
     </>
