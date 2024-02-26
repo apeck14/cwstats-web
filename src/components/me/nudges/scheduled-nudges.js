@@ -37,7 +37,7 @@ export default function ScheduledNudges({ channels, guild }) {
         minute: "2-digit",
         timeZoneName: "short",
       })
-      const channelName = channels.find((c) => c.id === a.channelID).name || "deleted-channel"
+      const channelName = channels.find((c) => c.id === a.channelID)?.name || "deleted-channel"
 
       return (
         <Table.Tr key={`${a.clanTag}-${a.scheduledHourUTC}`}>
