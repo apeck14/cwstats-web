@@ -29,7 +29,7 @@ p {
 
 .mantine-Table-tr {
   --table-striped-color: var(--mantine-color-gray-7);
-  --table-highlight-on-hover-color: var(--mantine-color-gray-6);
+  --table-hover-color: var(--mantine-color-gray-6);
   --table-border-color: var(--mantine-color-gray-6);
 }
 
