@@ -145,7 +145,7 @@ export default function AddLinkedAccount({ disabled, id, linkedAccounts, setLink
           withAsterisk
         />
         <Button disabled={disabled} onClick={handleAdd}>
-          {loading ? <Loader color="white" size="xs" /> : "Add"}
+          {loading ? <Loader color="white" size="xs" /> : "Link"}
         </Button>
       </Group>
       <Text c="red.6" size="sm">
