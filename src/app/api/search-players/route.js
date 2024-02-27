@@ -10,10 +10,10 @@ import * as Realm from "realm-web"
  */
 
 export async function GET(req) {
-  try {
-    const query = req.nextUrl.searchParams.get("q")
-    const limit = Number(req.nextUrl.searchParams.get("limit"))
+  const query = req.nextUrl.searchParams.get("q")
+  const limit = Number(req.nextUrl.searchParams.get("limit"))
 
+  try {
     const realmApp = new Realm.App({ id: process.env.NEXT_PUBLIC_REALM_APP_ID })
     const realmCredentials = Realm.Credentials.anonymous()
     const realm = await realmApp.logIn(realmCredentials)

@@ -7,12 +7,12 @@ import locations from "@/static/locations"
 
 // /api/leaderboard/:id
 export async function GET(req) {
-  try {
-    const key = req.nextUrl.searchParams.get("key")
-    const limit = req.nextUrl.searchParams.get("limit")
-    const maxTrophies = req.nextUrl.searchParams.get("maxTrophies")
-    const minTrophies = req.nextUrl.searchParams.get("minTrophies")
+  const key = req.nextUrl.searchParams.get("key")
+  const limit = req.nextUrl.searchParams.get("limit")
+  const maxTrophies = req.nextUrl.searchParams.get("maxTrophies")
+  const minTrophies = req.nextUrl.searchParams.get("minTrophies")
 
+  try {
     const formattedKey = key.toLowerCase()
     const location = locations.find((l) => l.key.toLowerCase() === formattedKey)
 
