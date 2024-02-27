@@ -5,7 +5,6 @@ import { createTheme, MantineProvider, TextInput } from "@mantine/core"
 import { Notifications } from "@mantine/notifications"
 import { Source_Sans_3 } from "next/font/google"
 import { AppProgressBar } from "next-nprogress-bar"
-import { install } from "resize-observer"
 
 const SourceSans3 = Source_Sans_3({ display: "swap", subsets: ["latin"] })
 
@@ -55,10 +54,6 @@ const theme = createTheme({
 })
 
 export default function ThemeProvider({ children }) {
-  if (typeof window !== "undefined" && !window.ResizeObserver) {
-    install()
-  }
-
   return (
     <MantineProvider forceColorScheme="dark" theme={theme}>
       <Notifications />
