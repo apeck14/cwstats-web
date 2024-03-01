@@ -1,4 +1,4 @@
-import { MongoDBAdapter } from "@next-auth/mongodb-adapter"
+import { MongoDBAdapter } from "@auth/mongodb-adapter"
 import { ObjectId } from "mongodb"
 import NextAuth from "next-auth/next"
 import DiscordProvider from "next-auth/providers/discord"
