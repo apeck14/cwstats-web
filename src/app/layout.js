@@ -4,7 +4,6 @@ import "@mantine/nprogress/styles.css"
 import "@mantine/notifications/styles.css"
 
 import { getServerSession } from "next-auth"
-import { install } from "resize-observer"
 
 import Analytics from "@/components/analytics"
 import AppLayout from "@/components/app-layout"
@@ -37,10 +36,6 @@ export const metadata = {
 
 export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions)
-
-  if (typeof window !== "undefined") {
-    install()
-  }
 
   return (
     <html lang="en" suppressHydrationWarning>
