@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionIcon, Group, Table, Title } from "@mantine/core"
+import { ActionIcon, Group, Stack, Table, Title } from "@mantine/core"
 import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 
@@ -37,7 +37,7 @@ export default function AbbreviationsTable({ data, id }) {
     ))
 
   return (
-    <>
+    <Stack>
       <Group justify="space-between" mt="md">
         <Group>
           <Title size="h3">Abbreviations</Title>
@@ -58,6 +58,6 @@ export default function AbbreviationsTable({ data, id }) {
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
-    </>
+    </Stack>
   )
 }
