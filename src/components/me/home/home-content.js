@@ -46,7 +46,7 @@ export default function HomeContent({ channels, guild }) {
   }, [report])
 
   return (
-    <Container py="lg" size="lg">
+    <Container py="xl" size="lg">
       <Stack gap="3rem">
         <Stack>
           <Group gap="xs">

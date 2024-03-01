@@ -6,7 +6,7 @@ import Settings from "./settings"
 
 export default function NudgesContent({ channels, guild }) {
   return (
-    <Container py="lg" size="lg">
+    <Container py="xl" size="lg">
       <Stack gap="3rem">
         <Settings guild={guild} />
         <ScheduledNudges channels={channels} guild={guild} />
