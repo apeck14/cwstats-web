@@ -3,21 +3,22 @@
 "use server"
 
 import { redirect } from "next/navigation"
-import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import { formatTag, mongoSanitize } from "@/lib/functions/utils"
 import clientPromise from "@/lib/mongodb"
 
+import { getGuilds } from "./discord"
 import { getClan, getPlayer } from "./supercell"
 
 export async function getServerSettings(id, redirectOnError = false, authenticate = false) {
   if (authenticate) {
-    const session = await getServerSession(authOptions)
+    const { data: guilds } = await getGuilds(true)
 
-    if (!session) {
-      redirect("/login?callback=/me/servers")
+    const guild = guilds.find((g) => g.id === id)
+
+    if (!guild) {
+      redirect("/404_")
     }
   }
 
