@@ -54,12 +54,16 @@ export default async function ClanRace({ params }) {
             <RaceItems clans={race.clans} isColosseum={isColosseum} />
             <Group gap="xs" justify="center">
               <Title>Clan Stats</Title>
-              <InfoPopover iconSize="1.25rem" text="All projections assume no missed attacks." />
+              <InfoPopover iconSize="1.25rem" text="All projections assume no missed attacks from those remaining." />
             </Group>
             <RaceStats clan={selectedClan} isColosseum={isColosseum} />
-            <Title mt="xl" ta="center">
-              Participants
-            </Title>
+            <Group gap="xs" justify="center" mt="xl">
+              <Title>Participants</Title>
+              <InfoPopover
+                iconSize="1.25rem"
+                text="Collection of weekly player scores. Players highlighted in orange are not currently in the clan."
+              />
+            </Group>
             <ParticipantsTable memberList={clan.memberList} participants={selectedClan.participants} />
           </Stack>
         )}

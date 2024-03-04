@@ -69,7 +69,7 @@ export default function ParticipantsTable({ memberList, participants }) {
   const rows = useMemo(
     () =>
       mappedParticipants.sort(columns[sortConfig.col][sortConfig.dir]).map((m) => (
-        <Table.Tr bg={!m.inClan ? "red.9" : undefined} fw={500} fz={{ base: "0.85rem", md: "0.95rem" }} key={m.tag}>
+        <Table.Tr bg={!m.inClan ? "orange" : ""} fw={500} fz={{ base: "0.85rem", md: "0.95rem" }} key={m.tag}>
           <Table.Td ta="center">{m.rank}</Table.Td>
           <Table.Td>
             <Link className="pinkText" href={`/player/${m.tag.substring(1)}`}>
