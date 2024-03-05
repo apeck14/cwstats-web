@@ -34,6 +34,8 @@ export const metadata = {
   title: "CWStats - Clash Royale Clan Wars Analytics, Leaderboards, Stats & more!",
 }
 
+export const maxDuration = 20
+
 export default async function RootLayout({ children }) {
   const session = await getServerSession(authOptions)
 

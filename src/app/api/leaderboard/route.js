@@ -5,8 +5,6 @@ import { NextResponse } from "next/server"
 import clientPromise from "@/lib/mongodb"
 import locations from "@/static/locations"
 
-export const maxDuration = 20
-
 // /api/leaderboard/:id
 export async function GET(req) {
   const key = req.nextUrl.searchParams.get("key")
