@@ -2,9 +2,9 @@ import "@mantine/core/styles.css"
 import "./globals.css"
 import "@mantine/notifications/styles.css"
 
+import { GoogleAnalytics } from "@next/third-parties/google"
 import { getServerSession } from "next-auth"
 
-import Analytics from "@/components/analytics"
 import AppLayout from "@/components/app-layout"
 import AppFooter from "@/components/app-layout/footer"
 import NextAuthProvider from "@/components/session-provider"
@@ -40,7 +40,7 @@ export default async function RootLayout({ children }) {
 
   return (
     <html lang="en" suppressHydrationWarning>
-      <Analytics />
+      <GoogleAnalytics gaId={process.env.NEXT_PUBLIC_GOOGLE_ANALYTICS_TRACKING_ID} />
       <body>
         <NextAuthProvider session={session}>
           <ThemeProvider>
