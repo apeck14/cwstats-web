@@ -17,7 +17,6 @@
     "@mantine/form": "^7.6.1",
     "@mantine/hooks": "^7.6.1",
     "@mantine/notifications": "^7.6.1",
-    "@mantine/nprogress": "^7.6.1",
     "@next/third-parties": "^14.1.2",
     "@tabler/icons-react": "^2.47.0",
     "mongodb": "^6.4.0",
