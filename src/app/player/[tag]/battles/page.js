@@ -9,6 +9,8 @@ export async function generateMetadata({ params }) {
   const { tag } = params
   const { data: player } = await getPlayer(tag)
 
+  if (!player) return
+
   return {
     description: "View advanced player stats, card levels, battle log, & more!",
     openGraph: {
