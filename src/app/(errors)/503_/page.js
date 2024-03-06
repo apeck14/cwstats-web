@@ -1,26 +1,11 @@
-"use client"
-
-import { Button, Container, Text, Title } from "@mantine/core"
-import { useMediaQuery } from "@mantine/hooks"
-import Link from "next/link"
+import ErrorPage from "@/components/error-page"
 
 export default function Page503() {
-  const isMobile = useMediaQuery("(max-width: 30em)")
-
   return (
-    <Container mt="15%" size="sm" ta="center">
-      <Title c="pink.6" fw={900} fz={isMobile ? "3.5rem" : "5rem"}>
-        503
-      </Title>
-      <Title c="gray.1" fw={800} fz={isMobile ? "1.5rem" : "2rem"}>
-        Maintenance break.
-      </Title>
-      <Text c="gray.2" fw={600} fz={isMobile ? "1.2rem" : "1.5rem"} mt="sm">
-        Supercell servers are undergoing maintenance. Please try again when the break is over.
-      </Text>
-      <Button component={Link} href="/" mt="md" variant="light">
-        Go to Home page
-      </Button>
-    </Container>
+    <ErrorPage
+      code={503}
+      description="Supercell servers are undergoing maintenance. Please try again when the break is over."
+      title="Maintenance break."
+    />
   )
 }

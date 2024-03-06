@@ -15,6 +15,8 @@ export async function generateMetadata({ params }) {
   const { tag } = params
   const { data: clan } = await getClan(tag)
 
+  if (!clan) return
+
   return {
     description: clan.description,
     openGraph: {
