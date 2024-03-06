@@ -1,3 +1,5 @@
+import { notFound } from "next/navigation"
+
 import { getDailyLeaderboard } from "@/actions/api"
 import { getLinkedAccount } from "@/actions/user"
 import LeaderboardContent from "@/components/leaderboard/leaderboard-content"
@@ -6,6 +8,9 @@ import { getRegionByKey } from "@/lib/functions/utils"
 export async function generateMetadata({ params }) {
   const { location } = params
   const region = getRegionByKey(location)
+
+  if (!region) return
+
   const formattedKey = location.toLowerCase()
 
   return {
@@ -19,8 +24,11 @@ export async function generateMetadata({ params }) {
 
 export default async function DailyLeaderboardPage({ params }) {
   const { location } = params
-  const leaderboard = await getDailyLeaderboard({ key: location })
-  const linkedAccount = await getLinkedAccount()
+  const region = getRegionByKey(location)
+
+  if (!region) notFound()
+
+  const [leaderboard, linkedAccount] = await Promise.all([getDailyLeaderboard({ key: region.key }), getLinkedAccount()])
 
   return (
     <LeaderboardContent

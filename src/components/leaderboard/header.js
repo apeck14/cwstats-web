@@ -3,7 +3,7 @@
 import { Container, Flex, Group, SegmentedControl, Text, Title } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { useRouter } from "next-nprogress-bar"
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 import { relativeDateStr } from "@/lib/functions/date-time"
 import { truncateString } from "@/lib/functions/utils"
@@ -26,6 +26,8 @@ export default function LeaderboardHeader({ isWarLb, lastUpdated, region }) {
     setDateStr(relativeDateStr(new Date(lastUpdated), false))
   }, [])
 
+  const truncatedRegion = useMemo(() => truncateString(region.name, 25), [region])
+
   return (
     <Group className="header">
       <Container py="xl" size="lg" w="100%">
@@ -40,7 +42,7 @@ export default function LeaderboardHeader({ isWarLb, lastUpdated, region }) {
             />
             <Title
               fz={{ base: "1.75rem", md: "2.75rem" }}
-            >{`${truncateString(region.name, 25)} ${isWarLb ? "War" : "Daily"} Rankings`}</Title>
+            >{`${truncatedRegion} ${isWarLb ? "War" : "Daily"} Rankings`}</Title>
           </Group>
           <Flex
             align={{ base: "center", md: "flex-end" }}

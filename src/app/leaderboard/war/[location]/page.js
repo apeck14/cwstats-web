@@ -8,6 +8,9 @@ import { getRegionByKey } from "@/lib/functions/utils"
 export async function generateMetadata({ params }) {
   const { location } = params
   const region = getRegionByKey(location)
+
+  if (!region) return
+
   const formattedKey = location.toLowerCase()
 
   return {
@@ -25,8 +28,7 @@ export default async function WarLeaderboardPage({ params }) {
 
   if (!region) notFound()
 
-  const { data: leaderboard } = await getWarLeaderboard(region?.id)
-  const linkedAccount = await getLinkedAccount()
+  const [{ data: leaderboard }, linkedAccount] = await Promise.all([getWarLeaderboard(region?.id), getLinkedAccount()])
 
   return <LeaderboardContent clans={leaderboard || []} isWarLb linkedAccount={linkedAccount} location={location} />
 }
