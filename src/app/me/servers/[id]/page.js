@@ -8,6 +8,8 @@ export const metadata = {
   title: "My Servers | CWStats",
 }
 
+export const dynamic = "force-dynamic"
+
 export default async function ServerPage({ params }) {
   const [{ guild }, { data: channels }] = await Promise.all([
     getServerSettings(params.id, true, true),

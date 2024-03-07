@@ -6,6 +6,8 @@ import MembersTable from "@/components/clan/members-table"
 import Image from "@/components/ui/image"
 import { formatClanType, getClanBadgeFileName, getCountryKeyById } from "@/lib/functions/utils"
 
+export const dynamic = "force-dynamic"
+
 export async function generateMetadata({ params }) {
   const { tag } = params
   const { data: clan } = await getClan(tag)

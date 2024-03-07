@@ -5,6 +5,8 @@ import { getLinkedAccount } from "@/actions/user"
 import LeaderboardContent from "@/components/leaderboard/leaderboard-content"
 import { getRegionByKey } from "@/lib/functions/utils"
 
+export const dynamic = "force-dynamic"
+
 export async function generateMetadata({ params }) {
   const { location } = params
   const region = getRegionByKey(location)

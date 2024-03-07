@@ -11,6 +11,8 @@ import { getClanBadgeFileName } from "@/lib/functions/utils"
 
 import classes from "./Race.module.css"
 
+export const dynamic = "force-dynamic"
+
 export async function generateMetadata({ params }) {
   const { tag } = params
   const { data: clan } = await getClan(tag)

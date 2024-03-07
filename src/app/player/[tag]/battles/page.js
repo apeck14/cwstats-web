@@ -5,6 +5,8 @@ import PlayerHeader from "@/components/player/header"
 import ComingSoon from "@/components/ui/coming-soon"
 import { getArenaFileName } from "@/lib/functions/utils"
 
+export const dynamic = "force-dynamic"
+
 export async function generateMetadata({ params }) {
   const { tag } = params
   const { data: player } = await getPlayer(tag)
