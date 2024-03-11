@@ -88,7 +88,7 @@ export default function PlusFormModal() {
             label="Clan Tag"
             leftSection={<IconHash />}
             leftSectionPointerEvents="none"
-            maxLength={9}
+            maxLength={10}
             onChange={handleChange}
             placeholder="ABC123"
             size="md"

@@ -98,7 +98,7 @@ export default function AddAbbreviationModal({ abbreviations, id, setAbbreviatio
             label="Clan Tag"
             leftSection={<IconHash />}
             leftSectionPointerEvents="none"
-            maxLength={9}
+            maxLength={10}
             onChange={handleTagChange}
             placeholder="ABC123"
             size="md"

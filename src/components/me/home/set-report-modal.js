@@ -109,7 +109,7 @@ export default function SetReportModal({ channels, id, setReport }) {
             label="Clan Tag"
             leftSection={<IconHash />}
             leftSectionPointerEvents="none"
-            maxLength={9}
+            maxLength={10}
             placeholder="ABC123"
             size="md"
             variant="filled"

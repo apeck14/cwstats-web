@@ -136,7 +136,7 @@ export default function AddLinkedAccount({ disabled, id, linkedAccounts, setLink
           label="Player Tag"
           leftSection={<IconHash size="1rem" />}
           leftSectionPointerEvents="none"
-          maxLength={9}
+          maxLength={10}
           onChange={handleTagChange}
           placeholder="ABC123"
           size="sm"
