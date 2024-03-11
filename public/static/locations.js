@@ -6,28 +6,10 @@ module.exports = [
     name: "Global",
   },
   {
-    id: 57000005,
-    isCountry: false,
-    key: "_AF",
-    name: "Africa",
-  },
-  {
-    id: 57000003,
-    isCountry: false,
-    key: "_AS",
-    name: "Asia",
-  },
-  {
     id: 57000000,
     isCountry: false,
     key: "_EU",
     name: "Europe",
-  },
-  {
-    id: 57000006,
-    isCountry: false,
-    key: "_INT",
-    name: "International",
   },
   {
     id: 57000001,
@@ -36,16 +18,34 @@ module.exports = [
     name: "North America",
   },
   {
+    id: 57000002,
+    isCountry: false,
+    key: "_SA",
+    name: "South America",
+  },
+  {
+    id: 57000003,
+    isCountry: false,
+    key: "_AS",
+    name: "Asia",
+  },
+  {
     id: 57000004,
     isCountry: false,
     key: "_AU",
     name: "Oceania",
   },
   {
-    id: 57000002,
+    id: 57000005,
     isCountry: false,
-    key: "_SA",
-    name: "South America",
+    key: "_AF",
+    name: "Africa",
+  },
+  {
+    id: 57000006,
+    isCountry: false,
+    key: "_INT",
+    name: "International",
   },
   {
     id: 57000007,
@@ -434,7 +434,9 @@ module.exports = [
     name: "Cyprus",
   },
   {
+    flagEmoji: ":flag_cz:",
     id: 57000070,
+    isAdded: true,
     isCountry: true,
     key: "CZ",
     name: "Czech Republic",
@@ -756,7 +758,9 @@ module.exports = [
     name: "Jamaica",
   },
   {
+    flagEmoji: ":flag_jp:",
     id: 57000122,
+    isAdded: true,
     isCountry: true,
     key: "JP",
     name: "Japan",
@@ -1150,7 +1154,9 @@ module.exports = [
     name: "Pitcairn Islands",
   },
   {
+    flagEmoji: ":flag_pl:",
     id: 57000187,
+    isAdded: true,
     isCountry: true,
     key: "PL",
     name: "Poland",
@@ -1512,7 +1518,9 @@ module.exports = [
     name: "Uganda",
   },
   {
+    flagEmoji: ":flag_ua:",
     id: 57000246,
+    isAdded: true,
     isCountry: true,
     key: "UA",
     name: "Ukraine",
