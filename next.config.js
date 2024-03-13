@@ -3,13 +3,7 @@ const headers = require("./headers")
 
 module.exports = withAxiom({
   experimental: {
-    optimizePackageImports: [
-      "@mantine/core",
-      "@mantine/dates",
-      "@mantine/form",
-      "@mantine/hooks",
-      "@mantine/notifications",
-    ],
+    optimizePackageImports: ["@mantine/core", "@mantine/dates", "@mantine/form", "@mantine/hooks"],
   },
   headers: async () => [
     {
