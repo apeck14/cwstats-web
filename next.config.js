@@ -2,6 +2,9 @@ const { withAxiom } = require("next-axiom")
 const headers = require("./headers")
 
 module.exports = withAxiom({
+  experimental: {
+    optimizePackageImports: ["@tabler/icons-react"],
+  },
   headers: async () => [
     {
       headers,
