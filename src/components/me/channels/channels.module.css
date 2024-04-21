@@ -25,12 +25,12 @@
   font-size: 0.75rem;
 }
 
-.customSelect div[class$="MultiValueRemove"]:hover {
+.customSelect div[class$="multiValue"] > div[role="button"]:hover {
   background-color: transparent;
   cursor: pointer;
 }
 
-.customSelect div[class$="MultiValueRemove"]:hover > svg > path {
+.customSelect div[class$="multiValue"] > div[role="button"]:hover > svg > path {
   fill: var(--mantine-color-dark-0);
 }
 
