@@ -38,7 +38,7 @@
   background-color: var(--mantine-color-dark-6);
 }
 
-.customSelect div[class$="menu"] > div[class$="MenuList"] {
+.customSelect div[class$="menu"] > div:first-child {
   padding: 0;
 }
 
