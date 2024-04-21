@@ -20,14 +20,16 @@ const hasAdminPermissions = (permissions) => {
 // return all guilds that user shares with the bot, and has Manage Server+ in
 export async function getGuilds(redirectOnError = false) {
   let error = false
-  const session = await getServerSession(authOptions)
-
-  if (!session) {
-    if (redirectOnError) redirect("/login?callback=/me/servers")
-    return { message: "Not logged in.", status: 403 }
-  }
+  let sessionError = false
 
   try {
+    const session = await getServerSession(authOptions)
+
+    if (!session) {
+      if (redirectOnError) sessionError = true
+      else return { message: "Not logged in.", status: 403 }
+    }
+
     const client = await clientPromise
     const db = client.db("General")
     const accounts = db.collection("accounts")
@@ -66,7 +68,8 @@ export async function getGuilds(redirectOnError = false) {
     if (!redirectOnError) return { message: err?.message || err, status: 500 }
     error = true
   } finally {
-    if (redirectOnError && error) redirect("/500_")
+    if (redirectOnError && sessionError) redirect("/login?callback=/me/servers")
+    else if (redirectOnError && error) redirect("/500_")
   }
 }
 
