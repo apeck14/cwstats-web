@@ -482,3 +482,39 @@ export async function deleteLinkedAccount(id, tag, discordID) {
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
 }
+
+// value: channel ID, keyword, or array of channel IDs (command)
+export async function setChannels(id, channels) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    const channelQuery = { ...channels }
+
+    // remove empty values from query
+    for (const prop of Object.keys(channelQuery)) {
+      const val = channelQuery[prop]
+
+      if (!val.length) delete channelQuery[prop]
+    }
+
+    await guilds.updateOne(
+      {
+        guildID: id,
+      },
+      {
+        $set: {
+          channels: channelQuery,
+        },
+      },
+    )
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("setChannel error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}

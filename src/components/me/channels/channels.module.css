@@ -1,0 +1,57 @@
+.customSelect > div:first-of-type {
+  background-color: var(--mantine-color-dark-9);
+  border: 1px solid var(--mantine-color-dark-4);
+  box-shadow: unset;
+}
+
+.customSelect div[class$="placeholder"] {
+  color: var(--mantine-color-gray-3);
+}
+
+.customSelect path {
+  fill: var(--mantine-color-dark-4);
+}
+
+.customSelect span[class$="indicatorSeparator"] {
+  background-color: var(--mantine-color-dark-4);
+}
+
+.customSelect div[class$="multiValue"] {
+  background-color: var(--mantine-color-dark-7);
+}
+
+.customSelect div[class$="MultiValueGeneric"] {
+  color: var(--mantine-color-dark-0);
+  font-size: 0.75rem;
+}
+
+.customSelect div[class$="MultiValueRemove"]:hover {
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.customSelect div[class$="MultiValueRemove"]:hover > svg > path {
+  fill: var(--mantine-color-dark-0);
+}
+
+.customSelect div[class$="menu"] div[class$="option"] {
+  background-color: var(--mantine-color-dark-6);
+}
+
+.customSelect div[class$="menu"] > div[class$="MenuList"] {
+  padding: 0;
+}
+
+.customSelect div[class$="menu"] div[class$="option"][aria-disabled="true"] {
+  color: var(--mantine-color-dark-2);
+}
+
+.customSelect div[class$="menu"] div[class$="option"][aria-disabled="true"]:hover {
+  background-color: var(--mantine-color-dark-6);
+  cursor: not-allowed;
+}
+
+.customSelect div[class$="menu"] div[class$="option"]:hover {
+  background-color: var(--mantine-color-dark-7);
+  cursor: pointer;
+}

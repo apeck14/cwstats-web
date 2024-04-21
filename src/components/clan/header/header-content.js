@@ -1,7 +1,7 @@
 "use client"
 
 import { ActionIcon, Button, Container, Group, Stack, Text, Title } from "@mantine/core"
-import { useDebounceCallback, useMediaQuery } from "@mantine/hooks"
+import { useDebouncedCallback, useMediaQuery } from "@mantine/hooks"
 import { IconExternalLink } from "@tabler/icons-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -33,7 +33,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
 
   const badge = getClanBadgeFileName(clan?.badgeId, clan?.clanWarTrophies)
 
-  const updateFollowed = useDebounceCallback(() => {
+  const updateFollowed = useDebouncedCallback(() => {
     if (followed) followClan({ badge, discordID, name: clan?.name, tag: clan?.tag })
     else unfollowClan({ discordID, tag: clan?.tag })
   }, 1500)

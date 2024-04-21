@@ -1,7 +1,7 @@
 "use client"
 
 import { ActionIcon, Button, Container, Divider, Group, Stack, Text, Title } from "@mantine/core"
-import { useDebounceCallback, useMediaQuery } from "@mantine/hooks"
+import { useDebouncedCallback, useMediaQuery } from "@mantine/hooks"
 import { IconExternalLink } from "@tabler/icons-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
@@ -35,7 +35,7 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
 
   const arena = getArenaFileName(player?.arena?.name)
 
-  const updateFollowed = useDebounceCallback(() => {
+  const updateFollowed = useDebouncedCallback(() => {
     if (followed) followPlayer({ discordID, name: player?.name, tag: player?.tag })
     else unfollowPlayer({ discordID, tag: player?.tag })
   }, 1500)

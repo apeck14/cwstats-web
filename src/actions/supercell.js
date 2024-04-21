@@ -38,15 +38,18 @@ const formatSupercellResponse = async (resp, redirectOnError) => {
 }
 
 async function supercellRequest(url, redirectOnError) {
-  const options = { cache: "no-store", headers: { Authorization: `Bearer ${process.env.NEXT_PUBLIC_CR_API_TOKEN}` } }
+  const options = { cache: "no-store", headers: { Authorization: `Bearer ${process.env.CR_API_TOKEN}` } }
+  let error = false
 
   try {
     const resp = await fetch(`${BASE_URL}${url}`, options)
 
     return formatSupercellResponse(resp, redirectOnError)
   } catch {
-    if (redirectOnError) redirect("/500_")
-    return { error: "Unexpected error. Please try again.", status: 500 }
+    if (!redirectOnError) return { error: "Unexpected error. Please try again.", status: 500 }
+    error = true
+  } finally {
+    if (redirectOnError && error) redirect("/500_")
   }
 }
 

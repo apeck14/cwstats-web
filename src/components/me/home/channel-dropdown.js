@@ -4,27 +4,42 @@ import { Combobox, InputBase, Text, useCombobox } from "@mantine/core"
 import { IconHash } from "@tabler/icons-react"
 import { useMemo, useState } from "react"
 
-export default function ChannelDropdown({ channels, error, setChannel }) {
+export default function ChannelDropdown({
+  channels,
+  error,
+  initialId,
+  label = "Channel",
+  noneAsOption = false,
+  placeholder = "Select channel",
+  setChannel,
+}) {
   const combobox = useCombobox()
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState(channels.find((c) => c.id === initialId)?.name || "")
 
-  const textChannels = useMemo(
-    () =>
-      channels
-        .filter((c) => c.type === 0)
-        .sort((a, b) => a.name.localeCompare(b.name))
-        .map((c) => ({
-          component: (
-            <Text>
-              <span style={{ color: "var(--mantine-color-orange-6)", marginRight: "0.25rem" }}>#</span>
-              {c.name}
-            </Text>
-          ),
-          id: c.id,
-          name: c.name,
-        })),
-    [],
-  )
+  const textChannels = useMemo(() => {
+    const channelComponents = channels
+      .filter((c) => c.type === 0)
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((c) => ({
+        component: (
+          <Text>
+            <span style={{ color: "var(--mantine-color-orange-6)", marginRight: "0.25rem" }}>#</span>
+            {c.name}
+          </Text>
+        ),
+        id: c.id,
+        name: c.name,
+      }))
+
+    if (noneAsOption)
+      channelComponents.unshift({
+        component: <Text>None</Text>,
+        id: "none",
+        name: "",
+      })
+
+    return channelComponents
+  }, [])
 
   const filteredOptions = textChannels.filter((c) => c.name.includes(search.toLowerCase().trim()))
 
@@ -41,7 +56,7 @@ export default function ChannelDropdown({ channels, error, setChannel }) {
 
   return (
     <Combobox
-      label="Channel"
+      label={label}
       middlewares={{ flip: false }}
       onOptionSubmit={(val) => {
         combobox.closeDropdown()
@@ -65,7 +80,7 @@ export default function ChannelDropdown({ channels, error, setChannel }) {
           }}
           onClick={() => combobox.openDropdown()}
           onFocus={() => combobox.openDropdown()}
-          placeholder="Select channel"
+          placeholder={placeholder}
           rightSection={<Combobox.Chevron />}
           rightSectionPointerEvents="none"
           size="md"

@@ -19,6 +19,7 @@ const hasAdminPermissions = (permissions) => {
 
 // return all guilds that user shares with the bot, and has Manage Server+ in
 export async function getGuilds(redirectOnError = false) {
+  let error = false
   const session = await getServerSession(authOptions)
 
   if (!session) {
@@ -62,13 +63,16 @@ export async function getGuilds(redirectOnError = false) {
     const log = new Logger()
     log.warn("getGuilds Error", err)
 
-    if (redirectOnError) redirect("/500_")
-
-    return { message: err.message, status: 500 }
+    if (!redirectOnError) return { message: err?.message || err, status: 500 }
+    error = true
+  } finally {
+    if (redirectOnError && error) redirect("/500_")
   }
 }
 
 export async function getGuild(id, redirectOnError = false) {
+  let error = false
+
   try {
     const res = await fetch(`https://discordapp.com/api/guilds/${id}`, {
       headers: {
@@ -84,13 +88,15 @@ export async function getGuild(id, redirectOnError = false) {
     const log = new Logger()
     log.warn("getGuild Error", err)
 
-    if (redirectOnError) redirect("/500_")
-
-    return { message: err?.message || err, status: 500 }
+    if (!redirectOnError) return { message: err?.message || err, status: 500 }
+    error = true
+  } finally {
+    if (redirectOnError && error) redirect("/500_")
   }
 }
 
 export async function getGuildChannels(id, redirectOnError = false) {
+  let error = false
   try {
     const res = await fetch(`https://discordapp.com/api/guilds/${id}/channels`, {
       headers: {
@@ -106,9 +112,10 @@ export async function getGuildChannels(id, redirectOnError = false) {
     const log = new Logger()
     log.warn("getGuildChannels Error", err)
 
-    if (redirectOnError) redirect("/500_")
-
-    return { message: err?.message || err, status: 500 }
+    if (!redirectOnError) return { message: err?.message || err, status: 500 }
+    error = true
+  } finally {
+    if (redirectOnError && error) redirect("/500_")
   }
 }
 

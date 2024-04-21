@@ -8,7 +8,7 @@ import { updateNudgeSettings } from "@/actions/server"
 import InfoPopover from "@/components/ui/info-popover"
 import { DEFAULT_NUDGE_MESSAGE } from "@/static/constants"
 
-import SaveSettingsDialog from "./save-settings-dialog"
+import SaveSettingsDialog from "../save-settings-dialog"
 
 export default function Settings({ guild }) {
   const { guildID, nudges } = guild

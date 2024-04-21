@@ -3,14 +3,7 @@ module.exports = {
     browser: true,
     es2021: true,
   },
-  extends: [
-    "plugin:react/recommended",
-    "airbnb",
-    "prettier",
-    "eslint-config-next",
-    "plugin:no-unsanitized/DOM",
-    "plugin:xss/recommended",
-  ],
+  extends: ["plugin:react/recommended", "airbnb", "prettier", "eslint-config-next"],
   overrides: [
     {
       env: {
@@ -23,7 +16,7 @@ module.exports = {
     ecmaVersion: "latest",
     sourceType: "module",
   },
-  plugins: ["react", "simple-import-sort", "import", "perfectionist", "security", "no-unsanitized", "xss"],
+  plugins: ["react", "simple-import-sort", "import", "perfectionist", "security"],
   root: true,
   rules: {
     camelcase: "off",
