@@ -20,7 +20,7 @@
   background-color: var(--mantine-color-dark-7);
 }
 
-.customSelect div[class$="MultiValueGeneric"] {
+.customSelect div[class$="multiValue"] > div:first-child {
   color: var(--mantine-color-dark-0);
   font-size: 0.75rem;
 }
