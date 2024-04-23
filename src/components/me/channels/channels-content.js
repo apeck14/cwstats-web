@@ -48,6 +48,7 @@ export default function ChannelsContent({ channels, guild }) {
   })
   const [opened, { close, open }] = useDisclosure(false)
   const [showButton, setShowButton] = useState(false)
+  const [keywordError, setKeywordError] = useState("")
 
   const handleChannelChange = (type, id) => {
     const newUnsavedState = { ...unsavedState }
@@ -76,14 +77,21 @@ export default function ChannelsContent({ channels, guild }) {
     setChannels(guild.guildID, channelQuery)
   }
 
-  const handleButtonSave = () => {
+  const handleButtonSave = async () => {
     const channelQuery = {
       ...savedState,
       commandChannelIDs: unsavedState.commandChannelIDs,
       commandChannelKeyword: unsavedState.commandChannelKeyword,
     }
 
-    setChannels(guild.guildID, channelQuery)
+    const { error } = await setChannels(guild.guildID, channelQuery)
+
+    if (error) {
+      setKeywordError(error)
+      return
+    }
+
+    setKeywordError("")
     setSavedState(channelQuery)
     setShowButton(false)
   }
@@ -96,7 +104,10 @@ export default function ChannelsContent({ channels, guild }) {
     setUnsavedState(newUnsavedState)
 
     if (val !== savedState.commandChannelKeyword) setShowButton(true)
-    else setShowButton(false)
+    else {
+      setShowButton(false)
+      setKeywordError("")
+    }
   }
 
   const handleCommandChannelChange = (options) => {
@@ -195,6 +206,10 @@ export default function ChannelsContent({ channels, guild }) {
                   value={unsavedState.commandChannelKeyword}
                   w="8rem"
                 />
+
+                <Text c="red.6" size="sm">
+                  {keywordError}
+                </Text>
               </Group>
 
               <Stack>

@@ -19,11 +19,14 @@ const hasAdminPermissions = (permissions) => {
 
 // return all guilds that user shares with the bot, and has Manage Server+ in
 export async function getGuilds(redirectOnError = false) {
+  const log = new Logger()
   let error = false
   let sessionError = false
 
   try {
     const session = await getServerSession(authOptions)
+
+    log.info(session?.user)
 
     if (!session) {
       if (redirectOnError) sessionError = true
@@ -62,7 +65,6 @@ export async function getGuilds(redirectOnError = false) {
 
     throw allGuilds
   } catch (err) {
-    const log = new Logger()
     log.warn("getGuilds Error", err)
 
     if (!redirectOnError) return { message: err?.message || err, status: 500 }

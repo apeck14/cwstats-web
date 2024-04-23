@@ -490,6 +490,16 @@ export async function setChannels(id, channels) {
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
+    if (channels.commandChannelKeyword) {
+      if (channels.commandChannelKeyword.length < 2) {
+        return { error: "Keyword must be at least 2 characters." }
+      }
+
+      if (channels.commandChannelKeyword.length > 10) {
+        return { error: "Keyword cannot be larger than 10 characters." }
+      }
+    }
+
     const channelQuery = { ...channels }
 
     // remove empty values from query

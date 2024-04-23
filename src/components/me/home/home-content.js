@@ -47,7 +47,7 @@ export default function HomeContent({ channels, guild }) {
 
   return (
     <Container py="xl" size="lg">
-      <Stack gap="3rem">
+      <Stack gap="3.25rem">
         <Stack>
           <Group gap="xs">
             <Title size="h3">Default Clan</Title>
@@ -68,8 +68,6 @@ export default function HomeContent({ channels, guild }) {
             <SetDefaultClanModal id={guild.guildID} setDefClan={setDefClan} />
           )}
         </Stack>
-
-        <AbbreviationsTable data={guild.abbreviations} id={guild.guildID} />
 
         <Stack>
           <Group gap="xs" mt="md">
@@ -103,6 +101,8 @@ export default function HomeContent({ channels, guild }) {
             <SetReportModal channels={channels} id={guild.guildID} setReport={setReport} />
           )}
         </Stack>
+
+        <AbbreviationsTable data={guild.abbreviations} id={guild.guildID} />
       </Stack>
     </Container>
   )
