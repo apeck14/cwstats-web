@@ -3,7 +3,7 @@ const headers = require("./headers")
 
 module.exports = withAxiom({
   experimental: {
-    optimizePackageImports: ["@tabler/icons-react"],
+    optimizePackageImports: ["@tabler/icons-react", "@mantine/core", "@mantine/hooks"],
   },
   headers: async () => [
     {

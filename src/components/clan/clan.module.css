@@ -36,3 +36,13 @@
 .rankIcon {
   border-radius: var(--mantine-radius-sm);
 }
+
+.week:hover {
+  background-color: var(--mantine-color-gray-6);
+  cursor: pointer;
+}
+
+.clan:hover {
+  background-color: var(--mantine-color-gray-7) !important;
+  cursor: pointer;
+}

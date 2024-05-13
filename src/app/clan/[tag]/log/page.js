@@ -1,8 +1,10 @@
-import { Container } from "@mantine/core"
+import { Container, Group, Title } from "@mantine/core"
 
-import { getClan } from "@/actions/supercell"
+import { getClan, getRaceLog } from "@/actions/supercell"
 import ClanHeader from "@/components/clan/header"
-import ComingSoon from "@/components/ui/coming-soon"
+import LogStats from "@/components/clan/log/log-stats"
+import LogWeeks from "@/components/clan/log/log-weeks"
+import InfoPopover from "@/components/ui/info-popover"
 import { getClanBadgeFileName } from "@/lib/functions/utils"
 
 export const dynamic = "force-dynamic"
@@ -24,13 +26,19 @@ export async function generateMetadata({ params }) {
 
 export default async function ClanLogPage({ params }) {
   const { tag } = params
-  const [{ data: clan }] = await Promise.all([getClan(tag, true)])
+  const [{ data: clan }, { data: log }] = await Promise.all([getClan(tag, true), getRaceLog(tag, true, true)])
 
   return (
     <>
       <ClanHeader clan={clan} />
-      <Container size="lg">
-        <ComingSoon />
+      <Container py="lg" size="lg">
+        <Group gap="xs" justify="center">
+          <Title>Race Log</Title>
+          <InfoPopover iconSize="1.25rem" text="Race logs only contain the last 10 weeks, per Supercell." />
+        </Group>
+
+        <LogStats log={log} />
+        <LogWeeks log={log} tag={clan.tag} />
       </Container>
     </>
   )

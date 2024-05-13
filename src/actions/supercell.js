@@ -3,7 +3,7 @@
 import { redirect } from "next/navigation"
 import { Logger } from "next-axiom"
 
-import { getRaceDetails } from "@/lib/functions/race"
+import { getLogDetails, getRaceDetails } from "@/lib/functions/race"
 import { formatTag } from "@/lib/functions/utils"
 import clientPromise from "@/lib/mongodb"
 
@@ -93,17 +93,22 @@ export async function getClan(tag, redirectOnError = false) {
   return supercellRequest(`/clans/%23${formatTag(tag)}`, redirectOnError)
 }
 
-export async function getRaceLog(tag, redirectOnError = false) {
-  return supercellRequest(`/clans/%23${formatTag(tag)}/riverracelog`, redirectOnError)
+export async function getRaceLog(tag, redirectOnError = false, getLogStats = false) {
+  const formattedTag = formatTag(tag)
+  const { data: log, error } = await supercellRequest(`/clans/%23${formattedTag}/riverracelog`, redirectOnError)
+
+  if (!error && getLogStats) return { data: getLogDetails(`#${formattedTag}`, log) }
+
+  return log
 }
 
 export async function getRace(tag, redirectOnError = false, getRaceStats = false) {
-  const race = await supercellRequest(`/clans/%23${formatTag(tag)}/currentriverrace`, redirectOnError)
+  const { data: race, error } = await supercellRequest(`/clans/%23${formatTag(tag)}/currentriverrace`, redirectOnError)
 
-  if (!race.error && getRaceStats) {
+  if (!error && getRaceStats) {
     return {
       ...race,
-      data: getRaceDetails(race.data),
+      data: getRaceDetails(race),
     }
   }
 

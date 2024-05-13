@@ -1,3 +1,5 @@
+import { parseDate } from "./date-time"
+
 export const formatPlacement = (place) => {
   if (place === 1) return "1st"
   if (place === 2) return "2nd"
@@ -251,4 +253,122 @@ export const getRaceDetails = (race) => {
     periodType: race.periodType,
     sectionIndex: race.sectionIndex,
   }
+}
+
+export const getCompletedWeekAvg = (participants, finishTime) => {
+  const finishDate = parseDate(finishTime)
+  const dayOfWeek = finishDate.getUTCDay()
+
+  const totalExpectedAttacks = dayOfWeek === 0 ? 600 : 800
+
+  let totalFame = 0
+
+  for (const p of participants) {
+    totalFame += p.fame
+  }
+
+  return totalFame / totalExpectedAttacks
+}
+
+export const getLogDetails = (tag, log) => {
+  const logStats = {
+    bestColAvg: null,
+    bestColScore: null,
+    bestWeekAvg: null,
+    lastColAvg: null,
+    lastColScore: null,
+    logAvg: null,
+    seasons: {},
+    worstWeekAvg: null,
+  }
+
+  let logTotalAvg = 0
+  let logTotalWeeks = 0
+  let seasonTotalAvg = 0
+  let seasonTotalWeeks = 0
+  let seasonTrophyGain = 0
+
+  for (let i = log.length - 1; i >= 0; i--) {
+    const week = log[i]
+    const { createdDate, seasonId, sectionIndex, standings } = week
+    const { clan, rank, trophyChange } = standings.find((c) => c.clan.tag === tag)
+
+    const weekNetTrophyChange = standings.reduce((a, b) => a + b.trophyChange, 0)
+    const isColosseum = weekNetTrophyChange < -7
+
+    // create week object
+    const weekStats = {
+      avg: getCompletedWeekAvg(clan.participants, clan.finishTime),
+      boatPoints: clan.fame,
+      clanScore: clan.clanScore,
+      participants: clan.participants
+        .filter((p) => p.decksUsed > 0 && p.fame > 0)
+        .map((p) => ({ ...p, avg: p.fame / p.decksUsed }))
+        .sort((a, b) => b.fame - a.fame)
+        .map((p, i) => ({ ...p, rank: i + 1 })),
+      placement: rank,
+      standings: standings.map((s) => ({
+        badgeId: s.clan.badgeId,
+        clanScore: s.clan.clanScore,
+        fame: s.clan.fame,
+        name: s.clan.name,
+        rank: s.rank,
+        tag: s.clan.tag,
+        trophyChange: s.trophyChange,
+      })),
+      startTime: parseDate(createdDate),
+      trophies: trophyChange,
+      week: sectionIndex + 1,
+    }
+
+    // add week to seasons
+    if (!logStats.seasons[seasonId]) {
+      const seasonsAdded = Object.keys(logStats.seasons)
+      // set season stats from last season, reset season stats
+      if (seasonsAdded.length) {
+        const lastSeason = logStats.seasons[seasonsAdded[seasonsAdded.length - 1]]
+        lastSeason.seasonAvg = seasonTotalWeeks ? seasonTotalAvg / seasonTotalWeeks : 0
+        lastSeason.seasonTrophyGain = seasonTrophyGain
+
+        seasonTotalAvg = 0
+        seasonTotalWeeks = 0
+        seasonTrophyGain = 0
+      }
+
+      // add new season
+      logStats.seasons[seasonId] = { weeks: [weekStats] }
+    } else logStats.seasons[seasonId].weeks.unshift(weekStats)
+
+    // contribute to all seasonal / log stats
+    logTotalAvg += weekStats.avg
+    logTotalWeeks++
+    seasonTotalAvg += weekStats.avg
+    seasonTotalWeeks++
+    seasonTrophyGain += weekStats.trophies
+
+    if (!logStats.worstWeekAvg || weekStats.avg < logStats.worstWeekAvg) logStats.worstWeekAvg = weekStats.avg
+    if (!logStats.bestWeekAvg || weekStats.avg > logStats.bestWeekAvg) logStats.bestWeekAvg = weekStats.avg
+
+    if (isColosseum) {
+      logStats.lastColAvg = weekStats.avg
+      logStats.lastColScore = weekStats.boatPoints
+
+      if (!logStats.bestColAvg || weekStats.avg > logStats.bestColAvg) {
+        logStats.bestColAvg = weekStats.avg
+        logStats.bestColScore = weekStats.boatPoints
+      }
+    }
+  }
+
+  logStats.logAvg = logTotalWeeks ? logTotalAvg / logTotalWeeks : 0
+
+  // set last season stats
+  const seasonsAdded = Object.keys(logStats.seasons)
+  if (seasonsAdded.length) {
+    const lastSeason = logStats.seasons[seasonsAdded[seasonsAdded.length - 1]]
+    lastSeason.seasonAvg = seasonTotalWeeks ? seasonTotalAvg / seasonTotalWeeks : 0
+    lastSeason.seasonTrophyGain = seasonTrophyGain
+  }
+
+  return logStats
 }

@@ -12,23 +12,23 @@ export default function RaceStats({ clan, isColosseum }) {
     {
       color: colors[parseInt(clan.projPlace[0]) - 1],
       label: "Projected Finish",
-      place: clan.projPlace,
-      progress: Math.max(0, ((clan.projFame - minPossibleFame) / (maxPossibleFame - minPossibleFame)) * 100),
-      value: clan.projFame,
+      score: clan.projFame,
+      text: clan.projPlace,
+      value: Math.max(0, ((clan.projFame - minPossibleFame) / (maxPossibleFame - minPossibleFame)) * 100),
     },
     {
       color: colors[parseInt(clan.bestPlace[0] - 1)],
       label: "Best Possible Finish",
-      place: clan.bestPlace,
-      progress: Math.max(0, ((clan.maxFame - minPossibleFame) / (maxPossibleFame - minPossibleFame)) * 100),
-      value: clan.maxFame,
+      score: clan.maxFame,
+      text: clan.bestPlace,
+      value: Math.max(0, ((clan.maxFame - minPossibleFame) / (maxPossibleFame - minPossibleFame)) * 100),
     },
     {
       color: colors[parseInt(clan.worstPlace[0] - 1)],
       label: "Worst Possible Finish",
-      place: clan.worstPlace,
-      progress: Math.max(0, ((clan.minFame - minPossibleFame) / (maxPossibleFame - minPossibleFame)) * 100),
-      value: clan.minFame,
+      score: clan.minFame,
+      text: clan.worstPlace,
+      value: Math.max(0, ((clan.minFame - minPossibleFame) / (maxPossibleFame - minPossibleFame)) * 100),
     },
   ]
 
@@ -42,7 +42,7 @@ export default function RaceStats({ clan, isColosseum }) {
             {stat.label}
           </Text>
           <Text fw={700} size="xl">
-            <NumberFormatter thousandSeparator value={stat.value} />
+            <NumberFormatter thousandSeparator value={stat.score} />
           </Text>
         </div>
       </Group>

@@ -1,0 +1,118 @@
+"use client"
+
+import { Box, Flex, Group, NumberFormatter, Paper, Progress, SimpleGrid, Stack, Text, Title } from "@mantine/core"
+
+import RaceRing from "../race-ring"
+
+const colors = ["pink", "#ffa500", "red"]
+
+export default function LogStats({ log }) {
+  const { bestColAvg, bestColScore, bestWeekAvg, lastColAvg, lastColScore, logAvg, worstWeekAvg } = log || {}
+
+  const avgData = [
+    {
+      borderColor: "#fa5252",
+      color: colors[2],
+      label: "Worst Avg.",
+      perc: Math.max(0, ((worstWeekAvg - 100) / (225 - 100)) * 100),
+      value: worstWeekAvg,
+    },
+    {
+      borderColor: "#ffa500",
+      color: colors[1],
+      label: "10 Week Avg.",
+      perc: Math.max(0, ((logAvg - 100) / (225 - 100)) * 100),
+      value: logAvg,
+    },
+    {
+      borderColor: "#ff237a",
+      color: colors[0],
+      label: "Best Avg.",
+      perc: Math.max(0, ((bestWeekAvg - 100) / (225 - 100)) * 100),
+      value: bestWeekAvg,
+    },
+  ]
+
+  return (
+    <Group mt="md">
+      <Paper
+        bg="gray.7"
+        component={Flex}
+        direction="column"
+        flex="2"
+        h="15rem"
+        justify="space-between"
+        miw="20rem"
+        p="md"
+        radius="md"
+      >
+        <Title size="h3">Fame Averages</Title>
+        <Text c="dimmed">Compare averages from the last 10 weeks of races.</Text>
+        <Progress.Root my="xl" size="1.5rem" transitionDuration={1000}>
+          {avgData.map((s, i) => (
+            <Progress.Section color={s.color} key={s.label} value={i > 0 ? s.perc - avgData[i - 1].perc : s.perc}>
+              <Progress.Label>{s.value.toFixed(0)}</Progress.Label>
+            </Progress.Section>
+          ))}
+        </Progress.Root>
+        <SimpleGrid cols={3}>
+          {avgData.map((s) => (
+            <Box key={s.label} style={{ borderBottom: `0.25rem solid ${s.borderColor}` }}>
+              <Text c="dimmed" fw={700} fz="xs" tt="uppercase">
+                {s.label}
+              </Text>
+
+              <Group align="flex-end" gap={0} justify="space-between">
+                <Text fw={700}>{s.value.toFixed(2)}</Text>
+                <Text c={s.color} fw={700} size="sm">
+                  {s.perc.toFixed(1)}%
+                </Text>
+              </Group>
+            </Box>
+          ))}
+        </SimpleGrid>
+      </Paper>
+
+      <Stack component={Flex} direction="column" flex="1">
+        <Paper miw="20rem" p="md" radius="md">
+          <Group>
+            <RaceRing
+              stat={{
+                color: "pink",
+                text: bestColAvg.toFixed(1),
+                value: Math.max(0, ((bestColAvg - 100) / (225 - 100)) * 100),
+              }}
+            />
+            <Stack gap="0">
+              <Text c="dimmed" fw={700} size="md">
+                BEST COLOSSEUM
+              </Text>
+              <Text fw={700} size="xl">
+                <NumberFormatter thousandSeparator value={bestColScore} />
+              </Text>
+            </Stack>
+          </Group>
+        </Paper>
+        <Paper p="md" radius="md">
+          <Group>
+            <RaceRing
+              stat={{
+                color: "#ffa500",
+                text: lastColAvg.toFixed(1),
+                value: Math.max(0, ((lastColAvg - 100) / (225 - 100)) * 100),
+              }}
+            />
+            <Stack gap="0">
+              <Text c="dimmed" fw={700} size="md">
+                LAST COLOSSEUM
+              </Text>
+              <Text fw={700} size="xl">
+                <NumberFormatter thousandSeparator value={lastColScore} />
+              </Text>
+            </Stack>
+          </Group>
+        </Paper>
+      </Stack>
+    </Group>
+  )
+}
