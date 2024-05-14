@@ -1,0 +1,62 @@
+.active {
+  border-bottom: 3px solid var(--mantine-color-pink-6);
+}
+
+.active > a > div {
+  margin-top: 3px;
+}
+
+.navItem {
+  border-radius: 0.25rem;
+  color: var(--mantine-color-white);
+  background-color: transparent;
+  height: fit-content;
+  padding: 0.25rem 0.5rem;
+  transition: 0.2s ease-out;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.navItem:hover {
+  background-color: var(--mantine-color-gray-7);
+}
+
+.avatar {
+  border: 2px solid var(--mantine-color-gray-5);
+  border-radius: 100%;
+}
+
+.avatar:hover {
+  cursor: pointer;
+}
+
+.searchButton {
+  outline: 1px solid var(--mantine-color-gray-6);
+}
+
+.mobileMenu {
+  position: fixed;
+  box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+  z-index: 999;
+  top: 3.75rem;
+  right: 0;
+  transition: 0.2s ease-in-out;
+  visibility: hidden;
+  transform: translateX(100%);
+  padding: var(--mantine-spacing-md);
+  backdrop-filter: blur(10px);
+  background: rgba(35, 34, 37, 0.8);
+}
+
+.mobileMenu[data-open] {
+  visibility: visible;
+  transform: translateX(0);
+}
+
+.mobileNavItem {
+  border-radius: var(--mantine-radius-sm);
+}
+
+.mobuleUpgradeBtn {
+  margin-top: auto;
+}

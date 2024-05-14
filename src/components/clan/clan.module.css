@@ -1,0 +1,48 @@
+.th {
+  border-bottom: 2px solid var(--mantine-color-pink-6);
+  border-top-right-radius: var(--mantine-radius-sm);
+  border-top-left-radius: var(--mantine-radius-sm);
+}
+
+.th:hover {
+  background-color: var(--mantine-color-gray-8);
+  cursor: pointer;
+}
+
+.ringStat:hover {
+  background-color: var(--mantine-color-gray-8);
+  cursor: pointer;
+}
+
+.raceItem:hover {
+  outline: 3px solid var(--mantine-color-gray-6);
+  cursor: pointer;
+}
+
+.raceItem[data-active] {
+  outline: 3px solid var(--mantine-color-gray-6);
+}
+
+.nameItem {
+  flex: 3 1 0px;
+  width: 0;
+}
+
+.topItem {
+  flex: 1 1 0px;
+  width: 0;
+}
+
+.rankIcon {
+  border-radius: var(--mantine-radius-sm);
+}
+
+.week:hover {
+  background-color: var(--mantine-color-gray-6);
+  cursor: pointer;
+}
+
+.clan:hover {
+  background-color: var(--mantine-color-gray-7) !important;
+  cursor: pointer;
+}

@@ -1,0 +1,54 @@
+.main {
+  padding: 0.95rem 0;
+}
+
+.main > div:nth-of-type(2) {
+  flex: 1;
+}
+
+.link {
+  color: #ffa500;
+  font-weight: 600;
+}
+
+.link:hover {
+  text-decoration: underline;
+}
+
+.name {
+  font-weight: 700;
+}
+
+.name:hover {
+  color: var(--mantine-color-gray-2);
+  cursor: pointer;
+}
+
+.card {
+  border-color: var(--mantine-color-gray-7);
+}
+
+.discordPhotoText {
+  flex: 1;
+}
+
+.stockPhotoContainer {
+  width: 100%;
+  justify-content: center;
+}
+
+.stockPhotoContainer > img {
+  height: 20rem;
+}
+
+.overlay {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.overlay:hover {
+  background-color: var(--mantine-color-gray-9);
+  cursor: pointer;
+  transition: 0.2s ease;
+}

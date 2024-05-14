@@ -1,0 +1,17 @@
+.th {
+  border-bottom: 2px solid var(--mantine-color-pink-6);
+}
+
+.flagCell {
+  padding: 0;
+  width: fit-content;
+  max-width: 2.5rem;
+}
+
+.flag {
+  display: block;
+}
+
+.flag:hover {
+  filter: brightness(70%);
+}

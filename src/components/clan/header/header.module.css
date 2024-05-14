@@ -1,0 +1,14 @@
+.link {
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  font-weight: 600;
+  transition: 0.2s ease-in;
+}
+
+.link:hover {
+  background-color: var(--mantine-color-gray-7);
+}
+
+.link[data-active="true"] {
+  background-color: var(--mantine-color-gray-7);
+}

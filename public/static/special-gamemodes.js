@@ -1,27 +1,27 @@
 module.exports = [
-  { name: "RampUpElixir_Ladder", str: "1v1 Ramp Up", img: "ramp-up" },
-  { name: "Overtime_Ladder", str: "1v1 Sudden Death", img: "sudden-death" },
+  { img: "ramp-up", name: "RampUpElixir_Ladder", str: "1v1 Ramp Up" },
+  { img: "sudden-death", name: "Overtime_Ladder", str: "1v1 Sudden Death" },
   {
+    img: "3x-elixir",
     name: "TripleElixir_Ladder",
     str: "1v1 Triple Elixir",
-    img: "3x-elixir",
   },
-  { name: "Touchdown", str: "1v1 Touchdown", img: "touchdown" },
+  { img: "touchdown", name: "Touchdown", str: "1v1 Touchdown" },
   {
+    img: "2x-elixir",
     name: "DoubleElixir_Ladder",
     str: "1v1 Double Elixir",
-    img: "2x-elixir",
   },
-  { name: "Rage_Ladder", str: "1v1 Rage", img: "rage" },
+  { img: "rage", name: "Rage_Ladder", str: "1v1 Rage" },
   {
+    img: "7x-elixir",
     name: "7xElixir_Ladder",
     str: "1v1 7x Elixir",
-    img: "7x-elixir",
   },
   {
+    img: "elixir-capture",
     name: "ElixirCollectorCapture_Ladder",
     str: "1v1 Elixir Capture",
-    img: "elixir-capture",
   },
-  { name: "Heist_Ladder", str: "1v1 Heist", img: "heist" },
+  { img: "heist", name: "Heist_Ladder", str: "1v1 Heist" },
 ]
