@@ -17,7 +17,7 @@ const buttons = [
 export default function DonatePage() {
   return (
     <Container size="lg">
-      <Stack align="center" mt="10%" py="md">
+      <Stack align="center" mt="10%" pb="xl">
         <ThemeIcon size="xl" variant="gradient">
           <IconHeartHandshake />
         </ThemeIcon>
