@@ -32,11 +32,6 @@ module.exports = withAxiom({
       permanent: true,
       source: "/support",
     },
-    {
-      destination: "https://www.paypal.com/paypalme/cw2stats",
-      permanent: true,
-      source: "/donate",
-    },
   ],
   swcMinify: true,
 })
