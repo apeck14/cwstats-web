@@ -14,12 +14,12 @@ const columns = {
     dsc: (a, b) => b.avg - a.avg,
   },
   boatAttacks: {
-    asc: (a, b) => b.boatAttacks - a.boatAttacks,
-    dsc: (a, b) => a.boatAttacks - b.boatAttacks,
+    asc: (a, b) => a.boatAttacks - b.boatAttacks,
+    dsc: (a, b) => b.boatAttacks - a.boatAttacks,
   },
   decksUsed: {
-    asc: (a, b) => b.decksUsed - a.decksUsed,
-    dsc: (a, b) => a.decksUsed - b.decksUsed,
+    asc: (a, b) => a.decksUsed - b.decksUsed,
+    dsc: (a, b) => b.decksUsed - a.decksUsed,
   },
   fame: {
     asc: (a, b) => b.rank - a.rank,
