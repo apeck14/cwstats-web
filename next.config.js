@@ -2,23 +2,8 @@ const { withAxiom } = require("next-axiom")
 const headers = require("./headers")
 
 module.exports = withAxiom({
-<<<<<<< HEAD
-  reactStrictMode: false,
-  poweredByHeader: false,
-  swcMinify: true,
-  compiler: {
-    styledComponents: true,
-  },
-  images: {
-    domains: ["cdn.discordapp.com", "imgur.com"],
-  },
-  i18n: {
-    defaultLocale: "en-US",
-    locales: ["en-US"],
-=======
   experimental: {
     optimizePackageImports: ["@tabler/icons-react", "@mantine/core", "@mantine/hooks"],
->>>>>>> cwstats+
   },
   headers: async () => [
     {
@@ -53,8 +38,5 @@ module.exports = withAxiom({
       source: "/donate",
     },
   ],
-<<<<<<< HEAD
-=======
   swcMinify: true,
->>>>>>> cwstats+
 })
