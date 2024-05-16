@@ -56,6 +56,8 @@ export async function getGuilds(redirectOnError = false) {
 
     const [allGuilds, botGuildIds] = await Promise.all([data.json(), guilds.distinct("guildID")])
 
+    log.info("getGuilds allGuilds:", allGuilds)
+
     if (Array.isArray(allGuilds)) {
       const filteredGuildsByPermissions = allGuilds
         .filter((g) => (g.owner || hasAdminPermissions(g.permissions)) && botGuildIds.includes(g.id))
