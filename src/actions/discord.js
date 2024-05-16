@@ -26,7 +26,7 @@ export async function getGuilds(redirectOnError = false) {
   try {
     const session = await getServerSession(authOptions)
 
-    log.info(session?.user)
+    log.info("getGuilds user:", session?.user)
 
     if (!session) {
       if (redirectOnError) sessionError = true
@@ -65,7 +65,7 @@ export async function getGuilds(redirectOnError = false) {
 
     throw allGuilds
   } catch (err) {
-    log.warn("getGuilds Error", err)
+    log.warn(`getGuilds Error`, err)
 
     if (!redirectOnError) return { message: err?.message || err, status: 500 }
     error = true
