@@ -44,11 +44,15 @@ export async function getGuilds(redirectOnError = false) {
       userId,
     })
 
+    log.info("getGuilds account:", user)
+
     const data = await fetch("https://discordapp.com/api/users/@me/guilds", {
       headers: {
         Authorization: `Bearer ${user.access_token}`,
       },
     })
+
+    log.info("getGuilds data:", data)
 
     const [allGuilds, botGuildIds] = await Promise.all([data.json(), guilds.distinct("guildID")])
 
@@ -59,6 +63,8 @@ export async function getGuilds(redirectOnError = false) {
           if (!a.icon && !b.icon) return a.name.localeCompare(b.name)
           return !!b.icon - !!a.icon
         })
+
+      log.info("getGuilds guilds:", filteredGuildsByPermissions)
 
       return { data: filteredGuildsByPermissions, status: 200, success: true }
     }
