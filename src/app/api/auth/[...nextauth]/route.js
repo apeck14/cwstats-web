@@ -38,7 +38,11 @@ export const authOptions = {
           })
           const tokens = await response.json()
 
-          if (!response.ok) throw tokens
+          if (!response.ok) {
+            const log = new Logger()
+            log.warn("Refresh token error", response)
+            throw tokens
+          }
 
           await accounts.updateOne(account, {
             $set: {
