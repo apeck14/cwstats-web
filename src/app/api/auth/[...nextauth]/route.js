@@ -38,7 +38,11 @@ export const authOptions = {
           })
           const tokens = await response.json()
 
-          if (!response.ok) throw tokens
+          if (!response.ok) {
+            accounts.deleteOne(account)
+            session.error = "RefreshAccessTokenError"
+            throw tokens
+          }
 
           await accounts.updateOne(account, {
             $set: {
@@ -50,9 +54,6 @@ export const authOptions = {
         } catch (err) {
           const log = new Logger()
           log.warn("session error (refreshing access token)", err)
-
-          // used client-side
-          session.error = "RefreshAccessTokenError"
         }
       }
 
@@ -101,7 +102,6 @@ export const authOptions = {
           scope,
         },
       },
-      checks: ["none"],
       clientId: process.env.DISCORD_ID,
       clientSecret: process.env.DISCORD_SECRET,
     }),

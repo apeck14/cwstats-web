@@ -11,7 +11,8 @@ export async function getLinkedAccount() {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session) return JSON.parse(JSON.stringify({ message: "Not logged in.", status: 403 }))
+    if (!session || session.error === "RefreshAccessTokenError")
+      return JSON.parse(JSON.stringify({ message: "Not logged in.", status: 403 }))
 
     const client = await clientPromise
     const db = client.db("General")
