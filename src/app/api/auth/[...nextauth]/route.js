@@ -39,8 +39,7 @@ export const authOptions = {
           const tokens = await response.json()
 
           if (!response.ok) {
-            const log = new Logger()
-            log.warn("Refresh token error", response)
+            accounts.deleteOne(account)
             throw tokens
           }
 
@@ -105,7 +104,6 @@ export const authOptions = {
           scope,
         },
       },
-      checks: ["none"],
       clientId: process.env.DISCORD_ID,
       clientSecret: process.env.DISCORD_SECRET,
     }),
