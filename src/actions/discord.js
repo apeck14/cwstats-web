@@ -28,7 +28,7 @@ export async function getGuilds(redirectOnError = false) {
 
     log.info("getGuilds user:", session?.user)
 
-    if (!session) {
+    if (!session || session.error === "RefreshAccessTokenError") {
       if (redirectOnError) sessionError = true
       else return { message: "Not logged in.", status: 403 }
     }

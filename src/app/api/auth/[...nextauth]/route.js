@@ -40,6 +40,7 @@ export const authOptions = {
 
           if (!response.ok) {
             accounts.deleteOne(account)
+            session.error = "RefreshAccessTokenError"
             throw tokens
           }
 
@@ -53,9 +54,6 @@ export const authOptions = {
         } catch (err) {
           const log = new Logger()
           log.warn("session error (refreshing access token)", err)
-
-          // used client-side
-          session.error = "RefreshAccessTokenError"
         }
       }
 
