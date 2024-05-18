@@ -13,12 +13,16 @@ import WeekStandings from "./week-standings"
 
 export default function LogWeeks({ log, tag }) {
   const isMobile = useMediaQuery("(max-width: 30em)")
-  const [activeWeek, setActiveWeek] = useState({ season: Object.keys(log.seasons).reverse()[0], week: 0 })
+  const [activeWeek, setActiveWeek] = useState({
+    season: Object.keys(log.seasons).reverse()[0],
+    week: 0,
+    weeksInSeason: log.seasons[Object.keys(log.seasons).reverse()[0]].weeks.length,
+  })
 
   const { seasons } = log
 
   const handleClick = (weekIndex, season) => {
-    setActiveWeek({ season, week: weekIndex })
+    setActiveWeek({ season, week: weekIndex, weeksInSeason: log.seasons[season].weeks.length })
   }
 
   const activeWeekData = seasons[activeWeek.season].weeks[activeWeek.week]

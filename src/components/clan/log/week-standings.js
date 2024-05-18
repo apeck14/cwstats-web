@@ -19,7 +19,7 @@ export default function WeekStandings({ activeWeek, standings, startTime, tag })
 
       <Paper bg="gray.10" component={Group} justify="space-between" mb="xs" mt="md" px="md" py="sm" radius="md">
         <Text fw="700" fz={{ base: "0.9rem", md: "1rem" }}>
-          Season {activeWeek.season} Week {activeWeek.week + 1}
+          Season {activeWeek.season} Week {activeWeek.weeksInSeason - activeWeek.week}
         </Text>
 
         <Text fz={{ base: "0.9rem", md: "1rem" }}>
