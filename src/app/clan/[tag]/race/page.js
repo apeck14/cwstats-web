@@ -48,12 +48,12 @@ export default async function ClanRace({ params }) {
         ) : (
           <Stack mt="md">
             <Title bg="gray.7" className={classes.raceIndex}>
-              {isColosseum ? "Colosseum" : `Week ${++race.sectionIndex}`}
+              {isColosseum ? "Colosseum" : `Week ${race?.sectionIndex + 1}`}
             </Title>
             <RaceStepper
               dayDescriptions={selectedClan.periodLogDescriptions}
               dayOfWeek={dayOfWeek}
-              week={++race.sectionIndex}
+              week={race?.sectionIndex + 1}
             />
             <RaceItems clans={race.clans} isColosseum={isColosseum} />
             <Group gap="xs" justify="center">

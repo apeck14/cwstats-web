@@ -105,14 +105,14 @@ export async function getRaceLog(tag, redirectOnError = false, getLogStats = fal
 export async function getRace(tag, redirectOnError = false, getRaceStats = false) {
   const { data: race, error } = await supercellRequest(`/clans/%23${formatTag(tag)}/currentriverrace`, redirectOnError)
 
-  if (!error && getRaceStats) {
+  if (!error && race && getRaceStats) {
     return {
       ...race,
       data: getRaceDetails(race),
     }
   }
 
-  return race
+  return { data: null }
 }
 
 export async function getClanMembers(tag, redirectOnError = false) {
