@@ -294,7 +294,7 @@ export const getLogDetails = (tag, log) => {
     const { clan, rank, trophyChange } = standings.find((c) => c.clan.tag === tag)
 
     const weekNetTrophyChange = standings.reduce((a, b) => a + b.trophyChange, 0)
-    const isColosseum = weekNetTrophyChange < -7
+    const isColosseum = weekNetTrophyChange < -7 || week.standings[0].trophyChange === 100
 
     // create week object
     const weekStats = {
