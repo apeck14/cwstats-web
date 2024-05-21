@@ -74,7 +74,6 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
               className={classes.flag}
               height={isMobile ? 16 : 24}
               src={`/assets/flag-icons/${formattedKey}.webp`}
-              unoptimized
             />
           </Link>
         </Table.Td>
