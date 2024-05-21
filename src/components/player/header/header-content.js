@@ -77,7 +77,7 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
                     {player?.tag}
                   </Text>
                   <Group gap="xs">
-                    <Image alt="Trophy" height={16} src="/assets/icons/trophy.webp" width={14} />
+                    <Image alt="Trophy" height={16} src="/assets/icons/trophy.webp" />
                     <Text fw={600} fz={itemFz}>
                       {player?.trophies} / {player?.bestTrophies}
                     </Text>

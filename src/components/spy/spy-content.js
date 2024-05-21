@@ -98,7 +98,7 @@ export default function SpyContent() {
                 {showSkeleton ? (
                   <Skeleton height={24} width={20} />
                 ) : (
-                  <Image alt="Clan Badge" height={24} src={`/assets/badges/${player?.clan?.badge}.webp`} width={12} />
+                  <Image alt="Clan Badge" height={24} src={`/assets/badges/${player?.clan?.badge}.webp`} />
                 )}
 
                 {showSkeleton ? (
