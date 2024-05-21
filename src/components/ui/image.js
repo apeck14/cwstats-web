@@ -19,7 +19,7 @@ export default function Image({
   width,
 }) {
   return (
-    <div style={{ maxWidth: "fit-content" }}>
+    <div style={{ width: circle ? height : width || height }}>
       <MantineImage
         alt={alt}
         className={className || ""}
