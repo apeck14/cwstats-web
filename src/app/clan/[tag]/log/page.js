@@ -32,13 +32,20 @@ export default async function ClanLogPage({ params }) {
     <>
       <ClanHeader clan={clan} />
       <Container py="lg" size="lg">
-        <Group gap="xs" justify="center">
-          <Title>Race Log</Title>
-          <InfoPopover iconSize="1.25rem" text="Race logs only contain the last 10 weeks, per Supercell." />
-        </Group>
-
-        <LogStats log={log} />
-        <LogWeeks log={log} tag={clan.tag} />
+        {!log ? (
+          <Title c="gray.1" mt="xl" size="h3" ta="center">
+            This clan has not participated in any river races.
+          </Title>
+        ) : (
+          <>
+            <Group gap="xs" justify="center">
+              <Title>Race Log</Title>
+              <InfoPopover iconSize="1.25rem" text="Race logs only contain the last 10 weeks, per Supercell." />
+            </Group>
+            <LogStats log={log} />
+            <LogWeeks log={log} tag={clan.tag} />
+          </>
+        )}
       </Container>
     </>
   )

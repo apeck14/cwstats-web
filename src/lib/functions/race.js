@@ -271,6 +271,8 @@ export const getCompletedWeekAvg = (participants, finishTime) => {
 }
 
 export const getLogDetails = (tag, log) => {
+  if (!log.length) return null
+
   const logStats = {
     bestColAvg: null,
     bestColScore: null,
