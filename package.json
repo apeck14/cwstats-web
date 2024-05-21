@@ -18,7 +18,7 @@
     "@mantine/hooks": "^7.9.2",
     "@mantine/notifications": "^7.9.2",
     "@next/third-parties": "^14.2.3",
-    "@tabler/icons-react": "^3.4.0",
+    "@tabler/icons-react": "^3.5.0",
     "mongodb": "^6.6.2",
     "next": "^14.2.3",
     "next-auth": "^4.24.7",
