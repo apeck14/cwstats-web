@@ -19,22 +19,24 @@ export default function Image({
   width,
 }) {
   return (
-    <MantineImage
-      alt={alt}
-      className={className || ""}
-      component={NextImage}
-      fill={fill}
-      fit={fit || "contain"}
-      height={height}
-      hiddenFrom={hiddenFrom}
-      onError={onError}
-      onLoad={onLoad}
-      priority={priority}
-      radius={radius}
-      src={src}
-      style={circle ? { ...style, borderRadius: "50%" } : { ...style }}
-      unoptimized={unoptimized}
-      width={circle ? height : width || height}
-    />
+    <div>
+      <MantineImage
+        alt={alt}
+        className={className || ""}
+        component={NextImage}
+        fill={fill}
+        fit={fit || "contain"}
+        height={height}
+        hiddenFrom={hiddenFrom}
+        onError={onError}
+        onLoad={onLoad}
+        priority={priority}
+        radius={radius}
+        src={src}
+        style={circle ? { ...style, borderRadius: "50%" } : { ...style }}
+        unoptimized={unoptimized}
+        width={circle ? height : width || height}
+      />
+    </div>
   )
 }
