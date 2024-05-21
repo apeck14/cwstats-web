@@ -19,7 +19,7 @@ export default function Image({
   width,
 }) {
   return (
-    <div>
+    <div style={{ width: "fit-content" }}>
       <MantineImage
         alt={alt}
         className={className || ""}
