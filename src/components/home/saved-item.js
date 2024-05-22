@@ -11,9 +11,14 @@ export default function SavedItem({ badge, name, tag }) {
 
       <Stack gap={0} w="100%">
         <Group justify="space-between" wrap="nowrap">
-          <Link className={classes.name} href={badge ? `/clan/${tag.substring(1)}` : `/player/${tag.substring(1)}`}>
+          <Text
+            className="text"
+            component={Link}
+            fw={600}
+            href={badge ? `/clan/${tag.substring(1)}` : `/player/${tag.substring(1)}`}
+          >
             {name}
-          </Link>
+          </Text>
           <Text>{tag}</Text>
         </Group>
         <Group justify="space-between" wrap="nowrap">

@@ -37,6 +37,10 @@ p {
   font-weight: 700;
 }
 
+.mantine-Button-root:hover {
+  transition: 0.3s ease !important;
+}
+
 .mantine-AppShell-header {
   box-shadow: 0 1px 4px 0 var(--mantine-color-gray-11);
 }
@@ -108,7 +112,7 @@ a {
 
 .buttonHover:hover {
   filter: brightness(90%);
-  transition: 0.2s ease;
+  transition: 0.3s ease;
 }
 
 .waves-bg {

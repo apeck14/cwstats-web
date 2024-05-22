@@ -15,15 +15,6 @@
   text-decoration: underline;
 }
 
-.name {
-  font-weight: 700;
-}
-
-.name:hover {
-  color: var(--mantine-color-gray-2);
-  cursor: pointer;
-}
-
 .card {
   border-color: var(--mantine-color-gray-7);
 }
