@@ -59,13 +59,14 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                 <FollowButton followed={followed} handleToggle={handleFollowToggle} showText />
                 <Group gap="xs" hiddenFrom="md">
                   <FollowButton followed={followed} handleToggle={handleFollowToggle} />
-                  <ActionIcon color="gray" variant="light">
-                    <Link
-                      href={(isMobile ? CLAN_IN_GAME_LINK_MOBILE : CLAN_IN_GAME_LINK) + formattedTag}
-                      target="_blank"
-                    >
-                      <IconExternalLink size={20} />
-                    </Link>
+                  <ActionIcon
+                    color="gray"
+                    component={Link}
+                    href={(isMobile ? CLAN_IN_GAME_LINK_MOBILE : CLAN_IN_GAME_LINK) + formattedTag}
+                    target="_blank"
+                    variant="light"
+                  >
+                    <IconExternalLink size={20} />
                   </ActionIcon>
                 </Group>
               </Group>
@@ -82,17 +83,18 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                   </Group>
                 </Group>
 
-                <Link href={CLAN_IN_GAME_LINK + formattedTag} target="_blank">
-                  <Button
-                    color="gray"
-                    leftSection={<IconExternalLink size={20} />}
-                    size="xs"
-                    variant="light"
-                    visibleFrom="md"
-                  >
-                    Open In-Game
-                  </Button>
-                </Link>
+                <Button
+                  color="gray"
+                  component={Link}
+                  href={CLAN_IN_GAME_LINK + formattedTag}
+                  leftSection={<IconExternalLink size={20} />}
+                  size="xs"
+                  target="_blank"
+                  variant="light"
+                  visibleFrom="md"
+                >
+                  Open In-Game
+                </Button>
               </Group>
             </Stack>
           </Group>
