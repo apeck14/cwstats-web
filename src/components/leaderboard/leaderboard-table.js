@@ -162,18 +162,24 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
               <Table.Th />
             ) : (
               <Table.Th>
-                <Image alt="Globe" height={16} src="/assets/flag-icons/global.webp" />
+                <Group justify="center">
+                  <Image alt="Globe" height={16} src="/assets/flag-icons/global.webp" />
+                </Group>
               </Table.Th>
             )}
 
             <Table.Th visibleFrom={isWarLb ? "0" : "md"}>
-              <Image alt="CW Trophy" height={16} src="/assets/icons/cw-trophy.webp" />
+              <Group justify="center">
+                <Image alt="CW Trophy" height={16} src="/assets/icons/cw-trophy.webp" />
+              </Group>
             </Table.Th>
 
             {!isWarLb && (
               <>
                 <Table.Th>
-                  <Image alt="Decks Remaining" height={16} src="/assets/icons/decksRemaining.webp" />
+                  <Group justify="center">
+                    <Image alt="Decks Remaining" height={16} src="/assets/icons/decksRemaining.webp" />
+                  </Group>
                 </Table.Th>
 
                 <Table.Th />
