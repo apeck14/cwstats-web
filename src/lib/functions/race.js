@@ -273,23 +273,37 @@ export const getCompletedWeekAvg = (participants, finishTime) => {
 }
 
 export const isColosseumFromStandings = (standings) => {
-  // determine league from clan scores
+  // determine league from clan scores (majority)
   // determine if colosseum based on net trophy changes
-  const totalClanScore = standings.reduce((a, b) => a + b.clan.clanScore, 0)
-  const avgClanScore = totalClanScore / standings.length
-  const netTrophyChange = standings.reduce((a, b) => a + b.trophyChange, 0)
+  const leagueCounts = { bronze: 0, gold: 0, legendary: 0, silver: 0 }
 
-  for (const l of CW_LEAGUES) {
-    if (avgClanScore >= l.minTrophies && (!l.maxTrophies || avgClanScore < l.maxTrophies)) {
-      // determine if netTrophyChange is closer to col trophy change for league or normal week
-      const colChangeDiff = Math.abs(l.netColTrophyChanges - netTrophyChange)
-      const normalChangeDiff = Math.abs(l.netTrophyChanges - netTrophyChange)
+  for (const c of standings) {
+    const { clanScore } = c.clan
 
-      return colChangeDiff < normalChangeDiff
+    if (clanScore < 600) leagueCounts.bronze++
+    else if (clanScore < 1500) leagueCounts.silver++
+    else if (clanScore < 3000) leagueCounts.gold++
+    else leagueCounts.legendary++
+  }
+
+  let league
+
+  for (const [leg, count] of Object.entries(leagueCounts)) {
+    if (count >= 3) {
+      league = leg
+      break
     }
   }
 
-  return false
+  const netTrophyChange = standings.reduce((a, b) => a + b.trophyChange, 0)
+
+  const cwLeague = CW_LEAGUES.find((l) => l.league === league)
+
+  // determine if netTrophyChange is closer to col trophy change for league or normal week
+  const colChangeDiff = Math.abs(cwLeague.netColTrophyChanges - netTrophyChange)
+  const normalChangeDiff = Math.abs(cwLeague.netTrophyChanges - netTrophyChange)
+
+  return colChangeDiff < normalChangeDiff
 }
 
 export const getLogDetails = (tag, log) => {
