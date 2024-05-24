@@ -57,6 +57,10 @@ p {
   color: var(--mantine-color-gray-1) !important;
 }
 
+.mantine-Menu-item:hover {
+  transition: 0.2s ease;
+}
+
 .mantine-TimeInput-input {
   --_input-bd: transparent;
 }
