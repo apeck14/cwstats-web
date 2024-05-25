@@ -15,20 +15,26 @@ export default function Settings({ guild }) {
 
   const [savedState, setSavedState] = useState({
     ignoreLeaders: !!nudges?.ignoreLeaders,
+    ignoreWhenCrossedFinishLine: !!nudges?.ignoreWhenCrossedFinishLine,
     message: nudges?.message || "",
   })
   const [ignoreLeaders, setIgnoreLeaders] = useState(!!nudges?.ignoreLeaders)
+  const [ignoreWhenCrossedFinishLine, setIgnoreWhenCrossedFinishLine] = useState(!!nudges?.ignoreWhenCrossedFinishLine)
   const [message, setMessage] = useState(nudges?.message || "")
   const [opened, { close, open }] = useDisclosure(false)
 
   const handleSave = () => {
     close()
-    setSavedState({ ignoreLeaders, message })
-    updateNudgeSettings(guildID, { ignoreLeaders, message })
+    setSavedState({ ignoreLeaders, ignoreWhenCrossedFinishLine, message })
+    updateNudgeSettings(guildID, { ignoreLeaders, ignoreWhenCrossedFinishLine, message })
   }
 
-  const handleCheck = (e) => {
+  const handleIgnoreLeadersCheck = (e) => {
     setIgnoreLeaders(e.currentTarget.checked)
+  }
+
+  const handleIgnoreWhenCrossedFinishLineCheck = (e) => {
+    setIgnoreWhenCrossedFinishLine(e.currentTarget.checked)
   }
 
   const handleMessageChange = (e) => {
@@ -36,10 +42,13 @@ export default function Settings({ guild }) {
   }
 
   useEffect(() => {
-    const statesAreEqual = message === savedState.message && ignoreLeaders === savedState.ignoreLeaders
+    const statesAreEqual =
+      message === savedState.message &&
+      ignoreLeaders === savedState.ignoreLeaders &&
+      ignoreWhenCrossedFinishLine === savedState.ignoreWhenCrossedFinishLine
     if (statesAreEqual) close()
     else open()
-  }, [ignoreLeaders, message])
+  }, [ignoreLeaders, message, ignoreWhenCrossedFinishLine])
 
   return (
     <Stack>
@@ -48,7 +57,13 @@ export default function Settings({ guild }) {
         <InfoPopover text="These settings will be applied to both /nudge & scheduled nudges." />
       </Group>
 
-      <Checkbox checked={ignoreLeaders} label="Ignore Co-Leaders & Leaders" onChange={handleCheck} />
+      <Checkbox checked={ignoreLeaders} label="Ignore Co-Leaders & Leaders" onChange={handleIgnoreLeadersCheck} />
+      <Checkbox
+        checked={ignoreWhenCrossedFinishLine}
+        label="Don't send nudge(s) if clan has crossed finish line"
+        onChange={handleIgnoreWhenCrossedFinishLineCheck}
+      />
+
       <Textarea
         autosize
         description="Optional. Default nudge message will be used if none provided."

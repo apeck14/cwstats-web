@@ -275,7 +275,10 @@ export async function deleteDefaultClan(id) {
   }
 }
 
-export async function updateNudgeSettings(id, settings = { ignoreLeaders: false, message: "" }) {
+export async function updateNudgeSettings(
+  id,
+  settings = { ignoreLeaders: false, ignoreWhenCrossedFinishLine: false, message: "" },
+) {
   try {
     const client = await clientPromise
     const db = client.db("General")
@@ -288,6 +291,7 @@ export async function updateNudgeSettings(id, settings = { ignoreLeaders: false,
       {
         $set: {
           "nudges.ignoreLeaders": settings.ignoreLeaders,
+          "nudges.ignoreWhenCrossedFinishLine": settings.ignoreWhenCrossedFinishLine,
           "nudges.message": mongoSanitize(settings.message),
         },
       },
