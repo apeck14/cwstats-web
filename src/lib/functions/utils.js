@@ -107,3 +107,9 @@ export const mongoSanitize = (val) => {
   }
   return val
 }
+
+export const intToHex = (int) => {
+  if (!int) return "#9aaab4"
+
+  return `#${int.toString(16).padStart(6, "0")}`
+}

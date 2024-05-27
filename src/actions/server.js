@@ -532,3 +532,29 @@ export async function setChannels(id, channels) {
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
 }
+
+export async function setAdminRole(id, roleId) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    await guilds.updateOne(
+      {
+        guildID: id,
+      },
+      {
+        $set: {
+          adminRoleID: roleId,
+        },
+      },
+    )
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("setAdminRole error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
