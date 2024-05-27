@@ -71,7 +71,7 @@ export default function HomeContent({ channels, guild, roles }) {
           <Stack>
             <Group gap="xs">
               <Title size="h3">Admin Role</Title>
-              <InfoPopover text="Anyone with this role or Manage Server+ permissions can use commands like /nudge and change CWStats settings for your server. However, only members with Manage Server+ can change this role." />
+              <InfoPopover text="Anyone with this role will be able to use Admin Commands like /nudge." />
             </Group>
 
             <RoleDropdown initialId={unsavedRoleID} label="" noneAsOption roles={roles} setRole={handleRoleChange} />
