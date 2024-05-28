@@ -79,8 +79,8 @@ export default function LogStats({ log }) {
             <RaceRing
               stat={{
                 color: "pink",
-                text: bestColAvg.toFixed(1),
-                value: Math.max(0, ((bestColAvg - 100) / (225 - 100)) * 100),
+                text: bestColAvg?.toFixed(1) || "N/A",
+                value: bestColAvg ? Math.max(0, ((bestColAvg - 100) / (225 - 100)) * 100) : 0,
               }}
             />
             <Stack gap="0">
@@ -88,7 +88,7 @@ export default function LogStats({ log }) {
                 BEST COLOSSEUM
               </Text>
               <Text fw={700} size="xl">
-                <NumberFormatter thousandSeparator value={bestColScore} />
+                {bestColScore ? <NumberFormatter thousandSeparator value={bestColScore} /> : "N/A"}
               </Text>
             </Stack>
           </Group>
@@ -98,8 +98,8 @@ export default function LogStats({ log }) {
             <RaceRing
               stat={{
                 color: "#ffa500",
-                text: lastColAvg.toFixed(1),
-                value: Math.max(0, ((lastColAvg - 100) / (225 - 100)) * 100),
+                text: lastColAvg?.toFixed(1) || "N/A",
+                value: lastColAvg ? Math.max(0, ((lastColAvg - 100) / (225 - 100)) * 100) : 0,
               }}
             />
             <Stack gap="0">
@@ -107,7 +107,7 @@ export default function LogStats({ log }) {
                 LAST COLOSSEUM
               </Text>
               <Text fw={700} size="xl">
-                <NumberFormatter thousandSeparator value={lastColScore} />
+                {lastColScore ? <NumberFormatter thousandSeparator value={lastColScore} /> : "N/A"}
               </Text>
             </Stack>
           </Group>
