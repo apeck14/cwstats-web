@@ -258,6 +258,8 @@ export const getRaceDetails = (race) => {
 }
 
 export const getCompletedWeekAvg = (participants, finishTime) => {
+  if (!finishTime) return 0
+
   const finishDate = parseDate(finishTime)
   const dayOfWeek = finishDate.getUTCDay()
 
@@ -286,10 +288,13 @@ export const isColosseumFromStandings = (standings) => {
     else leagueCounts.legendary++
   }
 
+  const totalClans = standings.length
+  const threshold = totalClans / 2
+
   let league
 
   for (const [leg, count] of Object.entries(leagueCounts)) {
-    if (count >= 3) {
+    if (count >= threshold) {
       league = leg
       break
     }
