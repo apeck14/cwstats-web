@@ -34,7 +34,7 @@ export default function RaceStats({ clan, isColosseum }) {
 
   const stats = data.map((stat) => (
     <Paper key={stat.label} p="xs" radius="md">
-      <Group>
+      <Group wrap="nowrap">
         <RaceRing stat={stat} />
 
         <div>
@@ -73,7 +73,7 @@ export default function RaceStats({ clan, isColosseum }) {
           </Group>
         </Paper>
       </Group>
-      <SimpleGrid cols={{ base: 1, sm: 3 }}>{stats}</SimpleGrid>
+      <SimpleGrid cols={{ base: 1, md: 3 }}>{stats}</SimpleGrid>
     </>
   )
 }
