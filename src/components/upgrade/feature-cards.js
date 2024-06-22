@@ -28,7 +28,7 @@ const options = [
       { text: "Hourly clan average tracking" },
       { text: "Daily player score tracking" },
       { text: "Special clan badge on website" },
-      { text: "Daily leaderboard clan stats" },
+      { text: "Daily Leaderboard clan accolades" },
       { text: "Guaranteed spot on Daily Leaderboard" },
     ],
     subtitle: "For competitive war clans looking to dive into rich CW2 features.",

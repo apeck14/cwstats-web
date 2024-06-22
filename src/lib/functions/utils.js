@@ -1,3 +1,4 @@
+import arenas from "@/static/arenas"
 import badges from "@/static/badges.json"
 import locations from "@/static/locations"
 
@@ -59,10 +60,12 @@ export const getRegionById = (id) => {
   return locations.find((l) => l.id === id)
 }
 
-export const getArenaFileName = (arenaStr) => {
-  if (!arenaStr) return "arena0"
+export const getArenaFileName = (arenaName) => {
+  if (!arenaName) return "arena0"
 
-  return arenaStr.toLowerCase().replace(/ /g, "")
+  const { arena } = arenas.find((a) => a.name === arenaName) || {}
+
+  return `arena${arena ?? 0}`
 }
 
 export const formatClanType = (type) => {
