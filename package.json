@@ -11,7 +11,7 @@
     "test:debug": "jest --silent=false"
   },
   "dependencies": {
-    "@auth/mongodb-adapter": "^3.4.0",
+    "@auth/mongodb-adapter": "^3.4.1",
     "@mantine/core": "^7.10.2",
     "@mantine/dates": "^7.10.2",
     "@mantine/form": "^7.10.2",
