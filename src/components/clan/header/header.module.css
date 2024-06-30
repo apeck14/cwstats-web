@@ -12,3 +12,20 @@
 .link[data-active="true"] {
   background-color: var(--mantine-color-gray-7);
 }
+
+.plus {
+  border-radius: 0.25rem;
+  padding: 0.25rem 0.75rem;
+  font-weight: 600;
+  transition: 0.2s ease-in;
+  color: var(--mantine-color-orange-6);
+}
+
+.plus:hover {
+  cursor: pointer;
+  background-color: var(--mantine-color-gray-7);
+}
+
+.plus[data-active="true"] {
+  background-color: var(--mantine-color-gray-7);
+}

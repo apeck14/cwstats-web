@@ -14,6 +14,7 @@ import { CLAN_IN_GAME_LINK, CLAN_IN_GAME_LINK_MOBILE } from "@/static/constants"
 import FollowButton from "../../ui/follow-button"
 import Image from "../../ui/image"
 import classes from "./header.module.css"
+import PlusDropdown from "./plus-dropdown"
 
 export default function HeaderContent({ clan, clanFollowed, discordID, followClan, unfollowClan }) {
   const router = useRouter()
@@ -29,7 +30,9 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
       ? "log"
       : pathname.includes("/stats")
         ? "stats"
-        : "home"
+        : pathname.includes("/plus")
+          ? "plus"
+          : "home"
 
   const badge = getClanBadgeFileName(clan?.badgeId, clan?.clanWarTrophies)
 
@@ -115,6 +118,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
             <Link className={classes.link} data-active={activeTab === "stats"} href={`/clan/${formattedTag}/stats`}>
               Stats
             </Link>
+            <PlusDropdown active={activeTab === "plus"} tag={formattedTag} />
           </Group>
         </Container>
       </Group>
