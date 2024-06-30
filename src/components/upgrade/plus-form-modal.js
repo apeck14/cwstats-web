@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Group, List, Modal, Stack, TextInput, ThemeIcon, Title } from "@mantine/core"
+import { Button, Group, List, Modal, Stack, Text, TextInput, ThemeIcon, Title } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications"
 import { IconCheck, IconHash } from "@tabler/icons-react"
@@ -8,6 +8,8 @@ import { useState } from "react"
 
 import { addPlus } from "@/actions/upgrade"
 import { formatTag } from "@/lib/functions/utils"
+
+import InfoPopover from "../ui/info-popover"
 
 export default function PlusFormModal() {
   const [tag, setTag] = useState("")
@@ -75,7 +77,16 @@ export default function PlusFormModal() {
             spacing="xs"
           >
             <List.Item>
-              Add <b>CWStats.com</b> to your clan&apos;s description
+              <Group gap="xs">
+                <Text fz="sm">
+                  Add <b>CWStats.com</b> to your clan&apos;s description
+                </Text>
+                <InfoPopover
+                  color="var(--mantine-color-orange-6)"
+                  iconSize="0.9rem"
+                  text="Family friendly clans can use CWStats instead."
+                />
+              </Group>
             </List.Item>
             <List.Item>Enter your clan&apos;s tag below</List.Item>
             <List.Item>
