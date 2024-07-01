@@ -1,6 +1,6 @@
 "use client"
 
-import { Group, Paper, Stack, Title } from "@mantine/core"
+import { Group, Paper, Stack, Text, Title } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { IconHourglassEmpty } from "@tabler/icons-react"
 import { useState } from "react"
@@ -24,36 +24,43 @@ export default function HourlyAvgContent({ data, initialDay }) {
       </Group>
 
       <HourlyAverageGraph allData={data} selectedDay={selectedDay} />
-      <Stack my="lg">
-        {Object.keys(data).map((s) => (
-          <Paper key={s} p="md">
-            <Title size="h3">Season {s}</Title>
-            <Stack gap="xs" mt="xs">
-              {Object.keys(data[s])
-                .sort((a, b) => b - a)
-                .map((w) => (
-                  <Paper bg="gray.8" key={`${s}-${w}`} p="md">
-                    <Title size="h4">Week {w}</Title>
-                    <Stack gap="xs" mt="xs">
-                      {Object.keys(data[s][w])
-                        .sort((a, b) => b - a)
-                        .map((d) => (
-                          <HourlyAvgDay
-                            checked={selectedDay.season === s && selectedDay.week === w && selectedDay.day === d}
-                            day={d}
-                            handleClick={handleDayClick}
-                            key={`${s}-${w}-${d}`}
-                            season={s}
-                            week={w}
-                          />
-                        ))}
-                    </Stack>
-                  </Paper>
-                ))}
-            </Stack>
-          </Paper>
-        ))}
-      </Stack>
+
+      {!Object.keys(data).length ? (
+        <Text c="gray.1" fw="600" fz="xl" mt="5rem" ta="center">
+          No data has been tracked yet. Come back soon!
+        </Text>
+      ) : (
+        <Stack my="lg">
+          {Object.keys(data).map((s) => (
+            <Paper key={s} p="md">
+              <Title size="h3">Season {s}</Title>
+              <Stack gap="xs" mt="xs">
+                {Object.keys(data[s])
+                  .sort((a, b) => b - a)
+                  .map((w) => (
+                    <Paper bg="gray.8" key={`${s}-${w}`} p="md">
+                      <Title size="h4">Week {w}</Title>
+                      <Stack gap="xs" mt="xs">
+                        {Object.keys(data[s][w])
+                          .sort((a, b) => b - a)
+                          .map((d) => (
+                            <HourlyAvgDay
+                              checked={selectedDay.season === s && selectedDay.week === w && selectedDay.day === d}
+                              day={d}
+                              handleClick={handleDayClick}
+                              key={`${s}-${w}-${d}`}
+                              season={s}
+                              week={w}
+                            />
+                          ))}
+                      </Stack>
+                    </Paper>
+                  ))}
+              </Stack>
+            </Paper>
+          ))}
+        </Stack>
+      )}
     </>
   )
 }

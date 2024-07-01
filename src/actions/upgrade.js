@@ -1,7 +1,6 @@
 "use server"
 
 /* eslint-disable perfectionist/sort-objects */
-/* eslint-disable import/prefer-default-export */
 
 import { formatTag } from "@/lib/functions/utils"
 import clientPromise from "@/lib/mongodb"
@@ -36,7 +35,7 @@ export async function addPlus(tag) {
   }
 }
 
-export async function getPlusClanData(tag, groupHourlyAverages = false) {
+export async function getPlusClanData(tag, formatHourlyAverages = false) {
   try {
     const client = await clientPromise
     const db = client.db("General")
@@ -46,7 +45,7 @@ export async function getPlusClanData(tag, groupHourlyAverages = false) {
 
     if (!plusClan) return null
 
-    if (groupHourlyAverages) {
+    if (formatHourlyAverages) {
       const hourlyAverages = {}
 
       for (const entry of plusClan.hourlyAverages) {

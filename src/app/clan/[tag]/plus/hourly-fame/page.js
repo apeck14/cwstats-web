@@ -14,10 +14,15 @@ export default async function HourlyFamePage({ params }) {
 
   if (plusClan) {
     const seasons = Object.keys(plusClan.hourlyAverages)
-    const lastSeasonWeeks = Object.keys(plusClan.hourlyAverages[seasons[seasons.length - 1]])
-    const lastWeekDays = Object.keys(
-      plusClan.hourlyAverages[seasons[seasons.length - 1]][lastSeasonWeeks[lastSeasonWeeks.length - 1]],
-    )
+    let lastSeasonWeeks = []
+    let lastWeekDays = []
+
+    if (seasons.length) {
+      lastSeasonWeeks = Object.keys(plusClan.hourlyAverages[seasons[seasons.length - 1]])
+      lastWeekDays = Object.keys(
+        plusClan.hourlyAverages[seasons[seasons.length - 1]][lastSeasonWeeks[lastSeasonWeeks.length - 1]],
+      )
+    }
 
     content = (
       <HourlyAvgContent

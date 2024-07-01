@@ -38,13 +38,14 @@ const generateXTicks = (hours) => {
 export default function HourlyAverageGraph({ allData, selectedDay: { day, season, week } }) {
   const isMobile = useMediaQuery("(max-width: 30em)")
 
-  const data = allData[season][week][day].map((e) => {
-    const { avg, timestamp } = e
-    const date = new Date(timestamp)
-    const formattedHour = date.getUTCHours()
+  const data =
+    allData?.[season]?.[week]?.[day].map((e) => {
+      const { avg, timestamp } = e
+      const date = new Date(timestamp)
+      const formattedHour = date.getUTCHours()
 
-    return { avg: avg.toFixed(1), hour: formattedHour }
-  })
+      return { avg: avg.toFixed(1), hour: formattedHour }
+    }) || {}
 
   const values = Object.values(data)
   const averages = values.map((e) => e.avg)
