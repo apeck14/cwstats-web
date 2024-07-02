@@ -55,7 +55,13 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
   const yAxisMax = dataMax > 225 ? 250 : 225
 
   return (
-    <Paper bg="gray.8" pb={{ base: "sm", md: "md" }} pt={{ base: "xl", md: "3rem" }} radius="md">
+    <Paper
+      bg="gray.8"
+      pb={{ base: "sm", md: "md" }}
+      pr={{ base: "md", md: "lg" }}
+      pt={{ base: "xl", md: "3rem" }}
+      radius="md"
+    >
       <AreaChart
         areaChartProps={{ allowDataOverflow: false }}
         curveType="natural"
