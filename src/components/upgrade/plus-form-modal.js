@@ -77,7 +77,7 @@ export default function PlusFormModal() {
             spacing="xs"
           >
             <List.Item>
-              <Group gap="xs">
+              <Group gap="0.1rem">
                 <Text fz="sm">
                   Add <b>CWStats.com</b> to your clan&apos;s description
                 </Text>
