@@ -31,34 +31,36 @@ export default function HourlyAvgContent({ data, initialDay }) {
         </Text>
       ) : (
         <Stack my="lg">
-          {Object.keys(data).map((s) => (
-            <Paper key={s} p="md">
-              <Title size="h3">Season {s}</Title>
-              <Stack gap="xs" mt="xs">
-                {Object.keys(data[s])
-                  .sort((a, b) => b - a)
-                  .map((w) => (
-                    <Paper bg="gray.8" key={`${s}-${w}`} p="md">
-                      <Title size="h4">Week {w}</Title>
-                      <Stack gap="xs" mt="xs">
-                        {Object.keys(data[s][w])
-                          .sort((a, b) => b - a)
-                          .map((d) => (
-                            <HourlyAvgDay
-                              checked={selectedDay.season === s && selectedDay.week === w && selectedDay.day === d}
-                              day={d}
-                              handleClick={handleDayClick}
-                              key={`${s}-${w}-${d}`}
-                              season={s}
-                              week={w}
-                            />
-                          ))}
-                      </Stack>
-                    </Paper>
-                  ))}
-              </Stack>
-            </Paper>
-          ))}
+          {Object.keys(data)
+            .reverse()
+            .map((s) => (
+              <Paper key={s} p="md">
+                <Title size="h3">Season {s}</Title>
+                <Stack gap="xs" mt="xs">
+                  {Object.keys(data[s])
+                    .sort((a, b) => b - a)
+                    .map((w) => (
+                      <Paper bg="gray.8" key={`${s}-${w}`} p="md">
+                        <Title size="h4">Week {w}</Title>
+                        <Stack gap="xs" mt="xs">
+                          {Object.keys(data[s][w])
+                            .sort((a, b) => b - a)
+                            .map((d) => (
+                              <HourlyAvgDay
+                                checked={selectedDay.season === s && selectedDay.week === w && selectedDay.day === d}
+                                day={d}
+                                handleClick={handleDayClick}
+                                key={`${s}-${w}-${d}`}
+                                season={s}
+                                week={w}
+                              />
+                            ))}
+                        </Stack>
+                      </Paper>
+                    ))}
+                </Stack>
+              </Paper>
+            ))}
         </Stack>
       )}
     </>
