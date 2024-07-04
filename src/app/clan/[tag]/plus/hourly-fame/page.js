@@ -29,7 +29,7 @@ export default async function HourlyFamePage({ params }) {
         data={plusClan.hourlyAverages}
         initialDay={{
           day: lastWeekDays[lastWeekDays.length - 1],
-          season: seasons[0],
+          season: seasons[seasons.length - 1],
           week: lastSeasonWeeks[lastSeasonWeeks.length - 1],
         }}
       />
