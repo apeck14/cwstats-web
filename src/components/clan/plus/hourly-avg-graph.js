@@ -64,7 +64,7 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
     >
       <AreaChart
         areaChartProps={{ allowDataOverflow: false }}
-        curveType="natural"
+        curveType="monotone"
         data={values}
         dataKey="hour"
         h={400}
