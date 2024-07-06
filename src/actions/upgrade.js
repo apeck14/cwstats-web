@@ -49,13 +49,13 @@ export async function getPlusClanData(tag, formatHourlyAverages = false) {
       const hourlyAverages = {}
 
       for (const entry of plusClan.hourlyAverages) {
-        const { season, week, day, avg, timestamp } = entry
+        const { season, week, day, avg, timestamp, lastHourAvg } = entry
 
         if (!hourlyAverages[season]) hourlyAverages[season] = {}
         if (!hourlyAverages[season][week]) hourlyAverages[season][week] = {}
         if (!hourlyAverages[season][week][day]) hourlyAverages[season][week][day] = []
 
-        hourlyAverages[season][week][day].push({ avg, timestamp })
+        hourlyAverages[season][week][day].push({ avg, timestamp, lastHourAvg })
       }
 
       return { ...plusClan, hourlyAverages }

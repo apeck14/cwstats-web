@@ -1,14 +1,15 @@
 "use client"
 
-import { AreaChart } from "@mantine/charts"
 import { Paper } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
+import { Area, Bar, ComposedChart, Label, ResponsiveContainer, Tooltip, XAxis, YAxis } from "recharts"
 
 const roundToNearest25 = (int) => Math.round(int / 25) * 25
 
 const generateYTicks = (min, max) => {
+  const increment = max - min >= 100 ? 50 : 25
   const result = []
-  for (let i = min; i <= max; i += 25) {
+  for (let i = min; i <= max; i += increment) {
     result.push(i)
   }
 
@@ -40,17 +41,18 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
 
   const data =
     allData?.[season]?.[week]?.[day].map((e) => {
-      const { avg, timestamp } = e
+      const { avg, lastHourAvg, timestamp } = e
       const date = new Date(timestamp)
       const formattedHour = date.getUTCHours()
 
-      return { avg: avg.toFixed(1), hour: formattedHour }
+      return { "Fame Avg.": avg.toFixed(1), hour: formattedHour, "Last Hour Avg.": lastHourAvg?.toFixed(1) }
     }) || {}
 
   const values = Object.values(data)
-  const averages = values.map((e) => e.avg)
-  const dataMin = Math.min(...averages)
-  const dataMax = Math.max(...averages)
+  const averages = values.map((e) => e["Fame Avg."])
+  const lastHourAverages = values.map((e) => e["Last Hour Avg."] || false)
+  const dataMin = Math.min(...averages, ...lastHourAverages)
+  const dataMax = Math.max(...averages, ...lastHourAverages)
   const yAxisMin = roundToNearest25(dataMin - 25 < 0 ? 0 : dataMin - 25)
   const yAxisMax = dataMax > 225 ? 250 : 225
 
@@ -62,31 +64,49 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
       pt={{ base: "xl", md: "3rem" }}
       radius="md"
     >
-      <AreaChart
-        areaChartProps={{ allowDataOverflow: false }}
-        curveType="monotone"
-        data={values}
-        dataKey="hour"
-        h={400}
-        rightYAxisProps={{ width: isMobile ? 25 : 40 }}
-        series={[
-          {
-            color: "orange.6",
-            label: `Fame Avg.`,
-            name: "avg",
-          },
-        ]}
-        strokeWidth={5}
-        tooltipAnimationDuration={200}
-        withGradient
-        xAxisLabel="Time (UTC)"
-        xAxisProps={{ ticks: generateXTicks(values.map((e) => e.hour)) }}
-        yAxisProps={{
-          domain: [yAxisMin, yAxisMax],
-          ticks: generateYTicks(yAxisMin, yAxisMax),
-          width: isMobile ? 50 : 60,
-        }}
-      />
+      <ResponsiveContainer height={isMobile ? 250 : 400} width="100%">
+        <ComposedChart data={data}>
+          <XAxis
+            dataKey="hour"
+            fontSize={isMobile ? "0.8rem" : "0.9rem"}
+            fontWeight={600}
+            ticks={generateXTicks(values.map((e) => e.hour))}
+          >
+            <Label dy={14} fontSize={isMobile ? "0.75rem" : "0.85rem"} fontWeight={600} value="Time (UTC)" />
+          </XAxis>
+          <YAxis
+            domain={[yAxisMin, yAxisMax]}
+            fontSize={isMobile ? "0.8rem" : "0.9rem"}
+            fontWeight={600}
+            ticks={generateYTicks(yAxisMin, yAxisMax)}
+            width={isMobile ? 35 : 50}
+          />
+          <Bar
+            barSize={isMobile ? 10 : 35}
+            dataKey="Last Hour Avg."
+            fill="var(--mantine-color-gray-6)"
+            radius={[5, 5, 0, 0]}
+          />
+          <Area
+            dataKey="Fame Avg."
+            fill="var(--mantine-color-orange-6)"
+            fillOpacity={0.25}
+            stroke="var(--mantine-color-orange-6)"
+            strokeWidth={5}
+            type="monotone"
+          />
+          <Tooltip
+            contentStyle={{
+              backgroundColor: "var(--mantine-color-gray-8)",
+              borderColor: "var(--mantine-color-gray-5)",
+              borderRadius: "0.5rem",
+              fontSize: "0.9rem",
+              fontWeight: 700,
+            }}
+            labelFormatter={(val) => `Time (UTC): ${val}`}
+          />
+        </ComposedChart>
+      </ResponsiveContainer>
     </Paper>
   )
 }
