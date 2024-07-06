@@ -56,6 +56,8 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
   const yAxisMin = roundToNearest25(dataMin - 25 < 0 ? 0 : dataMin - 25)
   const yAxisMax = dataMax > 225 ? 250 : 225
 
+  const barSize = isMobile ? 10 : 35
+
   return (
     <Paper
       bg="gray.8"
@@ -70,6 +72,7 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
             dataKey="hour"
             fontSize={isMobile ? "0.8rem" : "0.9rem"}
             fontWeight={600}
+            padding={{ left: (barSize / 2) * -1 + 1, right: (barSize / 2) * -1 + 1 }}
             ticks={generateXTicks(values.map((e) => e.hour))}
           >
             <Label dy={14} fontSize={isMobile ? "0.75rem" : "0.85rem"} fontWeight={600} value="Time (UTC)" />
@@ -82,10 +85,10 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
             width={isMobile ? 35 : 50}
           />
           <Bar
-            barSize={isMobile ? 10 : 35}
+            barSize={barSize}
             dataKey="Last Hour Avg."
             fill="var(--mantine-color-gray-6)"
-            radius={[5, 5, 0, 0]}
+            radius={isMobile ? [3, 3, 0, 0] : [5, 5, 0, 0]}
           />
           <Area
             dataKey="Fame Avg."
