@@ -72,7 +72,6 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
             dataKey="hour"
             fontSize={isMobile ? "0.8rem" : "0.9rem"}
             fontWeight={600}
-            padding={{ left: (barSize / 2) * -1 + 1, right: (barSize / 2) * -1 + 1 }}
             ticks={generateXTicks(values.map((e) => e.hour))}
           >
             <Label dy={14} fontSize={isMobile ? "0.75rem" : "0.85rem"} fontWeight={600} value="Time (UTC)" />
