@@ -91,9 +91,9 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
           />
           <Area
             dataKey="Fame Avg."
-            fill="var(--mantine-color-orange-6)"
+            fill="var(--mantine-color-orange-5)"
             fillOpacity={0.25}
-            stroke="var(--mantine-color-orange-6)"
+            stroke="var(--mantine-color-orange-5)"
             strokeWidth={5}
             type="monotone"
           />

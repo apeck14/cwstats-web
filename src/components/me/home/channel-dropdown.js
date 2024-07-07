@@ -23,7 +23,7 @@ export default function ChannelDropdown({
       .map((c) => ({
         component: (
           <Text>
-            <span style={{ color: "var(--mantine-color-orange-6)", marginRight: "0.25rem" }}>#</span>
+            <span style={{ color: "var(--mantine-color-orange-5)", marginRight: "0.25rem" }}>#</span>
             {c.name}
           </Text>
         ),

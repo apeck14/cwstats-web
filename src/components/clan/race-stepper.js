@@ -14,7 +14,7 @@ export default function RaceStepper({ dayDescriptions, dayOfWeek }) {
     <Stepper active={index} iconSize={isTablet ? 20 : 32} radius="md" size={isTablet ? "0.65rem" : "sm"} wrap={false}>
       {!isTablet && (
         <Stepper.Step
-          color="orange"
+          color="var(--mantine-color-orange-5)"
           completedIcon={<IconTargetArrow size={iconSize} />}
           description="Day 1-3"
           icon={<IconTargetArrow size={iconSize} />}

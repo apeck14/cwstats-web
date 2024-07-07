@@ -35,6 +35,34 @@ export async function addPlus(tag) {
   }
 }
 
+export async function isPlusClan(tag) {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const plus = db.collection("CWStats+")
+
+    const plusClan = await plus.findOne({ tag: formatTag(tag, true) })
+
+    return !!plusClan
+  } catch (e) {
+    return false
+  }
+}
+
+export async function getAllPlusClanTags() {
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const plus = db.collection("CWStats+")
+
+    const plusClans = await plus.distinct("tag")
+
+    return plusClans
+  } catch (e) {
+    return []
+  }
+}
+
 export async function getPlusClanData(tag, formatHourlyAverages = false) {
   try {
     const client = await clientPromise

@@ -10,9 +10,10 @@ import { useEffect, useState } from "react"
 import { getClanBadgeFileName, getRegionById } from "@/lib/functions/utils"
 
 import Image from "../ui/image"
+import PlusIcon from "../ui/plus-icon"
 import classes from "./leaderboard.module.css"
 
-export default function LeaderboardTable({ clans, isWarLb, league, savedClans, search, showSavedClans }) {
+export default function LeaderboardTable({ clans, isWarLb, league, plusClans, savedClans, search, showSavedClans }) {
   const [leaderboard, setLeaderboard] = useState(clans)
   const [page, setPage] = useState(1)
   const pathname = usePathname()
@@ -35,6 +36,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
     const key = c.location?.countryCode || getRegionById(c.location.id)?.key || "unknown"
     const formattedKey = key.toLowerCase()
     const flagHref = `${pathname.slice(0, pathname.lastIndexOf("/"))}/${formattedKey}?${searchParams.toString()}`
+    const isPlus = plusClans.includes(c.tag)
 
     return (
       <Table.Tr fw={600} fz={{ base: "0.9rem", md: "1rem" }} key={c.tag}>
@@ -61,9 +63,12 @@ export default function LeaderboardTable({ clans, isWarLb, league, savedClans, s
               src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.clanScore)}.webp`}
               unoptimized
             />
-            <Link className="pinkText" href={`/clan/${c.tag.substring(1)}/race`}>
-              {c.name}
-            </Link>
+            <Group gap={isMobile ? "0.45rem" : "xs"}>
+              <Link className="pinkText" href={`/clan/${c.tag.substring(1)}/race`}>
+                {c.name}
+              </Link>
+              {isPlus && <PlusIcon isPlus showPopover={false} size={isMobile ? 12 : 16} tag={c.tag.substring(1)} />}
+            </Group>
           </Group>
         </Table.Td>
 

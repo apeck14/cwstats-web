@@ -16,8 +16,11 @@ export default function Image({
   src,
   style,
   unoptimized,
+  visible = true,
   width,
 }) {
+  if (!visible) return null
+
   return (
     <div style={{ width: circle ? height : width || height }}>
       <MantineImage

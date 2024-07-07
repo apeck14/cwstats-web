@@ -19,7 +19,7 @@ export default function HourlyAvgContent({ data, initialDay }) {
   return (
     <>
       <Group gap="xs" justify="center" mb="md">
-        <IconHourglassEmpty color="var(--mantine-color-orange-6)" size={isMobile ? "1.5rem" : "2rem"} />
+        <IconHourglassEmpty color="var(--mantine-color-orange-5)" size={isMobile ? "1.5rem" : "2rem"} />
         <Title size={isMobile ? "h2" : "h1"}>Hourly Fame Tracking</Title>
       </Group>
 

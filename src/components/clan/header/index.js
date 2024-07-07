@@ -1,9 +1,10 @@
-import { followClan, getLinkedAccount , unfollowClan } from "@/actions/user"
+import { isPlusClan } from "@/actions/upgrade"
+import { followClan, getLinkedAccount, unfollowClan } from "@/actions/user"
 
 import HeaderContent from "./header-content"
 
 export default async function ClanHeader({ clan }) {
-  const linkedAccount = await getLinkedAccount()
+  const [linkedAccount, isPlus] = await Promise.all([getLinkedAccount(), isPlusClan(clan?.tag)])
   const clanFollowed = !!linkedAccount?.savedClans?.find((c) => c.tag === clan?.tag)
 
   return (
@@ -12,6 +13,7 @@ export default async function ClanHeader({ clan }) {
       clanFollowed={clanFollowed}
       discordID={linkedAccount?.discordID}
       followClan={followClan}
+      isPlus={isPlus}
       unfollowClan={unfollowClan}
     />
   )

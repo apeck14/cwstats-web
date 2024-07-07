@@ -1,6 +1,7 @@
 import { notFound } from "next/navigation"
 
 import { getDailyLeaderboard } from "@/actions/api"
+import { getAllPlusClanTags } from "@/actions/upgrade"
 import { getLinkedAccount } from "@/actions/user"
 import LeaderboardContent from "@/components/leaderboard/leaderboard-content"
 import { getRegionByKey } from "@/lib/functions/utils"
@@ -30,7 +31,11 @@ export default async function DailyLeaderboardPage({ params }) {
 
   if (!region) notFound()
 
-  const [leaderboard, linkedAccount] = await Promise.all([getDailyLeaderboard({ key: region.key }), getLinkedAccount()])
+  const [leaderboard, linkedAccount, plusClans] = await Promise.all([
+    getDailyLeaderboard({ key: region.key }),
+    getLinkedAccount(),
+    getAllPlusClanTags(),
+  ])
 
   return (
     <LeaderboardContent
@@ -38,6 +43,7 @@ export default async function DailyLeaderboardPage({ params }) {
       lastUpdated={leaderboard?.lbLastUpdated}
       linkedAccount={linkedAccount}
       location={location}
+      plusClans={plusClans}
     />
   )
 }

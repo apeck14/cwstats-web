@@ -82,7 +82,7 @@ export default function PlusFormModal() {
                   Add <b>CWStats.com</b> to your clan&apos;s description
                 </Text>
                 <InfoPopover
-                  color="var(--mantine-color-orange-6)"
+                  color="var(--mantine-color-orange-5)"
                   iconSize="0.9rem"
                   text="Family friendly clans can use CWStats instead."
                 />

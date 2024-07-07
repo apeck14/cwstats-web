@@ -43,7 +43,7 @@ const theme = createTheme({
   },
   cursorType: "pointer",
   defaultGradient: {
-    from: "#ffa500",
+    from: "#ff922b",
     to: "#ff237a",
     deg: 135,
   },
