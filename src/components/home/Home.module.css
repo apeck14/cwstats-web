@@ -7,7 +7,7 @@
 }
 
 .link {
-  color: #ffa500;
+  color: var(--mantine-color-orange-5);
   font-weight: 600;
 }
 

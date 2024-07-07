@@ -43,8 +43,8 @@ const theme = createTheme({
   },
   cursorType: "pointer",
   defaultGradient: {
-    from: "#ff922b",
-    to: "#ff237a",
+    from: "var(--mantine-color-orange-5)",
+    to: "var(--mantine-color-pink-6)",
     deg: 135,
   },
   fontFamily: SourceSans3.style.fontFamily,
@@ -57,7 +57,7 @@ export default function ThemeProvider({ children }) {
   return (
     <MantineProvider forceColorScheme="dark" theme={theme}>
       <Notifications />
-      <AppProgressBar color="#ff237a" options={{ showSpinner: false }} shallowRouting />
+      <AppProgressBar color="var(--mantine-color-pink-6)" options={{ showSpinner: false }} shallowRouting />
       {children}
     </MantineProvider>
   )

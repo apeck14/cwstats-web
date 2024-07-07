@@ -84,7 +84,7 @@ a {
 }
 
 .gradientText {
-  background: linear-gradient(to right bottom, #ffa500, #ff237a);
+  background: linear-gradient(to right bottom, var(--mantine-color-orange-5), var(--mantine-color-pink-6));
   background-clip: text;
   -webkit-text-fill-color: transparent;
 }

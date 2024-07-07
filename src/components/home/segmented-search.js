@@ -21,7 +21,7 @@ export default function SegmentedSearch() {
   return (
     <>
       <SegmentedControl
-        color={currentSegment === "Clans" ? "pink.6" : "#FFA500"}
+        color={currentSegment === "Clans" ? "pink.6" : "orange.5"}
         data={["Clans", "Players"]}
         onChange={onSegmentChange}
         radius="sm"
