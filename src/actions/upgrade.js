@@ -7,6 +7,26 @@ import clientPromise from "@/lib/mongodb"
 
 import { getClan } from "./supercell"
 
+export const sendPlusWebhookEmbed = (type, clan = {}) => {
+  const embed = {}
+
+  if (type === "ADD_PLUS") {
+    embed.color = 0xffa500
+    embed.title = "__New Plus Clan!__"
+  } else if (type === "REMOVE_PLUS") {
+    embed.color = 0xff0f0f
+    embed.title = "__Plus Clan Removed!__"
+  }
+
+  embed.description = `**Clan**: [${clan.name}](https:cwstats.com/clan/${clan.tag.substring(1)})\n**Tag**: ${clan.tag}`
+
+  return fetch(process.env.WEBHOOK_URL, {
+    body: JSON.stringify({ embeds: [embed] }),
+    headers: { "Content-Type": "application/json" },
+    method: "POST",
+  })
+}
+
 export async function addPlus(tag) {
   const { data: clan, error } = await getClan(tag)
 
@@ -28,6 +48,11 @@ export async function addPlus(tag) {
     if (clanAlreadyPlus) return { error: "Clan is already activated. 🎉" }
 
     await plus.insertOne({ tag: clan.tag, hourlyAverages: [] })
+
+    sendPlusWebhookEmbed("ADD_PLUS", {
+      name: clan.name,
+      tag: clan.tag,
+    })
 
     return { name: clan.name, tag: clan.tag }
   } catch {
