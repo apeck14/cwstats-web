@@ -34,6 +34,7 @@ export default function RaceItems({ clans, isColosseum }) {
             href={`/clan/${c.tag.substring(1)}/race`}
             key={c.tag}
             p={{ base: "sm", md: "md" }}
+            prefetch={false}
             radius="md"
           >
             <Group wrap="nowrap">

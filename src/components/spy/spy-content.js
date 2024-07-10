@@ -112,6 +112,7 @@ export default function SpyContent() {
                   <Link
                     className="text"
                     href={player?.clan?.tag ? `/clan/${player.clan.tag.substring(1)}` : "/"}
+                    prefetch={false}
                     style={{ color: "var(--mantine-color-gray-1)" }}
                   >
                     {player?.clan?.name}
