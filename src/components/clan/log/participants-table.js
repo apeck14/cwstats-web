@@ -65,7 +65,7 @@ export default function ParticipantsTable({ activeWeek }) {
           <Table.Tr fw={500} fz={{ base: "0.8rem", md: "1rem" }} key={m.tag}>
             <Table.Td ta="center">{m.rank}</Table.Td>
             <Table.Td>
-              <Link className="pinkText" href={`/player/${formattedTag}`}>
+              <Link className="pinkText" href={`/player/${formattedTag}`} prefetch={false}>
                 {m.name}
               </Link>
             </Table.Td>

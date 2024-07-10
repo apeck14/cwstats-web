@@ -72,7 +72,7 @@ export default function ParticipantsTable({ memberList, participants }) {
         <Table.Tr bg={!m.inClan ? "orange" : ""} fw={500} fz={{ base: "0.85rem", md: "0.95rem" }} key={m.tag}>
           <Table.Td ta="center">{m.rank}</Table.Td>
           <Table.Td>
-            <Link className="pinkText" href={`/player/${m.tag.substring(1)}`}>
+            <Link className="pinkText" href={`/player/${m.tag.substring(1)}`} prefetch={false}>
               {m.name}
             </Link>
           </Table.Td>

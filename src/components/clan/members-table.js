@@ -88,14 +88,14 @@ export default function MembersTable({ members }) {
             </Table.Td>
             <Table.Td ta="center">{m.trophies}</Table.Td>
             <Table.Td visibleFrom="md">
-              <Link className="pinkText" href={`/player/${formattedTag}`}>
+              <Link className="pinkText" href={`/player/${formattedTag}`} prefetch={false}>
                 {m.name}
               </Link>
             </Table.Td>
             {/* mobile player name cell */}
             <Table.Td hiddenFrom="md">
               <Stack gap={0}>
-                <Link className="pinkText" href={`/player/${formattedTag}`}>
+                <Link className="pinkText" href={`/player/${formattedTag}`} prefetch={false}>
                   <Text fw={600} fz="0.9rem">
                     {m.name}
                   </Text>
