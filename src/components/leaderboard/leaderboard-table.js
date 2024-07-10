@@ -61,10 +61,9 @@ export default function LeaderboardTable({ clans, isWarLb, league, plusClans, sa
               alt="Clan Badge"
               height={isMobile ? 24 : 28}
               src={`/assets/badges/${getClanBadgeFileName(c.badgeId, c.clanScore)}.webp`}
-              unoptimized
             />
             <Group gap={isMobile ? "0.45rem" : "xs"}>
-              <Link className="pinkText" href={`/clan/${c.tag.substring(1)}/race`}>
+              <Link className="pinkText" href={`/clan/${c.tag.substring(1)}/race`} prefetch={false}>
                 {c.name}
               </Link>
               {isPlus && <PlusIcon isPlus showPopover={false} size={isMobile ? 12 : 16} tag={c.tag.substring(1)} />}
@@ -73,7 +72,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, plusClans, sa
         </Table.Td>
 
         <Table.Td className={classes.flagCell} ta="center">
-          <Link href={flagHref}>
+          <Link href={flagHref} prefetch={false}>
             <Image
               alt={formattedKey}
               className={classes.flag}
