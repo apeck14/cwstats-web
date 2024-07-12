@@ -101,9 +101,7 @@ export async function getRaceLog(tag, redirectOnError = false, getLogStats = fal
 }
 
 export async function getRace(tag, getRaceStats = false) {
-  return fetch(`${HOST}/api/clan/race?tag=${formatTag(tag)}&getRaceStats=${getRaceStats}`, {
-    next: { revalidate: 60 },
-  }).then((res) => res.json())
+  return fetch(`${HOST}/api/clan/race?tag=${formatTag(tag)}&getRaceStats=${getRaceStats}`).then((res) => res.json())
 }
 
 export async function getClanMembers(tag, redirectOnError = false) {
