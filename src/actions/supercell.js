@@ -88,7 +88,7 @@ export async function getPlayerBattleLog(tag, redirectOnError = false) {
 }
 
 export async function getClan(tag) {
-  return fetch(`${HOST}/api/clan?tag=${formatTag(tag)}`, { next: { revalidate: 90 } }).then((res) => res.json())
+  return fetch(`${HOST}/api/clan?tag=${formatTag(tag)}`).then((res) => res.json())
 }
 
 export async function getRaceLog(tag, redirectOnError = false, getLogStats = false) {
@@ -102,7 +102,7 @@ export async function getRaceLog(tag, redirectOnError = false, getLogStats = fal
 
 export async function getRace(tag, getRaceStats = false) {
   return fetch(`${HOST}/api/clan/race?tag=${formatTag(tag)}&getRaceStats=${getRaceStats}`, {
-    next: { revalidate: 30 },
+    next: { revalidate: 60 },
   }).then((res) => res.json())
 }
 
