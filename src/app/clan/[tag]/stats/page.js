@@ -1,11 +1,10 @@
 import { Container } from "@mantine/core"
+import { redirect } from "next/navigation"
 
 import { getClan } from "@/actions/supercell"
 import ClanHeader from "@/components/clan/header"
 import ComingSoon from "@/components/ui/coming-soon"
-import { getClanBadgeFileName } from "@/lib/functions/utils"
-
-export const dynamic = "force-dynamic"
+import { getClanBadgeFileName, getSupercellRedirectRoute } from "@/lib/functions/utils"
 
 export async function generateMetadata({ params }) {
   const { tag } = params
@@ -24,14 +23,17 @@ export async function generateMetadata({ params }) {
 
 export default async function ClanPlusPage({ params }) {
   const { tag } = params
-  const [{ data: clan }] = await Promise.all([getClan(tag, true)])
+  const { data: clan, status } = await getClan(tag)
 
-  return (
-    <>
-      <ClanHeader clan={clan} />
-      <Container size="lg">
-        <ComingSoon />
-      </Container>
-    </>
-  )
+  if (status !== 200) redirect(getSupercellRedirectRoute(status))
+  else {
+    return (
+      <>
+        <ClanHeader clan={clan} />
+        <Container size="lg">
+          <ComingSoon />
+        </Container>
+      </>
+    )
+  }
 }

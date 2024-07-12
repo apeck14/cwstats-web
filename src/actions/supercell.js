@@ -3,13 +3,12 @@
 import { redirect } from "next/navigation"
 import { Logger } from "next-axiom"
 
-import { getLogDetails, getRaceDetails } from "@/lib/functions/race"
-import { formatTag } from "@/lib/functions/utils"
+import { getLogDetails } from "@/lib/functions/race"
+import { formatTag, getSupercellRedirectRoute } from "@/lib/functions/utils"
 import clientPromise from "@/lib/mongodb"
+import { HOST, SUPERCELL_BASE_URL } from "@/static/constants"
 
-const BASE_URL = "https://proxy.royaleapi.dev/v1"
-
-const formatSupercellResponse = async (resp, redirectOnError) => {
+export const formatSupercellResponse = async (resp, redirectOnError) => {
   const { status } = resp
 
   if (status === 200) {
@@ -21,19 +20,18 @@ const formatSupercellResponse = async (resp, redirectOnError) => {
     }
   }
 
-  let error = "Unexpected error. Please try again."
+  if (redirectOnError) redirect(getSupercellRedirectRoute(status))
+  else {
+    let error = "Unexpected error. Please try again."
 
-  if (status === 404) error = "Not found."
-  else if (status === 429) error = "API limit exceeded. Please try again later."
-  else if (status === 503) error = "Maintenence break."
+    if (status === 404) error = "Not found."
+    else if (status === 429) error = "API limit exceeded. Please try again later."
+    else if (status === 503) error = "Maintenence break."
 
-  const redirectTo500 = status !== 404 && status !== 429 && status !== 503
-
-  if (redirectOnError) redirect(redirectTo500 ? "/500_" : `/${status}_`)
-
-  return {
-    error,
-    status,
+    return {
+      error,
+      status,
+    }
   }
 }
 
@@ -42,7 +40,7 @@ async function supercellRequest(url, redirectOnError) {
   let error = false
 
   try {
-    const resp = await fetch(`${BASE_URL}${url}`, options)
+    const resp = await fetch(`${SUPERCELL_BASE_URL}${url}`, options)
 
     return formatSupercellResponse(resp, redirectOnError)
   } catch {
@@ -89,8 +87,8 @@ export async function getPlayerBattleLog(tag, redirectOnError = false) {
   return supercellRequest(`/players/%23${formatTag(tag)}/battlelog`, redirectOnError)
 }
 
-export async function getClan(tag, redirectOnError = false) {
-  return supercellRequest(`/clans/%23${formatTag(tag)}`, redirectOnError)
+export async function getClan(tag) {
+  return fetch(`${HOST}/api/clan?tag=${formatTag(tag)}`).then((res) => res.json())
 }
 
 export async function getRaceLog(tag, redirectOnError = false, getLogStats = false) {
@@ -102,17 +100,8 @@ export async function getRaceLog(tag, redirectOnError = false, getLogStats = fal
   return log
 }
 
-export async function getRace(tag, redirectOnError = false, getRaceStats = false) {
-  const { data: race, error } = await supercellRequest(`/clans/%23${formatTag(tag)}/currentriverrace`, redirectOnError)
-
-  if (!error && race && getRaceStats) {
-    return {
-      ...race,
-      data: getRaceDetails(race),
-    }
-  }
-
-  return { data: null }
+export async function getRace(tag, getRaceStats = false) {
+  return fetch(`${HOST}/api/clan/race?tag=${formatTag(tag)}&getRaceStats=${getRaceStats}`).then((res) => res.json())
 }
 
 export async function getClanMembers(tag, redirectOnError = false) {

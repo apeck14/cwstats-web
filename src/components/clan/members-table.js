@@ -48,7 +48,7 @@ export default function MembersTable({ members }) {
 
   const mappedMembers = useMemo(
     () =>
-      members.map((m) => {
+      members?.map((m) => {
         const lastSeen = m.lastSeen ? parseDate(m.lastSeen) : new Date()
         return {
           arena: getArenaFileName(m?.arena?.name),
@@ -77,7 +77,7 @@ export default function MembersTable({ members }) {
 
   const rows = useMemo(
     () =>
-      mappedMembers.sort(columns[sortConfig.col][sortConfig.dir]).map((m) => {
+      mappedMembers?.sort(columns[sortConfig.col][sortConfig.dir]).map((m) => {
         const formattedTag = m.tag.substring(1)
 
         return (

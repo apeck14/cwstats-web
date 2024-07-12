@@ -2,6 +2,12 @@ import arenas from "@/static/arenas"
 import badges from "@/static/badges.json"
 import locations from "@/static/locations"
 
+export const getSupercellRedirectRoute = (status) => {
+  const redirectTo500 = status !== 404 && status !== 429 && status !== 503
+
+  return redirectTo500 ? "/500_" : `/${status}_`
+}
+
 export const formatTag = (str, withHastag = false) => {
   const tag = str
     .replace(/[^A-Za-z0-9]/g, "")
