@@ -31,10 +31,10 @@ export async function addPlus(tag) {
   const { data: clan, error } = await getClan(tag)
 
   if (error) return { error }
-  if (clan.members === 0) return { error: "Clan cannot have 0 members." }
+  if (clan.members === 0) return { error: "Clan no longer exists." }
   if (clan.clanWarTrophies < 3000) return { error: "Clan must have at least 3000 war trophies." }
 
-  // check description for "cwstats.com"
+  // check description for "cwstats" (FF clans can't use .com)
   const hasUrlInDescription = clan.description.toLowerCase().includes("cwstats")
   if (!hasUrlInDescription) return { error: 'Clan description must contain "CWStats.com".' }
 

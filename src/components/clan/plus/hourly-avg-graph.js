@@ -61,54 +61,57 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
   return (
     <Paper
       bg="gray.8"
+      mih="25rem"
       pb={{ base: "sm", md: "md" }}
       pr={{ base: "md", md: "lg" }}
       pt={{ base: "xl", md: "3rem" }}
       radius="md"
     >
-      <ResponsiveContainer height={isMobile ? 250 : 400} width="100%">
-        <ComposedChart data={data}>
-          <XAxis
-            dataKey="hour"
-            fontSize={isMobile ? "0.8rem" : "0.9rem"}
-            fontWeight={600}
-            ticks={generateXTicks(values.map((e) => e.hour))}
-          >
-            <Label dy={14} fontSize={isMobile ? "0.75rem" : "0.85rem"} fontWeight={600} value="Time (UTC)" />
-          </XAxis>
-          <YAxis
-            domain={[yAxisMin, yAxisMax]}
-            fontSize={isMobile ? "0.8rem" : "0.9rem"}
-            fontWeight={600}
-            ticks={generateYTicks(yAxisMin, yAxisMax)}
-            width={isMobile ? 35 : 50}
-          />
-          <Bar
-            barSize={barSize}
-            dataKey="Last Hour Avg."
-            fill="var(--mantine-color-gray-6)"
-            radius={isMobile ? [3, 3, 0, 0] : [5, 5, 0, 0]}
-          />
-          <Area
-            dataKey="Fame Avg."
-            fill="var(--mantine-color-orange-5)"
-            fillOpacity={0.25}
-            stroke="var(--mantine-color-orange-5)"
-            strokeWidth={5}
-            type="monotone"
-          />
-          <Tooltip
-            contentStyle={{
-              backgroundColor: "var(--mantine-color-gray-8)",
-              borderColor: "var(--mantine-color-gray-5)",
-              borderRadius: "0.5rem",
-              fontSize: "0.9rem",
-              fontWeight: 700,
-            }}
-            labelFormatter={(val) => `Time (UTC): ${val}`}
-          />
-        </ComposedChart>
-      </ResponsiveContainer>
+      {Object.keys(data).length ? (
+        <ResponsiveContainer height={isMobile ? 250 : 400} width="100%">
+          <ComposedChart data={data}>
+            <XAxis
+              dataKey="hour"
+              fontSize={isMobile ? "0.8rem" : "0.9rem"}
+              fontWeight={600}
+              ticks={generateXTicks(values.map((e) => e.hour))}
+            >
+              <Label dy={14} fontSize={isMobile ? "0.75rem" : "0.85rem"} fontWeight={600} value="Time (UTC)" />
+            </XAxis>
+            <YAxis
+              domain={[yAxisMin, yAxisMax]}
+              fontSize={isMobile ? "0.8rem" : "0.9rem"}
+              fontWeight={600}
+              ticks={generateYTicks(yAxisMin, yAxisMax)}
+              width={isMobile ? 35 : 50}
+            />
+            <Bar
+              barSize={barSize}
+              dataKey="Last Hour Avg."
+              fill="var(--mantine-color-gray-6)"
+              radius={isMobile ? [3, 3, 0, 0] : [5, 5, 0, 0]}
+            />
+            <Area
+              dataKey="Fame Avg."
+              fill="var(--mantine-color-orange-5)"
+              fillOpacity={0.25}
+              stroke="var(--mantine-color-orange-5)"
+              strokeWidth={5}
+              type="monotone"
+            />
+            <Tooltip
+              contentStyle={{
+                backgroundColor: "var(--mantine-color-gray-8)",
+                borderColor: "var(--mantine-color-gray-5)",
+                borderRadius: "0.5rem",
+                fontSize: "0.9rem",
+                fontWeight: 700,
+              }}
+              labelFormatter={(val) => `Time (UTC): ${val}`}
+            />
+          </ComposedChart>
+        </ResponsiveContainer>
+      ) : null}
     </Paper>
   )
 }
