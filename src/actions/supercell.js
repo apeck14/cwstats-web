@@ -88,7 +88,8 @@ export async function getPlayerBattleLog(tag, redirectOnError = false) {
 }
 
 export async function getClan(tag) {
-  return fetch(`${HOST}/api/clan?tag=${formatTag(tag)}`).then((res) => res.json())
+  const options = { cache: "no-store" }
+  return fetch(`${HOST}/api/clan?tag=${formatTag(tag)}`, options).then((res) => res.json())
 }
 
 export async function getRaceLog(tag, redirectOnError = false, getLogStats = false) {
@@ -101,7 +102,10 @@ export async function getRaceLog(tag, redirectOnError = false, getLogStats = fal
 }
 
 export async function getRace(tag, getRaceStats = false) {
-  return fetch(`${HOST}/api/clan/race?tag=${formatTag(tag)}&getRaceStats=${getRaceStats}`).then((res) => res.json())
+  const options = { cache: "no-store" }
+  return fetch(`${HOST}/api/clan/race?tag=${formatTag(tag)}&getRaceStats=${getRaceStats}`, options).then((res) =>
+    res.json(),
+  )
 }
 
 export async function getClanMembers(tag, redirectOnError = false) {
@@ -122,6 +126,6 @@ export async function searchClans(query, sortByWarTrophies = true, limit = 5, re
   return resp
 }
 
-export async function getWarLeaderboard(id, redirectOnError = false) {
-  return supercellRequest(`/locations/${id}/rankings/clanwars`, redirectOnError)
+export async function getWarLeaderboard(id, redirectOnError = false, limit = 1000) {
+  return supercellRequest(`/locations/${id}/rankings/clanwars?limit=${limit}`, redirectOnError)
 }
