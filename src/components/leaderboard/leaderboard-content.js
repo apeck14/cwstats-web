@@ -14,7 +14,7 @@ import LeaderboardTable from "./leaderboard-table"
 import LeagueSegmentControl from "./league-segment-control"
 import SavedClansToggle from "./saved-clans-toggle"
 
-export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linkedAccount, location }) {
+export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linkedAccount, location, plusClans }) {
   const region = getRegionByKey(location)
   const searchParamsData = useSearchParams()
   const searchParams = searchParamsData.toString()
@@ -74,6 +74,7 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linked
             clans={clans}
             isWarLb={isWarLb}
             league={league}
+            plusClans={plusClans}
             savedClans={linkedAccount?.savedClans?.map((c) => c.tag)}
             search={search}
             showSavedClans={showSaved}

@@ -7,11 +7,12 @@ import Image from "../ui/image"
 import InfoPopover from "../ui/info-popover"
 
 export default function DeckContent({ decks, loading }) {
+  const isMobile = useMediaQuery("(max-width: 30em)")
   const isTablet = useMediaQuery("(max-width: 48em)")
 
   const modeIconPx = isTablet ? 24 : 32
-  const cardIconPx = isTablet ? 38 : 44
-  const deckGap = `${isTablet ? 0.25 : 0.5}rem`
+  const cardIconPx = isMobile ? 34 : 36
+  const deckGap = "0.1rem"
 
   return (
     <Stack
@@ -36,15 +37,9 @@ export default function DeckContent({ decks, loading }) {
             ) : (
               decks.duel.map((d) => (
                 <Group gap={deckGap} key={d.cards[0]}>
-                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.webp`} width={modeIconPx} />
+                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.webp`} />
                   {d.cards.map((c) => (
-                    <Image
-                      alt={c}
-                      height={cardIconPx}
-                      key={c}
-                      src={`/assets/cards/${getCardFileName(c)}.webp`}
-                      width={cardIconPx}
-                    />
+                    <Image alt={c} height={cardIconPx} key={c} src={`/assets/cards/${getCardFileName(c)}.webp`} />
                   ))}
                 </Group>
               ))
@@ -62,15 +57,9 @@ export default function DeckContent({ decks, loading }) {
             ) : (
               decks.other.map((d) => (
                 <Group gap={deckGap} key={d.cards[0]}>
-                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.webp`} width={modeIconPx} />
+                  <Image alt={d.img} height={modeIconPx} src={`/assets/gamemodes/${d.img}.webp`} />
                   {d.cards.map((c) => (
-                    <Image
-                      alt={c}
-                      height={cardIconPx}
-                      key={c}
-                      src={`/assets/cards/${getCardFileName(c)}.webp`}
-                      width={cardIconPx}
-                    />
+                    <Image alt={c} height={cardIconPx} key={c} src={`/assets/cards/${getCardFileName(c)}.webp`} />
                   ))}
                 </Group>
               ))

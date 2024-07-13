@@ -57,6 +57,7 @@ export default function AppFooter() {
                       fz="0.9rem"
                       href={l.url}
                       key={l.label}
+                      prefetch={false}
                       target="_blank"
                       w="fit-content"
                     >
@@ -75,7 +76,14 @@ export default function AppFooter() {
           <Text c="dimmed" fz={{ base: "xs", md: "sm" }}>
             ©2024 CWStats. All rights reserved.
           </Text>
-          <Button component={Link} href="/donate" leftSection={<IconHeart size="1rem" />} size="xs" variant="light">
+          <Button
+            component={Link}
+            href="/donate"
+            leftSection={<IconHeart size="1rem" />}
+            prefetch={false}
+            size="xs"
+            variant="light"
+          >
             Donate
           </Button>
         </Group>

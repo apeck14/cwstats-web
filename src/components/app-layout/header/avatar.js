@@ -4,6 +4,7 @@ import Link from "next/link"
 import { signIn, signOut, useSession } from "next-auth/react"
 
 import AvatarWithFallback from "./avatar-with-fallback"
+import classes from "./header.module.css"
 
 export default function AvatarDropdown() {
   const { data: session } = useSession()
@@ -61,6 +62,7 @@ export default function AvatarDropdown() {
   ) : (
     <ActionIcon
       aria-label="Sign In with Discord"
+      className={classes.discord}
       color="#7289da"
       onClick={() => signIn("discord")}
       radius="lg"

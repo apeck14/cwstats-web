@@ -45,4 +45,5 @@
 .clan:hover {
   background-color: var(--mantine-color-gray-7) !important;
   cursor: pointer;
+  transition: 0.2s ease;
 }

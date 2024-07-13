@@ -1,6 +1,7 @@
 import "@mantine/core/styles.css"
 import "./globals.css"
 import "@mantine/notifications/styles.css"
+import "@mantine/charts/styles.css"
 
 import { GoogleAnalytics } from "@next/third-parties/google"
 import { getServerSession } from "next-auth"

@@ -21,7 +21,7 @@ export default function ServerCard({ icon, id, name }) {
           <Text fw={600} fz="1.1rem">
             {truncateString(name, 28)}
           </Text>
-          <Button component={Link} href={`/me/servers/${id}`} rightSection={<IconArrowNarrowRight />}>
+          <Button component={Link} href={`/me/servers/${id}`} prefetch={false} rightSection={<IconArrowNarrowRight />}>
             Go
           </Button>
         </Group>

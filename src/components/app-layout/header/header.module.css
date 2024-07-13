@@ -60,3 +60,7 @@
 .mobuleUpgradeBtn {
   margin-top: auto;
 }
+
+.discord:hover {
+  transition: 0.2s ease;
+}

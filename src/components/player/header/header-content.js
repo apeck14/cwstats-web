@@ -61,13 +61,14 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
                 <FollowButton followed={followed} handleToggle={handleFollowToggle} showText />
                 <Group gap="xs" hiddenFrom="md">
                   <FollowButton followed={followed} handleToggle={handleFollowToggle} />
-                  <ActionIcon color="gray" variant="light">
-                    <Link
-                      href={(isMobile ? PLAYER_IN_GAME_LINK_MOBILE : PLAYER_IN_GAME_LINK) + formattedTag}
-                      target="_blank"
-                    >
-                      <IconExternalLink size={20} />
-                    </Link>
+                  <ActionIcon
+                    color="gray"
+                    component={Link}
+                    href={(isMobile ? PLAYER_IN_GAME_LINK_MOBILE : PLAYER_IN_GAME_LINK) + formattedTag}
+                    target="_blank"
+                    variant="light"
+                  >
+                    <IconExternalLink size={20} />
                   </ActionIcon>
                 </Group>
               </Group>
@@ -77,7 +78,7 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
                     {player?.tag}
                   </Text>
                   <Group gap="xs">
-                    <Image alt="Trophy" height={16} src="/assets/icons/trophy.webp" width={14} />
+                    <Image alt="Trophy" height={16} src="/assets/icons/trophy.webp" />
                     <Text fw={600} fz={itemFz}>
                       {player?.trophies} / {player?.bestTrophies}
                     </Text>

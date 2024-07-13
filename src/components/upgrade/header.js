@@ -1,4 +1,4 @@
-import { Badge, Card, Group, rem, SimpleGrid, Stack, Text, Title } from "@mantine/core"
+import { Badge, Card, Divider, Group, rem, SimpleGrid, Stack, Text, Title } from "@mantine/core"
 import { IconChartCandle, IconChartHistogram, IconCrown } from "@tabler/icons-react"
 
 const mockdata = [
@@ -28,6 +28,7 @@ export default function UpgradeHeader() {
       <Text c="white" fw={600} fz="lg" mt="md">
         {feature.title}
       </Text>
+      <Divider color="pink" mt="xs" size="md" w="5rem" />
       <Text c="gray.1" fz="sm" mt="sm">
         {feature.description}
       </Text>

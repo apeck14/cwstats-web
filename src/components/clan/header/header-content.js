@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionIcon, Button, Container, Group, Stack, Text, Title } from "@mantine/core"
+import { Button, Container, Group, Stack, Text, Title } from "@mantine/core"
 import { useDebouncedCallback, useMediaQuery } from "@mantine/hooks"
 import { IconExternalLink } from "@tabler/icons-react"
 import Link from "next/link"
@@ -8,14 +8,17 @@ import { usePathname } from "next/navigation"
 import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
+import PlusIcon from "@/components/ui/plus-icon"
 import { getClanBadgeFileName } from "@/lib/functions/utils"
-import { CLAN_IN_GAME_LINK, CLAN_IN_GAME_LINK_MOBILE } from "@/static/constants"
+import { CLAN_IN_GAME_LINK } from "@/static/constants"
 
 import FollowButton from "../../ui/follow-button"
 import Image from "../../ui/image"
 import classes from "./header.module.css"
+import MobileActionsMenu from "./mobile-actions-popover"
+import PlusDropdown from "./plus-dropdown"
 
-export default function HeaderContent({ clan, clanFollowed, discordID, followClan, unfollowClan }) {
+export default function HeaderContent({ clan, clanFollowed, discordID, followClan, isPlus, unfollowClan }) {
   const router = useRouter()
   const pathname = usePathname()
   const [followed, setFollowed] = useState(clanFollowed)
@@ -29,7 +32,9 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
       ? "log"
       : pathname.includes("/stats")
         ? "stats"
-        : "home"
+        : pathname.includes("/plus")
+          ? "plus"
+          : "home"
 
   const badge = getClanBadgeFileName(clan?.badgeId, clan?.clanWarTrophies)
 
@@ -57,48 +62,45 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
               height={isMobile ? 40 : 60}
               src={`/assets/badges/${badge}.webp`}
               unoptimized
-              width={45}
+              visible={!isMobile}
             />
             <Stack gap="xs" style={{ flex: "1 1 auto" }}>
-              <Group justify="space-between">
-                <Title fz={`${isMobile ? 1.5 : 2}rem`}>{clan?.name}</Title>
-                <FollowButton followed={followed} handleToggle={handleFollowToggle} showText />
-                <Group gap="xs" hiddenFrom="md">
-                  <FollowButton followed={followed} handleToggle={handleFollowToggle} />
-                  <ActionIcon color="gray" variant="light">
-                    <Link
-                      href={(isMobile ? CLAN_IN_GAME_LINK_MOBILE : CLAN_IN_GAME_LINK) + formattedTag}
-                      target="_blank"
-                    >
-                      <IconExternalLink size={20} />
-                    </Link>
-                  </ActionIcon>
+              <Group gap={isMobile ? "xs" : "md"} justify="space-between">
+                <Group gap={isMobile ? "xs" : "md"}>
+                  {isMobile && <Image alt="Badge" height={30} src={`/assets/badges/${badge}.webp`} unoptimized />}
+                  <Title fz={`${isMobile ? 1.5 : 2}rem`}>{clan?.name}</Title>
+                  <PlusIcon isPlus={isPlus} size={isMobile ? 20 : 24} tag={formattedTag} />
                 </Group>
+                <FollowButton followed={followed} handleToggle={handleFollowToggle} showText />
+                {isMobile && (
+                  <MobileActionsMenu followed={followed} handleFollowToggle={handleFollowToggle} tag={formattedTag} />
+                )}
               </Group>
               <Group justify="space-between">
-                <Group gap={isMobile ? "lg" : "xl"}>
-                  <Text fw={600}>{clan?.tag}</Text>
+                <Group c="gray.2" gap={isMobile ? "lg" : "xl"}>
+                  <Text fw={700}>{clan?.tag}</Text>
                   <Group gap="xs">
-                    <Image alt="Trophy" height={16} src="/assets/icons/trophy.webp" width={14} />
-                    <Text fw={600}>{clan?.clanScore}</Text>
+                    <Image alt="Trophy" height={16} src="/assets/icons/trophy.webp" />
+                    <Text fw={700}>{clan?.clanScore}</Text>
                   </Group>
                   <Group gap="xs">
-                    <Image alt="CW Trophy" height={16} src="/assets/icons/cw-trophy.webp" width={14} />
-                    <Text fw={600}>{clan?.clanWarTrophies}</Text>
+                    <Image alt="CW Trophy" height={16} src="/assets/icons/cw-trophy.webp" />
+                    <Text fw={700}>{clan?.clanWarTrophies}</Text>
                   </Group>
                 </Group>
 
-                <Link href={CLAN_IN_GAME_LINK + formattedTag} target="_blank">
-                  <Button
-                    color="gray"
-                    leftSection={<IconExternalLink size={20} />}
-                    size="xs"
-                    variant="light"
-                    visibleFrom="md"
-                  >
-                    Open In-Game
-                  </Button>
-                </Link>
+                <Button
+                  color="gray"
+                  component={Link}
+                  href={CLAN_IN_GAME_LINK + formattedTag}
+                  leftSection={<IconExternalLink size={20} />}
+                  size="xs"
+                  target="_blank"
+                  variant="light"
+                  visibleFrom="md"
+                >
+                  Open In-Game
+                </Button>
               </Group>
             </Stack>
           </Group>
@@ -119,6 +121,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
             <Link className={classes.link} data-active={activeTab === "stats"} href={`/clan/${formattedTag}/stats`}>
               Stats
             </Link>
+            <PlusDropdown active={activeTab === "plus"} tag={formattedTag} />
           </Group>
         </Container>
       </Group>

@@ -48,7 +48,7 @@ export default function MembersTable({ members }) {
 
   const mappedMembers = useMemo(
     () =>
-      members.map((m) => {
+      members?.map((m) => {
         const lastSeen = m.lastSeen ? parseDate(m.lastSeen) : new Date()
         return {
           arena: getArenaFileName(m?.arena?.name),
@@ -77,7 +77,7 @@ export default function MembersTable({ members }) {
 
   const rows = useMemo(
     () =>
-      mappedMembers.sort(columns[sortConfig.col][sortConfig.dir]).map((m) => {
+      mappedMembers?.sort(columns[sortConfig.col][sortConfig.dir]).map((m) => {
         const formattedTag = m.tag.substring(1)
 
         return (
@@ -88,14 +88,14 @@ export default function MembersTable({ members }) {
             </Table.Td>
             <Table.Td ta="center">{m.trophies}</Table.Td>
             <Table.Td visibleFrom="md">
-              <Link className="pinkText" href={`/player/${formattedTag}`}>
+              <Link className="pinkText" href={`/player/${formattedTag}`} prefetch={false}>
                 {m.name}
               </Link>
             </Table.Td>
             {/* mobile player name cell */}
             <Table.Td hiddenFrom="md">
               <Stack gap={0}>
-                <Link className="pinkText" href={`/player/${formattedTag}`}>
+                <Link className="pinkText" href={`/player/${formattedTag}`} prefetch={false}>
                   <Text fw={600} fz="0.9rem">
                     {m.name}
                   </Text>

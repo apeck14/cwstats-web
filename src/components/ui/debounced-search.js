@@ -118,7 +118,6 @@ export default function DebouncedSearch({
                         height={clanBadgePx}
                         src={`/assets/badges/${getClanBadgeFileName(r.badgeId, r.clanWarTrophies)}.webp`}
                         unoptimized
-                        width={clanBadgePx}
                       />
                     )}
                     <Text fw={600}>{r.name}</Text>

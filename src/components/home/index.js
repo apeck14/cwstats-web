@@ -154,7 +154,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                 </Button>
               </Stack>
 
-              <Image alt="iPhone Discord Bot" height={1000} src="/assets/stock/iPhoneDiscordBot.webp" />
+              <Image alt="iPhone Discord Bot" height={320} src="/assets/stock/iPhoneDiscordBot.webp" />
             </Group>
           </HomeContainer>
         </Stack>

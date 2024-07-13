@@ -1,6 +1,6 @@
 "use server"
 
-const HOST = process.env.NEXTAUTH_URL
+import { HOST } from "@/static/constants"
 
 export async function getPlayersByQuery(query, limit = 5) {
   const options = { cache: "no-store" }

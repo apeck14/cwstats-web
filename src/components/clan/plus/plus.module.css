@@ -1,0 +1,10 @@
+.day {
+  border: 2px solid var(--mantine-color-gray-6);
+  background-color: transparent;
+}
+
+.day:hover {
+  background-color: var(--mantine-color-gray-7);
+  cursor: pointer;
+  transition: 0.2s ease;
+}

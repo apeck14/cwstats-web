@@ -7,21 +7,12 @@
 }
 
 .link {
-  color: #ffa500;
+  color: var(--mantine-color-orange-5);
   font-weight: 600;
 }
 
 .link:hover {
   text-decoration: underline;
-}
-
-.name {
-  font-weight: 700;
-}
-
-.name:hover {
-  color: var(--mantine-color-gray-2);
-  cursor: pointer;
 }
 
 .card {

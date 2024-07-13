@@ -14,4 +14,5 @@
 
 .flag:hover {
   filter: brightness(70%);
+  transition: 0.2s ease;
 }

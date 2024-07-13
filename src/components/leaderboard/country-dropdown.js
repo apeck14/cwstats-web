@@ -12,7 +12,7 @@ import Image from "../ui/image"
 const countries = locations.map((l) => ({
   component: (
     <Group gap="xs" wrap="nowrap">
-      <Image alt="Flag" height={16} src={`/assets/flag-icons/${l.key.toLowerCase()}.webp`} unoptimized />
+      <Image alt="Flag" height={16} src={`/assets/flag-icons/${l.key.toLowerCase()}.webp`} />
       <Text fz="0.8rem">{l.name}</Text>
     </Group>
   ),

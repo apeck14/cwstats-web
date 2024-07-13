@@ -18,6 +18,11 @@ module.exports = withAxiom({
       { hostname: "imgur.com", protocol: "https" },
     ],
   },
+  logging: {
+    fetches: {
+      fullUrl: true,
+    },
+  },
   poweredByHeader: false,
   reactStrictMode: true,
   redirects: async () => [

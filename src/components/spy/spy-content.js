@@ -89,7 +89,12 @@ export default function SpyContent() {
               {showSkeleton ? (
                 <Skeleton height="1.5rem" my="0.4rem" width="10rem" />
               ) : (
-                <Link className="text" href={`/player/${player.tag.substring(1)}`} style={{ fontSize: "1.5rem" }}>
+                <Link
+                  className="text"
+                  href={`/player/${player.tag.substring(1)}`}
+                  prefetch={false}
+                  style={{ fontSize: "1.5rem" }}
+                >
                   {player?.name}
                 </Link>
               )}
@@ -98,13 +103,7 @@ export default function SpyContent() {
                 {showSkeleton ? (
                   <Skeleton height={24} width={20} />
                 ) : (
-                  <Image
-                    alt="Clan Badge"
-                    height={24}
-                    src={`/assets/badges/${player?.clan?.badge}.webp`}
-                    unoptimized
-                    width={12}
-                  />
+                  <Image alt="Clan Badge" height={24} src={`/assets/badges/${player?.clan?.badge}.webp`} />
                 )}
 
                 {showSkeleton ? (
@@ -113,6 +112,7 @@ export default function SpyContent() {
                   <Link
                     className="text"
                     href={player?.clan?.tag ? `/clan/${player.clan.tag.substring(1)}` : "/"}
+                    prefetch={false}
                     style={{ color: "var(--mantine-color-gray-1)" }}
                   >
                     {player?.clan?.name}

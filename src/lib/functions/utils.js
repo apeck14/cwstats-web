@@ -1,5 +1,12 @@
+import arenas from "@/static/arenas"
 import badges from "@/static/badges.json"
 import locations from "@/static/locations"
+
+export const getSupercellRedirectRoute = (status) => {
+  const redirectTo500 = status !== 404 && status !== 429 && status !== 503
+
+  return redirectTo500 ? "/500_" : `/${status}_`
+}
 
 export const formatTag = (str, withHastag = false) => {
   const tag = str
@@ -35,6 +42,28 @@ export const getClanBadgeFileName = (badgeId, trophyCount) => {
   return `${badgeName}_${league}`
 }
 
+export const getClanBadgeEmoji = (badgeId, trophyCount) => {
+  if (badgeId === -1 || badgeId === null) return "no_clan" // no clan
+
+  const badgeName = badges.find((b) => b.id === badgeId).name
+  let league
+
+  if (trophyCount >= 5000) league = "legendary3"
+  else if (trophyCount >= 4000) league = "legendary2"
+  else if (trophyCount >= 3000) league = "legendary1"
+  else if (trophyCount >= 2500) league = "gold3"
+  else if (trophyCount >= 2000) league = "gold2"
+  else if (trophyCount >= 1500) league = "gold1"
+  else if (trophyCount >= 1200) league = "silver3"
+  else if (trophyCount >= 900) league = "silver2"
+  else if (trophyCount >= 600) league = "silver1"
+  else if (trophyCount >= 400) league = "bronze3"
+  else if (trophyCount >= 200) league = "bronze2"
+  else league = "bronze1"
+
+  return `${badgeName}_${league}`
+}
+
 export const getCardFileName = (str) => str.toLowerCase().replace(/ /g, "-").replace(/\./g, "")
 
 export const getCountryKeyById = (countryId) => {
@@ -59,10 +88,12 @@ export const getRegionById = (id) => {
   return locations.find((l) => l.id === id)
 }
 
-export const getArenaFileName = (arenaStr) => {
-  if (!arenaStr) return "arena0"
+export const getArenaFileName = (arenaName) => {
+  if (!arenaName) return "arena0"
 
-  return arenaStr.toLowerCase().replace(/ /g, "")
+  const { arena } = arenas.find((a) => a.name === arenaName) || {}
+
+  return `arena${arena ?? 0}`
 }
 
 export const formatClanType = (type) => {
@@ -106,4 +137,10 @@ export const mongoSanitize = (val) => {
     }
   }
   return val
+}
+
+export const intToHex = (int) => {
+  if (!int) return "#9aaab4"
+
+  return `#${int.toString(16).padStart(6, "0")}`
 }

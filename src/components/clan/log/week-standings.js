@@ -39,6 +39,7 @@ export default function WeekStandings({ activeWeek, standings, startTime, tag })
             href={`/clan/${c.tag.substring(1)}/log`}
             key={c.tag}
             p={{ base: "sm", md: "md" }}
+            prefetch={false}
             radius="md"
           >
             <Group justify="space-between">

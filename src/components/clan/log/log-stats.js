@@ -4,29 +4,24 @@ import { Box, Flex, Group, NumberFormatter, Paper, Progress, SimpleGrid, Stack, 
 
 import RaceRing from "../race-ring"
 
-const colors = ["pink", "#ffa500", "red"]
-
 export default function LogStats({ log }) {
   const { bestColAvg, bestColScore, bestWeekAvg, lastColAvg, lastColScore, logAvg, worstWeekAvg } = log || {}
 
   const avgData = [
     {
-      borderColor: "#fa5252",
-      color: colors[2],
+      color: "var(--mantine-color-red-6)",
       label: "Worst Avg.",
       perc: Math.max(0, ((worstWeekAvg - 100) / (225 - 100)) * 100),
       value: worstWeekAvg,
     },
     {
-      borderColor: "#ffa500",
-      color: colors[1],
+      color: "var(--mantine-color-orange-5)",
       label: "10 Week Avg.",
       perc: Math.max(0, ((logAvg - 100) / (225 - 100)) * 100),
       value: logAvg,
     },
     {
-      borderColor: "#ff237a",
-      color: colors[0],
+      color: "var(--mantine-color-pink-6)",
       label: "Best Avg.",
       perc: Math.max(0, ((bestWeekAvg - 100) / (225 - 100)) * 100),
       value: bestWeekAvg,
@@ -57,7 +52,7 @@ export default function LogStats({ log }) {
         </Progress.Root>
         <SimpleGrid cols={3}>
           {avgData.map((s) => (
-            <Box key={s.label} style={{ borderBottom: `0.25rem solid ${s.borderColor}` }}>
+            <Box key={s.label} style={{ borderBottom: `0.25rem solid ${s.color}` }}>
               <Text c="dimmed" fw={700} fz="xs" tt="uppercase">
                 {s.label}
               </Text>
@@ -78,9 +73,9 @@ export default function LogStats({ log }) {
           <Group>
             <RaceRing
               stat={{
-                color: "pink",
-                text: bestColAvg.toFixed(1),
-                value: Math.max(0, ((bestColAvg - 100) / (225 - 100)) * 100),
+                color: "var(--mantine-color-pink-6)",
+                text: bestColAvg?.toFixed(1) || "N/A",
+                value: bestColAvg ? Math.max(0, ((bestColAvg - 100) / (225 - 100)) * 100) : 0,
               }}
             />
             <Stack gap="0">
@@ -88,7 +83,7 @@ export default function LogStats({ log }) {
                 BEST COLOSSEUM
               </Text>
               <Text fw={700} size="xl">
-                <NumberFormatter thousandSeparator value={bestColScore} />
+                {bestColScore ? <NumberFormatter thousandSeparator value={bestColScore} /> : "N/A"}
               </Text>
             </Stack>
           </Group>
@@ -97,9 +92,9 @@ export default function LogStats({ log }) {
           <Group>
             <RaceRing
               stat={{
-                color: "#ffa500",
-                text: lastColAvg.toFixed(1),
-                value: Math.max(0, ((lastColAvg - 100) / (225 - 100)) * 100),
+                color: "var(--mantine-color-orange-5)",
+                text: lastColAvg?.toFixed(1) || "N/A",
+                value: lastColAvg ? Math.max(0, ((lastColAvg - 100) / (225 - 100)) * 100) : 0,
               }}
             />
             <Stack gap="0">
@@ -107,7 +102,7 @@ export default function LogStats({ log }) {
                 LAST COLOSSEUM
               </Text>
               <Text fw={700} size="xl">
-                <NumberFormatter thousandSeparator value={lastColScore} />
+                {lastColScore ? <NumberFormatter thousandSeparator value={lastColScore} /> : "N/A"}
               </Text>
             </Stack>
           </Group>

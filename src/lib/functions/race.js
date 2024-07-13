@@ -1,3 +1,5 @@
+import CW_LEAGUES from "@/static/cw-leagues"
+
 import { parseDate } from "./date-time"
 
 export const formatPlacement = (place) => {
@@ -256,6 +258,8 @@ export const getRaceDetails = (race) => {
 }
 
 export const getCompletedWeekAvg = (participants, finishTime) => {
+  if (!finishTime) return 0
+
   const finishDate = parseDate(finishTime)
   const dayOfWeek = finishDate.getUTCDay()
 
@@ -270,7 +274,46 @@ export const getCompletedWeekAvg = (participants, finishTime) => {
   return totalFame / totalExpectedAttacks
 }
 
+export const isColosseumFromStandings = (standings) => {
+  // determine league from clan scores (majority)
+  // determine if colosseum based on net trophy changes
+  const leagueCounts = { bronze: 0, gold: 0, legendary: 0, silver: 0 }
+
+  for (const c of standings) {
+    const { clanScore } = c.clan
+
+    if (clanScore < 600) leagueCounts.bronze++
+    else if (clanScore < 1500) leagueCounts.silver++
+    else if (clanScore < 3000) leagueCounts.gold++
+    else leagueCounts.legendary++
+  }
+
+  const totalClans = standings.length
+  const threshold = totalClans / 2
+
+  let league
+
+  for (const [leg, count] of Object.entries(leagueCounts)) {
+    if (count >= threshold) {
+      league = leg
+      break
+    }
+  }
+
+  const netTrophyChange = standings.reduce((a, b) => a + b.trophyChange, 0)
+
+  const cwLeague = CW_LEAGUES.find((l) => l.league === league)
+
+  // determine if netTrophyChange is closer to col trophy change for league or normal week
+  const colChangeDiff = Math.abs(cwLeague.netColTrophyChanges - netTrophyChange)
+  const normalChangeDiff = Math.abs(cwLeague.netTrophyChanges - netTrophyChange)
+
+  return colChangeDiff < normalChangeDiff
+}
+
 export const getLogDetails = (tag, log) => {
+  if (!log.length) return null
+
   const logStats = {
     bestColAvg: null,
     bestColScore: null,
@@ -293,8 +336,7 @@ export const getLogDetails = (tag, log) => {
     const { createdDate, seasonId, sectionIndex, standings } = week
     const { clan, rank, trophyChange } = standings.find((c) => c.clan.tag === tag)
 
-    const weekNetTrophyChange = standings.reduce((a, b) => a + b.trophyChange, 0)
-    const isColosseum = weekNetTrophyChange < -7
+    const isColosseum = isColosseumFromStandings(week.standings)
 
     // create week object
     const weekStats = {
