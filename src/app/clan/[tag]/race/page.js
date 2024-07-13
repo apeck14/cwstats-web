@@ -27,6 +27,8 @@ export async function generateMetadata({ params }) {
   }
 }
 
+export const dynamic = "force-dynamic"
+
 export default async function ClanRace({ params }) {
   const { tag } = params
   const [{ data: clan, status: clanStatus }, { data: race, status: raceStatus }] = await Promise.all([
