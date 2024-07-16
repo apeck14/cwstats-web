@@ -4,10 +4,5 @@
       "path": "/api/cron/update-lb-fame",
       "schedule": "*/30 * * * *"
     }
-  ],
-  "functions": {
-    "app/api/cron/**/*": {
-      "maxDuration": 300
-    }
-  }
+  ]
 }

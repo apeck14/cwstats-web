@@ -8,6 +8,7 @@ import { getAvgFame } from "@/lib/functions/race"
 import clientPromise from "@/lib/mongodb"
 
 export const dynamic = "force-dynamic"
+export const maxDuration = 300
 
 const getMinAttackThreshold = (clans) => {
   // remove clans in training day
