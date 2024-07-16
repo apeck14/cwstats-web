@@ -1,4 +1,4 @@
-import { chunk } from "lodash"
+import chunk from "lodash/chunk"
 import { NextResponse } from "next/server"
 import { Logger } from "next-axiom"
 
