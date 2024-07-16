@@ -1,3 +1,4 @@
+import { NextResponse } from "next/server"
 import { Logger } from "next-axiom"
 
 import { getAllDailyLbClans, getCurrentSeason } from "@/actions/api"
@@ -49,16 +50,16 @@ const getLastHourAvg = ({ attacksLastHour, attacksNow, avgLastHour, avgNow }) =>
  * - Update hourly averages for all CWStats+ clans
  */
 
-export async function GET(req, res) {
+export async function GET(req) {
   const log = new Logger()
 
   log.info("Updating daily leaderboard and hourly fame(s)...")
 
   try {
     // authenticate job
-    const authHeader = req.headers.get("authorization")
+    const authHeader = req.headers.get("Authorization")
     if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
-      return res.status(401).json({ error: "Unauthorized" })
+      return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
     const client = await clientPromise
@@ -251,9 +252,9 @@ export async function GET(req, res) {
       dailyLb.insertMany(clanAverages)
     }
 
-    return res.status(200).json({ success: true })
+    return NextResponse.json({ success: true }, { status: 200 })
   } catch (e) {
     log.error("Update LB & Hourly Fame Error", e)
-    return res.status(500).json({ error: e.message })
+    return NextResponse.json({ error: e.message }, { status: 500 })
   }
 }
