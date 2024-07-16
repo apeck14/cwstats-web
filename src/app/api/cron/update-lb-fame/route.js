@@ -55,6 +55,12 @@ export async function GET(req, res) {
   log.info("Updating daily leaderboard and hourly fame(s)...")
 
   try {
+    // authenticate job
+    const authHeader = req.headers.get("authorization")
+    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+      return res.status(401).json({ error: "Unauthorized" })
+    }
+
     const client = await clientPromise
     const db = client.db("General")
     const dailyLb = db.collection("Daily Clan Leaderboard")
@@ -245,7 +251,7 @@ export async function GET(req, res) {
       dailyLb.insertMany(clanAverages)
     }
 
-    return res.status(200).json({})
+    return res.status(200).json({ success: true })
   } catch (e) {
     log.error("Update LB & Hourly Fame Error", e)
     return res.status(500).json({ error: e.message })
