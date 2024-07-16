@@ -66,12 +66,6 @@ export async function GET(req) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
-    const client = await clientPromise
-    const db = client.db("General")
-    const dailyLb = db.collection("Daily Clan Leaderboard")
-    const statistics = db.collection("Statistics")
-    const CWStatsPlus = db.collection("CWStats+")
-
     // all tags from tracked regions / all CWStats+ clans / top 1000 lb to set global rank, if applicable
     const [clansToCheckRaces, plusClans, { data: allGlobalRankedClans, error: allGlobalRankedError }] =
       await Promise.all([getAllDailyLbClans(), getAllPlusClans(), getWarLeaderboard("global")])
@@ -249,6 +243,12 @@ export async function GET(req) {
 
     // update all hourly averages
     if (!IS_DEV) {
+      const client = await clientPromise
+      const db = client.db("General")
+      const dailyLb = db.collection("Daily Clan Leaderboard")
+      const statistics = db.collection("Statistics")
+      const CWStatsPlus = db.collection("CWStats+")
+
       for (const entry of hourlyAvgEntries) {
         const [tag, query] = entry
         CWStatsPlus.updateOne({ tag }, query)
