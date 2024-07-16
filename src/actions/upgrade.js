@@ -74,16 +74,21 @@ export async function isPlusClan(tag) {
   }
 }
 
-export async function getAllPlusClanTags() {
+export async function getAllPlusClans(tagsOnly = false) {
   try {
     const client = await clientPromise
     const db = client.db("General")
-    const plus = db.collection("CWStats+")
+    const CWStatsPlus = db.collection("CWStats+")
+    let data
 
-    const plusClans = await plus.distinct("tag")
+    if (tagsOnly) {
+      data = await CWStatsPlus.distinct("tag")
+    } else {
+      data = await CWStatsPlus.find({}).toArray()
+    }
 
-    return plusClans
-  } catch (e) {
+    return data
+  } catch {
     return []
   }
 }

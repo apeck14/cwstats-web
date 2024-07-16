@@ -1,6 +1,14 @@
 "use server"
 
+import { Logger } from "next-axiom"
+
+import { getDaysDiff, parseDate } from "@/lib/functions/date-time"
+import clientPromise from "@/lib/mongodb"
 import { HOST } from "@/static/constants"
+import locations from "@/static/locations"
+
+import { getClan, getRaceLog, getWarLeaderboard } from "./supercell"
+import { getAllPlusClans, sendPlusWebhookEmbed } from "./upgrade"
 
 export async function getPlayersByQuery(query, limit = 5) {
   const options = { cache: "no-store" }
@@ -18,4 +26,96 @@ export async function getDailyLeaderboard({ key, limit, maxTrophies, minTrophies
   )
 
   return leaderboard.json()
+}
+
+export async function getAllDailyLbClans() {
+  const log = new Logger()
+  try {
+    const client = await clientPromise
+    const db = client.db("General")
+    const CWStatsPlus = db.collection("CWStats+")
+    const cwstatsPlusTags = await getAllPlusClans(true)
+
+    const trackedLocationIDs = locations.filter((l) => l.isAdded || l.name === "Global").map((l) => l.id)
+
+    const lbPromises = trackedLocationIDs.map((id) => getWarLeaderboard(id, false, 110))
+    const allLbs = await Promise.all(lbPromises)
+
+    if (allLbs.some((lb) => lb.error)) {
+      return []
+    }
+
+    const allLbClans = allLbs
+      .map((lb) => lb.data)
+      .flat()
+      .map((c) => ({
+        badgeId: c.badgeId,
+        clanScore: c.clanScore,
+        location: c.location,
+        name: c.name,
+        tag: c.tag,
+      }))
+      .filter((c) => c.clanScore >= 4000)
+
+    for (const tag of cwstatsPlusTags) {
+      const { data: clan, error } = await getClan(tag)
+      if (error || !clan) continue
+
+      // remove clan from plus
+      if (clan.members === 0 || !clan.description.toLowerCase().includes("cwstats") || clan.clanWarTrophies < 2800) {
+        CWStatsPlus.deleteOne({ tag })
+        sendPlusWebhookEmbed("REMOVE_PLUS", {
+          name: clan.name,
+          tag: clan.tag,
+        })
+        continue
+      }
+
+      // add plus to lb clans that are plus clans
+      const clanFound = allLbClans.find((c) => c.tag === tag)
+
+      if (clanFound) {
+        clanFound.plus = true
+        continue
+      }
+
+      // add new entry for plus clans that are not on war lbs
+      allLbClans.push({
+        badgeId: clan.badgeId,
+        clanScore: clan.clanWarTrophies,
+        location: clan.location,
+        name: clan.name,
+        plus: true,
+        tag,
+      })
+    }
+
+    return allLbClans
+  } catch (e) {
+    log.error("getAllDailyLbClans error", e)
+    return []
+  }
+}
+
+export async function getCurrentSeason(globalLb, sectionIndex) {
+  if (!globalLb?.length) return
+
+  for (const c of globalLb) {
+    const resp = await getRaceLog(c.tag)
+
+    if (!resp.data || !resp.data.length) continue
+
+    const { data: log } = resp
+
+    const { createdDate, seasonId, sectionIndex: lastLogSectionIndex } = log[0]
+
+    const logDate = parseDate(createdDate)
+    const daysDiff = getDaysDiff(logDate, new Date())
+
+    // last log was created within the last 8 days
+    if (daysDiff < 8) {
+      if (sectionIndex > lastLogSectionIndex) return seasonId
+      return seasonId + 1
+    }
+  }
 }
