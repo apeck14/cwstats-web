@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/app/api/cron/updateLbAndHourlyFame.js",
+      "path": "/api/cron/updateLbAndHourlyFame.js",
       "schedule": "*/30 * * * *"
     }
   ]
