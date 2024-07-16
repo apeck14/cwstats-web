@@ -9,7 +9,9 @@ import { getAvgFame } from "@/lib/functions/race"
 import clientPromise from "@/lib/mongodb"
 
 export const dynamic = "force-dynamic"
-export const maxDuration = 300
+export const maxDuration = 240
+
+const IS_DEV = process.env.NODE_ENV === "development"
 
 const getMinAttackThreshold = (clans) => {
   // remove clans in training day
@@ -60,7 +62,7 @@ export async function GET(req) {
   try {
     // authenticate job
     const authHeader = req.headers.get("Authorization")
-    if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    if (!IS_DEV && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
@@ -244,22 +246,24 @@ export async function GET(req) {
     }
 
     // update all hourly averages
-    for (const entry of hourlyAvgEntries) {
-      const [tag, query] = entry
-      CWStatsPlus.updateOne({ tag }, query)
-    }
+    if (!IS_DEV) {
+      for (const entry of hourlyAvgEntries) {
+        const [tag, query] = entry
+        CWStatsPlus.updateOne({ tag }, query)
+      }
 
-    if (clanAverages.length > 0) {
-      await dailyLb.deleteMany({})
-      statistics.updateOne(
-        {},
-        {
-          $set: {
-            lbLastUpdated: Date.now(),
+      if (clanAverages.length > 0) {
+        await dailyLb.deleteMany({})
+        statistics.updateOne(
+          {},
+          {
+            $set: {
+              lbLastUpdated: Date.now(),
+            },
           },
-        },
-      )
-      dailyLb.insertMany(clanAverages)
+        )
+        dailyLb.insertMany(clanAverages)
+      }
     }
 
     return NextResponse.json({ success: true }, { status: 200 })
