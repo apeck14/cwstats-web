@@ -245,6 +245,8 @@ export async function GET(req) {
       }
     }
 
+    log.debug("Job Details", { clanAverages, IS_DEV })
+
     // update all hourly averages
     if (!IS_DEV) {
       for (const entry of hourlyAvgEntries) {
@@ -253,7 +255,6 @@ export async function GET(req) {
       }
 
       if (clanAverages.length > 0) {
-        log.info({ clanAverages })
         await dailyLb.deleteMany({})
         statistics.updateOne(
           {},
