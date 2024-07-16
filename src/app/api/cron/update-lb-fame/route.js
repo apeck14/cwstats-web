@@ -63,6 +63,7 @@ export async function GET(req) {
     // authenticate job
     const authHeader = req.headers.get("Authorization")
     if (!IS_DEV && authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+      log.error("Unauthorized Job", { authHeader, IS_DEV })
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
     }
 
