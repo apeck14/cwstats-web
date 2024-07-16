@@ -253,6 +253,7 @@ export async function GET(req) {
       }
 
       if (clanAverages.length > 0) {
+        log.info({ clanAverages })
         await dailyLb.deleteMany({})
         statistics.updateOne(
           {},
