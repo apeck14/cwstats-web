@@ -48,7 +48,7 @@ const getLastHourAvg = ({ attacksLastHour, attacksNow, avgLastHour, avgNow }) =>
  * - Update hourly averages for all CWStats+ clans
  */
 
-export async function POST(req, res) {
+export default async function handler(req, res) {
   const log = new Logger()
 
   log.info("Updating daily leaderboard and hourly fame(s)...")
