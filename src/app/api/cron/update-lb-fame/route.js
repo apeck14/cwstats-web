@@ -6,6 +6,8 @@ import { getAllPlusClans } from "@/actions/upgrade"
 import { getAvgFame } from "@/lib/functions/race"
 import clientPromise from "@/lib/mongodb"
 
+export const dynamic = "force-dynamic"
+
 const getMinAttackThreshold = (clans) => {
   // remove clans in training day
   const sortedDecksUsed = clans
@@ -47,7 +49,7 @@ const getLastHourAvg = ({ attacksLastHour, attacksNow, avgLastHour, avgNow }) =>
  * - Update hourly averages for all CWStats+ clans
  */
 
-export default async function GET(req, res) {
+export async function GET(req, res) {
   const log = new Logger()
 
   log.info("Updating daily leaderboard and hourly fame(s)...")
