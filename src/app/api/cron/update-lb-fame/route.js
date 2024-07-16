@@ -1,3 +1,4 @@
+import { chunk } from "lodash"
 import { NextResponse } from "next/server"
 import { Logger } from "next-axiom"
 
@@ -69,16 +70,15 @@ export async function GET(req) {
     const statistics = db.collection("Statistics")
     const CWStatsPlus = db.collection("CWStats+")
 
-    // all tags from tracked regions & all CWStats+ clans
-    const [clansToCheckRaces, plusClans] = await Promise.all([getAllDailyLbClans(), getAllPlusClans()])
-    const plusTags = clansToCheckRaces.filter((c) => c.plus).map((c) => c.tag)
-
-    // get top 1000 lb to set global rank, if applicable
-    const { data: allGlobalRankedClans, error: allGlobalRankedError } = await getWarLeaderboard("global")
+    // all tags from tracked regions / all CWStats+ clans / top 1000 lb to set global rank, if applicable
+    const [clansToCheckRaces, plusClans, { data: allGlobalRankedClans, error: allGlobalRankedError }] =
+      await Promise.all([getAllDailyLbClans(), getAllPlusClans(), getWarLeaderboard("global")])
 
     if (allGlobalRankedError) {
       throw new Error(allGlobalRankedError)
     }
+
+    const plusTags = clansToCheckRaces.filter((c) => c.plus).map((c) => c.tag)
 
     const now = new Date()
     const minutes = now.getUTCMinutes()
@@ -89,139 +89,148 @@ export async function GET(req) {
     let ignoreThreshold = false
     let curSeason
 
-    for (const c of clansToCheckRaces) {
-      if (clanAverages.find((cl) => cl.tag === c.tag)) continue
+    const chunkedClansToCheckRaces = chunk(clansToCheckRaces, 3)
 
-      const { data: race, error } = await getRace(c.tag)
+    for (const trio of chunkedClansToCheckRaces) {
+      // filter clans in trio in clanAverages
+      const clansToCheckRaces = trio.filter((cl) => !clanAverages.find((cla) => cla.tag === cl.tag))
 
-      if (error || !race) continue
+      const racePromises = clansToCheckRaces.map((c) => getRace(c.tag))
+      const races = await Promise.all(racePromises)
 
-      const isColosseum = race.periodType === "colosseum"
-      const dayOfWeek = race.periodIndex % 7 // 0-6 (0,1,2 TRAINING, 3,4,5,6 BATTLE)
-      const isTraining = race.periodType === "training"
-      const isMatchmaking = race.state === "matchmaking"
+      for (const { data: race, error } of races) {
+        if (error || !race) continue
 
-      if (isColosseum && dayOfWeek > 3) ignoreThreshold = true
+        const isColosseum = race.periodType === "colosseum"
+        const dayOfWeek = race.periodIndex % 7 // 0-6 (0,1,2 TRAINING, 3,4,5,6 BATTLE)
+        const isTraining = race.periodType === "training"
+        const isMatchmaking = race.state === "matchmaking"
 
-      for (const cl of race.clans) {
-        const isPlus = plusTags.includes(cl.tag)
+        if (isColosseum && dayOfWeek > 3) ignoreThreshold = true
 
-        // if CWStats+, add daily average to tracking
-        if (
-          addHourlyAverages &&
-          isPlus &&
-          !isTraining &&
-          !hourlyAvgEntries.find((c) => c[0] === cl.tag) &&
-          !isMatchmaking
-        ) {
-          const firstDayOfNewSeason = race.periodIndex === 0 && dayOfWeek === 3
+        for (const cl of race.clans) {
+          const isPlus = plusTags.includes(cl.tag)
 
-          if (!curSeason) {
-            curSeason = await getCurrentSeason(allGlobalRankedClans, race.sectionIndex)
-          }
+          // if CWStats+, add daily average to tracking
+          if (
+            addHourlyAverages &&
+            isPlus &&
+            !isTraining &&
+            !hourlyAvgEntries.find((c) => c[0] === cl.tag) &&
+            !isMatchmaking
+          ) {
+            const firstDayOfNewSeason = race.periodIndex === 0 && dayOfWeek === 3
 
-          if (curSeason) {
-            const query = {}
+            if (!curSeason) {
+              curSeason = await getCurrentSeason(allGlobalRankedClans, race.sectionIndex)
+            }
 
-            if (firstDayOfNewSeason) {
-              // remove any season not from last 3 full seasons
-              query.$pull = {
-                hourlyAverages: {
-                  season: {
-                    $nin: [curSeason, curSeason - 1, curSeason - 2, curSeason - 3],
+            if (curSeason) {
+              const query = {}
+
+              if (firstDayOfNewSeason) {
+                // remove any season not from last 3 full seasons
+                query.$pull = {
+                  hourlyAverages: {
+                    season: {
+                      $nin: [curSeason, curSeason - 1, curSeason - 2, curSeason - 3],
+                    },
                   },
+                }
+              }
+
+              // if col, then total attacks used, else attacks used today
+              const attacksProp = isColosseum ? "decksUsed" : "decksUsedToday"
+              const attacksCompleted = cl.participants.reduce((sum, p) => sum + p[attacksProp], 0)
+
+              const avg = getAvgFame(cl, isColosseum, dayOfWeek)
+
+              // add new entry
+              query.$push = {
+                hourlyAverages: {
+                  attacksCompleted,
+                  avg,
+                  day: dayOfWeek - 2,
+                  season: curSeason,
+                  timestamp: now,
+                  week: race.sectionIndex + 1,
                 },
               }
-            }
 
-            // if col, then total attacks used, else attacks used today
-            const attacksProp = isColosseum ? "decksUsed" : "decksUsedToday"
-            const attacksCompleted = cl.participants.reduce((sum, p) => sum + p[attacksProp], 0)
+              // if last document has attacksCompleted: calculate lastHourAvg and add to query
+              const { hourlyAverages } = plusClans.find((e) => e.tag === cl.tag) || {}
 
-            const avg = getAvgFame(cl, isColosseum, dayOfWeek)
+              if (hourlyAverages?.length) {
+                const lastEntry = hourlyAverages[hourlyAverages.length - 1]
+                const { day, season, week } = query.$push.hourlyAverages
 
-            // add new entry
-            query.$push = {
-              hourlyAverages: {
-                attacksCompleted,
-                avg,
-                day: dayOfWeek - 2,
-                season: curSeason,
-                timestamp: now,
-                week: race.sectionIndex + 1,
-              },
-            }
+                const lastEntryIsSameDay =
+                  lastEntry.season === season && lastEntry.week === week && lastEntry.day === day
 
-            // if last document has attacksCompleted: calculate lastHourAvg and add to query
-            const { hourlyAverages } = plusClans.find((e) => e.tag === cl.tag) || {}
+                let lastHourAvg
 
-            if (hourlyAverages?.length) {
-              const lastEntry = hourlyAverages[hourlyAverages.length - 1]
-              const { day, season, week } = query.$push.hourlyAverages
+                if (lastEntryIsSameDay && lastEntry.attacksCompleted === attacksCompleted) lastHourAvg = 0
+                else if (lastEntryIsSameDay || (isColosseum && dayOfWeek > 3))
+                  lastHourAvg = getLastHourAvg({
+                    attacksLastHour: lastEntry.attacksCompleted,
+                    attacksNow: attacksCompleted,
+                    avgLastHour: lastEntry.avg,
+                    avgNow: avg,
+                  })
+                else lastHourAvg = avg
 
-              const lastEntryIsSameDay = lastEntry.season === season && lastEntry.week === week && lastEntry.day === day
-
-              let lastHourAvg
-
-              if (lastEntryIsSameDay && lastEntry.attacksCompleted === attacksCompleted) lastHourAvg = 0
-              else if (lastEntryIsSameDay || (isColosseum && dayOfWeek > 3))
-                lastHourAvg = getLastHourAvg({
-                  attacksLastHour: lastEntry.attacksCompleted,
-                  attacksNow: attacksCompleted,
-                  avgLastHour: lastEntry.avg,
-                  avgNow: avg,
-                })
-              else lastHourAvg = avg
-
-              query.$push.hourlyAverages = {
-                ...query.$push.hourlyAverages,
-                lastHourAvg,
+                query.$push.hourlyAverages = {
+                  ...query.$push.hourlyAverages,
+                  lastHourAvg,
+                }
               }
+
+              hourlyAvgEntries.push([cl.tag, query])
             }
-
-            hourlyAvgEntries.push([cl.tag, query])
           }
-        }
 
-        if (cl.clanScore < 4000) continue
+          if (cl.clanScore < 4000) continue
 
-        const clan = clanAverages.find((c) => c.tag === cl.tag)
-        if (clan) continue
+          const clan = clanAverages.find((c) => c.tag === cl.tag)
+          if (clan) continue
 
-        const globalClanRank = allGlobalRankedClans.findIndex((cla) => cla.tag === cl.tag)
+          const globalClanRank = allGlobalRankedClans.findIndex((cla) => cla.tag === cl.tag)
 
-        const fameAvg = getAvgFame(cl, isColosseum, dayOfWeek)
-        const decksRemaining = 200 - cl.participants.reduce((a, b) => a + b.decksUsedToday, 0)
+          const fameAvg = getAvgFame(cl, isColosseum, dayOfWeek)
+          const decksRemaining = 200 - cl.participants.reduce((a, b) => a + b.decksUsedToday, 0)
 
-        const notRankedGlobally = globalClanRank === -1
-        const movementPts = isColosseum ? cl.periodPoints : cl.fame
-        const crossedFinishLine = !isColosseum && movementPts >= 10000
+          const notRankedGlobally = globalClanRank === -1
+          const movementPts = isColosseum ? cl.periodPoints : cl.fame
+          const crossedFinishLine = !isColosseum && movementPts >= 10000
 
-        const shared = {
-          crossedFinishLine,
-          decksRemaining,
-          fameAvg,
-          isTraining,
-          notRanked: crossedFinishLine, // default to this value, changed below based on condition
-        }
+          const shared = {
+            crossedFinishLine,
+            decksRemaining,
+            fameAvg,
+            isTraining,
+            notRanked: crossedFinishLine, // default to this value, changed below based on condition
+          }
 
-        if (cl.tag === c.tag) {
+          const curClan = trio.find((c) => c.tag === race.clan.tag)
+
+          if (cl.tag === curClan.tag) {
+            clanAverages.push({
+              ...curClan,
+              ...shared,
+              rank: notRankedGlobally ? "N/A" : globalClanRank + 1,
+            })
+
+            continue
+          }
+
+          if (notRankedGlobally) continue
+
           clanAverages.push({
-            ...c,
+            ...allGlobalRankedClans[globalClanRank],
             ...shared,
-            rank: notRankedGlobally ? "N/A" : globalClanRank + 1,
+            rank: globalClanRank + 1,
           })
-
-          continue
         }
-
-        if (notRankedGlobally) continue
-
-        clanAverages.push({
-          ...allGlobalRankedClans[globalClanRank],
-          ...shared,
-          rank: globalClanRank + 1,
-        })
       }
     }
 
