@@ -1,5 +1,5 @@
 import { Container, Group, Stack, Title } from "@mantine/core"
-import { redirect } from "next/dist/server/api-utils"
+import { redirect } from "next/navigation"
 
 import { getClan, getRace } from "@/actions/supercell"
 import ClanHeader from "@/components/clan/header"
