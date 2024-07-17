@@ -90,9 +90,9 @@ export async function GET(req) {
 
     for (const trio of chunkedClansToCheckRaces) {
       // filter clans in trio in clanAverages
-      const clansToCheckRaces = trio.filter((cl) => !clanAverages.find((cla) => cla.tag === cl.tag))
+      const clansToCheckRacesFromTrio = trio.filter((cl) => !clanAverages.find((cla) => cla.tag === cl.tag))
 
-      const racePromises = clansToCheckRaces.map((c) => getRace(c.tag))
+      const racePromises = clansToCheckRacesFromTrio.map((c) => getRace(c.tag))
       const races = await Promise.all(racePromises)
 
       for (const { data: race, error } of races) {
