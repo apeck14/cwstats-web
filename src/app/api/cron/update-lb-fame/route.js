@@ -59,8 +59,6 @@ export async function GET(req) {
 
   log.info("Updating daily leaderboard and hourly fame(s)...")
 
-  log.info("IS_DEV", { IS_DEV })
-
   try {
     // authenticate job
     const authHeader = req.headers.get("Authorization")
@@ -90,7 +88,10 @@ export async function GET(req) {
 
     const chunkedClansToCheckRaces = chunk(clansToCheckRaces, 5)
 
+    log.info("LENGTH", { length: chunkedClansToCheckRaces })
+
     for (const group of chunkedClansToCheckRaces) {
+      log.info("GROUP", { group })
       // filter clans in trio in clanAverages
       const clansToCheckRacesFromGroup = group.filter((cl) => !clanAverages.find((cla) => cla.tag === cl.tag))
 
@@ -99,6 +100,8 @@ export async function GET(req) {
 
       for (const { data: race, error } of races) {
         if (error || !race) continue
+
+        log.info("TAG", { tag: race?.clan?.tag })
 
         const isColosseum = race.periodType === "colosseum"
         const dayOfWeek = race.periodIndex % 7 // 0-6 (0,1,2 TRAINING, 3,4,5,6 BATTLE)
@@ -241,6 +244,8 @@ export async function GET(req) {
         if (!c.notRanked && 200 - c.decksRemaining < MIN_ATKS_USED_THRESHOLD) c.notRanked = true
       }
     }
+
+    log.info("IS_DEV", { IS_DEV })
 
     // update all hourly averages
     if (!IS_DEV) {
