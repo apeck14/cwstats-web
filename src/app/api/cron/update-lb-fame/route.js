@@ -96,6 +96,7 @@ export async function GET(req) {
       const races = await Promise.all(racePromises)
 
       for (const { data: race, error } of races) {
+        log.info("Race Error", error)
         if (error || !race) continue
 
         const isColosseum = race.periodType === "colosseum"
@@ -185,6 +186,8 @@ export async function GET(req) {
               hourlyAvgEntries.push([cl.tag, query])
             }
           }
+
+          log.info("Clan Score < 4000", cl.clanScore < 4000)
 
           if (cl.clanScore < 4000) continue
 
