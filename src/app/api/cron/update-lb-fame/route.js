@@ -59,6 +59,8 @@ export async function GET(req) {
 
   log.info("Updating daily leaderboard and hourly fame(s)...")
 
+  log.info("IS_DEV", { IS_DEV })
+
   try {
     // authenticate job
     const authHeader = req.headers.get("Authorization")
