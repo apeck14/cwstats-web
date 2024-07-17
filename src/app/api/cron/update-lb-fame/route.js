@@ -240,8 +240,6 @@ export async function GET(req) {
       }
     }
 
-    log.debug("Job Details", { clanAverages, IS_DEV })
-
     // update all hourly averages
     if (!IS_DEV) {
       const client = await clientPromise
