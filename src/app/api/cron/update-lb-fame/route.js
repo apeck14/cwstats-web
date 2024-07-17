@@ -263,18 +263,21 @@ export async function GET(req) {
       }
 
       if (clanAverages.length > 0) {
-        await dailyLb.deleteMany({})
-        statistics.updateOne(
-          {},
-          {
-            $set: {
-              lbLastUpdated: Date.now(),
+        try {
+          log.info("INSERT")
+          await dailyLb.deleteMany({})
+          statistics.updateOne(
+            {},
+            {
+              $set: {
+                lbLastUpdated: Date.now(),
+              },
             },
-          },
-        )
-        dailyLb.insertMany(clanAverages)
-
-        log.info("INSERT")
+          )
+          dailyLb.insertMany(clanAverages)
+        } catch (e) {
+          log.error("Mongo Error", { error: e.message })
+        }
       }
     }
 
