@@ -86,13 +86,13 @@ export async function GET(req) {
     let ignoreThreshold = false
     let curSeason
 
-    const chunkedClansToCheckRaces = chunk(clansToCheckRaces, 3)
+    const chunkedClansToCheckRaces = chunk(clansToCheckRaces, 5)
 
-    for (const trio of chunkedClansToCheckRaces) {
+    for (const group of chunkedClansToCheckRaces) {
       // filter clans in trio in clanAverages
-      const clansToCheckRacesFromTrio = trio.filter((cl) => !clanAverages.find((cla) => cla.tag === cl.tag))
+      const clansToCheckRacesFromGroup = group.filter((cl) => !clanAverages.find((cla) => cla.tag === cl.tag))
 
-      const racePromises = clansToCheckRacesFromTrio.map((c) => getRace(c.tag))
+      const racePromises = clansToCheckRacesFromGroup.map((c) => getRace(c.tag))
       const races = await Promise.all(racePromises)
 
       for (const { data: race, error } of races) {
@@ -208,9 +208,9 @@ export async function GET(req) {
             notRanked: crossedFinishLine, // default to this value, changed below based on condition
           }
 
-          const curClan = trio.find((c) => c.tag === race.clan.tag)
+          const curClan = group.find((c) => c.tag === cl.tag)
 
-          if (cl.tag === curClan.tag) {
+          if (cl.tag === curClan?.tag) {
             clanAverages.push({
               ...curClan,
               ...shared,
@@ -240,8 +240,6 @@ export async function GET(req) {
       }
     }
 
-    log.info("IS_DEV", { IS_DEV })
-
     // update all hourly averages
     if (!IS_DEV) {
       const client = await clientPromise
@@ -250,14 +248,10 @@ export async function GET(req) {
       const statistics = db.collection("Statistics")
       const CWStatsPlus = db.collection("CWStats+")
 
-      log.info("CLIENT", { client })
-
       for (const entry of hourlyAvgEntries) {
         const [tag, query] = entry
         CWStatsPlus.updateOne({ tag }, query)
       }
-
-      log.info("clanAverages length", { length: clanAverages?.length || clanAverages })
 
       if (clanAverages.length > 0) {
         await dailyLb.deleteMany({})
