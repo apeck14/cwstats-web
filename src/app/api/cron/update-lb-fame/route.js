@@ -96,7 +96,6 @@ export async function GET(req) {
       const races = await Promise.all(racePromises)
 
       for (const { data: race, error } of races) {
-        log.info("Race Error", error)
         if (error || !race) continue
 
         const isColosseum = race.periodType === "colosseum"
@@ -187,8 +186,6 @@ export async function GET(req) {
             }
           }
 
-          log.info("Clan Score < 4000", cl.clanScore < 4000)
-
           if (cl.clanScore < 4000) continue
 
           const clan = clanAverages.find((c) => c.tag === cl.tag)
@@ -243,6 +240,8 @@ export async function GET(req) {
       }
     }
 
+    log.info("IS_DEV", { IS_DEV })
+
     // update all hourly averages
     if (!IS_DEV) {
       const client = await clientPromise
@@ -251,10 +250,14 @@ export async function GET(req) {
       const statistics = db.collection("Statistics")
       const CWStatsPlus = db.collection("CWStats+")
 
+      log.info("CLIENT", { client })
+
       for (const entry of hourlyAvgEntries) {
         const [tag, query] = entry
         CWStatsPlus.updateOne({ tag }, query)
       }
+
+      log.info("clanAverages length", { length: clanAverages?.length || clanAverages })
 
       if (clanAverages.length > 0) {
         await dailyLb.deleteMany({})
