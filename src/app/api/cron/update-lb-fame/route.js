@@ -245,7 +245,7 @@ export async function GET(req) {
       }
     }
 
-    log.info("IS_DEV", { IS_DEV })
+    log.info("CLAN_AVERAGES", { length: clanAverages.length })
 
     // update all hourly averages
     if (!IS_DEV) {
