@@ -88,7 +88,7 @@ export async function GET(req) {
 
     const chunkedClansToCheckRaces = chunk(clansToCheckRaces, 5)
 
-    log.info("LENGTH", { length: chunkedClansToCheckRaces })
+    log.info("LENGTH", { length: chunkedClansToCheckRaces.length })
 
     for (const group of chunkedClansToCheckRaces) {
       log.info("GROUP", { group })
@@ -255,6 +255,8 @@ export async function GET(req) {
       const statistics = db.collection("Statistics")
       const CWStatsPlus = db.collection("CWStats+")
 
+      log.info("ENTRIES", { entries: hourlyAvgEntries.length })
+
       for (const entry of hourlyAvgEntries) {
         const [tag, query] = entry
         CWStatsPlus.updateOne({ tag }, query)
@@ -271,6 +273,8 @@ export async function GET(req) {
           },
         )
         dailyLb.insertMany(clanAverages)
+
+        log.info("INSERT")
       }
     }
 

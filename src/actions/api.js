@@ -58,10 +58,10 @@ export async function getAllDailyLbClans() {
       .filter((c) => c.clanScore >= 4000)
 
     const cwstatsPlusTags = await getAllPlusClans(true)
-    const chunkedPlusTags = chunk(cwstatsPlusTags, 3)
+    const chunkedPlusTags = chunk(cwstatsPlusTags, 5)
 
-    for (const trio of chunkedPlusTags) {
-      const clanPromises = trio.map((tag) => getClan(tag))
+    for (const group of chunkedPlusTags) {
+      const clanPromises = group.map((tag) => getClan(tag))
       const clans = await Promise.all(clanPromises)
 
       for (const { data: clan, error } of clans) {
