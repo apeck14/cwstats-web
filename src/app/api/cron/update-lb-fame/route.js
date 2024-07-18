@@ -88,10 +88,7 @@ export async function GET(req) {
 
     const chunkedClansToCheckRaces = chunk(clansToCheckRaces, 5)
 
-    log.info("LENGTH", { length: chunkedClansToCheckRaces.length })
-
     for (const group of chunkedClansToCheckRaces) {
-      log.info("GROUP", { group })
       // filter clans in trio in clanAverages
       const clansToCheckRacesFromGroup = group.filter((cl) => !clanAverages.find((cla) => cla.tag === cl.tag))
 
@@ -100,8 +97,6 @@ export async function GET(req) {
 
       for (const { data: race, error } of races) {
         if (error || !race) continue
-
-        log.info("TAG", { tag: race?.clan?.tag })
 
         const isColosseum = race.periodType === "colosseum"
         const dayOfWeek = race.periodIndex % 7 // 0-6 (0,1,2 TRAINING, 3,4,5,6 BATTLE)
@@ -245,8 +240,6 @@ export async function GET(req) {
       }
     }
 
-    log.info("CLAN_AVERAGES", { length: clanAverages.length })
-
     // update all hourly averages
     if (!IS_DEV) {
       const client = await clientPromise
@@ -255,17 +248,12 @@ export async function GET(req) {
       const statistics = db.collection("Statistics")
       const CWStatsPlus = db.collection("CWStats+")
 
-      log.info("ENTRIES", { entries: hourlyAvgEntries.length })
-
       for (const entry of hourlyAvgEntries) {
         const [tag, query] = entry
         CWStatsPlus.updateOne({ tag }, query)
       }
 
-      log.info("CLAN_AVERAGES 2", { greaterThanZero: clanAverages.length > 0 })
-
       if (clanAverages.length > 0) {
-        log.info("INSERT")
         await dailyLb.deleteMany({})
         statistics.updateOne(
           {},
