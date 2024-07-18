@@ -2,11 +2,10 @@ import chunk from "lodash/chunk"
 import { NextResponse } from "next/server"
 import { Logger } from "next-axiom"
 
-import { getAllDailyLbClans, getCurrentSeason } from "@/actions/api"
+import { getAllDailyLbClans, getCurrentSeason, MongoApiAction } from "@/actions/api"
 import { getRace, getWarLeaderboard } from "@/actions/supercell"
 import { getAllPlusClans } from "@/actions/upgrade"
 import { getAvgFame } from "@/lib/functions/race"
-import client from "@/lib/mongodb"
 
 export const dynamic = "force-dynamic"
 export const maxDuration = 240
@@ -242,27 +241,44 @@ export async function GET(req) {
 
     // update all hourly averages
     if (!IS_DEV) {
-      const db = client.db("General")
-      const dailyLb = db.collection("Daily Clan Leaderboard")
-      const statistics = db.collection("Statistics")
-      const CWStatsPlus = db.collection("CWStats+")
-
       for (const entry of hourlyAvgEntries) {
         const [tag, query] = entry
-        CWStatsPlus.updateOne({ tag }, query)
+
+        MongoApiAction({
+          action: "updateOne",
+          collection: "CWStats+",
+          props: {
+            filter: { tag },
+            update: query,
+          },
+        })
       }
 
       if (clanAverages.length > 0) {
-        await dailyLb.deleteMany({})
-        statistics.updateOne(
-          {},
-          {
-            $set: {
-              lbLastUpdated: Date.now(),
+        await MongoApiAction({
+          action: "deleteMany",
+          collection: "Daily Clan Leaderboard",
+          props: { filter: {} },
+        })
+
+        MongoApiAction({
+          action: "updateOne",
+          collection: "Statistics",
+          props: {
+            filter: {},
+            update: {
+              $set: {
+                lbLastUpdated: Date.now(),
+              },
             },
           },
-        )
-        dailyLb.insertMany(clanAverages)
+        })
+
+        MongoApiAction({
+          action: "insertMany",
+          collection: "Daily Clan Leaderboard",
+          props: { documents: clanAverages },
+        })
       }
     }
 

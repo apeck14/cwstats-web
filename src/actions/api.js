@@ -127,3 +127,25 @@ export async function getCurrentSeason(globalLb, sectionIndex) {
     }
   }
 }
+
+export async function MongoApiAction({ action, collection, props }) {
+  try {
+    const url = `https://us-east-2.aws.data.mongodb-api.com/app/data-qypssze/endpoint/data/v1/action/${action}`
+    const options = {
+      body: JSON.stringify({
+        collection,
+        database: "General",
+        dataSource: "Cluster0",
+        ...props,
+      }),
+      cache: "no-store",
+      headers: { Accept: "application/json", "api-key": process.env.MONGO_KEY, "Content-Type": "application/ejson" },
+      method: "POST",
+    }
+
+    return fetch(url, options)
+  } catch (e) {
+    const log = new Logger()
+    log.error("MongoApiAction error", e)
+  }
+}
