@@ -1,9 +1,9 @@
 /* eslint-disable import/no-mutable-exports */
 import { MongoClient, ServerApiVersion } from "mongodb"
 
-if (!process.env.URI) throw new Error('Invalid/Missing environment variable: "URI"')
+if (!process.env.MONGODB_URI) throw new Error('Invalid/Missing environment variable: "URI"')
 
-const uri = process.env.URI
+const uri = process.env.MONGODB_URI
 
 const options = {
   maxIdleTimeMS: 10000,
