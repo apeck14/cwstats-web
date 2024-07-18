@@ -262,22 +262,20 @@ export async function GET(req) {
         CWStatsPlus.updateOne({ tag }, query)
       }
 
+      log.info("CLAN_AVERAGES 2", { greaterThanZero: clanAverages.length > 0 })
+
       if (clanAverages.length > 0) {
-        try {
-          log.info("INSERT")
-          await dailyLb.deleteMany({})
-          statistics.updateOne(
-            {},
-            {
-              $set: {
-                lbLastUpdated: Date.now(),
-              },
+        log.info("INSERT")
+        await dailyLb.deleteMany({})
+        statistics.updateOne(
+          {},
+          {
+            $set: {
+              lbLastUpdated: Date.now(),
             },
-          )
-          dailyLb.insertMany(clanAverages)
-        } catch (e) {
-          log.error("Mongo Error", { error: e.message })
-        }
+          },
+        )
+        dailyLb.insertMany(clanAverages)
       }
     }
 
