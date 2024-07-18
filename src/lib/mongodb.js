@@ -9,6 +9,7 @@ const options = {
   maxIdleTimeMS: 10000,
   serverApi: {
     deprecationErrors: true,
+    // strict: true,
     version: ServerApiVersion.v1,
   },
   serverSelectionTimeoutMS: 10000,
