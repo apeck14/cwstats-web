@@ -4,7 +4,7 @@ import { chunk } from "lodash"
 import { Logger } from "next-axiom"
 
 import { getDaysDiff, parseDate } from "@/lib/functions/date-time"
-import clientPromise from "@/lib/mongodb"
+import client from "@/lib/mongodb"
 import { HOST } from "@/static/constants"
 import locations from "@/static/locations"
 
@@ -32,7 +32,6 @@ export async function getDailyLeaderboard({ key, limit, maxTrophies, minTrophies
 export async function getAllDailyLbClans() {
   const log = new Logger()
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const CWStatsPlus = db.collection("CWStats+")
 

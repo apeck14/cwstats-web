@@ -5,7 +5,7 @@ import { Logger } from "next-axiom"
 
 import { getLogDetails } from "@/lib/functions/race"
 import { formatTag, getSupercellRedirectRoute } from "@/lib/functions/utils"
-import clientPromise from "@/lib/mongodb"
+import client from "@/lib/mongodb"
 import { HOST, SUPERCELL_BASE_URL } from "@/static/constants"
 
 export const formatSupercellResponse = async (resp, redirectOnError) => {
@@ -55,7 +55,6 @@ export async function addPlayer({ clanName, name, tag }) {
   if ((!clanName && clanName !== "") || !name || !tag) return
 
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const players = db.collection("Players")
 

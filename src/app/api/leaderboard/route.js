@@ -2,7 +2,7 @@
 /* eslint-disable perfectionist/sort-objects */
 import { NextResponse } from "next/server"
 
-import clientPromise from "@/lib/mongodb"
+import client from "@/lib/mongodb"
 import locations from "@/static/locations"
 
 // /api/leaderboard/:id
@@ -20,7 +20,6 @@ export async function GET(req) {
       return NextResponse.json({ message: "Region not found." }, { status: 404 })
     }
 
-    const client = await clientPromise
     const db = client.db("General")
     const dailyLb = db.collection("Daily Clan Leaderboard")
     const statistics = db.collection("Statistics")

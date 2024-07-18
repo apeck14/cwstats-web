@@ -6,7 +6,7 @@ import { getAllDailyLbClans, getCurrentSeason } from "@/actions/api"
 import { getRace, getWarLeaderboard } from "@/actions/supercell"
 import { getAllPlusClans } from "@/actions/upgrade"
 import { getAvgFame } from "@/lib/functions/race"
-import clientPromise from "@/lib/mongodb"
+import client from "@/lib/mongodb"
 
 export const dynamic = "force-dynamic"
 export const maxDuration = 240
@@ -242,7 +242,6 @@ export async function GET(req) {
 
     // update all hourly averages
     if (!IS_DEV) {
-      const client = await clientPromise
       const db = client.db("General")
       const dailyLb = db.collection("Daily Clan Leaderboard")
       const statistics = db.collection("Statistics")
