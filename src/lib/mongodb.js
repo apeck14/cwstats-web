@@ -6,14 +6,11 @@ if (!process.env.MONGODB_URI) throw new Error('Invalid/Missing environment varia
 const uri = process.env.MONGODB_URI
 
 const options = {
-  maxIdleTimeMS: 10000,
   serverApi: {
     deprecationErrors: true,
     // strict: true,
     version: ServerApiVersion.v1,
   },
-  serverSelectionTimeoutMS: 10000,
-  socketTimeoutMS: 10000,
 }
 
 let client
