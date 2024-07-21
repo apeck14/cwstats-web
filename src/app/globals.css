@@ -6,6 +6,11 @@ body {
   min-height: 100dvh;
 }
 
+::selection {
+  color: var(--mantine-color-white);
+  background-color: var(--mantine-color-pink-6);
+}
+
 .hiddenOverflow {
   overflow: hidden;
 }
@@ -87,6 +92,7 @@ a {
   background: linear-gradient(to right bottom, var(--mantine-color-orange-5), var(--mantine-color-pink-6));
   background-clip: text;
   -webkit-text-fill-color: transparent;
+  user-select: none;
 }
 
 .polka {
