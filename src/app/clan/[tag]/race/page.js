@@ -1,5 +1,5 @@
 import { Container, Group, Stack, Title } from "@mantine/core"
-import { redirect } from "next/dist/server/api-utils"
+import { redirect } from "next/navigation"
 
 import { getClan, getRace } from "@/actions/supercell"
 import ClanHeader from "@/components/clan/header"
@@ -26,6 +26,8 @@ export async function generateMetadata({ params }) {
     title: `${clan.name} ${clan.tag} | Race - CWStats`,
   }
 }
+
+export const dynamic = "force-dynamic"
 
 export default async function ClanRace({ params }) {
   const { tag } = params

@@ -13,7 +13,7 @@ export async function GET(req) {
   const calcRaceStats = getRaceStats === "true"
 
   try {
-    const options = { headers: { Authorization: `Bearer ${process.env.CR_API_TOKEN}` } }
+    const options = { cache: "no-store", headers: { Authorization: `Bearer ${process.env.CR_API_TOKEN}` } }
     const url = `/clans/%23${tag}/currentriverrace`
 
     const raceResp = await fetch(`${SUPERCELL_BASE_URL}${url}`, options)

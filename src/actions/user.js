@@ -5,7 +5,7 @@ import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import clientPromise from "@/lib/mongodb"
+import client from "@/lib/mongodb"
 
 export async function getLinkedAccount() {
   try {
@@ -14,7 +14,6 @@ export async function getLinkedAccount() {
     if (!session || session.error === "RefreshAccessTokenError")
       return JSON.parse(JSON.stringify({ message: "Not logged in.", status: 403 }))
 
-    const client = await clientPromise
     const db = client.db("General")
     const accounts = db.collection("accounts")
     const linkedAccounts = db.collection("Linked Accounts")
@@ -44,7 +43,6 @@ export async function getLinkedAccount() {
 
 export async function followClan({ badge, discordID, name, tag }) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const linkedAccounts = db.collection("Linked Accounts")
 
@@ -75,7 +73,6 @@ export async function followClan({ badge, discordID, name, tag }) {
 
 export async function unfollowClan({ discordID, tag }) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const linkedAccounts = db.collection("Linked Accounts")
 
@@ -100,7 +97,6 @@ export async function unfollowClan({ discordID, tag }) {
 
 export async function followPlayer({ discordID, name, tag }) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const linkedAccounts = db.collection("Linked Accounts")
 
@@ -130,7 +126,6 @@ export async function followPlayer({ discordID, name, tag }) {
 
 export async function unfollowPlayer({ discordID, tag }) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const linkedAccounts = db.collection("Linked Accounts")
 

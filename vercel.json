@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/cron/update-lb-fame",
+      "schedule": "*/30 * * * *"
+    }
+  ]
+}

@@ -6,7 +6,7 @@ import { redirect } from "next/navigation"
 import { Logger } from "next-axiom"
 
 import { formatTag, mongoSanitize } from "@/lib/functions/utils"
-import clientPromise from "@/lib/mongodb"
+import client from "@/lib/mongodb"
 
 import { getGuilds } from "./discord"
 import { getClan, getPlayer } from "./supercell"
@@ -22,7 +22,6 @@ export async function getServerSettings(id, redirectOnError = false, authenticat
     }
   }
 
-  const client = await clientPromise
   const db = client.db("General")
   const guilds = db.collection("Guilds")
 
@@ -40,7 +39,6 @@ export async function getServerSettings(id, redirectOnError = false, authenticat
 
 export async function addAbbreviation(id, abbr, tag) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -119,7 +117,6 @@ export async function addAbbreviation(id, abbr, tag) {
 
 export async function deleteAbbreviation(id, abbr) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -154,7 +151,6 @@ export async function setWarReport(id, tag, timeStr, channelId) {
     if (error) return { message: "Unexpected Supercell error.", status }
     if (clan.members === 0) return { message: "Clan has been deleted.", status: 404 }
 
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -188,7 +184,6 @@ export async function setWarReport(id, tag, timeStr, channelId) {
 
 export async function deleteWarReport(id) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -222,7 +217,6 @@ export async function setDefaultClan(id, tag) {
     if (error) return { message: "Unexpected Supercell error.", status }
     if (clan.members === 0) return { message: "Clan has been deleted.", status: 404 }
 
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -251,7 +245,6 @@ export async function setDefaultClan(id, tag) {
 
 export async function deleteDefaultClan(id) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -280,7 +273,6 @@ export async function updateNudgeSettings(
   settings = { ignoreLeaders: false, ignoreWhenCrossedFinishLine: false, message: "" },
 ) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -308,7 +300,6 @@ export async function updateNudgeSettings(
 
 export async function addScheduledNudge(id, tag, hourUTC, channelID) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -370,7 +361,6 @@ export async function addScheduledNudge(id, tag, hourUTC, channelID) {
 
 export async function deleteScheduledNudge(id, tag, hourUTC) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -399,7 +389,6 @@ export async function deleteScheduledNudge(id, tag, hourUTC) {
 
 export async function addLinkedAccount(id, tag, discordID) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -460,7 +449,6 @@ export async function addLinkedAccount(id, tag, discordID) {
 
 export async function deleteLinkedAccount(id, tag, discordID) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -490,7 +478,6 @@ export async function deleteLinkedAccount(id, tag, discordID) {
 // value: channel ID, keyword, or array of channel IDs (command)
 export async function setChannels(id, channels) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
@@ -535,7 +522,6 @@ export async function setChannels(id, channels) {
 
 export async function setAdminRole(id, roleId) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 

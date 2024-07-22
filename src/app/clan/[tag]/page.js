@@ -12,6 +12,8 @@ import {
   getSupercellRedirectRoute,
 } from "@/lib/functions/utils"
 
+export const dynamic = "force-dynamic"
+
 export async function generateMetadata({ params }) {
   const { tag } = params
   const { data: clan } = await getClan(tag)

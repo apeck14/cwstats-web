@@ -27,7 +27,7 @@ const options = [
     features: [
       { text: "Hourly clan average tracking" },
       { text: "Daily player score tracking" },
-      { text: "Special clan badge on website" },
+      { text: "Verified checkmark" },
       { text: "Daily Leaderboard clan accolades" },
       { text: "Guaranteed spot on Daily Leaderboard" },
     ],
