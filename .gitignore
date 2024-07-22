@@ -35,3 +35,5 @@ yarn-error.log*
 
 # unimports
 .unimportedrc.json
+
+.vscode
