@@ -4,17 +4,16 @@ import NextAuth from "next-auth/next"
 import DiscordProvider from "next-auth/providers/discord"
 import { Logger } from "next-axiom"
 
-import clientPromise from "@/lib/mongodb"
+import client from "@/lib/mongodb"
 
 const scope = ["identify", "guilds", "guilds.members.read"].join(" ")
 
 export const authOptions = {
-  adapter: MongoDBAdapter(clientPromise),
+  adapter: MongoDBAdapter(client),
   callbacks: {
     session: async ({ session, user }) => {
       if (session?.user) session.user.id = user.id
 
-      const client = await clientPromise
       const db = client.db("General")
       const accounts = db.collection("accounts")
 
@@ -61,7 +60,6 @@ export const authOptions = {
     },
     signIn: async ({ profile, user }) => {
       try {
-        const client = await clientPromise
         const db = client.db("General")
         const linkedAccounts = db.collection("Linked Accounts")
         const users = db.collection("users")

@@ -32,7 +32,7 @@ export default function Header({ opened, toggle }) {
             Upgrade
           </Button>
           <AvatarDropdown />
-          <Burger color="gray.1" hiddenFrom="sm" onClick={toggle} opened={opened} size="sm" />
+          <Burger color="gray.1" hiddenFrom="sm" lineSize={2.2} onClick={toggle} opened={opened} size="sm" />
         </Group>
         <MobileMenu open={opened} toggle={toggle} />
       </Group>

@@ -8,7 +8,7 @@ import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
-import clientPromise from "@/lib/mongodb"
+import client from "@/lib/mongodb"
 
 const hasAdminPermissions = (permissions) => {
   const ADMIN = 0x8
@@ -33,7 +33,6 @@ export async function getGuilds(redirectOnError = false) {
       else return { message: "Not logged in.", status: 403 }
     }
 
-    const client = await clientPromise
     const db = client.db("General")
     const accounts = db.collection("accounts")
     const guilds = db.collection("Guilds")

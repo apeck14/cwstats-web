@@ -3,7 +3,7 @@
 /* eslint-disable perfectionist/sort-objects */
 
 import { formatTag } from "@/lib/functions/utils"
-import clientPromise from "@/lib/mongodb"
+import client from "@/lib/mongodb"
 
 import { getClan } from "./supercell"
 
@@ -39,7 +39,6 @@ export async function addPlus(tag) {
   if (!hasUrlInDescription) return { error: 'Clan description must contain "CWStats.com".' }
 
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const plus = db.collection("CWStats+")
 
@@ -62,7 +61,6 @@ export async function addPlus(tag) {
 
 export async function isPlusClan(tag) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const plus = db.collection("CWStats+")
 
@@ -74,23 +72,26 @@ export async function isPlusClan(tag) {
   }
 }
 
-export async function getAllPlusClanTags() {
+export async function getAllPlusClans(tagsOnly = false) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
-    const plus = db.collection("CWStats+")
+    const CWStatsPlus = db.collection("CWStats+")
+    let data
 
-    const plusClans = await plus.distinct("tag")
+    if (tagsOnly) {
+      data = await CWStatsPlus.distinct("tag")
+    } else {
+      data = await CWStatsPlus.find({}).toArray()
+    }
 
-    return plusClans
-  } catch (e) {
+    return data
+  } catch {
     return []
   }
 }
 
 export async function getPlusClanData(tag, formatHourlyAverages = false) {
   try {
-    const client = await clientPromise
     const db = client.db("General")
     const plus = db.collection("CWStats+")
 
