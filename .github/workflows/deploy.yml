@@ -35,7 +35,7 @@ jobs:
         run: |
           echo "$SSH_PRIVATE_KEY" > private_key
           chmod 600 private_key
-          scp -o StrictHostKeyChecking=no -i private_key -r . $VPS_USER@$VPS_HOST:$VPS_PATH
+          scp -o StrictHostKeyChecking=no -i private_key -r * $VPS_USER@$VPS_HOST:$VPS_PATH
           rm private_key
 
       - name: Reload PM2
