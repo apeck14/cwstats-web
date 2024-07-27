@@ -61,7 +61,7 @@ export default function HourlyAverageGraph({ allData, selectedDay: { day, season
   return (
     <Paper
       bg="gray.8"
-      mih="25rem"
+      mih={isMobile ? "19rem" : "25rem"}
       pb={{ base: "sm", md: "md" }}
       pr={{ base: "md", md: "lg" }}
       pt={{ base: "xl", md: "3rem" }}
