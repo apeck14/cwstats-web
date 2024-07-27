@@ -81,7 +81,6 @@ export default function RaceStepper({ clansBadgeData, dayDescriptions, dayOfWeek
             color={color}
             dayIsActive={dayIndex === i}
             dayIsCompleted={dayIsCompleted}
-            dayOfWeek={dayOfWeek}
             description={i === 0 ? subTitle : dayDescriptions[i - 1]}
             Icon={StepIcon}
             iconSize={isTablet ? "1.25rem" : "2rem"}

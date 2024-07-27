@@ -11,7 +11,6 @@ export default function StepperItem({
   color,
   dayIsActive,
   dayIsCompleted,
-  dayOfWeek,
   description,
   Icon,
   iconSize,
@@ -51,7 +50,7 @@ export default function StepperItem({
         </Stack>
       </Stack>
       {showModal && (
-        <Modal centered onClose={close} opened={opened} title={<Title fz="1.25rem">Day {dayOfWeek - 3} Details</Title>}>
+        <Modal centered onClose={close} opened={opened} title={<Title fz="1.25rem">{title} Details</Title>}>
           <Stack gap="xl">
             {periodLog?.items?.map((l) => {
               const { badge, name } = clansBadgeData.find((c) => c.tag === l.clan.tag)
