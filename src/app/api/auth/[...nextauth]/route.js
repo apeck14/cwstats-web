@@ -100,6 +100,7 @@ export const authOptions = {
           scope,
         },
       },
+      check: ["none"],
       clientId: process.env.DISCORD_ID,
       clientSecret: process.env.DISCORD_SECRET,
     }),

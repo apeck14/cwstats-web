@@ -1,23 +1,48 @@
-name: CI/CD
+name: Deploy NextJS Website
+
 on:
   push:
-    branches: [main]
+    branches:
+      - main
+
 jobs:
-  deploy:
+  build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v2
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
         with:
-          clean: true
-      - name: Stop process
-        run: pm2 stop cwstats-web
-      - name: Pull changes
-        run: git pull
-      - name: Install dependencies for production
+          node-version: "20"
+
+      - name: Install dependencies
         run: npm install
-      - name: Build the app
-        if: success()
+
+      - name: Build project
         run: npm run build
-      - name: Restart the process
-        if: success()
-        run: pm2 reload cwstats-web
+
+      - name: Copy files via SCP
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+          VPS_PATH: ${{ secrets.VPS_PATH }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+          scp -o StrictHostKeyChecking=no -i private_key -r . $VPS_USER@$VPS_HOST:$VPS_PATH
+          rm private_key
+
+      - name: Reload PM2
+        env:
+          SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          VPS_USER: ${{ secrets.VPS_USER }}
+          VPS_HOST: ${{ secrets.VPS_HOST }}
+        run: |
+          echo "$SSH_PRIVATE_KEY" > private_key
+          chmod 600 private_key
+          ssh -o StrictHostKeyChecking=no -i private_key $VPS_USER@$VPS_HOST 'pm2 reload cwstats-web'
+          rm private_key

@@ -67,31 +67,31 @@ export default function StepperItem({
                           src={`/assets/badges/${badge}.webp`}
                           unoptimized
                         />
-                        <Text fw={600} fz={{ base: "0.8rem", md: "0.9rem" }}>
+                        <Text fw={700} fz={{ base: "0.8rem", md: "0.9rem" }}>
                           {name}
                         </Text>
                       </Group>
                       <Group gap="0.2rem">
-                        <Text fw="500" fz={{ base: "0.7rem", md: "0.85rem" }}>
+                        <Text fw="600" fz={{ base: "0.7rem", md: "0.85rem" }}>
                           {l.progressStartOfDay} (+{l.progressEndOfDay})
                         </Text>
                         <Image alt="Boat Points" height={16} src="/assets/icons/boat-movement.webp" />
                       </Group>
                       <Group gap="0.2rem">
-                        <Text fw={500} fz={{ base: "0.7rem", md: "0.85rem" }}>
+                        <Text fw="600" fz={{ base: "0.7rem", md: "0.85rem" }}>
                           {l.pointsEarned}
                         </Text>
                         <Image alt="fame" height={16} src="/assets/icons/fame.webp" />
                       </Group>
                     </Group>
                     <Group>
-                      <Progress.Root flex={1} size="sm" w="80%">
+                      <Progress.Root flex={1} w="80%">
                         <Progress.Section
                           color={tag === l.clan.tag ? "pink" : "orange.6"}
                           value={(l.pointsEarned / maxFame) * 100}
                         />
                       </Progress.Root>
-                      <Paper bg="gray.9" fw="500" fz="0.7rem" px="0.35rem" py="0.1rem">
+                      <Paper bg="gray.8" fw="600" fz="0.7rem" px="0.35rem" py="0.1rem">
                         {(l.pointsEarned / 200).toFixed(1)}
                       </Paper>
                     </Group>
