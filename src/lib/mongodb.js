@@ -1,8 +1,6 @@
 /* eslint-disable import/no-mutable-exports */
 import { MongoClient, ServerApiVersion } from "mongodb"
 
-if (!process.env.URI) throw new Error('Invalid/Missing environment variable: "URI"')
-
 const uri = process.env.URI
 
 const options = {
