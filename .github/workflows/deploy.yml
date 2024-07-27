@@ -22,6 +22,8 @@ jobs:
         run: npm install
 
       - name: Build project
+        env:
+          URI: ${{ secrets.URI }}
         run: npm run build
 
       - name: Copy files via SCP
