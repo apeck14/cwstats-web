@@ -4,9 +4,9 @@ import { redirect } from "next/navigation"
 import { getClan, getRace } from "@/actions/supercell"
 import ClanHeader from "@/components/clan/header"
 import ParticipantsTable from "@/components/clan/participants-table"
-import RaceItems from "@/components/clan/race-items"
-import RaceStats from "@/components/clan/race-stats"
-import RaceStepper from "@/components/clan/race-stepper"
+import RaceItems from "@/components/clan/race/race-items"
+import RaceStats from "@/components/clan/race/race-stats"
+import RaceStepper from "@/components/clan/race/race-stepper"
 import InfoPopover from "@/components/ui/info-popover"
 import { getClanBadgeFileName, getSupercellRedirectRoute } from "@/lib/functions/utils"
 
@@ -43,6 +43,12 @@ export default async function ClanRace({ params }) {
     const dayOfWeek = race?.periodIndex % 7
     const isColosseum = race?.periodType === "colosseum"
 
+    const clansBadgeData = race?.clans.map((c) => ({
+      badge: getClanBadgeFileName(c.badgeId, c.trophies),
+      name: c.name,
+      tag: c.tag,
+    }))
+
     return (
       <>
         <ClanHeader clan={clan} />
@@ -53,18 +59,22 @@ export default async function ClanRace({ params }) {
             </Title>
           ) : (
             <Stack mt="md">
+              <Title ta="center">River Race</Title>
               <Title bg="gray.7" className={classes.raceIndex}>
                 {isColosseum ? "Colosseum" : `Week ${race?.sectionIndex + 1}`}
               </Title>
               <RaceStepper
+                clansBadgeData={clansBadgeData}
                 dayDescriptions={selectedClan.periodLogDescriptions}
                 dayOfWeek={dayOfWeek}
-                week={race?.sectionIndex + 1}
+                isColosseum={isColosseum}
+                periodLogs={race.periodLogs}
+                tag={clan.tag}
               />
               <RaceItems clans={race.clans} isColosseum={isColosseum} />
               <Group gap="xs" justify="center">
                 <Title>Clan Stats</Title>
-                <InfoPopover iconSize="1.25rem" text="All projections assume no missed attacks from those remaining." />
+                <InfoPopover iconSize="1.25rem" text="All projections assume remaining attacks get completed." />
               </Group>
               <RaceStats clan={selectedClan} isColosseum={isColosseum} />
               <Group gap="xs" justify="center" mt="xl">

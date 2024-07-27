@@ -12,22 +12,20 @@ export const formatPlacement = (place) => {
 }
 
 export const getRaceIndexDescriptions = (periodLogs, tag, isColosseum) => {
-  // return { mobile: ["+3000", ...], standard: ["1st (+3450)", ...]}
-  const mobile = []
-  const standard = []
+  // return ["+3000", ...]
+  const descriptions = []
 
-  if (isColosseum) return { mobile, standard }
+  if (isColosseum) return []
 
   for (let i = 0; i < periodLogs.length; i++) {
     const period = periodLogs[i]
     const clan = period.items.find((c) => c.clan.tag === tag)
     const totalProgress = clan.progressEarned + clan.progressEarnedFromDefenses
 
-    mobile.push(`+${totalProgress}`)
-    standard.push(`${formatPlacement(clan.endOfDayRank + 1)} (+${totalProgress})`)
+    descriptions.push(`+${totalProgress}`)
   }
 
-  return { mobile, standard }
+  return descriptions
 }
 
 export const getAvgFame = (clan, isColosseum, dayOfWeek) => {
@@ -209,6 +207,11 @@ export const getRaceDetails = (race) => {
     ? { boatAccessor: "periodPoints", fameAccessor: "fame" }
     : { boatAccessor: "fame", fameAccessor: "periodPoints" }
 
+  const battleDaysCompleted = dayOfWeek - 3
+  const thisWeeksLogs = race.periodLogs?.length
+    ? race.periodLogs.splice(race.periodLogs.length - battleDaysCompleted)
+    : []
+
   const mappedClans = race.clans.map((clan) => {
     const shared = {
       badgeId: clan.badgeId,
@@ -223,11 +226,6 @@ export const getRaceDetails = (race) => {
     }
 
     if (clan.tag === race.clan.tag) {
-      const battleDaysCompleted = dayOfWeek - 3
-      const thisWeeksLogs = race.periodLogs?.length
-        ? race.periodLogs.splice(race.periodLogs.length - battleDaysCompleted)
-        : []
-
       return {
         ...shared,
         battlesRemaining: 200 - clan.participants.reduce((sum, p) => sum + p.decksUsedToday, 0),
@@ -252,6 +250,7 @@ export const getRaceDetails = (race) => {
   return {
     clans,
     periodIndex: race.periodIndex,
+    periodLogs: thisWeeksLogs,
     periodType: race.periodType,
     sectionIndex: race.sectionIndex,
   }

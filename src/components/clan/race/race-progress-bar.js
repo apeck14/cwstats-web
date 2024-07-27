@@ -3,7 +3,7 @@
 import { Progress } from "@mantine/core"
 import { useEffect, useState } from "react"
 
-import classes from "./clan.module.css"
+import classes from "../clan.module.css"
 
 export default function RaceProgressBar({ famePerc, isMobile, projPerc }) {
   const [perc, setPerc] = useState({ famePerc: 0, projPerc: 0 })

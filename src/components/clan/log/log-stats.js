@@ -2,7 +2,7 @@
 
 import { Box, Flex, Group, NumberFormatter, Paper, Progress, SimpleGrid, Stack, Text, Title } from "@mantine/core"
 
-import RaceRing from "../race-ring"
+import RaceRing from "../race/race-ring"
 
 export default function LogStats({ log }) {
   const { bestColAvg, bestColScore, bestWeekAvg, lastColAvg, lastColScore, logAvg, worstWeekAvg } = log || {}

@@ -6,10 +6,10 @@ import Link from "next/link"
 
 import { getClanBadgeFileName } from "@/lib/functions/utils"
 
-import Image from "../ui/image"
-import classes from "./clan.module.css"
+import Image from "../../ui/image"
+import classes from "../clan.module.css"
+import RankIcon from "../rank-icon"
 import RaceProgressBar from "./race-progress-bar"
-import RankIcon from "./rank-icon"
 
 export default function RaceItems({ clans, isColosseum }) {
   const isMobile = useMediaQuery("(max-width: 30em)")
@@ -20,7 +20,7 @@ export default function RaceItems({ clans, isColosseum }) {
   const itemGap = isMobile ? "0.25rem" : "xs"
 
   return (
-    <Stack my="xl">
+    <Stack mb="xl" mt="md">
       {clans.map((c) => {
         const famePerc = (c.fame / maxFame) * 100
         const projPerc = (c.projFame / maxFame) * 100 - famePerc
