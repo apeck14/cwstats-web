@@ -72,7 +72,7 @@ export default function StepperItem({
                       </Group>
                       <Group gap="0.2rem">
                         <Text fw="600" fz={{ base: "0.7rem", md: "0.85rem" }}>
-                          {l.progressStartOfDay} (+{l.progressEndOfDay})
+                          {l.progressStartOfDay} (+{l.progressEndOfDay - l.progressStartOfDay})
                         </Text>
                         <Image alt="Boat Points" height={16} src="/assets/icons/boat-movement.webp" />
                       </Group>
