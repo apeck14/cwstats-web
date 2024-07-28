@@ -90,7 +90,7 @@ export default function StepperItem({
                           value={(l.pointsEarned / maxFame) * 100}
                         />
                       </Progress.Root>
-                      <Paper bg="gray.8" fw="600" fz="0.7rem" px="0.35rem" py="0.1rem">
+                      <Paper bg="gray.8" fw="600" fz="0.7rem" miw="2.25rem" py="0.1rem" ta="center">
                         {(l.pointsEarned / 200).toFixed(1)}
                       </Paper>
                     </Group>
