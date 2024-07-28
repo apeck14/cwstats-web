@@ -51,7 +51,7 @@ export default function StepperItem({
       </Stack>
       {showModal && (
         <Modal centered onClose={close} opened={opened} title={<Title fz="1.25rem">{title} Details</Title>}>
-          <Stack gap="xl">
+          <Stack gap="lg">
             {periodLog?.items?.map((l) => {
               const { badge, name } = clansBadgeData.find((c) => c.tag === l.clan.tag)
               return (
