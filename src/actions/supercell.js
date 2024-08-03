@@ -56,7 +56,7 @@ export async function addPlayer({ clanName, name, tag }) {
 
   try {
     const db = client.db("General")
-    const players = db.collection("Players 2")
+    const players = db.collection("Players")
 
     const query = { tag }
     const update = { $set: { clanName, name, tag } }
