@@ -51,7 +51,7 @@ export default function Settings({ guild }) {
   }, [ignoreLeaders, message, ignoreWhenCrossedFinishLine])
 
   return (
-    <Stack>
+    <Stack mih="15rem">
       <Group gap="xs">
         <Title size="h3">Settings</Title>
         <InfoPopover text="These settings will be applied to both /nudge & scheduled nudges." />

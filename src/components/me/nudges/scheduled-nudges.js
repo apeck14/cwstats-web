@@ -64,7 +64,7 @@ export default function ScheduledNudges({ channels, guild }) {
     })
 
   return (
-    <Stack>
+    <Stack mih="12rem">
       <Group justify="space-between" mt="md">
         <Group>
           <Title size="h3">Scheduled Nudges</Title>
