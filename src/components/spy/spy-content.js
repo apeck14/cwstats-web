@@ -1,6 +1,6 @@
 "use client"
 
-import { Container, Flex, Group, Skeleton, Stack, Title } from "@mantine/core"
+import { Container, Flex, Group, Skeleton, Stack, Text, Title } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { IconSpy } from "@tabler/icons-react"
 import Link from "next/link"
@@ -89,14 +89,17 @@ export default function SpyContent() {
               {showSkeleton ? (
                 <Skeleton height="1.5rem" my="0.4rem" width="10rem" />
               ) : (
-                <Link
+                <Text
                   className="text"
+                  component={Link}
+                  fw={600}
+                  fz="1.5rem"
                   href={`/player/${player.tag.substring(1)}`}
                   prefetch={false}
-                  style={{ fontSize: "1.5rem" }}
+                  w="fit-content"
                 >
                   {player?.name}
-                </Link>
+                </Text>
               )}
 
               <Group gap="xs">
@@ -109,14 +112,16 @@ export default function SpyContent() {
                 {showSkeleton ? (
                   <Skeleton height="1rem" width="10rem" />
                 ) : (
-                  <Link
+                  <Text
+                    c="gray.1"
                     className="text"
+                    component={Link}
+                    fw={600}
                     href={player?.clan?.tag ? `/clan/${player.clan.tag.substring(1)}` : "/"}
                     prefetch={false}
-                    style={{ color: "var(--mantine-color-gray-1)" }}
                   >
                     {player?.clan?.name}
-                  </Link>
+                  </Text>
                 )}
               </Group>
               {player && <DeckContent decks={decks} loading={decksLoading} />}
