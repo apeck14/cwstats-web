@@ -46,6 +46,7 @@ module.exports = {
     "react/jsx-filename-extension": "off",
     "react/jsx-pascal-case": "off",
     "react/jsx-props-no-spreading": "off",
+    "react/no-array-index-key": "off",
     "react/prop-types": "off",
     "react/react-in-jsx-scope": "off",
     "simple-import-sort/exports": "error",
