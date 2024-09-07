@@ -16,15 +16,28 @@ export default function PlusDropdown({ active, tag }) {
       <Menu.Dropdown>
         <Menu.Item
           component={Link}
+          fw={500}
           href={`/clan/${tag}/plus/hourly-fame`}
           leftSection={<IconHourglassEmpty color="var(--mantine-color-orange-5)" size="1.25rem" />}
+          px="0.5rem"
         >
           Hourly Fame Tracking
         </Menu.Item>
-        <Menu.Item disabled leftSection={<IconCalendarWeek color="var(--mantine-color-orange-5)" size="1.25rem" />}>
+        <Menu.Item
+          component={Link}
+          fw={500}
+          href={`/clan/${tag}/plus/daily-tracking`}
+          leftSection={<IconCalendarWeek color="var(--mantine-color-orange-5)" size="1.25rem" />}
+          px="0.5rem"
+        >
           Daily Player Tracking
         </Menu.Item>
-        <Menu.Item disabled leftSection={<IconTrophy color="var(--mantine-color-orange-5)" size="1.25rem" />}>
+        <Menu.Item
+          disabled
+          fw={500}
+          leftSection={<IconTrophy color="var(--mantine-color-orange-5)" size="1.25rem" />}
+          px="0.5rem"
+        >
           Leaderboard Stats
         </Menu.Item>
       </Menu.Dropdown>

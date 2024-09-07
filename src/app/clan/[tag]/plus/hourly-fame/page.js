@@ -4,7 +4,7 @@ import { redirect } from "next/navigation"
 import { getClan } from "@/actions/supercell"
 import { getPlusClanData } from "@/actions/upgrade"
 import ClanHeader from "@/components/clan/header"
-import HourlyAvgContent from "@/components/clan/plus/hourly-avg-content"
+import HourlyAvgContent from "@/components/clan/plus/hourly-avg/hourly-avg-content"
 import NotUnlocked from "@/components/upgrade/not-unlocked"
 import { getSupercellRedirectRoute } from "@/lib/functions/utils"
 

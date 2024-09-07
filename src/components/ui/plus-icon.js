@@ -10,7 +10,7 @@ export default function PlusIcon({ isPlus, showPopover = true, size = 16, tag })
   const [opened, { close, open }] = useDisclosure(false)
 
   const ImageComponent = (
-    <Group component={Link} href={isPlus ? `/clan/${tag}/plus/hourly-fame` : "/upgrade"} prefetch={false}>
+    <Group component={Link} href={isPlus ? `/clan/${tag}/plus/daily-tracking` : "/upgrade"} prefetch={false}>
       <Image alt="CWStats Plus" height={size} src={`/assets/icons/${isPlus ? "" : "not-"}plus.webp`} width={size} />
     </Group>
   )

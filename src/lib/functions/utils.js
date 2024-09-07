@@ -144,3 +144,22 @@ export const intToHex = (int) => {
 
   return `#${int.toString(16).padStart(6, "0")}`
 }
+
+export const getMedian = (arr) => {
+  arr.sort((a, b) => a - b)
+
+  const { length } = arr
+  const middle = Math.floor(length / 2)
+
+  if (length % 2 === 1) {
+    return arr[middle]
+  }
+  return (arr[middle - 1] + arr[middle]) / 2
+}
+
+export const getAverage = (arr) => {
+  if (!arr?.length) return 0
+
+  const sum = arr.reduce((acc, num) => acc + num, 0)
+  return sum / arr.length
+}

@@ -1,6 +1,6 @@
 import { Group, Paper, Radio, Text } from "@mantine/core"
 
-import classes from "./plus.module.css"
+import classes from "../plus.module.css"
 
 export default function HourlyAvgDay({ checked, day, handleClick, season, week }) {
   const handleDayClick = () => {

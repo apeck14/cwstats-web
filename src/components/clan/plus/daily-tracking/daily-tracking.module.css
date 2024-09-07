@@ -1,0 +1,4 @@
+.hoverableTh:hover {
+  background-color: var(--mantine-color-gray-8);
+  cursor: pointer;
+}
