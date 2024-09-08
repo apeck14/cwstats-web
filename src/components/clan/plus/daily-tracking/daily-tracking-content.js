@@ -52,6 +52,8 @@ function getTableData(data, start, length) {
 function getStats(week, data, weekData) {
   // calculate each day separately, then the average of that for the weekly average
   // ignore days that don't have any scores
+  // if week is an incomplete week, only show AVG FAME & BATTLES MISSED (minus for all others)
+  // if last week is an incomplete week, only compare AVG FAME & BATTLES MISSED
 
   const thisWeekIndex = weekData.findIndex((e) => e.label === week)
 
@@ -65,64 +67,98 @@ function getStats(week, data, weekData) {
 
   const daysThisWeek = []
   const scoresThisWeek = [] // used to find median score of the week
+  let thisWeekIsIncomplete = false
 
   const daysLastWeek = []
   const scoresLastWeek = []
+  let lastWeekIsIncomplete = false
 
   for (const day of thisWeek) {
+    if (!day.scores.length) continue
+
     let totalFame = 0
     let totalAttacks = 0
-    let playersBattled = 0
+    let playersCompletedBattles = 0
+    let mostAttacksUsed = 0
 
     for (const p of day.scores) {
-      if (p.attacks) playersBattled++
+      if (p.attacks) {
+        if (p.attacks === 4) playersCompletedBattles++
+        if (p.attacks > 4) thisWeekIsIncomplete = true
+        if (p.attacks > mostAttacksUsed) mostAttacksUsed = p.attacks
+      }
       totalAttacks += p.attacks
       totalFame += p.fame
       scoresThisWeek.push(p.fame)
     }
 
+    const daysMergedIntoToday = mostAttacksUsed > 4 ? Math.ceil(mostAttacksUsed / 4) : 1
+    const totalExpectedBattles = daysMergedIntoToday * 200
+
     daysThisWeek.push({
-      "AVG. FAME": totalAttacks ? totalFame / totalAttacks : 0,
-      "BATTLES MISSED": 200 - totalAttacks,
+      "AVG. FAME": totalAttacks ? totalFame / totalExpectedBattles : 0,
+      "BATTLES MISSED": totalExpectedBattles - totalAttacks,
       "DAILY FAME": totalFame,
-      "PLAYERS MISSED": 50 - playersBattled,
+      "PLAYERS MISSED": 50 - playersCompletedBattles,
     })
   }
 
   for (const day of lastWeek) {
+    if (!day.scores.length) continue
+
     let totalFame = 0
     let totalAttacks = 0
-    let playersBattled = 0
+    let playersCompletedBattles = 0
+    let mostAttacksUsed = 0
 
     for (const p of day.scores) {
-      if (p.attacks) playersBattled++
+      if (p.attacks) {
+        if (p.attacks === 4) playersCompletedBattles++
+        if (p.attacks > 4) lastWeekIsIncomplete = true
+        if (p.attacks > mostAttacksUsed) mostAttacksUsed = p.attacks
+      }
       totalAttacks += p.attacks
       totalFame += p.fame
       scoresLastWeek.push(p.fame)
     }
 
+    const daysMergedIntoToday = mostAttacksUsed > 4 ? Math.ceil(mostAttacksUsed / 4) : 1
+    const totalExpectedBattles = daysMergedIntoToday * 200
+
     daysLastWeek.push({
-      "AVG. FAME": totalAttacks ? totalFame / totalAttacks : 0,
-      "BATTLES MISSED": 200 - totalAttacks,
+      "AVG. FAME": totalAttacks ? totalFame / totalExpectedBattles : 0,
+      "BATTLES MISSED": totalExpectedBattles - totalAttacks,
       "DAILY FAME": totalFame,
-      "PLAYERS MISSED": 50 - playersBattled,
+      "PLAYERS MISSED": 50 - playersCompletedBattles,
     })
   }
 
-  const items = ["AVG. FAME", "BATTLES MISSED", "DAILY FAME", "PLAYERS MISSED"].map((l) => ({
-    label: l,
-    lastWeek: l.includes("MISSED")
-      ? daysLastWeek.reduce((sum, d) => sum + d[l], 0)
-      : getAverage(daysLastWeek.map((e) => e[l])),
-    thisWeek: l.includes("MISSED")
-      ? daysThisWeek.reduce((sum, d) => sum + d[l], 0)
-      : getAverage(daysThisWeek.map((e) => e[l])),
-  }))
+  const labels = ["AVG. FAME", "BATTLES MISSED", "DAILY FAME", "PLAYERS MISSED"]
+  const incompleteLabels = ["AVG. FAME", "BATTLES MISSED"]
+
+  const items = labels.map((l) => {
+    const calculateThisWeek = !thisWeekIsIncomplete || (thisWeekIsIncomplete && incompleteLabels.includes(l))
+    const calculateLastWeek = !lastWeekIsIncomplete || (lastWeekIsIncomplete && incompleteLabels.includes(l))
+
+    return {
+      label: l,
+      lastWeek:
+        calculateLastWeek &&
+        (l.includes("MISSED")
+          ? daysLastWeek.reduce((sum, d) => sum + d[l], 0)
+          : getAverage(daysLastWeek.map((e) => e[l]))),
+      thisWeek:
+        calculateThisWeek &&
+        (l.includes("MISSED")
+          ? daysThisWeek.reduce((sum, d) => sum + d[l], 0)
+          : getAverage(daysThisWeek.map((e) => e[l]))),
+    }
+  })
 
   items.push({
     label: "MEDIAN SCORE",
-    lastWeek: getMedian(scoresLastWeek),
-    thisWeek: getMedian(scoresThisWeek),
+    lastWeek: !lastWeekIsIncomplete && getMedian(scoresLastWeek),
+    thisWeek: !thisWeekIsIncomplete && getMedian(scoresThisWeek),
   })
 
   return items

@@ -3,6 +3,7 @@ import { IconArrowDownRight, IconArrowUpRight, IconMinus } from "@tabler/icons-r
 
 const formatNum = (num) => {
   if (Number.isInteger(num)) return num
+  if (!num) return "N/A"
   return num.toFixed(1)
 }
 
