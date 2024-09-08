@@ -69,7 +69,9 @@ export async function getAllDailyLbClans() {
         const { badgeId, clanWarTrophies, description, location, members, name, tag } = clan
 
         // remove clan from plus
-        if (members === 0 || !description.toLowerCase().includes("cwstats") || clanWarTrophies < 2800) {
+        const lowercaseDesc = description.toLowerCase()
+        const hasUrlInDescription = lowercaseDesc.includes("cwstats") || lowercaseDesc.includes("cw-stats")
+        if (members === 0 || !hasUrlInDescription || clanWarTrophies < 2800) {
           CWStatsPlus.deleteOne({ tag })
           sendPlusWebhookEmbed("REMOVE_PLUS", {
             name,

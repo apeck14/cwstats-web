@@ -84,7 +84,7 @@ export default function PlusFormModal() {
                 <InfoPopover
                   color="var(--mantine-color-orange-5)"
                   iconSize="0.9rem"
-                  text="Family friendly clans can use CWStats instead."
+                  text="Family friendly clans can use CWStats or CW-Stats instead."
                 />
               </Group>
             </List.Item>

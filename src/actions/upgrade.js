@@ -35,7 +35,8 @@ export async function addPlus(tag) {
   if (clan.clanWarTrophies < 3000) return { error: "Clan must have at least 3000 war trophies." }
 
   // check description for "cwstats" (FF clans can't use .com)
-  const hasUrlInDescription = clan.description.toLowerCase().includes("cwstats")
+  const lowercaseDesc = clan.description.toLowerCase()
+  const hasUrlInDescription = lowercaseDesc.includes("cwstats") || lowercaseDesc.includes("cw-stats")
   if (!hasUrlInDescription) return { error: 'Clan description must contain "CWStats.com".' }
 
   try {
