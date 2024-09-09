@@ -78,6 +78,15 @@ const columns = {
   },
 }
 
+const cellColors = [
+  "rgb(43, 138, 62, 0.4)",
+  "rgb(81, 207, 102, 0.5)",
+  "rgb(169, 227, 75, 0.4)",
+  "rgb(250, 176, 5, 0.4)",
+  "rgb(255, 146, 43, 0.5)",
+  "rgb(250, 82, 82, 0.6)",
+]
+
 export default function DailyTrackingTable({ data }) {
   const isMobile = useMediaQuery("(max-width: 30em)")
   const [sortConfig, setSortConfig] = useState({
@@ -110,11 +119,11 @@ export default function DailyTrackingTable({ data }) {
       Object.values(data)
         .sort(columns[sortConfig.col](sortConfig.key, sortConfig.dir === "asc"))
         .map((entry, i) => (
-          <Table.Tr fz={{ base: "0.65rem", md: "0.85rem" }} key={entry.tag}>
+          <Table.Tr fw="600" fz={{ base: "0.65rem", md: "0.85rem" }} key={entry.tag}>
             <Table.Td bg="gray.10" px="0" ta="center">
               {i + 1}
             </Table.Td>
-            <Table.Td fw="600" fz={{ base: "0.7rem", md: "0.9rem" }}>
+            <Table.Td fz={{ base: "0.75rem", md: "0.9rem" }}>
               <Link className="pinkText" href={`/player/${entry.tag.substring(1)}`} prefetch={false}>
                 {entry.name}
               </Link>
@@ -124,7 +133,7 @@ export default function DailyTrackingTable({ data }) {
                 <Table.Td ta="center" visibleFrom="md">
                   {s.attacks}
                 </Table.Td>
-                <Table.Td colSpan={isMobile && 2} ta="center">
+                <Table.Td bg={cellColors[Math.ceil((900 - s.fame) / 100)]} colSpan={isMobile && 2} ta="center">
                   {isMobile ? (
                     <Stack gap="0">
                       <Text fz={{ base: "0.65rem", md: "0.85rem" }}>{s.fame}</Text>

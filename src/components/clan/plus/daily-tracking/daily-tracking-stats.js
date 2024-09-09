@@ -1,10 +1,11 @@
 import { Card, Group, SimpleGrid, Text } from "@mantine/core"
 import { IconArrowDownRight, IconArrowUpRight, IconMinus } from "@tabler/icons-react"
 
-const formatNum = (num) => {
+const formatNum = (num, label) => {
   if (Number.isInteger(num)) return num
   if (!num) return "N/A"
-  return num.toFixed(1)
+
+  return num.toFixed(label === "DAILY FAME" ? 0 : 1)
 }
 
 export default function DailyTrackingStats({ stats }) {
@@ -64,7 +65,7 @@ export default function DailyTrackingStats({ stats }) {
             </Text>
             <Group>
               <Text fw="700" fz="1.5rem">
-                {formatNum(s.thisWeek)}
+                {formatNum(s.thisWeek, s.label)}
               </Text>
               {changeGroup}
             </Group>
