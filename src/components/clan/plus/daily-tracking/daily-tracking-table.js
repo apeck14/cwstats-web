@@ -79,13 +79,30 @@ const columns = {
 }
 
 const cellColors = [
-  "rgb(43, 138, 62, 0.4)",
-  "rgb(81, 207, 102, 0.5)",
-  "rgb(169, 227, 75, 0.4)",
-  "rgb(250, 176, 5, 0.4)",
-  "rgb(255, 146, 43, 0.5)",
-  "rgb(250, 82, 82, 0.6)",
+  "rgb(43, 138, 62, 0.4)", // 225
+  "rgb(81, 207, 102, 0.5)", // 200
+  "rgb(169, 227, 75, 0.4)", // 175
+  "rgb(250, 176, 5, 0.4)", // 150
+  "rgb(255, 146, 43, 0.5)", // 125
+  "rgb(250, 82, 82, 0.6)", // 100
 ]
+
+function getFameCellColor(attacks, fame) {
+  if (attacks <= 0) return
+
+  const avg = fame / attacks
+
+  let index
+
+  if (avg >= 225) index = 0
+  else if (avg >= 200) index = 1
+  else if (avg >= 175) index = 2
+  else if (avg >= 150) index = 3
+  else if (avg >= 125) index = 4
+  else index = 5
+
+  return cellColors[index]
+}
 
 export default function DailyTrackingTable({ data }) {
   const isMobile = useMediaQuery("(max-width: 30em)")
@@ -128,23 +145,27 @@ export default function DailyTrackingTable({ data }) {
                 {entry.name}
               </Link>
             </Table.Td>
-            {entry.scores.map((s, i) => (
-              <React.Fragment key={`${entry.tag}-${i}`}>
-                <Table.Td ta="center" visibleFrom="md">
-                  {s.attacks}
-                </Table.Td>
-                <Table.Td bg={cellColors[Math.ceil((900 - s.fame) / 100)]} colSpan={isMobile && 2} ta="center">
-                  {isMobile ? (
-                    <Stack gap="0">
-                      <Text fz={{ base: "0.65rem", md: "0.85rem" }}>{s.fame}</Text>
-                      <Text fz={{ base: "0.65rem", md: "0.85rem" }}>({s.attacks})</Text>
-                    </Stack>
-                  ) : (
-                    s.fame
-                  )}
-                </Table.Td>
-              </React.Fragment>
-            ))}
+            {entry.scores.map((s, i) => {
+              const fameCellColor = getFameCellColor(s.attacks, s.fame)
+
+              return (
+                <React.Fragment key={`${entry.tag}-${i}`}>
+                  <Table.Td ta="center" visibleFrom="md">
+                    {s.attacks}
+                  </Table.Td>
+                  <Table.Td bg={fameCellColor} colSpan={isMobile && 2} ta="center">
+                    {isMobile ? (
+                      <Stack gap="0">
+                        <Text fz={{ base: "0.65rem", md: "0.85rem" }}>{s.fame}</Text>
+                        <Text fz={{ base: "0.65rem", md: "0.85rem" }}>({s.attacks})</Text>
+                      </Stack>
+                    ) : (
+                      s.fame
+                    )}
+                  </Table.Td>
+                </React.Fragment>
+              )
+            })}
             <Table.Td ta="center" visibleFrom="md">
               {entry.avg.toFixed(1)}
             </Table.Td>
