@@ -79,11 +79,11 @@ const columns = {
 }
 
 const cellColors = [
-  "rgb(43, 138, 62, 0.4)", // 225
-  "rgb(81, 207, 102, 0.5)", // 200
+  "rgb(43, 138, 62, 0.5)", // 225
+  "rgb(81, 207, 102, 0.6)", // 200
   "rgb(169, 227, 75, 0.4)", // 175
   "rgb(250, 176, 5, 0.4)", // 150
-  "rgb(255, 146, 43, 0.5)", // 125
+  "rgb(255, 146, 43, 0.6)", // 125
   "rgb(250, 82, 82, 0.6)", // 100
 ]
 
@@ -91,17 +91,10 @@ function getFameCellColor(attacks, fame) {
   if (attacks <= 0) return
 
   const avg = fame / attacks
+  const thresholds = [225, 200, 175, 150, 125]
+  const index = thresholds.findIndex((t) => avg >= t)
 
-  let index
-
-  if (avg >= 225) index = 0
-  else if (avg >= 200) index = 1
-  else if (avg >= 175) index = 2
-  else if (avg >= 150) index = 3
-  else if (avg >= 125) index = 4
-  else index = 5
-
-  return cellColors[index]
+  return cellColors[index === -1 ? 5 : index]
 }
 
 export default function DailyTrackingTable({ data }) {
