@@ -146,6 +146,7 @@ export default function AddNudgeModal({ channels, disabled, id, onAdd }) {
               size="md"
               withAsterisk
               {...form.getInputProps("hour")}
+              allowDeselect={false}
               onChange={handleHourSelect}
             />
             <Select
@@ -155,6 +156,7 @@ export default function AddNudgeModal({ channels, disabled, id, onAdd }) {
               size="md"
               withAsterisk
               {...form.getInputProps("amPm")}
+              allowDeselect={false}
               onChange={handleAMPMSelect}
             />
           </Group>

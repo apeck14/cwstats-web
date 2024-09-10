@@ -170,10 +170,16 @@ export default function DailyTrackingContent({ data, weekData }) {
   const [week, setWeek] = useState(weekData[0]?.label)
   const isMobile = useMediaQuery("(max-width: 30em)")
 
+  const labels = useMemo(() => weekData.map((e) => e.label), [])
+
   const currentWeek = weekData.find((w) => w.label === week)
   const tableData = useMemo(() => getTableData(data, currentWeek?.start, currentWeek?.length), [currentWeek])
 
   const stats = getStats(week, data, weekData)
+
+  const handleSelect = (val) => {
+    setWeek(val)
+  }
 
   return (
     <Stack>
@@ -189,9 +195,10 @@ export default function DailyTrackingContent({ data, weekData }) {
         <>
           <Group justify="flex-end">
             <Select
-              data={weekData.map((e) => e.label)}
+              allowDeselect={false}
+              data={labels}
               maw="9rem"
-              onChange={(val) => setWeek(val)}
+              onChange={handleSelect}
               placeholder="Pick value"
               value={week}
             />
