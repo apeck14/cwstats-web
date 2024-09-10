@@ -88,7 +88,7 @@ const cellColors = [
 ]
 
 function getFameCellColor(attacks, fame) {
-  if (attacks <= 0) return
+  if (!fame || !attacks) return
 
   const avg = fame / attacks
   const thresholds = [225, 200, 175, 150, 125]

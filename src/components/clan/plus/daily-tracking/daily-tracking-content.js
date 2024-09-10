@@ -19,6 +19,8 @@ function getTableData(data, start, length) {
     const dayIndex = day.day - 1
 
     for (const entry of day.scores) {
+      if (!entry.fame) continue
+
       if (entry.tag in tableData) {
         tableData[entry.tag].scores[dayIndex] = { attacks: entry.attacks, fame: entry.fame }
         tableData[entry.tag].totalFame += entry.fame
@@ -74,7 +76,7 @@ function getStats(week, data, weekData) {
   let lastWeekIsIncomplete = false
 
   for (const day of thisWeek) {
-    if (!day.scores.length) continue
+    if (!day.scores.length || day.scores.every((p) => p.fame === 0)) continue
 
     let totalFame = 0
     let totalAttacks = 0
@@ -82,7 +84,7 @@ function getStats(week, data, weekData) {
     let mostAttacksUsed = 0
 
     for (const p of day.scores) {
-      if (p.attacks) {
+      if (p.fame) {
         if (p.attacks === 4) playersCompletedBattles++
         if (p.attacks > 4) thisWeekIsIncomplete = true
         if (p.attacks > mostAttacksUsed) mostAttacksUsed = p.attacks
@@ -104,7 +106,7 @@ function getStats(week, data, weekData) {
   }
 
   for (const day of lastWeek) {
-    if (!day.scores.length) continue
+    if (!day.scores.length || day.scores.every((p) => p.fame === 0)) continue
 
     let totalFame = 0
     let totalAttacks = 0
