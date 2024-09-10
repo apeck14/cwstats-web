@@ -24,11 +24,6 @@ const channelTypes = [
     title: "Applications Channel",
     type: "applicationsChannelID",
   },
-  {
-    description: "The channel where your war report will be posted.",
-    title: "Report Channel",
-    type: "reportChannelID",
-  },
 ]
 
 export default function ChannelsContent({ channels, guild }) {
@@ -37,14 +32,12 @@ export default function ChannelsContent({ channels, guild }) {
     applyChannelID: guild?.channels?.applyChannelID || "",
     commandChannelIDs: guild?.channels?.commandChannelIDs || [],
     commandChannelKeyword: guild?.channels?.commandChannelKeyword || "",
-    reportChannelID: guild?.channels?.reportChannelID || "",
   })
   const [unsavedState, setUnsavedState] = useState({
     applicationsChannelID: guild?.channels?.applicationsChannelID || "",
     applyChannelID: guild?.channels?.applyChannelID || "",
     commandChannelIDs: guild?.channels?.commandChannelIDs || [],
     commandChannelKeyword: guild?.channels?.commandChannelKeyword || "",
-    reportChannelID: guild?.channels?.reportChannelID || "",
   })
   const [opened, { close, open }] = useDisclosure(false)
   const [showButton, setShowButton] = useState(false)
@@ -57,8 +50,7 @@ export default function ChannelsContent({ channels, guild }) {
 
     if (
       savedState?.applicationsChannelID === newUnsavedState?.applicationsChannelID &&
-      savedState?.applyChannelID === newUnsavedState?.applyChannelID &&
-      savedState?.reportChannelID === newUnsavedState?.reportChannelID
+      savedState?.applyChannelID === newUnsavedState?.applyChannelID
     ) {
       close()
     } else open()
