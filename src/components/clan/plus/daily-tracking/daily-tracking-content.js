@@ -54,8 +54,8 @@ function getTableData(data, start, length) {
 function getStats(week, data, weekData) {
   // calculate each day separately, then the average of that for the weekly average
   // ignore days that don't have any scores
-  // if week is an incomplete week, only show AVG FAME & BATTLES MISSED (minus for all others)
-  // if last week is an incomplete week, only compare AVG FAME & BATTLES MISSED
+  // if week is an incomplete week, only show AVG FAME & ATTACKS MISSED (minus for all others)
+  // if last week is an incomplete week, only compare AVG FAME & ATTACKS MISSED
 
   const thisWeekIndex = weekData.findIndex((e) => e.label === week)
 
@@ -98,8 +98,8 @@ function getStats(week, data, weekData) {
     const totalExpectedBattles = daysMergedIntoToday * 200
 
     daysThisWeek.push({
+      "ATTACKS MISSED": totalExpectedBattles - totalAttacks,
       "AVG. FAME": totalAttacks ? totalFame / totalExpectedBattles : 0,
-      "BATTLES MISSED": totalExpectedBattles - totalAttacks,
       "DAILY FAME": totalFame,
       "PLAYERS MISSED": 50 - playersCompletedBattles,
     })
@@ -128,15 +128,15 @@ function getStats(week, data, weekData) {
     const totalExpectedBattles = daysMergedIntoToday * 200
 
     daysLastWeek.push({
+      "ATTACKS MISSED": totalExpectedBattles - totalAttacks,
       "AVG. FAME": totalAttacks ? totalFame / totalExpectedBattles : 0,
-      "BATTLES MISSED": totalExpectedBattles - totalAttacks,
       "DAILY FAME": totalFame,
       "PLAYERS MISSED": 50 - playersCompletedBattles,
     })
   }
 
-  const labels = ["AVG. FAME", "BATTLES MISSED", "DAILY FAME", "PLAYERS MISSED"]
-  const incompleteLabels = ["AVG. FAME", "BATTLES MISSED"]
+  const labels = ["AVG. FAME", "ATTACKS MISSED", "DAILY FAME", "PLAYERS MISSED"]
+  const incompleteLabels = ["AVG. FAME", "ATTACKS MISSED"]
 
   const items = labels.map((l) => {
     const calculateThisWeek = !thisWeekIsIncomplete || (thisWeekIsIncomplete && incompleteLabels.includes(l))
