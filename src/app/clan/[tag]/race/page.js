@@ -36,9 +36,11 @@ export default async function ClanRace({ params }) {
     getRace(tag, true),
   ])
 
-  if (clanStatus !== 200 || raceStatus !== 200) redirect(getSupercellRedirectRoute(raceStatus))
+  const noActiveRace = (clanStatus === 200 && raceStatus === 404) || (race && !race?.clans?.length)
+
+  // redirect all errors except when clanStatus = 200, raceStatus = 404 (no active race)
+  if (!noActiveRace && (clanStatus !== 200 || raceStatus !== 200)) redirect(getSupercellRedirectRoute(raceStatus))
   else {
-    const noActiveRace = !race || race?.clans?.length === 0
     const selectedClan = race?.clans?.find((c) => c.tag === clan?.tag)
     const dayOfWeek = race?.periodIndex % 7
     const isColosseum = race?.periodType === "colosseum"
