@@ -23,6 +23,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
   const pathname = usePathname()
   const [followed, setFollowed] = useState(clanFollowed)
   const isMobile = useMediaQuery("(max-width: 30em)")
+  const isLessThanTablet = useMediaQuery("(max-width: calc(48em - 1px))")
 
   const formattedTag = clan?.tag.substring(1)
 
@@ -72,7 +73,7 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                   <PlusIcon isPlus={isPlus} size={isMobile ? 20 : 24} tag={formattedTag} />
                 </Group>
                 <FollowButton followed={followed} handleToggle={handleFollowToggle} showText />
-                {isMobile && (
+                {isLessThanTablet && (
                   <MobileActionsMenu followed={followed} handleFollowToggle={handleFollowToggle} tag={formattedTag} />
                 )}
               </Group>
