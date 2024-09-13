@@ -51,7 +51,7 @@ export default function DailyTrackingStats({ stats }) {
           else
             changeGroup = (
               <Text c={color} fw="600" fz="0.9rem">
-                {diff > 0 ? "+" : "-"}
+                {diff > 0 && "+"}
                 {diff}
               </Text>
             )
