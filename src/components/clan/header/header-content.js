@@ -119,9 +119,6 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
             <Link className={classes.link} data-active={activeTab === "log"} href={`/clan/${formattedTag}/log`}>
               Log
             </Link>
-            <Link className={classes.link} data-active={activeTab === "stats"} href={`/clan/${formattedTag}/stats`}>
-              Stats
-            </Link>
             <PlusDropdown active={activeTab === "plus"} tag={formattedTag} />
           </Group>
         </Container>

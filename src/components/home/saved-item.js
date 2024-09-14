@@ -39,10 +39,10 @@ export default function SavedItem({ badge, name, tag }) {
           </Link>
           <Link
             className={classes.link}
-            href={badge ? `/clan/${tag.substring(1)}/stats` : `/player/${tag.substring(1)}/war`}
+            href={badge ? `/clan/${tag.substring(1)}/plus/daily-tracking` : `/player/${tag.substring(1)}/war`}
             prefetch={false}
           >
-            {badge ? "Stats" : "War"}
+            {badge ? "Plus" : "War"}
           </Link>
         </Group>
       </Stack>
