@@ -99,6 +99,7 @@ function getFameCellColor(attacks, fame) {
 
 export default function DailyTrackingTable({ data }) {
   const isMobile = useMediaQuery("(max-width: 30em)")
+  const isLessThanTablet = useMediaQuery("(max-width: calc(48em - 1px))")
   const [sortConfig, setSortConfig] = useState({
     col: "fame",
     dir: "dsc",
@@ -146,8 +147,8 @@ export default function DailyTrackingTable({ data }) {
                   <Table.Td ta="center" visibleFrom="md">
                     {s.attacks}
                   </Table.Td>
-                  <Table.Td bg={fameCellColor} colSpan={isMobile && 2} ta="center">
-                    {isMobile ? (
+                  <Table.Td bg={fameCellColor} colSpan={isLessThanTablet && 2} ta="center">
+                    {isLessThanTablet ? (
                       <Stack gap="0">
                         <Text fz={{ base: "0.65rem", md: "0.85rem" }}>{s.fame}</Text>
                         <Text fz={{ base: "0.65rem", md: "0.85rem" }}>({s.attacks})</Text>
@@ -165,8 +166,8 @@ export default function DailyTrackingTable({ data }) {
             <Table.Td ta="center" visibleFrom="md">
               {entry.totalAttacks}
             </Table.Td>
-            <Table.Td colSpan={isMobile && 2} ta="center">
-              {isMobile ? (
+            <Table.Td colSpan={isLessThanTablet && 2} ta="center">
+              {isLessThanTablet ? (
                 <Stack gap="0">
                   <Text fz={{ base: "0.65rem", md: "0.85rem" }}>{entry.totalFame}</Text>
                   <Text fz={{ base: "0.65rem", md: "0.85rem" }}>({entry.totalAttacks})</Text>
@@ -177,7 +178,7 @@ export default function DailyTrackingTable({ data }) {
             </Table.Td>
           </Table.Tr>
         )),
-    [sortConfig, isMobile, data],
+    [sortConfig, isLessThanTablet, data],
   )
 
   return (
