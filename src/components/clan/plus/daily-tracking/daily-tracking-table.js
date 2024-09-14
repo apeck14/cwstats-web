@@ -98,7 +98,6 @@ function getFameCellColor(attacks, fame) {
 }
 
 export default function DailyTrackingTable({ data }) {
-  const isMobile = useMediaQuery("(max-width: 30em)")
   const isLessThanTablet = useMediaQuery("(max-width: calc(48em - 1px))")
   const [sortConfig, setSortConfig] = useState({
     col: "fame",
@@ -118,8 +117,8 @@ export default function DailyTrackingTable({ data }) {
 
   const showCaret = (key) => {
     if (sortConfig.key === key) {
-      if (sortConfig.dir === "asc") return <IconCaretUpFilled size={isMobile ? "0.75rem" : "1rem"} />
-      return <IconCaretDownFilled size={isMobile ? "0.75rem" : "1rem"} />
+      if (sortConfig.dir === "asc") return <IconCaretUpFilled size={isLessThanTablet ? "0.75rem" : "1rem"} />
+      return <IconCaretDownFilled size={isLessThanTablet ? "0.75rem" : "1rem"} />
     }
 
     return null
@@ -189,7 +188,7 @@ export default function DailyTrackingTable({ data }) {
             #
           </Table.Th>
           <Table.Th
-            className={isMobile ? null : classes.hoverableTh}
+            className={isLessThanTablet ? null : classes.hoverableTh}
             onClick={() => handleThClick("player")}
             rowSpan={2}
             ta="center"
@@ -203,63 +202,63 @@ export default function DailyTrackingTable({ data }) {
             </Group>
           </Table.Th>
           <Table.Th
-            bg={`gray.${isMobile ? 9 : 10}`}
+            bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isMobile ? () => handleThClick("day1Fame", "fame") : () => {}}
+            onClick={isLessThanTablet ? () => handleThClick("day1Fame", "fame") : () => {}}
             px="0"
-            rowSpan={isMobile && 2}
+            rowSpan={isLessThanTablet && 2}
             ta="center"
           >
             <Group gap={0} justify="center">
               <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
                 Day 1
               </Text>
-              {isMobile && showCaret("day1Fame")}
+              {isLessThanTablet && showCaret("day1Fame")}
             </Group>
           </Table.Th>
           <Table.Th
-            bg={`gray.${isMobile ? 9 : 10}`}
+            bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isMobile ? () => handleThClick("day2Fame", "fame") : () => {}}
+            onClick={isLessThanTablet ? () => handleThClick("day2Fame", "fame") : () => {}}
             px="0"
-            rowSpan={isMobile && 2}
+            rowSpan={isLessThanTablet && 2}
             ta="center"
           >
             <Group gap={0} justify="center">
               <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
                 Day 2
               </Text>
-              {isMobile && showCaret("day2Fame")}
+              {isLessThanTablet && showCaret("day2Fame")}
             </Group>
           </Table.Th>
           <Table.Th
-            bg={`gray.${isMobile ? 9 : 10}`}
+            bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isMobile ? () => handleThClick("day3Fame", "fame") : () => {}}
+            onClick={isLessThanTablet ? () => handleThClick("day3Fame", "fame") : () => {}}
             px="0"
-            rowSpan={isMobile && 2}
+            rowSpan={isLessThanTablet && 2}
             ta="center"
           >
             <Group gap={0} justify="center">
               <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
                 Day 3
               </Text>
-              {isMobile && showCaret("day3Fame")}
+              {isLessThanTablet && showCaret("day3Fame")}
             </Group>
           </Table.Th>
           <Table.Th
-            bg={`gray.${isMobile ? 9 : 10}`}
+            bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isMobile ? () => handleThClick("day4Fame", "fame") : () => {}}
+            onClick={isLessThanTablet ? () => handleThClick("day4Fame", "fame") : () => {}}
             px="0"
-            rowSpan={isMobile && 2}
+            rowSpan={isLessThanTablet && 2}
             ta="center"
           >
             <Group gap={0} justify="center">
               <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
                 Day 4
               </Text>
-              {isMobile && showCaret("day4Fame")}
+              {isLessThanTablet && showCaret("day4Fame")}
             </Group>
           </Table.Th>
           <Table.Th
@@ -277,9 +276,9 @@ export default function DailyTrackingTable({ data }) {
             </Group>
           </Table.Th>
           <Table.Th
-            bg={`gray.${isMobile ? 9 : 10}`}
+            bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isMobile ? () => handleThClick("totalFame", "fame") : () => {}}
+            onClick={isLessThanTablet ? () => handleThClick("totalFame", "fame") : () => {}}
             px="0"
             ta="center"
           >
@@ -287,7 +286,7 @@ export default function DailyTrackingTable({ data }) {
               <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
                 Total
               </Text>
-              {isMobile && showCaret("totalFame")}
+              {isLessThanTablet && showCaret("totalFame")}
             </Group>
           </Table.Th>
         </Table.Tr>
