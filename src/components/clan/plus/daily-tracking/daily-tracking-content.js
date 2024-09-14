@@ -19,16 +19,16 @@ function getTableData(data, length, start) {
     const dayIndex = day.day - 1
 
     for (const entry of day.scores) {
-      if (!entry.fame) continue
+      if (!entry.fame && !entry.missed) continue
 
       if (entry.tag in tableData) {
-        tableData[entry.tag].scores[dayIndex] = { attacks: entry.attacks, fame: entry.fame }
+        tableData[entry.tag].scores[dayIndex] = { attacks: entry.attacks, fame: entry.fame, missed: entry.missed }
         tableData[entry.tag].totalFame += entry.fame
         tableData[entry.tag].totalAttacks += entry.attacks
       } else {
         const scores = Array(4).fill({ attacks: 0, fame: 0 })
 
-        scores[dayIndex] = { attacks: entry.attacks, fame: entry.fame }
+        scores[dayIndex] = { attacks: entry.attacks, fame: entry.fame, missed: entry.missed }
 
         tableData[entry.tag] = {
           name: entry.name,

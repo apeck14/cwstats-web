@@ -87,7 +87,8 @@ const cellColors = [
   "rgb(250, 82, 82, 0.6)", // 100
 ]
 
-function getFameCellColor(attacks, fame) {
+function getFameCellColor(attacks, fame, missed) {
+  if (missed && !fame) return cellColors[cellColors.length - 1]
   if (!fame || !attacks) return
 
   const avg = fame / attacks
@@ -139,7 +140,7 @@ export default function DailyTrackingTable({ data }) {
               </Link>
             </Table.Td>
             {entry.scores.map((s, i) => {
-              const fameCellColor = getFameCellColor(s.attacks, s.fame)
+              const fameCellColor = getFameCellColor(s.attacks, s.fame, s.missed)
 
               return (
                 <React.Fragment key={`${entry.tag}-${i}`}>
