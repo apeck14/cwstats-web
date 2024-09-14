@@ -177,7 +177,7 @@ export default function DailyTrackingTable({ data }) {
             </Table.Td>
           </Table.Tr>
         )),
-    [sortConfig, isMobile],
+    [sortConfig, isMobile, data],
   )
 
   return (

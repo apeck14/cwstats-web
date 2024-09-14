@@ -10,7 +10,7 @@ import { getAverage, getMedian } from "@/lib/functions/utils"
 import DailyTrackingStats from "./daily-tracking-stats"
 import DailyTrackingTable from "./daily-tracking-table"
 
-function getTableData(data, start, length) {
+function getTableData(data, length, start) {
   const slicedData = data.slice(start, start + length)
   const tableData = {}
 
@@ -172,9 +172,8 @@ export default function DailyTrackingContent({ data, weekData }) {
 
   const labels = useMemo(() => weekData.map((e) => e.label), [])
 
-  const currentWeek = weekData.find((w) => w.label === week)
-  const tableData = useMemo(() => getTableData(data, currentWeek?.start, currentWeek?.length), [currentWeek])
-
+  const { length, start } = weekData.find((w) => w.label === week)
+  const tableData = getTableData(data, length, start)
   const stats = getStats(week, data, weekData)
 
   const handleSelect = (val) => {
