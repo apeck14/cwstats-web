@@ -7,7 +7,13 @@ const formatNum = (num, label) => {
   if (Number.isInteger(num)) return num
   if (!num) return "N/A"
 
-  return num.toFixed(label === "DAILY FAME" ? 0 : 1)
+  if (label === "AVG. FAME") return num.toFixed(1)
+  if (label === "MEDIAN SCORE") return num.toFixed(1)
+  if (label === "DAILY FAME") return num.toFixed(0)
+  if (label === "ATTACKS MISSED") return num.toFixed(0)
+  if (label === "PLAYERS MISSED") return num.toFixed(0)
+
+  return ""
 }
 
 const cards = [
@@ -16,7 +22,7 @@ const cards = [
     label: "AVG. FAME",
   },
   {
-    description: "Median daily player score, grouped by each played day of the week.",
+    description: "Median player score throughout the week.",
     label: "MEDIAN SCORE",
   },
   {
@@ -24,11 +30,11 @@ const cards = [
     label: "DAILY FAME",
   },
   {
-    description: "Total weekly attacks missed.",
+    description: "Total attacks missed throughout the week.",
     label: "ATTACKS MISSED",
   },
   {
-    description: "Total weekly players with missed attacks.",
+    description: "Total players with missed attacks throughout the week.",
     label: "PLAYERS MISSED",
   },
 ]
@@ -41,46 +47,24 @@ export default function DailyTrackingStats({ stats }) {
 
         let changeGroup
 
-        // not using percentages (+/- instead)
-        if (c.label.includes("MISSED")) {
-          const diff = s.thisWeek - s.lastWeek
-          const color = diff > 0 ? "red" : "green"
-          const showMinusOnly = !s.lastWeek || diff === 0
+        const diff = s.thisWeek - s.lastWeek
+        const invertColor = s.label.includes("MISSED")
+        const color = diff > 0 ? (invertColor ? "red" : "green") : invertColor ? "green" : "red"
+        const showMinusOnly = !s.lastWeek || diff === 0
 
-          if (showMinusOnly) changeGroup = <IconMinus color="var(--mantine-color-gray-5)" size="0.9rem" />
-          else
-            changeGroup = (
+        if (showMinusOnly) changeGroup = <IconMinus color="var(--mantine-color-gray-5)" size="0.9rem" />
+        else {
+          const arrowIcon = diff > 0 ? <IconArrowUpRight size="0.9rem" /> : <IconArrowDownRight size="0.9rem" />
+
+          changeGroup = (
+            <Group align="center" c={color} gap="0">
               <Text c={color} fw="600" fz="0.9rem">
                 {diff > 0 && "+"}
-                {diff}
+                {formatNum(diff, s.label)}
               </Text>
-            )
-        } else {
-          // using percentages
-          const percChange = !s.lastWeek ? 0 : ((s.thisWeek - s.lastWeek) / s.lastWeek) * 100
-          const showMinusOnly = !s.lastWeek
-
-          if (showMinusOnly) changeGroup = <IconMinus color="var(--mantine-color-gray-5)" size="0.9rem" />
-          else {
-            const color = percChange === 0 ? "gray.5" : percChange > 0 ? "green" : "red"
-            const percIcon =
-              percChange === 0 ? (
-                ""
-              ) : percChange > 0 ? (
-                <IconArrowUpRight size="0.9rem" />
-              ) : (
-                <IconArrowDownRight size="0.9rem" />
-              )
-
-            changeGroup = (
-              <Group c={color} gap="0">
-                <Text fw="600" fz="0.9rem">
-                  {percChange.toFixed(0)}%
-                </Text>
-                {percIcon}
-              </Group>
-            )
-          }
+              {arrowIcon}
+            </Group>
+          )
         }
 
         return (

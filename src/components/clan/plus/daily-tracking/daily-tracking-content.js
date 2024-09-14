@@ -84,14 +84,15 @@ function getStats(week, data, weekData) {
     let mostAttacksUsed = 0
 
     for (const p of day.scores) {
-      if (p.fame) {
+      if (p.attacks) {
         if (p.attacks === 4) playersCompletedBattles++
         if (p.attacks > 4) thisWeekIsIncomplete = true
         if (p.attacks > mostAttacksUsed) mostAttacksUsed = p.attacks
       }
       totalAttacks += p.attacks
       totalFame += p.fame
-      scoresThisWeek.push(p.fame)
+
+      if (p.fame || p.missed) scoresThisWeek.push(p.fame)
     }
 
     const daysMergedIntoToday = mostAttacksUsed > 4 ? Math.ceil(mostAttacksUsed / 4) : 1
@@ -121,7 +122,7 @@ function getStats(week, data, weekData) {
       }
       totalAttacks += p.attacks
       totalFame += p.fame
-      scoresLastWeek.push(p.fame)
+      if (p.fame || p.missed) scoresLastWeek.push(p.fame)
     }
 
     const daysMergedIntoToday = mostAttacksUsed > 4 ? Math.ceil(mostAttacksUsed / 4) : 1
@@ -144,16 +145,8 @@ function getStats(week, data, weekData) {
 
     return {
       label: l,
-      lastWeek:
-        calculateLastWeek &&
-        (l.includes("MISSED")
-          ? daysLastWeek.reduce((sum, d) => sum + d[l], 0)
-          : getAverage(daysLastWeek.map((e) => e[l]))),
-      thisWeek:
-        calculateThisWeek &&
-        (l.includes("MISSED")
-          ? daysThisWeek.reduce((sum, d) => sum + d[l], 0)
-          : getAverage(daysThisWeek.map((e) => e[l]))),
+      lastWeek: calculateLastWeek && getAverage(daysLastWeek.map((e) => e[l])),
+      thisWeek: calculateThisWeek && getAverage(daysThisWeek.map((e) => e[l])),
     }
   })
 
