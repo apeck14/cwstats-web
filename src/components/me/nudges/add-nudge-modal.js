@@ -76,19 +76,10 @@ export default function AddNudgeModal({ channels, disabled, id, onAdd }) {
     const { amPm, channel, clanTag, hour: hourInput } = form.values
 
     // add timezone offset to hour inputted
-    const offset = getUTCOffset(usersTimezone)
-    const inverseOffset = offset * -1
-    let hour = parseInt(hourInput)
-
-    // convert hour to 24 time
-    if (amPm === "PM") hour += 12
-    if (hour === 24) hour = 0
-
-    // convert hour to UTC
-    let utcHour = hour + inverseOffset
-
-    if (utcHour >= 24) utcHour -= 24
-    else if (utcHour < 0) utcHour += 24
+    const offset = -getUTCOffset(usersTimezone)
+    const hour = parseInt(hourInput)
+    const hourUTC24 = amPm === "AM" ? hour % 12 : (hour % 12) + 12
+    const utcHour = (hourUTC24 + offset) % 24
 
     const formattedTag = formatTag(clanTag, true)
 
