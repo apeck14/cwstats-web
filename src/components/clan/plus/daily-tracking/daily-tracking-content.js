@@ -172,7 +172,7 @@ export default function DailyTrackingContent({ data, weekData }) {
 
   const labels = useMemo(() => weekData.map((e) => e.label), [])
 
-  const { length, start } = weekData.find((w) => w.label === week)
+  const { length, start } = weekData.find((w) => w.label === week) || {}
   const tableData = getTableData(data, length, start)
   const stats = getStats(week, data, weekData)
 
