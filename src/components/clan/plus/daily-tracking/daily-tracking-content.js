@@ -174,7 +174,7 @@ export default function DailyTrackingContent({ data, weekData }) {
   }
 
   return (
-    <Stack>
+    <>
       <Group gap="xs" justify="center">
         <IconCalendarWeek color="var(--mantine-color-orange-5)" size={isMobile ? "1.5rem" : "2rem"} />
         <Title size={isMobile ? "h2" : "h1"}>Daily Player Tracking</Title>
@@ -184,7 +184,7 @@ export default function DailyTrackingContent({ data, weekData }) {
           No data to display yet. Check back soon!
         </Text>
       ) : (
-        <>
+        <Stack>
           <Group justify="flex-end">
             <Select
               allowDeselect={false}
@@ -197,8 +197,8 @@ export default function DailyTrackingContent({ data, weekData }) {
           </Group>
           <DailyTrackingStats stats={stats} />
           <DailyTrackingTable data={tableData} />
-        </>
+        </Stack>
       )}
-    </Stack>
+    </>
   )
 }
