@@ -56,7 +56,7 @@ export default function AddAbbreviationModal({ abbreviations, id, setAbbreviatio
   }
 
   const handleSubmit = async () => {
-    if (tag.length < 5) {
+    if (tag.length < 3) {
       setTagError("Invalid clan tag.")
       return
     }

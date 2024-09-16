@@ -37,7 +37,7 @@ export default function SetDefaultClanModal({ id, setDefClan }) {
   }
 
   const handleSubmit = async () => {
-    if (tag.length < 5) {
+    if (tag.length < 3) {
       setError("Invalid clan tag.")
       return
     }

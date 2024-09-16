@@ -39,7 +39,7 @@ export default function PlusFormModal() {
   }
 
   const handleSubmit = async () => {
-    if (tag.length < 5) {
+    if (tag.length < 3) {
       setError("Invalid clan tag.")
       return
     }

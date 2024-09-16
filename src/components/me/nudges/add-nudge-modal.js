@@ -29,7 +29,7 @@ export default function AddNudgeModal({ channels, disabled, id, onAdd }) {
     validate: {
       amPm: (val) => (!val ? "You must select AM or PM." : null),
       channel: (val) => (!val ? "You must select a channel." : null),
-      clanTag: (val) => (val.length < 5 ? "Invalid clan tag." : null),
+      clanTag: (val) => (val.length < 3 ? "Invalid clan tag." : null),
       hour: (val) => (!val ? "You must select an hour." : null),
     },
   })
