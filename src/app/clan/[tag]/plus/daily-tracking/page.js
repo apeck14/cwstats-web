@@ -36,35 +36,41 @@ function groupByWeek(days) {
 
 // [{ label: "Current Week", start: 0, length: 3 }, ...]
 function groupsToData(groups, timestamps) {
-  // determine if current season by timestamps of first group
-  // else just map to UTC first and last day of each group
+  const now = new Date()
   const data = []
   let tsIndex = 0 // timestamp index
 
   for (const group of groups) {
-    const entry = { length: group.length, start: tsIndex }
+    const timestamp = timestamps[tsIndex]
+    const lastDayOfWeek = timestamp.getUTCDay()
+    const daysToThursday = 4 - (lastDayOfWeek === 0 ? 7 : lastDayOfWeek)
+    const daysToSunday = (7 - lastDayOfWeek) % 7
+
+    const thursday = new Date(timestamp)
+    thursday.setDate(timestamp.getDate() + daysToThursday)
+
+    const sunday = new Date(timestamp)
+    sunday.setDate(timestamp.getDate() + daysToSunday)
+
     let label
 
-    if (tsIndex === 0 && group.length < 4) {
+    if (now >= thursday && now <= sunday) {
       label = "Current Week"
-    } else if (group.length) {
-      // TODO: determine thursday and sunday date strings from first entry timestamp
-      const date = timestamps[tsIndex + group.length - 1]
-      const startDateStr = date.toLocaleDateString("en-US", {
+    } else {
+      const thursdayStr = thursday.toLocaleDateString("en-US", {
         day: "numeric",
         month: "numeric",
       })
 
-      date.setUTCDate(date.getUTCDate() + 3)
-      const endDateStr = date.toLocaleDateString("en-US", {
+      const sundayStr = sunday.toLocaleDateString("en-US", {
         day: "numeric",
         month: "numeric",
       })
 
-      label = `${startDateStr} - ${endDateStr}`
+      label = `${thursdayStr} - ${sundayStr}`
     }
 
-    data.push({ ...entry, label })
+    data.push({ label, length: group.length, start: tsIndex })
     tsIndex += group.length
   }
 
