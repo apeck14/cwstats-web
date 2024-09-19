@@ -32,7 +32,7 @@ export async function addPlus(tag) {
 
   if (error) return { error }
   if (clan.members === 0) return { error: "Clan no longer exists." }
-  if (clan.clanWarTrophies < 3000) return { error: "Clan must have at least 3000 war trophies." }
+  if (clan.clanWarTrophies < 2500) return { error: "Clan must have at least 2500 war trophies." }
 
   // check description for "cwstats" (FF clans can't use .com)
   const lowercaseDesc = clan.description.toLowerCase()
