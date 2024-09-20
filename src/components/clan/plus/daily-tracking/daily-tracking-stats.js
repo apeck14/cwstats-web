@@ -50,7 +50,7 @@ export default function DailyTrackingStats({ stats }) {
         const diff = s.thisWeek - s.lastWeek
         const invertColor = s.label.includes("MISSED")
         const color = diff > 0 ? (invertColor ? "red" : "green") : invertColor ? "green" : "red"
-        const showMinusOnly = !s.lastWeek || diff === 0
+        const showMinusOnly = !s.lastWeek || (diff < 0.05 && diff > -0.05)
 
         if (showMinusOnly) changeGroup = <IconMinus color="var(--mantine-color-gray-5)" size="0.9rem" />
         else {
