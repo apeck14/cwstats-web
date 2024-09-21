@@ -142,3 +142,21 @@ export async function searchGuildUsers(id, query) {
     return { message: "Unexpected error. Please try again.", status: 500 }
   }
 }
+
+export async function isValidInviteCode(id, code) {
+  try {
+    const res = await fetch(`https://discord.com/api/v9/invites/${code}?with_counts=true`)
+    const data = await res.json()
+
+    if (!data || !data?.guild_id) return { error: "Invalid invite.", status: 404 }
+    if (data.expires_at) return { error: "Please create a new invite without an expiration.", status: 400 }
+    if (data.guild.id !== id) return { error: "Invite does not belong to this server.", status: 400 }
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const log = new Logger()
+    log.warn("isValidInviteCode Error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}

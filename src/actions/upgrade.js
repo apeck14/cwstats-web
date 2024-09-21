@@ -7,24 +7,30 @@ import client from "@/lib/mongodb"
 
 import { getClan } from "./supercell"
 
-export const sendPlusWebhookEmbed = (type, clan = {}) => {
+export const sendWebhookEmbed = (type, data = {}) => {
   const embed = {}
 
   if (type === "ADD_PLUS") {
     embed.color = 0xffa500
     embed.title = "__New Plus Clan!__"
+    embed.description = `**Clan**: [${data.name}](https:cwstats.com/clan/${data.tag.substring(1)})\n**Tag**: ${data.tag}`
   } else if (type === "REMOVE_PLUS") {
     embed.color = 0xff0f0f
     embed.title = "__Plus Clan Removed!__"
+    embed.description = `**Clan**: [${data.name}](https:cwstats.com/clan/${data.tag.substring(1)})\n**Tag**: ${data.tag}`
+  } else if (type === "CLAN_LINKED") {
+    embed.color = 0x00ff00
+    embed.title = "__Clan Linked!__"
+    embed.description = `**Clan**: [${data.name}](https:cwstats.com/clan/${data.tag.substring(1)})\n**Tag**: ${data.tag}\n**Guild**: ${data.id}`
   }
-
-  embed.description = `**Clan**: [${clan.name}](https:cwstats.com/clan/${clan.tag.substring(1)})\n**Tag**: ${clan.tag}`
 
   return fetch(process.env.WEBHOOK_URL, {
     body: JSON.stringify({ embeds: [embed] }),
     headers: { "Content-Type": "application/json" },
     method: "POST",
   })
+    .then(() => {})
+    .catch(() => {})
 }
 
 export async function addPlus(tag) {
@@ -49,7 +55,7 @@ export async function addPlus(tag) {
 
     await plus.insertOne({ tag: clan.tag, hourlyAverages: [] })
 
-    sendPlusWebhookEmbed("ADD_PLUS", {
+    sendWebhookEmbed("ADD_PLUS", {
       name: clan.name,
       tag: clan.tag,
     })

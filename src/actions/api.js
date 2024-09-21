@@ -9,7 +9,7 @@ import { HOST } from "@/static/constants"
 import locations from "@/static/locations"
 
 import { getClan, getRaceLog, getWarLeaderboard } from "./supercell"
-import { getAllPlusClans, sendPlusWebhookEmbed } from "./upgrade"
+import { getAllPlusClans, sendWebhookEmbed } from "./upgrade"
 
 export async function getPlayersByQuery(query, limit = 5) {
   const options = { cache: "no-store" }
@@ -73,7 +73,7 @@ export async function getAllDailyLbClans() {
         const hasUrlInDescription = lowercaseDesc.includes("cwstats") || lowercaseDesc.includes("cw-stats")
         if (members === 0 || !hasUrlInDescription || clanWarTrophies < 2800) {
           CWStatsPlus.deleteOne({ tag })
-          sendPlusWebhookEmbed("REMOVE_PLUS", {
+          sendWebhookEmbed("REMOVE_PLUS", {
             name,
             tag,
           })

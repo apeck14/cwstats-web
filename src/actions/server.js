@@ -5,10 +5,10 @@
 import { redirect } from "next/navigation"
 import { Logger } from "next-axiom"
 
-import { formatTag, mongoSanitize } from "@/lib/functions/utils"
+import { formatTag, getClanBadgeFileName, mongoSanitize } from "@/lib/functions/utils"
 import client from "@/lib/mongodb"
 
-import { getGuilds } from "./discord"
+import { getGuilds, isValidInviteCode } from "./discord"
 import { getClan, getPlayer } from "./supercell"
 
 export async function getServerSettings(id, redirectOnError = false, authenticate = false) {
@@ -476,5 +476,184 @@ export async function setAdminRole(id, roleId) {
     logger.error("setAdminRole error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function generateLinkCode(id, tag) {
+  try {
+    if (!id || !tag) return { error: "Missing ID or TAG.", status: 400 }
+
+    const { data: clan, error, status } = await getClan(tag)
+
+    if (status === 404) return { error: "Clan does not exist.", status: 404 }
+    if (error) return { error: "Unexpected Supercell error.", status }
+    if (clan?.members === 0) return { error: "Clan has been deleted.", status: 404 }
+
+    const db = client.db("General")
+    const clanLinkCodes = db.collection("Clan Link Codes")
+    const linkedClans = db.collection("Linked Clans")
+
+    const clanAlreadyLinked = await linkedClans.findOne({ tag: clan.tag })
+    if (clanAlreadyLinked) return { error: "Clan is already linked to a server.", status: 400 }
+
+    const clansLinkedToServer = await linkedClans.find({ guildID: id }).toArray()
+    if (clansLinkedToServer.length >= 10) return { error: "Max clans linked to server reached.", status: 400 }
+
+    const codeExists = await clanLinkCodes.findOne({ guildID: id, tag: clan.tag })
+    if (codeExists) return { error: `Code already generated. Please wait for it to expire.`, status: 400 }
+
+    const randomCode = String(Math.floor(Math.random() * 10000)).padStart(4, "0")
+
+    await clanLinkCodes.insertOne({
+      code: randomCode,
+      createdAt: new Date(),
+      guildID: id,
+      tag: clan.tag,
+    })
+
+    return { code: randomCode, status: 200 }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("generateLinkCode error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 400 }
+  }
+}
+
+export async function linkClanToServer(id, tag) {
+  try {
+    if (!id || !tag) return { error: "Missing ID or TAG or CODE.", status: 400 }
+
+    const { data: clan, error, status } = await getClan(tag)
+
+    if (status === 404) return { error: "Clan does not exist.", status: 404 }
+    if (error) return { error: "Unexpected Supercell error.", status }
+    if (clan?.members === 0) return { error: "Clan has been deleted.", status: 404 }
+
+    const db = client.db("General")
+    const clanLinkCodes = db.collection("Clan Link Codes")
+    const linkedClans = db.collection("Linked Clans")
+    const guilds = db.collection("Guilds")
+
+    const { code } = (await clanLinkCodes.findOne({ guildID: id, tag: clan.tag })) || {}
+
+    if (!code) return { error: "Code has expired. Please try again.", status: 404 }
+    if (!clan.description.includes(code)) return { error: "Code not found in clan description.", status: 400 }
+
+    const clansLinkedToServer = await linkedClans.find({ guildID: id }).toArray()
+    if (clansLinkedToServer.length >= 10) return { error: "Max clans linked to server reached.", status: 400 }
+
+    const clanAlreadyLinked = await linkedClans.findOne({ tag: clan.tag })
+    if (clanAlreadyLinked) return { error: "Clan is already linked to a server.", status: 400 }
+
+    const guild = await guilds.findOne({ guildID: id })
+
+    const linkedClan = {
+      clanBadge: getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies),
+      clanName: clan.name,
+      guildID: id,
+      tag: clan.tag,
+    }
+
+    // add invite code if already set on guild
+    if (guild.discordInviteCode) linkedClan.discordInviteCode = guild.discordInviteCode
+
+    await Promise.all([
+      linkedClans.insertOne(linkedClan),
+      clanLinkCodes.deleteMany({
+        tag: clan.tag,
+      }),
+    ])
+
+    return { clan: linkedClan, status: 200 }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("linkClanToServer error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 400 }
+  }
+}
+
+export async function getLinkedClans(id) {
+  try {
+    const db = client.db("General")
+    const linkedClans = db.collection("Linked Clans")
+
+    const results = await linkedClans.find({ guildID: id }).toArray()
+
+    for (const c of results) {
+      delete c._id
+    }
+
+    return { clans: results || [] }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("getLinkedClans error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 400 }
+  }
+}
+
+export async function getLinkedClanByTag(tag) {
+  try {
+    const db = client.db("General")
+    const linkedClans = db.collection("Linked Clans")
+
+    const clan = await linkedClans.findOne({ tag })
+
+    if (!clan) return { error: "Clan not found.", status: 404 }
+
+    delete clan._id
+
+    return { clan, status: 200 }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("getLinkedClanByTag error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 400 }
+  }
+}
+
+export async function setDiscordInvite(id, invCode) {
+  try {
+    const db = client.db("General")
+    const linkedClans = db.collection("Linked Clans")
+    const guilds = db.collection("Guilds")
+
+    const discordInviteCode = invCode?.replace(/[^a-zA-Z0-9]/g, "")
+
+    if (invCode) {
+      // make HTTP req to see if inv is valid
+      const { error } = await isValidInviteCode(id, discordInviteCode)
+      if (error) return { error }
+    }
+
+    await Promise.all([
+      linkedClans.updateMany({ guildID: id }, { $set: { discordInviteCode } }),
+      guilds.updateOne({ guildID: id }, { $set: { discordInviteCode } }),
+    ])
+
+    return { status: 200 }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("setDiscordInvite error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 400 }
+  }
+}
+
+export async function deleteLinkedClan(tag) {
+  try {
+    const db = client.db("General")
+    const linkedClans = db.collection("Linked Clans")
+
+    await linkedClans.deleteOne({ tag })
+
+    return { status: 200 }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("deleteLinkedClan error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 400 }
   }
 }

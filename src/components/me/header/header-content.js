@@ -10,11 +10,37 @@ import { truncateString } from "@/lib/functions/utils"
 import classes from "../../clan/header/header.module.css"
 import DiscordServerIcon from "../discord-server-icon"
 
+const tabs = [
+  {
+    isActive: (path, id) => id.length + path.indexOf(id) === path.length,
+    key: "home",
+    label: "Home",
+    url: (id) => `/me/servers/${id}`,
+  },
+  {
+    isActive: (path) => path.includes("clans"),
+    key: "clans",
+    label: "Clans",
+    url: (id) => `/me/servers/${id}/clans`,
+  },
+  {
+    isActive: (path) => path.includes("channels"),
+    key: "channels",
+    label: "Channels",
+    url: (id) => `/me/servers/${id}/channels`,
+  },
+  {
+    isActive: (path) => path.includes("nudges"),
+    key: "nudges",
+    label: "Nudges",
+    url: (id) => `/me/servers/${id}/nudges`,
+  },
+]
+
 export default function ServerHeaderContent({ guild }) {
   const isMobile = useMediaQuery("(max-width: 30em)")
   const pathname = usePathname()
 
-  const activeTab = pathname.includes("/channels") ? "channels" : pathname.includes("/nudges") ? "nudges" : "home"
   return (
     <Stack className="header">
       <Container py="xl" size="lg" w="100%">
@@ -35,19 +61,23 @@ export default function ServerHeaderContent({ guild }) {
       <Group bg="gray.10" mt="-1rem">
         <Container size="lg" w="100%">
           <Group gap="xs" py="0.5rem">
-            <Link className={classes.link} data-active={activeTab === "home"} href={`/me/servers/${guild.id}`}>
-              Home
-            </Link>
-            <Link
-              className={classes.link}
-              data-active={activeTab === "channels"}
-              href={`/me/servers/${guild.id}/channels`}
-            >
-              Channels
-            </Link>
-            <Link className={classes.link} data-active={activeTab === "nudges"} href={`/me/servers/${guild.id}/nudges`}>
-              Nudges
-            </Link>
+            {tabs.map((t) => (
+              <Link
+                className={classes.link}
+                data-active={t.isActive(pathname, guild.id)}
+                href={t.url(guild.id)}
+                key={t.key}
+              >
+                <Group gap="0.4rem">
+                  {t.label}
+                  {t.key === "clans" && (
+                    <Text c="orange" fw="600" fz={{ base: "0.5rem", lg: "0.7rem", md: "0.6rem" }}>
+                      NEW
+                    </Text>
+                  )}
+                </Group>
+              </Link>
+            ))}
           </Group>
         </Container>
       </Group>

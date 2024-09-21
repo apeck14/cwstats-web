@@ -1,8 +1,8 @@
 "use client"
 
-import { Button, Container, Group, Stack, Text, Title } from "@mantine/core"
+import { ActionIcon, Button, Container, Group, Stack, Text, Title } from "@mantine/core"
 import { useDebouncedCallback, useMediaQuery } from "@mantine/hooks"
-import { IconExternalLink } from "@tabler/icons-react"
+import { IconBrandDiscordFilled, IconExternalLink } from "@tabler/icons-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
 import { useRouter } from "next-nprogress-bar"
@@ -18,7 +18,15 @@ import classes from "./header.module.css"
 import MobileActionsMenu from "./mobile-actions-popover"
 import PlusDropdown from "./plus-dropdown"
 
-export default function HeaderContent({ clan, clanFollowed, discordID, followClan, isPlus, unfollowClan }) {
+export default function HeaderContent({
+  clan,
+  clanFollowed,
+  discordID,
+  discordInviteCode,
+  followClan,
+  isPlus,
+  unfollowClan,
+}) {
   const router = useRouter()
   const pathname = usePathname()
   const [followed, setFollowed] = useState(clanFollowed)
@@ -71,6 +79,16 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                   {isMobile && <Image alt="Badge" height={30} src={`/assets/badges/${badge}.webp`} unoptimized />}
                   <Title fz={`${isMobile ? 1.5 : 2}rem`}>{clan?.name}</Title>
                   <PlusIcon isPlus={isPlus} size={isMobile ? 20 : 24} tag={formattedTag} />
+                  {!isMobile && discordInviteCode && (
+                    <ActionIcon
+                      component={Link}
+                      href={`https://discord.gg/${discordInviteCode}`}
+                      target="_blank"
+                      variant="transparent"
+                    >
+                      <IconBrandDiscordFilled color="#7289da" size="1.25rem" stroke={2} />
+                    </ActionIcon>
+                  )}
                 </Group>
                 <FollowButton followed={followed} handleToggle={handleFollowToggle} showText />
                 {isLessThanTablet && (
@@ -89,6 +107,18 @@ export default function HeaderContent({ clan, clanFollowed, discordID, followCla
                     <Text fw={700}>{clan?.clanWarTrophies}</Text>
                   </Group>
                 </Group>
+
+                {isMobile && discordInviteCode && (
+                  <ActionIcon
+                    component={Link}
+                    href={`https://discord.gg/${discordInviteCode}`}
+                    mr="-0.1rem"
+                    target="_blank"
+                    variant="transparent"
+                  >
+                    <IconBrandDiscordFilled color="#7289da" size="1.25rem" stroke={2} />
+                  </ActionIcon>
+                )}
 
                 <Button
                   color="gray"
