@@ -85,6 +85,7 @@ export default function RaceStepper({ clansBadgeData, dayDescriptions, dayOfWeek
             Icon={StepIcon}
             iconSize={isTablet ? "1.25rem" : "2rem"}
             isTablet={isTablet}
+            key={`stepper-${title}`}
             periodLog={periodLog}
             radius={isTablet ? "md" : "lg"}
             showModal={showPlacementIcon}
