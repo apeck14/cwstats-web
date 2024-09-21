@@ -96,11 +96,11 @@ function getStats(week, data, weekData) {
     }
 
     const daysMergedIntoToday = mostAttacksUsed > 4 ? Math.ceil(mostAttacksUsed / 4) : 1
-    const totalExpectedBattles = daysMergedIntoToday * 200
+    const totalExpectedBattles = daysMergedIntoToday * 200 // total battles across all days merged
 
     daysThisWeek.push({
       "ATTACKS MISSED": totalExpectedBattles - totalAttacks,
-      "AVG. FAME": totalAttacks ? totalFame / totalExpectedBattles : 0,
+      "AVG. FAME": totalAttacks ? totalFame / totalAttacks : 0,
       "DAILY FAME": totalFame,
       "PLAYERS MISSED": 50 - playersCompletedBattles,
     })
@@ -130,7 +130,7 @@ function getStats(week, data, weekData) {
 
     daysLastWeek.push({
       "ATTACKS MISSED": totalExpectedBattles - totalAttacks,
-      "AVG. FAME": totalAttacks ? totalFame / totalExpectedBattles : 0,
+      "AVG. FAME": totalAttacks ? totalFame / totalAttacks : 0,
       "DAILY FAME": totalFame,
       "PLAYERS MISSED": 50 - playersCompletedBattles,
     })
