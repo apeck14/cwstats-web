@@ -52,9 +52,13 @@ function groupsToData(groups, timestamps) {
     const sunday = new Date(timestamp)
     sunday.setDate(timestamp.getDate() + daysToSunday)
 
+    const endOfWeek = new Date(sunday)
+    endOfWeek.setDate(sunday.getDate() + 1)
+    endOfWeek.setUTCHours(10)
+
     let label
 
-    if (now >= thursday && now <= sunday) {
+    if (now >= thursday && now <= endOfWeek) {
       label = "Current Week"
     } else {
       const thursdayStr = thursday.toLocaleDateString("en-US", {
