@@ -10,8 +10,8 @@ const formatNum = (num, label) => {
   if (label === "AVG. FAME") return num.toFixed(1)
   if (label === "MEDIAN SCORE") return num.toFixed(1)
   if (label === "DAILY FAME") return num.toFixed(0)
-  if (label === "ATTACKS MISSED") return num > 0 ? Math.ceil(num) : Math.floor(num)
-  if (label === "PLAYERS MISSED") return num > 0 ? Math.ceil(num) : Math.floor(num)
+  if (label === "ATTACKS MISSED") return num > 0 ? Math.round(num) : 0
+  if (label === "PLAYERS MISSED") return num > 0 ? Math.round(num) : 0
 
   return ""
 }
@@ -30,11 +30,11 @@ const cards = [
     label: "DAILY FAME",
   },
   {
-    description: "Total attacks missed throughout the week.",
+    description: "Average daily ttacks missed.",
     label: "ATTACKS MISSED",
   },
   {
-    description: "Total players with missed attacks throughout the week.",
+    description: "Average daily players with missed attacks.",
     label: "PLAYERS MISSED",
   },
 ]
