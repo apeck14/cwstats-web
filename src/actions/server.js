@@ -500,7 +500,7 @@ export async function generateLinkCode(id, tag) {
     if (clansLinkedToServer.length >= 10) return { error: "Max clans linked to server reached.", status: 400 }
 
     const codeExists = await clanLinkCodes.findOne({ guildID: id, tag: clan.tag })
-    if (codeExists) return { error: `Code already generated. Please wait for it to expire.`, status: 400 }
+    if (codeExists) return { code: codeExists.code, status: 200 }
 
     const randomCode = String(Math.floor(Math.random() * 10000)).padStart(4, "0")
 
