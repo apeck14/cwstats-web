@@ -51,7 +51,7 @@ async function supercellRequest(url, redirectOnError) {
   }
 }
 
-export async function addPlayer({ clanName, name, tag }) {
+async function addPlayer({ clanName, name, tag }) {
   if ((!clanName && clanName !== "") || !name || !tag) return
 
   try {

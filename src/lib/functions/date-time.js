@@ -1,4 +1,4 @@
-export const diffInMins = (timeInteger) => {
+const diffInMins = (timeInteger) => {
   const now = Date.now()
 
   return Math.round((now - timeInteger) / 1000 / 60)

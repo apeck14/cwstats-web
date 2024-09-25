@@ -2,7 +2,7 @@ import CW_LEAGUES from "@/static/cw-leagues"
 
 import { parseDate } from "./date-time"
 
-export const formatPlacement = (place) => {
+const formatPlacement = (place) => {
   if (place === 1) return "1st"
   if (place === 2) return "2nd"
   if (place === 3) return "3rd"
@@ -11,7 +11,7 @@ export const formatPlacement = (place) => {
   return "N/A"
 }
 
-export const getRaceIndexDescriptions = (periodLogs, tag, isColosseum) => {
+const getRaceIndexDescriptions = (periodLogs, tag, isColosseum) => {
   // return ["+3000", ...]
   const descriptions = []
 
@@ -123,7 +123,7 @@ export const getMinFame = (clan, isColosseum, dayOfWeek) => {
   return fame + totalAttacksRemaining * 100
 }
 
-export const getCurrentPlacements = (race) => {
+const getCurrentPlacements = (race) => {
   const sortedClans = race.sort((a, b) => b.fame - a.fame)
 
   let place = 1
@@ -146,7 +146,7 @@ export const getCurrentPlacements = (race) => {
   return sortedClans
 }
 
-export const getProjPlace = (race, isColosseum, dayOfWeek) => {
+const getProjPlace = (race, isColosseum, dayOfWeek) => {
   const movementPtsAccessor = isColosseum ? "periodPoints" : "fame"
 
   if (!race || !race.clans || dayOfWeek < 3 || race.clan[movementPtsAccessor] >= 10000) return "N/A"
@@ -163,7 +163,7 @@ export const getProjPlace = (race, isColosseum, dayOfWeek) => {
   return formatPlacement(placement)
 }
 
-export const getBestPlace = (race, isColosseum, dayOfWeek) => {
+const getBestPlace = (race, isColosseum, dayOfWeek) => {
   const movementPtsAccessor = isColosseum ? "periodPoints" : "fame"
 
   if (!race || !race.clans || dayOfWeek < 3 || race.clan[movementPtsAccessor] >= 10000) return "N/A"
@@ -180,7 +180,7 @@ export const getBestPlace = (race, isColosseum, dayOfWeek) => {
   return formatPlacement(placement)
 }
 
-export const getWorstPlace = (race, isColosseum, dayOfWeek) => {
+const getWorstPlace = (race, isColosseum, dayOfWeek) => {
   const movementPtsAccessor = isColosseum ? "periodPoints" : "fame"
 
   if (!race || !race.clans || dayOfWeek < 3 || race.clan[movementPtsAccessor] >= 10000) return "N/A"
@@ -256,7 +256,7 @@ export const getRaceDetails = (race) => {
   }
 }
 
-export const getCompletedWeekAvg = (participants, finishTime) => {
+const getCompletedWeekAvg = (participants, finishTime) => {
   if (!finishTime) return 0
 
   const finishDate = parseDate(finishTime)
@@ -273,7 +273,7 @@ export const getCompletedWeekAvg = (participants, finishTime) => {
   return totalFame / totalExpectedAttacks
 }
 
-export const isColosseumFromStandings = (standings) => {
+const isColosseumFromStandings = (standings) => {
   // determine league from clan scores (majority)
   // determine if colosseum based on net trophy changes
   const leagueCounts = { bronze: 0, gold: 0, legendary: 0, silver: 0 }

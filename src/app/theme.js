@@ -8,7 +8,7 @@ import { AppProgressBar } from "next-nprogress-bar"
 
 const SourceSans3 = Source_Sans_3({ display: "swap", subsets: ["latin"] })
 
-export const darkTheme = [
+const darkTheme = [
   "#EEEEF0",
   "#B5B2BC",
   "#7C7A85",
