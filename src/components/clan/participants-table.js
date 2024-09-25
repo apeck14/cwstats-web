@@ -1,6 +1,7 @@
 "use client"
 
 import { Group, Table, Text } from "@mantine/core"
+import { useMediaQuery } from "@mantine/hooks"
 import { IconCaretDownFilled, IconCaretUpFilled } from "@tabler/icons-react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
@@ -47,6 +48,7 @@ const getShownParticipants = (memberList, participants) => {
 }
 
 export default function ParticipantsTable({ memberList, participants }) {
+  const isTablet = useMediaQuery("(max-width: 48em)")
   const [sortConfig, setSortConfig] = useState({
     col: "fame",
     dir: "dsc",
@@ -118,7 +120,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Boat Attacks
               </Text>
-              <Image alt="Boat Movement" height={16} hiddenFrom="md" src="/assets/icons/boat-movement.webp" />
+              <Image alt="Boat Movement" height={16} src="/assets/icons/boat-movement.webp" visible={isTablet} />
               {showCaret("boatAttacks")}
             </Group>
           </Table.Th>
@@ -127,7 +129,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Decks Used
               </Text>
-              <Image alt="Decks" height={16} hiddenFrom="md" src="/assets/icons/decks.webp" />
+              <Image alt="Decks" height={16} src="/assets/icons/decks.webp" visible={isTablet} />
               {showCaret("decksUsed")}
             </Group>
           </Table.Th>
@@ -136,7 +138,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Decks Used Today
               </Text>
-              <Image alt="Decks Remaining" height={16} hiddenFrom="md" src="/assets/icons/decksRemaining.webp" />
+              <Image alt="Decks Remaining" height={16} src="/assets/icons/decksRemaining.webp" visible={isTablet} />
               {showCaret("decksUsedToday")}
             </Group>
           </Table.Th>
@@ -145,7 +147,7 @@ export default function ParticipantsTable({ memberList, participants }) {
               <Text fw={700} fz={{ base: "0.9rem", md: "1rem" }} visibleFrom="md">
                 Medals
               </Text>
-              <Image alt="Fame" height={16} hiddenFrom="md" src="/assets/icons/fame.webp" />
+              <Image alt="Fame" height={16} src="/assets/icons/fame.webp" visible={isTablet} />
               {showCaret("fame")}
             </Group>
           </Table.Th>
