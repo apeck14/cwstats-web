@@ -34,7 +34,8 @@ yarn-error.log*
 # vercel
 .vercel
 
-# unimports
+# code cleanup
 .unimportedrc.json
+knip.json
 
 .vscode
