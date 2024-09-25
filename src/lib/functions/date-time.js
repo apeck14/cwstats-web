@@ -95,10 +95,3 @@ export const getUTCOffset = (timezone) => {
 
   return offsetStr ? parseInt(offsetStr) : 0
 }
-
-export const getDaysDiff = (date1, date2) => {
-  const diffInMs = Math.abs(date1.getTime() - date2.getTime())
-  const diffInDays = diffInMs / (1000 * 36000 * 24)
-
-  return diffInDays
-}

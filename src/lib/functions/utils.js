@@ -42,28 +42,6 @@ export const getClanBadgeFileName = (badgeId, trophyCount) => {
   return `${badgeName}_${league}`
 }
 
-export const getClanBadgeEmoji = (badgeId, trophyCount) => {
-  if (badgeId === -1 || badgeId === null) return "no_clan" // no clan
-
-  const badgeName = badges.find((b) => b.id === badgeId).name
-  let league
-
-  if (trophyCount >= 5000) league = "legendary3"
-  else if (trophyCount >= 4000) league = "legendary2"
-  else if (trophyCount >= 3000) league = "legendary1"
-  else if (trophyCount >= 2500) league = "gold3"
-  else if (trophyCount >= 2000) league = "gold2"
-  else if (trophyCount >= 1500) league = "gold1"
-  else if (trophyCount >= 1200) league = "silver3"
-  else if (trophyCount >= 900) league = "silver2"
-  else if (trophyCount >= 600) league = "silver1"
-  else if (trophyCount >= 400) league = "bronze3"
-  else if (trophyCount >= 200) league = "bronze2"
-  else league = "bronze1"
-
-  return `${badgeName}_${league}`
-}
-
 export const getCardFileName = (str) => str.toLowerCase().replace(/ /g, "-").replace(/\./g, "")
 
 export const getCountryKeyById = (countryId) => {
