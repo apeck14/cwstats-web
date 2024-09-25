@@ -1,6 +1,7 @@
 "use client"
 
 import { Group, Stack, Table, Text } from "@mantine/core"
+import { useMediaQuery } from "@mantine/hooks"
 import { IconCaretDownFilled, IconCaretUpFilled } from "@tabler/icons-react"
 import Link from "next/link"
 import { useMemo, useState } from "react"
@@ -41,6 +42,7 @@ const columns = {
 }
 
 export default function MembersTable({ members }) {
+  const isTablet = useMediaQuery("(max-width: 48em)")
   const [sortConfig, setSortConfig] = useState({
     col: "rank",
     dir: "dsc",
@@ -83,10 +85,12 @@ export default function MembersTable({ members }) {
         return (
           <Table.Tr fw={500} fz={{ base: "0.85rem", md: "1rem" }} key={m.tag}>
             <Table.Td ta="center">{m.rank}</Table.Td>
-            <Table.Td>
+            <Table.Td w="2rem">
               <Image alt="Arena" height={32} src={`/assets/arenas/${m.arena}.webp`} />
             </Table.Td>
-            <Table.Td ta="center">{m.trophies}</Table.Td>
+            <Table.Td ta="center" w={{ base: "4rem", lg: "7rem", md: "6rem" }}>
+              {m.trophies}
+            </Table.Td>
             <Table.Td visibleFrom="md">
               <Link className="pinkText" href={`/player/${formattedTag}`} prefetch={false}>
                 {m.name}
@@ -151,7 +155,7 @@ export default function MembersTable({ members }) {
               <Text fw={700} fz="0.9rem" visibleFrom="md">
                 Trophies
               </Text>
-              <Image alt="Trophy" height={16} hiddenFrom="md" src="/assets/icons/trophy.webp" />
+              <Image alt="Trophy" height={16} src="/assets/icons/trophy.webp" visible={isTablet} />
               {showCaret("trophies")}
             </Group>
           </Table.Th>
@@ -184,7 +188,7 @@ export default function MembersTable({ members }) {
               <Text fw={700} fz="0.9rem" visibleFrom="md">
                 Level
               </Text>
-              <Image alt="Level" height={16} hiddenFrom="md" src="/assets/icons/level.webp" />
+              <Image alt="Level" height={16} src="/assets/icons/level.webp" visible={isTablet} />
               {showCaret("level")}
             </Group>
           </Table.Th>
