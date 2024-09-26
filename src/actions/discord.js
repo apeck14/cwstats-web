@@ -2,13 +2,12 @@
 
 "use server"
 
-import { ObjectId } from "mongodb"
 import { redirect } from "next/navigation"
-import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import client from "@/lib/mongodb"
+
+import { getAccessToken } from "./user"
 
 const hasAdminPermissions = (permissions) => {
   const ADMIN = 0x8
@@ -24,28 +23,19 @@ export async function getGuilds(redirectOnError = false) {
   let sessionError = false
 
   try {
-    const session = await getServerSession(authOptions)
+    const { error, token } = await getAccessToken()
 
-    log.info("getGuilds user:", session?.user)
-
-    if (!session || session.error === "RefreshAccessTokenError") {
+    if (error) {
       if (redirectOnError) sessionError = true
-      else return { message: "Not logged in.", status: 403 }
+      return { error }
     }
 
     const db = client.db("General")
-    const accounts = db.collection("accounts")
     const guilds = db.collection("Guilds")
-
-    const userId = new ObjectId(session.user.id)
-
-    const user = await accounts.findOne({
-      userId,
-    })
 
     const data = await fetch("https://discordapp.com/api/users/@me/guilds", {
       headers: {
-        Authorization: `Bearer ${user.access_token}`,
+        Authorization: `Bearer ${token}`,
       },
     })
 

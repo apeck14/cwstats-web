@@ -6,56 +6,38 @@ import { Logger } from "next-axiom"
 
 import client from "@/lib/mongodb"
 
+function createRandomState(length = 32) {
+  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
+  let state = ""
+  for (let i = 0; i < length; i++) {
+    state += characters.charAt(Math.floor(Math.random() * characters.length))
+  }
+  return state
+}
+
 const scope = ["identify", "guilds", "guilds.members.read"].join(" ")
 
 export const authOptions = {
   adapter: MongoDBAdapter(client),
   callbacks: {
-    session: async ({ session, user }) => {
-      if (session?.user) session.user.id = user.id
-
-      const db = client.db("General")
-      const accounts = db.collection("accounts")
-
-      const userId = new ObjectId(user.id)
-
-      const account = await accounts.findOne({ userId })
-
-      // if session expired
-      if (account.expires_at * 1000 < Date.now()) {
-        try {
-          // refresh token
-          const response = await fetch(`https://discord.com/api/oauth2/token`, {
-            body: new URLSearchParams({
-              client_id: process.env.DISCORD_ID,
-              client_secret: process.env.DISCORD_SECRET,
-              grant_type: "refresh_token",
-              refresh_token: account.refresh_token,
-            }),
-            headers: { "Content-Type": "application/x-www-form-urlencoded" },
-            method: "POST",
-          })
-          const tokens = await response.json()
-
-          if (!response.ok) {
-            accounts.deleteOne(account)
-            session.error = "RefreshAccessTokenError"
-            throw tokens
-          }
-
-          await accounts.updateOne(account, {
-            $set: {
-              access_token: tokens.access_token,
-              expires_at: Math.floor(Date.now() / 1000 + tokens.expires_in),
-              refresh_token: tokens.refresh_token ?? account.refresh_token,
-            },
-          })
-        } catch (err) {
-          const log = new Logger()
-          log.warn("session error (refreshing access token)", err)
-        }
+    jwt: async ({ account, token, user }) => {
+      // On initial sign-in, set the access and refresh tokens
+      if (account && user) {
+        token.accessToken = account.access_token
+        token.refreshToken = account.refresh_token
+        token.expiresAt = Date.now() + account.expires_at
+        token.providerId = account.providerAccountId
       }
 
+      return token
+    },
+    session: async ({ session, token }) => {
+      if (token) {
+        session.accessToken = token.accessToken
+        session.refreshToken = token.refreshToken
+        session.expiresAt = token.expiresAt
+        session.providerId = token.providerId
+      }
       return session
     },
     signIn: async ({ profile, user }) => {
@@ -86,13 +68,24 @@ export const authOptions = {
         return true
       } catch (e) {
         const log = new Logger()
-        log.info(user)
         log.error("signIn Error", e)
 
         return false
       }
     },
   },
+  cookies: {
+    state: {
+      name: createRandomState(),
+      options: {
+        httpOnly: true,
+        path: "/",
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
+  debug: true,
   providers: [
     DiscordProvider({
       authorization: {
@@ -106,6 +99,10 @@ export const authOptions = {
     }),
   ],
   secret: process.env.NEXTAUTH_SECRET,
+  session: {
+    strategy: "jwt",
+  },
+  theme: { logo: "https://www.cwstats.com/_next/image?url=%2Fassets%2Ficons%2Flogo.webp&w=96&q=100" },
 }
 
 const handler = NextAuth(authOptions)

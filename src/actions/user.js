@@ -1,38 +1,69 @@
 "use server"
 
-import { ObjectId } from "mongodb"
 import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route"
 import client from "@/lib/mongodb"
 
-export async function getLinkedAccount() {
+export async function getAccessToken() {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session || session.error === "RefreshAccessTokenError")
-      return JSON.parse(JSON.stringify({ message: "Not logged in.", status: 403 }))
+    if (!session || session.error === "RefreshAccessTokenError") {
+      return { error: "Not logged in.", status: 403 }
+    }
+
+    if (!session.accessToken) {
+      return { error: "Access token is missing.", status: 403 }
+    }
+
+    return { token: session.accessToken }
+  } catch (err) {
+    const log = new Logger()
+    log.error("getAccessToken Error", err)
+
+    return { error: err.message, status: 500 }
+  }
+}
+
+export async function getProviderId() {
+  try {
+    const session = await getServerSession(authOptions)
+
+    if (!session || session.error === "RefreshAccessTokenError") {
+      return { error: "Not logged in.", status: 403 }
+    }
+
+    if (!session.providerId) {
+      return { error: "No provider ID.", status: 403 }
+    }
+
+    return { providerId: session.providerId }
+  } catch (err) {
+    const log = new Logger()
+    log.error("getProviderId Error", err)
+
+    return { error: err.message, status: 500 }
+  }
+}
+
+export async function getLinkedAccount() {
+  try {
+    const { error, providerId } = await getProviderId()
+
+    if (error) return { error }
 
     const db = client.db("General")
-    const accounts = db.collection("accounts")
     const linkedAccounts = db.collection("Linked Accounts")
 
-    const userId = new ObjectId(session?.user?.id)
-
-    const user = await accounts.findOne({
-      userId,
-    })
-
-    if (!user) return JSON.parse(JSON.stringify({ status: 404 }))
-
     const linkedAccount = await linkedAccounts.findOne({
-      discordID: user.providerAccountId,
+      discordID: providerId,
     })
 
-    if (!linkedAccount) return JSON.parse(JSON.stringify({ status: 404 }))
+    if (!linkedAccount) return { status: 404 }
 
-    return JSON.parse(JSON.stringify({ success: true, ...linkedAccount, status: 200 }))
+    return { success: true, ...linkedAccount, status: 200 }
   } catch (err) {
     const log = new Logger()
     log.error("getLinkedAccount Error", err)
