@@ -152,8 +152,10 @@ export async function isValidInviteCode(id, code) {
   }
 }
 
-export async function createWebhook(channelId, title, tag) {
+export async function createWebhook(channelId, title, tag, isPlus) {
   try {
+    if (!isPlus) return { error: "Activate CWStats+ to use this feature." }
+
     const base64Image = fs.readFileSync("public/assets/icons/bot-logo.png", { encoding: "base64" })
 
     const webhook = {

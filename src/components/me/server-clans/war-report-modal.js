@@ -27,7 +27,7 @@ export default function WarReportModal({ channels, clan, id, isPlus, setWebhookA
   const handleSubmit = async () => {
     setLoading(true)
 
-    const { error } = await createWebhook(channelId, "CWStats Reports", clan.tag)
+    const { error } = await createWebhook(channelId, "CWStats Reports", clan.tag, isPlus)
 
     setLoading(false)
 
@@ -76,7 +76,7 @@ export default function WarReportModal({ channels, clan, id, isPlus, setWebhookA
           </Group>
         </Stack>
       </Modal>
-      <Button disabled={isPlus} maw="fit-content" onClick={handleOpen} size="xs" variant="default">
+      <Button disabled={!isPlus} maw="fit-content" onClick={handleOpen} size="xs" variant="default">
         Create
       </Button>
     </>
