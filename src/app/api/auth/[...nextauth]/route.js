@@ -85,7 +85,7 @@ export const authOptions = {
       },
     },
   },
-  debug: true,
+  debug: process.env.NODE_ENV !== "production",
   providers: [
     DiscordProvider({
       authorization: {
