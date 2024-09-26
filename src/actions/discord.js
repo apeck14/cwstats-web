@@ -2,6 +2,7 @@
 
 "use server"
 
+import fs from "fs"
 import { redirect } from "next/navigation"
 import { Logger } from "next-axiom"
 
@@ -146,6 +147,59 @@ export async function isValidInviteCode(id, code) {
   } catch (err) {
     const log = new Logger()
     log.warn("isValidInviteCode Error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function createWebhook(channelId, title, tag) {
+  try {
+    const base64Image = fs.readFileSync("public/assets/icons/bot-logo.png", { encoding: "base64" })
+
+    const webhook = {
+      avatar: `data:image/png;base64,${base64Image}`,
+      name: title,
+    }
+
+    const res = await fetch(`https://discord.com/api/v10/channels/${channelId}/webhooks`, {
+      body: JSON.stringify(webhook),
+      headers: {
+        Authorization: `Bot ${process.env.BOT_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      method: "POST",
+    })
+
+    const data = await res.json()
+
+    if (data.message === "Missing Permissions") return { error: "Missing Permission: Manage Webhooks" }
+    if (!res.ok) return { error: "Unexpected error. Try again." }
+
+    const db = client.db("General")
+    const linkedClans = db.collection("Linked Clans")
+
+    linkedClans.updateOne({ tag }, { $set: { webhookUrl: data.url } })
+
+    return { status: 200, success: true, url: data.url }
+  } catch (err) {
+    const log = new Logger()
+    log.warn("createWebhook Error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function deleteWebhook(tag) {
+  try {
+    const db = client.db("General")
+    const linkedClans = db.collection("Linked Clans")
+
+    linkedClans.updateOne({ tag }, { $unset: { webhookUrl: "" } })
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const log = new Logger()
+    log.warn("deleteWebhook Error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
   }

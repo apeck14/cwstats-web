@@ -1,17 +1,26 @@
-import { ActionIcon, Card, Divider, Group, Select, Stack, Text } from "@mantine/core"
-import { IconCheck, IconHash, IconTrash, IconX } from "@tabler/icons-react"
+import { ActionIcon, Card, Divider, Group, Stack, Text, Title } from "@mantine/core"
+import { IconCheck, IconTrash, IconX } from "@tabler/icons-react"
 import Link from "next/link"
 import { useState } from "react"
 
+import { deleteWebhook } from "@/actions/discord"
 import { deleteLinkedClan } from "@/actions/server"
 import Image from "@/components/ui/image"
 
-export default function LinkedClanCard({ clan, clans, isPlus, setClans }) {
+import WarReportModal from "./war-report-modal"
+
+export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setClans }) {
   const [showConfirmButtons, setShowConfirmButtons] = useState(false)
+  const [webhookActive, setWebhookActive] = useState(!!clan.webhookUrl)
 
   const handleConfirm = async () => {
     setClans(clans.filter((c) => c.tag !== clan.tag))
     await deleteLinkedClan(clan.tag)
+  }
+
+  const handleDelete = () => {
+    deleteWebhook(clan.tag)
+    setWebhookActive(false)
   }
 
   return (
@@ -19,7 +28,7 @@ export default function LinkedClanCard({ clan, clans, isPlus, setClans }) {
       <Group justify="space-between">
         <Group gap="xs">
           <Image alt="Clan Badge" height={28} src={`/assets/badges/${clan.clanBadge}.webp`} />
-          <Text className="pinkText" component={Link} fw="600" fz="lg" href={`/clan/${clan.tag.substring(1)}`}>
+          <Text className="pinkText" component={Link} fw="600" fz="xl" href={`/clan/${clan.tag.substring(1)}`}>
             {clan.clanName}
           </Text>
           {isPlus ? (
@@ -51,10 +60,40 @@ export default function LinkedClanCard({ clan, clans, isPlus, setClans }) {
       <Divider color="gray.7" my="md" size="md" />
 
       <Stack gap="xs">
-        <Text c="dimmed" fw="500" fz="sm">
-          War Report Channel
-        </Text>
-        <Select leftSection={<IconHash />} maw="10rem" placeholder="Coming soon!" />
+        <Group gap="0.3rem">
+          <Title size="h5">Plus Features</Title>
+          <Link href="/upgrade">
+            <Image alt="CWStats Plus" height={12} src="/assets/icons/plus.webp" />
+          </Link>
+        </Group>
+
+        <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" maw="20rem">
+          <Text c="dimmed" fw="600">
+            Daily War Report
+          </Text>
+          {webhookActive ? (
+            <Stack gap="0.1rem">
+              <Text fw="600" fz="sm">
+                Status: <span style={{ color: "var(--mantine-color-green-6)" }}>ACTIVE</span>
+              </Text>
+              <Text c="dimmed" fs="italic" fz="xs">
+                This webhook can be managed on Discord in your server&apos;s app integrations.
+              </Text>
+
+              <Text c="red.6" className="cursorPointer" fz="sm" onClick={handleDelete} td="underline" w="fit-content">
+                Delete
+              </Text>
+            </Stack>
+          ) : (
+            <WarReportModal
+              channels={channels}
+              clan={clan}
+              id={id}
+              isPlus={isPlus}
+              setWebhookActive={setWebhookActive}
+            />
+          )}
+        </Card>
       </Stack>
     </Card>
   )

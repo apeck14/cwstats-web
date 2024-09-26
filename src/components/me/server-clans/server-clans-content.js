@@ -10,7 +10,7 @@ import InfoPopover from "@/components/ui/info-popover"
 import LinkClanModal from "./link-clan-modal"
 import LinkedClanCard from "./linked-clan-card"
 
-export default function ServerClansContent({ discordInviteCode, id, linkedClans, plusClans }) {
+export default function ServerClansContent({ channels, discordInviteCode, id, linkedClans, plusClans }) {
   const [clans, setClans] = useState(linkedClans)
   const [inviteError, setInviteError] = useState("")
   const [tempDiscordInv, setTempDiscordInv] = useState(discordInviteCode || "")
@@ -105,8 +105,10 @@ export default function ServerClansContent({ discordInviteCode, id, linkedClans,
 
             {clans.map((c) => (
               <LinkedClanCard
+                channels={channels}
                 clan={c}
                 clans={clans}
+                id={id}
                 isPlus={plusClans.includes(c.tag)}
                 key={c.tag}
                 setClans={setClans}

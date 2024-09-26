@@ -22,6 +22,10 @@ export const sendWebhookEmbed = (type, data = {}) => {
     embed.color = 0x00ff00
     embed.title = "__Clan Linked!__"
     embed.description = `**Clan**: [${data.name}](https:cwstats.com/clan/${data.tag.substring(1)})\n**Tag**: ${data.tag}\n**Guild**: ${data.id}`
+  } else if (type === "REPORT_CREATED") {
+    embed.color = 0x00ff00
+    embed.title = "__War Report Created!__"
+    embed.description = `**Clan**: [${data.name}](https:cwstats.com/clan/${data.tag.substring(1)})\n**Tag**: ${data.tag}\n**Guild**: ${data.id}`
   }
 
   return fetch(process.env.WEBHOOK_URL, {
