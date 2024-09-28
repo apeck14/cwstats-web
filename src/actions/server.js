@@ -440,7 +440,10 @@ export async function setChannels(id, channels) {
       },
       {
         $set: {
-          channels: channelQuery,
+          channels: {
+            commandChannelIDs: [],
+            ...channelQuery,
+          },
         },
       },
     )
