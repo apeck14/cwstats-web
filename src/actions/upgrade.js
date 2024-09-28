@@ -2,39 +2,48 @@
 
 /* eslint-disable perfectionist/sort-objects */
 
-import { formatTag } from "@/lib/functions/utils"
+import { Logger } from "next-axiom"
+
+import { formatDiscordStr, formatTag } from "@/lib/functions/utils"
 import client from "@/lib/mongodb"
+import colors from "@/static/colors"
 
 import { getClan } from "./supercell"
+import { getProviderId } from "./user"
 
-export const sendWebhookEmbed = (type, data = {}) => {
-  const embed = {}
+export const sendLogWebhook = async (data = {}, attachUser = false) => {
+  try {
+    const embed = {
+      title: `__${data.title}__`,
+      description: "",
+      color: data.color || colors.green,
+    }
 
-  if (type === "ADD_PLUS") {
-    embed.color = 0xffa500
-    embed.title = "__New Plus Clan!__"
-    embed.description = `**Clan**: [${data.name}](https:cwstats.com/clan/${data.tag.substring(1)})\n**Tag**: ${data.tag}`
-  } else if (type === "REMOVE_PLUS") {
-    embed.color = 0xff0f0f
-    embed.title = "__Plus Clan Removed!__"
-    embed.description = `**Clan**: [${data.name}](https:cwstats.com/clan/${data.tag.substring(1)})\n**Tag**: ${data.tag}`
-  } else if (type === "CLAN_LINKED") {
-    embed.color = 0x00ff00
-    embed.title = "__Clan Linked!__"
-    embed.description = `**Clan**: [${data.name}](https:cwstats.com/clan/${data.tag.substring(1)})\n**Tag**: ${data.tag}\n**Guild**: ${data.id}`
-  } else if (type === "REPORT_CREATED") {
-    embed.color = 0x00ff00
-    embed.title = "__War Report Created!__"
-    embed.description = `**Clan**: [${data.name}](https:cwstats.com/clan/${data.tag.substring(1)})\n**Tag**: ${data.tag}\n**Guild**: ${data.id}`
+    const orderedProps = ["clan", "tag", "guild"]
+
+    for (const prop of orderedProps) {
+      if (Object.prototype.hasOwnProperty.call(data, prop)) {
+        // if prop exists in data
+        const val = formatDiscordStr(data[prop])
+        const displayedVal = prop === "clan" ? `[${val}](https:cwstats.com/clan/${data.tag.substring(1)})` : val
+        embed.description += `**${prop.charAt(0).toUpperCase() + prop.slice(1)}**: ${displayedVal}\n`
+      }
+    }
+
+    if (attachUser) {
+      const { providerId } = await getProviderId()
+      embed.description += `**User**: ${providerId}`
+    }
+
+    await fetch(process.env.WEBHOOK_URL, {
+      body: JSON.stringify({ embeds: [embed] }),
+      headers: { "Content-Type": "application/json" },
+      method: "POST",
+    })
+  } catch (e) {
+    const log = new Logger()
+    log.error("sendLogWebhook error", e)
   }
-
-  return fetch(process.env.WEBHOOK_URL, {
-    body: JSON.stringify({ embeds: [embed] }),
-    headers: { "Content-Type": "application/json" },
-    method: "POST",
-  })
-    .then(() => {})
-    .catch(() => {})
 }
 
 export async function addPlus(tag) {
@@ -59,9 +68,10 @@ export async function addPlus(tag) {
 
     await plus.insertOne({ tag: clan.tag, hourlyAverages: [] })
 
-    sendWebhookEmbed("ADD_PLUS", {
-      name: clan.name,
+    sendLogWebhook({
+      clan: clan.name,
       tag: clan.tag,
+      title: "New Plus Clan",
     })
 
     return { name: clan.name, tag: clan.tag }

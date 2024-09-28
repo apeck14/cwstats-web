@@ -5,7 +5,10 @@ import { useState } from "react"
 
 import { deleteWebhook } from "@/actions/discord"
 import { deleteLinkedClan } from "@/actions/server"
+import { sendLogWebhook } from "@/actions/upgrade"
 import Image from "@/components/ui/image"
+import { formatTag } from "@/lib/functions/utils"
+import colors from "@/static/colors"
 
 import WarReportModal from "./war-report-modal"
 
@@ -16,11 +19,33 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
   const handleConfirm = async () => {
     setClans(clans.filter((c) => c.tag !== clan.tag))
     await deleteLinkedClan(clan.tag)
+
+    sendLogWebhook(
+      {
+        clan: clan.clanName,
+        color: colors.red,
+        guild: id,
+        tag: formatTag(clan.tag, true),
+        title: "Linked Clan Deleted",
+      },
+      true,
+    )
   }
 
   const handleDelete = () => {
     deleteWebhook(clan.tag)
     setWebhookActive(false)
+
+    sendLogWebhook(
+      {
+        clan: clan.clanName,
+        color: colors.red,
+        guild: id,
+        tag: formatTag(clan.tag, true),
+        title: "War Report Deleted",
+      },
+      true,
+    )
   }
 
   return (

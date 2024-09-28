@@ -6,7 +6,7 @@ import { notifications } from "@mantine/notifications"
 import { useState } from "react"
 
 import { createWebhook } from "@/actions/discord"
-import { sendWebhookEmbed } from "@/actions/upgrade"
+import { sendLogWebhook } from "@/actions/upgrade"
 import Image from "@/components/ui/image"
 import { formatTag } from "@/lib/functions/utils"
 
@@ -38,15 +38,19 @@ export default function WarReportModal({ channels, clan, id, isPlus, setWebhookA
       notifications.show({
         autoClose: 8000,
         color: "green",
-        message: `War report successfully created for ${clan.clanName} in #${channels.find((c) => c.id === channelId)?.name}.`,
+        message: `War Report successfully created for ${clan.clanName} in #${channels.find((c) => c.id === channelId)?.name}.`,
         title: "War Report Created!",
       })
 
-      sendWebhookEmbed("REPORT_CREATED", {
-        id,
-        name: clan.clanName,
-        tag: formatTag(clan.tag, true),
-      })
+      sendLogWebhook(
+        {
+          clan: clan.clanName,
+          guild: id,
+          tag: formatTag(clan.tag, true),
+          title: "War Report Created",
+        },
+        true,
+      )
     }
   }
 

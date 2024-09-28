@@ -7,7 +7,7 @@ import { IconCheck, IconHash } from "@tabler/icons-react"
 import { useState } from "react"
 
 import { generateLinkCode, linkClanToServer } from "@/actions/server"
-import { sendWebhookEmbed } from "@/actions/upgrade"
+import { sendLogWebhook } from "@/actions/upgrade"
 import { formatTag } from "@/lib/functions/utils"
 
 export default function LinkClanModal({ clans, id, setClans }) {
@@ -82,11 +82,15 @@ export default function LinkClanModal({ clans, id, setClans }) {
         title: "Clan Linked!",
       })
 
-      sendWebhookEmbed("CLAN_LINKED", {
-        id,
-        name: clan.clanName,
-        tag: formatTag(tag, true),
-      })
+      sendLogWebhook(
+        {
+          clan: clan.clanName,
+          guild: id,
+          tag: formatTag(tag, true),
+          title: "Clan Linked",
+        },
+        true,
+      )
     }
   }
 
