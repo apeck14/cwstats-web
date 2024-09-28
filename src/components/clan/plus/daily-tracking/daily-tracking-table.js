@@ -84,11 +84,11 @@ const cellColors = [
   "rgb(169, 227, 75, 0.4)", // 175
   "rgb(250, 176, 5, 0.4)", // 150
   "rgb(255, 146, 43, 0.6)", // 125
-  "rgb(250, 82, 82, 0.6)", // 100
+  "rgb(250, 82, 82, 0.6)", // 100 avg or less than 400 fame
 ]
 
 function getFameCellColor(attacks, fame, missed) {
-  if (missed && !fame) return cellColors[cellColors.length - 1]
+  if ((attacks > 0 && fame < 400) || (missed && !fame)) return cellColors[cellColors.length - 1]
   if (!fame || !attacks) return
 
   const avg = fame / attacks
@@ -140,14 +140,20 @@ export default function DailyTrackingTable({ data }) {
               </Link>
             </Table.Td>
             {entry.scores.map((s, i) => {
-              const fameCellColor = getFameCellColor(s.attacks, s.fame, s.missed)
+              let fameCellBg = getFameCellColor(s.attacks, s.fame, s.missed)
+              // repeating-linear-gradient(45deg, transparent, transparent 10px, #000 10px, #000 20px)
+
+              // show stripes
+              if ((s.attacks > 0 && s.fame < 400) || s.missed) {
+                fameCellBg = `repeating-linear-gradient(45deg, transparent, transparent 10px, ${fameCellBg} 10px, ${fameCellBg} 20px)`
+              }
 
               return (
                 <React.Fragment key={`${entry.tag}-${i}`}>
                   <Table.Td ta="center" visibleFrom="md">
                     {s.attacks}
                   </Table.Td>
-                  <Table.Td bg={fameCellColor} colSpan={isLessThanTablet && 2} ta="center">
+                  <Table.Td bg={fameCellBg} colSpan={isLessThanTablet && 2} ta="center">
                     {isLessThanTablet ? (
                       <Stack gap="0">
                         <Text fz={{ base: "0.65rem", md: "0.85rem" }}>{s.fame}</Text>
