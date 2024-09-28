@@ -427,12 +427,7 @@ export async function setChannels(id, channels) {
 
     const channelQuery = { ...channels }
 
-    // remove empty values from query
-    for (const prop of Object.keys(channelQuery)) {
-      const val = channelQuery[prop]
-
-      if (!val.length) delete channelQuery[prop]
-    }
+    if (!channelQuery.commandChannelIDs) channelQuery.commandChannelIDs = []
 
     await guilds.updateOne(
       {
@@ -440,10 +435,7 @@ export async function setChannels(id, channels) {
       },
       {
         $set: {
-          channels: {
-            commandChannelIDs: [],
-            ...channelQuery,
-          },
+          channels: channelQuery,
         },
       },
     )
