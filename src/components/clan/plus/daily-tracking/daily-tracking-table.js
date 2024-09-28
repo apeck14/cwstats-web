@@ -141,10 +141,9 @@ export default function DailyTrackingTable({ data }) {
             </Table.Td>
             {entry.scores.map((s, i) => {
               let fameCellBg = getFameCellColor(s.attacks, s.fame, s.missed)
-              // repeating-linear-gradient(45deg, transparent, transparent 10px, #000 10px, #000 20px)
 
-              // show stripes
-              if ((s.attacks > 0 && s.fame < 400) || s.missed) {
+              // show stripes for missed attacks
+              if (s.attacks < 4 || s.missed) {
                 fameCellBg = `repeating-linear-gradient(45deg, transparent, transparent 10px, ${fameCellBg} 10px, ${fameCellBg} 20px)`
               }
 
