@@ -190,6 +190,7 @@ export default function DailyTrackingContent({ data, weekData }) {
               allowDeselect={false}
               data={labels}
               maw="9rem"
+              mt="md"
               onChange={handleSelect}
               placeholder="Pick value"
               value={week}
