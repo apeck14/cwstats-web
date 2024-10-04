@@ -7,23 +7,26 @@ import RaceRing from "../race/race-ring"
 export default function LogStats({ log }) {
   const { bestColAvg, bestColScore, bestWeekAvg, lastColAvg, lastColScore, logAvg, worstWeekAvg } = log || {}
 
+  const lowestScore = Math.min(worstWeekAvg, logAvg, bestWeekAvg, 100)
+  let minPerc = 1
+
   const avgData = [
     {
       color: "var(--mantine-color-red-6)",
       label: "Worst Avg.",
-      perc: Math.max(0, ((worstWeekAvg - 100) / (225 - 100)) * 100),
+      perc: Math.max(0, ((worstWeekAvg - lowestScore) / (225 - lowestScore)) * 100) || minPerc++,
       value: worstWeekAvg,
     },
     {
       color: "var(--mantine-color-orange-5)",
       label: "10 Week Avg.",
-      perc: Math.max(0, ((logAvg - 100) / (225 - 100)) * 100),
+      perc: Math.max(0, ((logAvg - lowestScore) / (225 - lowestScore)) * 100) || minPerc++,
       value: logAvg,
     },
     {
       color: "var(--mantine-color-pink-6)",
       label: "Best Avg.",
-      perc: Math.max(0, ((bestWeekAvg - 100) / (225 - 100)) * 100),
+      perc: Math.max(0, ((bestWeekAvg - lowestScore) / (225 - lowestScore)) * 100) || minPerc++,
       value: bestWeekAvg,
     },
   ]
@@ -45,9 +48,7 @@ export default function LogStats({ log }) {
         <Text c="dimmed">Compare averages from the last 10 weeks of races.</Text>
         <Progress.Root my="xl" size="1.5rem" transitionDuration={1000}>
           {avgData.map((s, i) => (
-            <Progress.Section color={s.color} key={s.label} value={i > 0 ? s.perc - avgData[i - 1].perc : s.perc}>
-              <Progress.Label>{s.value.toFixed(0)}</Progress.Label>
-            </Progress.Section>
+            <Progress.Section color={s.color} key={s.label} value={i > 0 ? s.perc - avgData[i - 1].perc : s.perc} />
           ))}
         </Progress.Root>
         <SimpleGrid cols={3}>

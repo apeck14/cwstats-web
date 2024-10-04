@@ -387,8 +387,9 @@ export const getLogDetails = (tag, log) => {
     seasonTotalWeeks++
     seasonTrophyGain += weekStats.trophies
 
-    if (!logStats.worstWeekAvg || weekStats.avg < logStats.worstWeekAvg) logStats.worstWeekAvg = weekStats.avg
-    if (!logStats.bestWeekAvg || weekStats.avg > logStats.bestWeekAvg) logStats.bestWeekAvg = weekStats.avg
+    // cant use ! because of 0
+    if (logStats.worstWeekAvg === null || weekStats.avg < logStats.worstWeekAvg) logStats.worstWeekAvg = weekStats.avg
+    if (logStats.bestWeekAvg === null || weekStats.avg > logStats.bestWeekAvg) logStats.bestWeekAvg = weekStats.avg
 
     if (isColosseum) {
       logStats.lastColAvg = weekStats.avg
