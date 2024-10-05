@@ -98,7 +98,7 @@ function getFameCellColor(attacks, fame, missed) {
   return cellColors[index === -1 ? 5 : index]
 }
 
-export default function DailyTrackingTable({ data }) {
+export default function DailyTrackingTable({ data, week }) {
   const isLessThanTablet = useMediaQuery("(max-width: calc(48em - 1px))")
   const [sortConfig, setSortConfig] = useState({
     col: "fame",
@@ -143,7 +143,7 @@ export default function DailyTrackingTable({ data }) {
               let fameCellBg = getFameCellColor(s.attacks, s.fame, s.missed)
 
               // show stripes for missed attacks
-              if (s.attacks < 4 || s.missed) {
+              if ("missed" in s && ((s.attacks === 0 && s.missed) || s.attacks % 4 !== 0)) {
                 fameCellBg = `repeating-linear-gradient(45deg, transparent, transparent 10px, ${fameCellBg} 10px, ${fameCellBg} 20px)`
               }
 
@@ -183,7 +183,7 @@ export default function DailyTrackingTable({ data }) {
             </Table.Td>
           </Table.Tr>
         )),
-    [sortConfig, isLessThanTablet, data],
+    [sortConfig, isLessThanTablet, week],
   )
 
   return (

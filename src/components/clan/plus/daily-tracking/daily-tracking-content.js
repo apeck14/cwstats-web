@@ -197,7 +197,7 @@ export default function DailyTrackingContent({ data, weekData }) {
             />
           </Group>
           <DailyTrackingStats stats={stats} />
-          <DailyTrackingTable data={tableData} />
+          <DailyTrackingTable data={tableData} week={week} />
           <Text c="dimmed" fs="italic" fz="sm">
             * Striped cells indicate missed attacks
           </Text>
