@@ -76,12 +76,14 @@ function getStats(week, data, weekData) {
   let lastWeekIsIncomplete = false
 
   for (const day of thisWeek) {
-    if (!day.scores.length || day.scores.every((p) => p.fame === 0)) continue
+    if (!day.scores.length || day.scores.every((p) => p.fame === 0 && !p.missed)) continue
 
     let totalFame = 0
     let totalAttacks = 0
     let playersCompletedBattles = 0
     let mostAttacksUsed = 0
+
+    const slotsUsed = day.scores.filter((p) => p.attacks).length
 
     for (const p of day.scores) {
       if (p.attacks) {
@@ -92,7 +94,7 @@ function getStats(week, data, weekData) {
       totalAttacks += p.attacks
       totalFame += p.fame
 
-      if (p.fame || p.missed) scoresThisWeek.push(p.fame)
+      if (p.fame || p.missed || (p.fame === 0 && slotsUsed < 50)) scoresThisWeek.push(p.fame)
     }
 
     const daysMergedIntoToday = mostAttacksUsed > 4 ? Math.ceil(mostAttacksUsed / 4) : 1
@@ -107,12 +109,14 @@ function getStats(week, data, weekData) {
   }
 
   for (const day of lastWeek) {
-    if (!day.scores.length || day.scores.every((p) => p.fame === 0)) continue
+    if (!day.scores.length || day.scores.every((p) => p.fame === 0 && !p.missed)) continue
 
     let totalFame = 0
     let totalAttacks = 0
     let playersCompletedBattles = 0
     let mostAttacksUsed = 0
+
+    const slotsUsed = day.scores.filter((p) => p.attacks).length
 
     for (const p of day.scores) {
       if (p.attacks) {
@@ -122,7 +126,8 @@ function getStats(week, data, weekData) {
       }
       totalAttacks += p.attacks
       totalFame += p.fame
-      if (p.fame || p.missed) scoresLastWeek.push(p.fame)
+
+      if (p.fame || p.missed || (p.fame === 0 && slotsUsed < 50)) scoresLastWeek.push(p.fame)
     }
 
     const daysMergedIntoToday = mostAttacksUsed > 4 ? Math.ceil(mostAttacksUsed / 4) : 1
