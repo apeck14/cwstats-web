@@ -10,8 +10,8 @@ const formatNum = (num, label) => {
   if (label === "AVG. FAME") return num.toFixed(1)
   if (label === "MEDIAN SCORE") return num.toFixed(1)
   if (label === "DAILY FAME") return num.toFixed(0)
-  if (label === "ATTACKS MISSED") return num > 0 ? Math.round(num) : 0
-  if (label === "PLAYERS MISSED") return num > 0 ? Math.round(num) : 0
+  if (label === "ATTACKS MISSED") return num === 0 ? 0 : num.toFixed(1)
+  if (label === "PLAYERS MISSED") return num === 0 ? 0 : num.toFixed(1)
 
   return ""
 }
