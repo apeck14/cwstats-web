@@ -57,9 +57,12 @@ export async function getLinkedAccount() {
     const db = client.db("General")
     const linkedAccounts = db.collection("Linked Accounts")
 
-    const linkedAccount = await linkedAccounts.findOne({
-      discordID: providerId,
-    })
+    const linkedAccount = await linkedAccounts.findOne(
+      {
+        discordID: providerId,
+      },
+      { projection: { _id: 0 } },
+    )
 
     if (!linkedAccount) return { status: 404 }
 

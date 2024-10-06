@@ -35,13 +35,16 @@ export async function GET(req) {
 
     const [dailyLbArr, statsData] = await Promise.all([
       dailyLb
-        .find({
-          ...dailyLbQuery,
-          clanScore: {
-            $gte: Number(minTrophies) || 0,
-            $lte: Number(maxTrophies) || 10000,
+        .find(
+          {
+            ...dailyLbQuery,
+            clanScore: {
+              $gte: Number(minTrophies) || 0,
+              $lte: Number(maxTrophies) || 10000,
+            },
           },
-        })
+          { projection: { _id: 0 } },
+        )
         .sort({
           notRanked: 1,
           fameAvg: -1,
