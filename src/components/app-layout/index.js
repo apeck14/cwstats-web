@@ -3,6 +3,7 @@
 import { AppShell } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 
+import AppFooter from "./footer"
 import AppHeader from "./header"
 
 export default function AppLayout({ children }) {
@@ -12,6 +13,7 @@ export default function AppLayout({ children }) {
     <AppShell bg="gray.9" className={opened ? "hiddenOverflow" : ""} withBorder={false}>
       <AppHeader opened={opened} toggle={toggle} />
       <AppShell.Main pt="3.75rem">{children}</AppShell.Main>
+      <AppFooter />
     </AppShell>
   )
 }

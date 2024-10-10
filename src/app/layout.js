@@ -7,7 +7,6 @@ import { GoogleAnalytics } from "@next/third-parties/google"
 import { getServerSession } from "next-auth"
 
 import AppLayout from "@/components/app-layout"
-import AppFooter from "@/components/app-layout/footer"
 import NextAuthProvider from "@/components/session-provider"
 import { CWSTATS_DESC } from "@/static/constants"
 
@@ -44,7 +43,6 @@ export default async function RootLayout({ children }) {
         <NextAuthProvider session={session}>
           <ThemeProvider>
             <AppLayout>{children}</AppLayout>
-            <AppFooter />
           </ThemeProvider>
         </NextAuthProvider>
       </body>

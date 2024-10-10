@@ -74,6 +74,10 @@ p {
   --_input-bd: transparent;
 }
 
+.mantine-Blockquote-icon {
+  background-color: var(--mantine-color-gray-9);
+}
+
 .mantineNoBorder {
   --_input-bd: transparent !important;
 }

@@ -11,7 +11,7 @@ import client from "@/lib/mongodb"
 import { getGuilds, isValidInviteCode } from "./discord"
 import { getClan, getPlayer } from "./supercell"
 
-export async function getServerSettings(id, redirectOnError = false, authenticate = false) {
+export async function getServerSettings(id, redirectOnError = false, authenticate = true) {
   if (authenticate) {
     const { data: guilds } = await getGuilds(true)
 

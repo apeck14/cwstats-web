@@ -7,7 +7,7 @@ export const dynamic = "force-dynamic"
 
 export default async function ChannelsPage({ params }) {
   const [{ guild }, { data: channels }] = await Promise.all([
-    getServerSettings(params.id, true, true),
+    getServerSettings(params.id, true),
     getGuildChannels(params.id, true),
   ])
 

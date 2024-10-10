@@ -17,7 +17,7 @@ const categories = {
     { label: "Decks", url: "/decks" },
   ],
   Help: [
-    { label: "Docs", url: "/docs" },
+    { label: "Docs", url: "/docs/getting-started" },
     { label: "Invite", url: "/invite" },
     { label: "Support Server", url: "/support" },
   ],
@@ -26,7 +26,7 @@ const categories = {
 export default function AppFooter() {
   const pathname = usePathname()
   return pathname === "/spy" ? null : (
-    <Group bg="gray.10" py={{ base: "xl", md: "3rem" }}>
+    <Group bg="gray.10" pos="sticky" py={{ base: "xl", md: "3rem" }}>
       <Container size="lg" w="100%">
         <Group align="top" gap="xl" justify="space-between">
           <Stack gap="0.2rem">

@@ -8,7 +8,7 @@ import { deleteLinkedClan } from "@/actions/server"
 import { sendLogWebhook } from "@/actions/upgrade"
 import Image from "@/components/ui/image"
 import { formatTag } from "@/lib/functions/utils"
-import colors from "@/static/colors"
+import { embedColors } from "@/static/colors"
 
 import WarReportModal from "./war-report-modal"
 
@@ -23,7 +23,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
     sendLogWebhook(
       {
         clan: clan.clanName,
-        color: colors.red,
+        color: embedColors.red,
         guild: id,
         tag: formatTag(clan.tag, true),
         title: "Linked Clan Deleted",
@@ -39,7 +39,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
     sendLogWebhook(
       {
         clan: clan.clanName,
-        color: colors.red,
+        color: embedColors.red,
         guild: id,
         tag: formatTag(clan.tag, true),
         title: "War Report Deleted",

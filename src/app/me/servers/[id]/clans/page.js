@@ -10,7 +10,7 @@ export default async function ClansPage({ params }) {
   const [{ clans }, plusClans, { guild }, { data: channels }] = await Promise.all([
     getLinkedClans(params.id),
     getAllPlusClans(true),
-    getServerSettings(params.id, true, true),
+    getServerSettings(params.id, true),
     getGuildChannels(params.id, true),
   ])
 

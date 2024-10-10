@@ -6,6 +6,7 @@ import { useState } from "react"
 
 import { setDiscordInvite } from "@/actions/server"
 import InfoPopover from "@/components/ui/info-popover"
+import colors from "@/static/colors"
 
 import LinkClanModal from "./link-clan-modal"
 import LinkedClanCard from "./linked-clan-card"
@@ -62,7 +63,7 @@ export default function ServerClansContent({ channels, discordInviteCode, id, li
           <Stack>
             <Group align="flex-end" justify="space-between" mt="md">
               <Stack gap="xs">
-                <Group c="#7289da" gap="xs">
+                <Group c={colors.discord} gap="xs">
                   <IconBrandDiscordFilled size={20} />
                   <Text c="gray.1" fw="500">
                     Server Invite Code

@@ -10,6 +10,7 @@ import { useState } from "react"
 
 import PlusIcon from "@/components/ui/plus-icon"
 import { getClanBadgeFileName } from "@/lib/functions/utils"
+import colors from "@/static/colors"
 import { CLAN_IN_GAME_LINK } from "@/static/constants"
 
 import FollowButton from "../../ui/follow-button"
@@ -86,7 +87,7 @@ export default function HeaderContent({
                       target="_blank"
                       variant="transparent"
                     >
-                      <IconBrandDiscordFilled color="#7289da" size="1.25rem" stroke={2} />
+                      <IconBrandDiscordFilled color={colors.discord} size="1.25rem" stroke={2} />
                     </ActionIcon>
                   )}
                 </Group>
@@ -116,7 +117,7 @@ export default function HeaderContent({
                     target="_blank"
                     variant="transparent"
                   >
-                    <IconBrandDiscordFilled color="#7289da" size="1.25rem" stroke={2} />
+                    <IconBrandDiscordFilled color={colors.discord} size="1.25rem" stroke={2} />
                   </ActionIcon>
                 )}
 

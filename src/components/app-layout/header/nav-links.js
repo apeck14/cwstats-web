@@ -22,7 +22,7 @@ export const links = [
   {
     icon: <IconNotes color="var(--mantine-color-pink-6)" height="1.3rem" />,
     label: "Docs",
-    link: "/docs",
+    link: "/docs/getting-started",
     query: "docs",
   },
   {

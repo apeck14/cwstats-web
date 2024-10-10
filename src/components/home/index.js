@@ -5,6 +5,7 @@ import { useMediaQuery } from "@mantine/hooks"
 import { IconBrandDiscord, IconClockBolt, IconTools } from "@tabler/icons-react"
 import Link from "next/link"
 
+import colors from "@/static/colors"
 import { CWSTATS_DESC } from "@/static/constants"
 
 import Image from "../ui/image"
@@ -142,7 +143,7 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                   server!
                 </Text>
                 <Button
-                  color="#7289da"
+                  color={colors.discord}
                   component={Link}
                   href="/invite"
                   leftSection={<IconBrandDiscord />}

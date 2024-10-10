@@ -6,7 +6,7 @@ import { Logger } from "next-axiom"
 
 import { formatDiscordStr, formatTag } from "@/lib/functions/utils"
 import client from "@/lib/mongodb"
-import colors from "@/static/colors"
+import { embedColors } from "@/static/colors"
 
 import { getClan } from "./supercell"
 import { getProviderId } from "./user"
@@ -16,7 +16,7 @@ export const sendLogWebhook = async (data = {}, attachUser = false) => {
     const embed = {
       title: `__${data.title}__`,
       description: "",
-      color: data.color || colors.green,
+      color: data.color || embedColors.green,
     }
 
     const orderedProps = ["clan", "tag", "guild"]

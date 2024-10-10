@@ -1,0 +1,28 @@
+.sideBar {
+  visibility: visible;
+
+  @media (max-width: 95em) {
+    visibility: hidden;
+  }
+}
+
+.sideBarItem {
+  border-radius: 0.25rem;
+}
+
+.sideBarItem:hover {
+  cursor: pointer;
+  background-color: var(--mantine-color-gray-8);
+  transition: 0.3s ease-in-out;
+}
+
+.sideBarItem[data-active="true"] {
+  background-color: var(--mantine-color-gray-8);
+}
+
+.mobileSideBarBtn {
+  position: fixed;
+  z-index: 998;
+  bottom: 1rem;
+  left: 1rem;
+}
