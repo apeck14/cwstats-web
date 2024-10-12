@@ -6,15 +6,6 @@ import { Logger } from "next-axiom"
 
 import client from "@/lib/mongodb"
 
-function createRandomState(length = 32) {
-  const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789"
-  let state = ""
-  for (let i = 0; i < length; i++) {
-    state += characters.charAt(Math.floor(Math.random() * characters.length))
-  }
-  return state
-}
-
 const scope = ["identify", "guilds", "guilds.members.read"].join(" ")
 
 export const authOptions = {
@@ -74,17 +65,6 @@ export const authOptions = {
       }
     },
   },
-  cookies: {
-    state: {
-      name: createRandomState(),
-      options: {
-        httpOnly: true,
-        path: "/",
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
-  },
   debug: process.env.NODE_ENV !== "production",
   providers: [
     DiscordProvider({
@@ -100,6 +80,7 @@ export const authOptions = {
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
+    cookies: "none",
     strategy: "jwt",
   },
   theme: { logo: "https://www.cwstats.com/_next/image?url=%2Fassets%2Ficons%2Flogo.webp&w=96&q=100" },
