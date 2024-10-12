@@ -19,7 +19,7 @@ jobs:
           node-version: "20"
 
       - name: Install dependencies
-        run: npm install --production
+        run: npm ci --only=production
 
       - name: Run tests
         run: npm run test
