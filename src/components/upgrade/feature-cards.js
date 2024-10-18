@@ -30,6 +30,7 @@ const options = [
       { text: "Verified checkmark" },
       { text: "Daily Leaderboard clan accolades" },
       { text: "Guaranteed spot on Daily Leaderboard" },
+      { subText: "+2 Scheduled Nudges • +75 Linked Players", text: "Increased Nudge Limits" },
     ],
     subtitle: "For competitive war clans looking to dive into rich CW2 features.",
     title: "PLUS",
