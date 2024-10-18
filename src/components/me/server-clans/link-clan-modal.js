@@ -168,7 +168,7 @@ export default function LinkClanModal({ clans, id, setClans }) {
           </Group>
         </Stack>
       </Modal>
-      <Button fz="0.9rem" onClick={handleOpen} size="xs">
+      <Button disabled={clans.length >= 20} fz="0.9rem" onClick={handleOpen} size="xs">
         Link
       </Button>
     </>
