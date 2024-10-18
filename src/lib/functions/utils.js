@@ -144,3 +144,7 @@ export const getAverage = (arr) => {
 
 export const formatDiscordStr = (clanName) =>
   clanName.replaceAll("*", "∗").replaceAll("_", "\\_").replaceAll("™️", "™")
+
+export const calcNudgeLimit = (linkedPlusClansCount) => 3 + linkedPlusClansCount * 2
+
+export const calcLinkedPlayerLimit = (linkedPlusClansCount) => 100 + linkedPlusClansCount * 75

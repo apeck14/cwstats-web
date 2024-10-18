@@ -10,7 +10,7 @@ import { deleteLinkedAccount } from "@/actions/server"
 import InfoPopover from "../../ui/info-popover"
 import AddLinkedAccount from "./add-linked-account"
 
-export default function LinkedAccounts({ guild }) {
+export default function LinkedAccounts({ guild, limit }) {
   const { guildID, nudges } = guild
 
   const [linkedAccounts, setLinkedAccounts] = useState(nudges?.links || [])
@@ -60,7 +60,7 @@ export default function LinkedAccounts({ guild }) {
       </Group>
 
       <AddLinkedAccount
-        disabled={linkedAccounts.length >= 300}
+        disabled={linkedAccounts.length >= limit}
         id={guildID}
         linkedAccounts={linkedAccounts}
         setLinkedAccounts={setLinkedAccounts}
@@ -74,9 +74,13 @@ export default function LinkedAccounts({ guild }) {
           total={linkedAccounts.length === 0 ? 1 : Math.ceil(linkedAccounts.length / 50)}
           value={page}
         />
-        <Text c="dimmed" fw="600">
-          {linkedAccounts.length} / 300
-        </Text>
+
+        <Group gap="0.25rem">
+          <Text c="dimmed" fw="600">
+            {linkedAccounts.length} / {limit}
+          </Text>
+          <InfoPopover text="Default linked player limit is 100. Each plus clan linked to your server adds an additional 75." />
+        </Group>
       </Stack>
 
       <Table className="ignoreContainerPadding" mih="5rem" mt="0.1rem" striped>

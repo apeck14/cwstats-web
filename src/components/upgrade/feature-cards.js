@@ -16,7 +16,7 @@ const options = [
       { text: "War deck spying" },
       { text: "Automated Discord application system" },
       { subText: "15 Abbreviations", text: "Clan abbreviations" },
-      { subText: "5 Scheduled Nudges • 300 Linked Users", text: "Nudges via Discord" },
+      { subText: "3 Scheduled Nudges • 100 Linked Players", text: "Nudges via Discord" },
     ],
     subtitle: "Perfect for casual war clans.",
     title: "STANDARD",

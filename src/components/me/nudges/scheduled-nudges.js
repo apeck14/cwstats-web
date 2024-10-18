@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionIcon, Group, Stack, Table, Title, Tooltip } from "@mantine/core"
+import { ActionIcon, Group, Stack, Table, Text, Title, Tooltip } from "@mantine/core"
 import { IconCheck, IconTrash, IconX } from "@tabler/icons-react"
 import { useState } from "react"
 
@@ -22,7 +22,7 @@ const formatError = (str) => {
   }
 }
 
-export default function ScheduledNudges({ channels, guild }) {
+export default function ScheduledNudges({ channels, guild, limit }) {
   const { guildID, nudges } = guild
 
   const [scheduledNudges, setScheduledNudges] = useState(nudges?.scheduled || [])
@@ -101,7 +101,14 @@ export default function ScheduledNudges({ channels, guild }) {
           <InfoPopover text="Scheduled Nudges are automated messages posted on Discord to ping users with remaining attacks. Players MUST be linked so the bot knows who to ping." />
         </Group>
 
-        <AddNudgeModal channels={channels} disabled={scheduledNudges.length >= 5} id={guildID} onAdd={handleAdd} />
+        <AddNudgeModal channels={channels} disabled={scheduledNudges.length >= limit} id={guildID} onAdd={handleAdd} />
+      </Group>
+
+      <Group gap="0.25rem" justify="flex-end" mt="-0.75rem">
+        <Text c="dimmed" fw="600">
+          {scheduledNudges.length} / {limit}
+        </Text>
+        <InfoPopover text="Default nudge limit is 3. Each plus clan linked to your server adds an additional 2." />
       </Group>
 
       <Table className="ignoreContainerPadding" mt="0.1rem" striped>
