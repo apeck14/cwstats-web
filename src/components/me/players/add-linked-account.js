@@ -100,7 +100,7 @@ export default function AddLinkedAccount({ disabled, id, linkedAccounts, setLink
         >
           <Combobox.Target>
             <InputBase
-              label="Discord User"
+              label="Discord Username"
               leftSection={searchLoading ? <Loader size="xs" /> : <IconSearch size="1rem" />}
               onChange={(e) => {
                 combobox.updateSelectedOptionIndex()

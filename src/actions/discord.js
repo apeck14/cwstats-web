@@ -206,3 +206,42 @@ export async function deleteWebhook(tag) {
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
 }
+
+export async function getAllGuildUsers(id) {
+  try {
+    let members = []
+    let lastMemberId = null
+    let hasMore = true
+
+    while (hasMore) {
+      const url = new URL(`https://discord.com/api/v10/guilds/${id}/members`)
+      url.searchParams.append("limit", "1000")
+
+      if (lastMemberId) {
+        url.searchParams.append("after", lastMemberId)
+      }
+
+      const res = await fetch(url, {
+        headers: {
+          Authorization: `Bot ${process.env.BOT_TOKEN}`,
+        },
+      })
+
+      const data = await res.json()
+
+      if (data.length > 0) {
+        members = members.concat(data)
+        lastMemberId = data[data.length - 1].user.id // Set the last member ID for pagination
+      } else {
+        hasMore = false
+      }
+    }
+
+    return { members, success: true }
+  } catch (err) {
+    const log = new Logger()
+    log.warn("getAllGuildUsers Error", err)
+
+    return { success: false }
+  }
+}

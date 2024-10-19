@@ -1,6 +1,4 @@
-"use client"
-
-import { ActionIcon, Group, Pagination, Stack, Table, Text, Title } from "@mantine/core"
+import { ActionIcon, Group, Pagination, Stack, Table, Text } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
 import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
@@ -8,12 +6,8 @@ import { useState } from "react"
 import { deleteLinkedAccount } from "@/actions/server"
 
 import InfoPopover from "../../ui/info-popover"
-import AddLinkedAccount from "./add-linked-account"
 
-export default function LinkedAccounts({ guild, limit }) {
-  const { guildID, nudges } = guild
-
-  const [linkedAccounts, setLinkedAccounts] = useState(nudges?.links || [])
+export default function LinkedAccounts({ guildID, limit, linkedAccounts, setLinkedAccounts }) {
   const [page, setPage] = useState(1)
   const isMobile = useMediaQuery("(max-width: 30em)")
 
@@ -52,20 +46,6 @@ export default function LinkedAccounts({ guild, limit }) {
 
   return (
     <Stack>
-      <Group justify="space-between" mt="md">
-        <Group>
-          <Title size="h3">Linked Accounts</Title>
-          <InfoPopover text="Link Discord users to Clash Royale players, so the bot can correctly ping users for both Scheduled Nudges & /nudge." />
-        </Group>
-      </Group>
-
-      <AddLinkedAccount
-        disabled={linkedAccounts.length >= limit}
-        id={guildID}
-        linkedAccounts={linkedAccounts}
-        setLinkedAccounts={setLinkedAccounts}
-      />
-
       <Stack align="flex-end" gap="0.2rem">
         <Pagination
           disabled={linkedAccounts.length === 0}

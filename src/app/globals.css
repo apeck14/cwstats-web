@@ -58,6 +58,10 @@ p {
   background-color: var(--mantine-color-gray-9);
 }
 
+.mantine-InputWrapper-label {
+  color: var(--mantine-color-gray-1);
+}
+
 .mantine-ScrollArea-root {
   border-radius: 0.25rem;
 }

@@ -15,7 +15,7 @@ import {
 import client from "@/lib/mongodb"
 
 import { getGuilds, isValidInviteCode } from "./discord"
-import { getClan, getPlayer } from "./supercell"
+import { getClan, getClanMembers, getPlayer } from "./supercell"
 
 export async function getServerSettings(id, redirectOnError = false, authenticate = true) {
   if (authenticate) {
@@ -660,5 +660,45 @@ export async function addLinkedAccount(id, tag, discordID) {
     logger.error("addLinkedAccount error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function getUnlinkedPlayersByClan(id, tag) {
+  try {
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    const [guildExists, { data: memberList, error }] = await Promise.all([
+      guilds.findOne({
+        guildID: id,
+      }),
+      getClanMembers(tag),
+    ])
+
+    if (!guildExists) return { error: "Server not found." }
+    if (error) return { error }
+
+    const { nudges } = guildExists
+    const { links } = nudges || {}
+
+    const mappedPlayers = memberList
+      .map((p) => ({ name: p.name, tag: p.tag }))
+      .sort((a, b) => a.name.localeCompare(b.name))
+
+    if (!links || !links.length) return { players: mappedPlayers }
+
+    const linkedTagsSet = new Set(links.map((p) => p.tag))
+    const unlinkedPlayers = []
+
+    for (const p of mappedPlayers) {
+      if (!linkedTagsSet.has(p.tag)) unlinkedPlayers.push(p)
+    }
+
+    return { players: unlinkedPlayers }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("getUnlinkedPlayersByClan error", err)
+
+    return { error: "Unexpected error. Please try again." }
   }
 }
