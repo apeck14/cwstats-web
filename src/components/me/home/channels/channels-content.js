@@ -7,7 +7,7 @@ import Select from "react-select"
 import { setGuildChannelData } from "@/actions/server"
 import InfoPopover from "@/components/ui/info-popover"
 
-import ChannelDropdown from "../home/channel-dropdown"
+import ChannelDropdown from "../channel-dropdown"
 import classes from "./channels.module.css"
 
 const channelTypes = [

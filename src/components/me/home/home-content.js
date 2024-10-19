@@ -8,9 +8,9 @@ import { useState } from "react"
 import { deleteDefaultClan, setAdminRole, setGuildChannelData } from "@/actions/server"
 
 import InfoPopover from "../../ui/info-popover"
-import ChannelsContent from "../channels/channels-content"
 import SaveSettingsDialog from "../save-settings-dialog"
 import AbbreviationsTable from "./abbreviations-table"
+import ChannelsContent from "./channels/channels-content"
 import RoleDropdown from "./role-dropdown"
 import SetDefaultClanModal from "./set-default-clan-modal"
 
