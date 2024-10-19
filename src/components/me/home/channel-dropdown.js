@@ -75,8 +75,13 @@ export default function ChannelDropdown({
             combobox.closeDropdown()
           }}
           onChange={(event) => {
+            const val = event.currentTarget.value
             combobox.updateSelectedOptionIndex()
-            setSearch(event.currentTarget.value)
+            setSearch(val)
+
+            if (!val) {
+              handleOptionSelect("none")
+            }
           }}
           onClick={() => combobox.openDropdown()}
           onFocus={() => combobox.openDropdown()}

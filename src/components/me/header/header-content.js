@@ -24,10 +24,10 @@ const tabs = [
     url: (id) => `/me/servers/${id}/clans`,
   },
   {
-    isActive: (path) => path.includes("channels"),
-    key: "channels",
-    label: "Channels",
-    url: (id) => `/me/servers/${id}/channels`,
+    isActive: (path) => path.includes("players"),
+    key: "players",
+    label: "Players",
+    url: (id) => `/me/servers/${id}/players`,
   },
   {
     isActive: (path) => path.includes("nudges"),

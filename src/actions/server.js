@@ -56,7 +56,7 @@ export async function addAbbreviation(id, abbr, tag) {
 
     const { abbreviations } = guildExists
 
-    if (abbreviations.length >= 15) {
+    if (abbreviations.length >= 20) {
       return { message: "Max number of abbreviations reached.", status: 400, type: "abbr" }
     }
 
@@ -295,7 +295,7 @@ export async function deleteLinkedAccount(id, tag, discordID) {
 }
 
 // value: channel ID, keyword, or array of channel IDs (command)
-export async function setChannels(id, channels) {
+export async function setGuildChannelData(id, channels) {
   try {
     const db = client.db("General")
     const guilds = db.collection("Guilds")
@@ -310,18 +310,18 @@ export async function setChannels(id, channels) {
       }
     }
 
-    const channelQuery = { ...channels }
+    const query = {}
 
-    if (!channelQuery.commandChannelIDs) channelQuery.commandChannelIDs = []
+    for (const prop of Object.keys(channels)) {
+      query[`channels.${prop}`] = channels[prop]
+    }
 
     await guilds.updateOne(
       {
         guildID: id,
       },
       {
-        $set: {
-          channels: channelQuery,
-        },
+        $set: query,
       },
     )
 

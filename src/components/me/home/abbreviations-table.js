@@ -1,6 +1,6 @@
 "use client"
 
-import { ActionIcon, Group, Stack, Table, Title } from "@mantine/core"
+import { ActionIcon, Group, Stack, Table, Text, Title } from "@mantine/core"
 import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 
@@ -38,20 +38,25 @@ export default function AbbreviationsTable({ data, id }) {
 
   return (
     <Stack>
-      <Group justify="space-between" mt="md">
+      <Group align="flex-start" justify="space-between">
         <Group>
           <Title size="h3">Abbreviations</Title>
           <InfoPopover text="Abbreviations are custom phrases linked to clans that can be used with commands, as opposed to entering full clan tags. Abbreviations are case insensitive." />
         </Group>
 
-        <AddAbbreviationModal abbreviations={abbreviations} id={id} setAbbreviations={setAbbreviations} />
+        <Stack align="flex-end" gap="0.25rem">
+          <AddAbbreviationModal abbreviations={abbreviations} id={id} setAbbreviations={setAbbreviations} />
+          <Text c="dimmed" fw="600">
+            {abbreviations.length} / 20
+          </Text>
+        </Stack>
       </Group>
 
       <Table className="ignoreContainerPadding" mt="0.1rem" striped>
         <Table.Thead>
           <Table.Tr>
             <Table.Th ta="center">Abbr.</Table.Th>
-            <Table.Th>Clan Name</Table.Th>
+            <Table.Th>Clan</Table.Th>
             <Table.Th>Tag</Table.Th>
             <Table.Th />
           </Table.Tr>

@@ -126,7 +126,7 @@ export default function AddAbbreviationModal({ abbreviations, id, setAbbreviatio
           </Group>
         </Stack>
       </Modal>
-      <Button fz="0.9rem" onClick={handleOpen} size="xs">
+      <Button disabled={abbreviations.length >= 20} fz="0.9rem" onClick={handleOpen} size="xs">
         Add
       </Button>
     </>

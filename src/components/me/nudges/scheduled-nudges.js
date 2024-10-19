@@ -114,7 +114,7 @@ export default function ScheduledNudges({ channels, guild, limit }) {
       <Table className="ignoreContainerPadding" mt="0.1rem" striped>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th>Clan Name</Table.Th>
+            <Table.Th>Clan</Table.Th>
             <Table.Th visibleFrom="md">Tag</Table.Th>
             <Table.Th>Time</Table.Th>
             <Table.Th>Channel</Table.Th>
