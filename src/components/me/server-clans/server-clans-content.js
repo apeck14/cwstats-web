@@ -97,7 +97,7 @@ export default function ServerClansContent({ channels, discordInviteCode, id, li
                   </Stack>
                 </Group>
               </Stack>
-              <Text c="gray.2" fw="500" fz="sm">
+              <Text c="gray.2" fw="500" size="sm">
                 {clans?.length} / 20 clans
               </Text>
             </Group>

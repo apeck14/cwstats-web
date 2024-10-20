@@ -46,7 +46,7 @@ export default function AbbreviationsTable({ data, id }) {
 
         <Stack align="flex-end" gap="0.25rem">
           <AddAbbreviationModal abbreviations={abbreviations} id={id} setAbbreviations={setAbbreviations} />
-          <Text c="dimmed" fw="600">
+          <Text c="dimmed" fw="600" size="sm">
             {abbreviations.length} / 20
           </Text>
         </Stack>
