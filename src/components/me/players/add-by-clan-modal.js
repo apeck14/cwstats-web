@@ -64,7 +64,7 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
       if (player?.added) {
         playersAdded.push(player)
       } else {
-        newUnlinkedMembers.push(m)
+        newUnlinkedMembers.push({ ...m, ...player })
       }
     }
 
