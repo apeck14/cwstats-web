@@ -14,8 +14,9 @@ import {
 } from "@/lib/functions/utils"
 import client from "@/lib/mongodb"
 
-import { getGuilds, isValidInviteCode } from "./discord"
+import { getAllGuildUsers, getGuilds, isValidInviteCode } from "./discord"
 import { getClan, getClanMembers, getPlayer } from "./supercell"
+import { getAllPlusClans } from "./upgrade"
 
 export async function getServerSettings(id, redirectOnError = false, authenticate = true) {
   if (authenticate) {
@@ -660,6 +661,79 @@ export async function addLinkedAccount(id, tag, discordID) {
     logger.error("addLinkedAccount error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+// players: [{ username: "", tag: "", name: "" }]
+export async function bulkLinkAccounts(id, playersToAdd) {
+  try {
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    const [guildExists, linkedClans] = await Promise.all([
+      guilds.findOne({
+        guildID: id,
+      }),
+      getAllPlusClans(true),
+    ])
+
+    if (!guildExists) return { error: "Server not found." }
+
+    const { nudges } = guildExists
+    const { links } = nudges || {}
+
+    const linksSet = new Set(links?.length ? links.map((l) => l.tag) : [])
+
+    const linkedPlayerLimit = calcLinkedPlayerLimit(linkedClans.length)
+    const availableLinks = linkedPlayerLimit - linksSet.size
+
+    if (availableLinks <= 0) return { error: "No player links remaining." }
+
+    const { error, members } = await getAllGuildUsers(id, true)
+
+    if (error) return { error }
+
+    // assign error(s) and add user(s)
+    for (const p of playersToAdd) {
+      const formattedUsername = p.username.trim().toLowerCase()
+
+      if (!formattedUsername) {
+        p.error = "Invalid username."
+        continue
+      }
+
+      const user = members.find((m) => m.username === formattedUsername)
+
+      if (user) {
+        if (availableLinks <= 0) p.error = "No player links remaining."
+        else {
+          const formattedTag = formatTag(p.tag, true)
+          const tagFound = linksSet.has(formattedTag)
+
+          if (tagFound) p.error = "Player already linked."
+          else {
+            p.added = true
+            p.discordID = user.id
+            linksSet.add(formattedTag)
+            await guilds.updateOne(
+              { guildID: id },
+              {
+                $push: {
+                  "nudges.links": { discordID: user.id, name: p.name, tag: formattedTag },
+                },
+              },
+            )
+          }
+        }
+      } else p.error = "User not found."
+    }
+
+    return { players: playersToAdd }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("bulkLinkAccounts error", err)
+
+    return { error: "Unexpected error. Please try again." }
   }
 }
 

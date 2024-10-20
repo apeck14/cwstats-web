@@ -1,28 +1,38 @@
-import { Button, Group, Input, Modal, ScrollArea, Stack, Text, Title } from "@mantine/core"
+import { Button, Group, Modal, ScrollArea, Stack, Text, TextInput, Title } from "@mantine/core"
 import { useDisclosure, useMediaQuery } from "@mantine/hooks"
+import { notifications } from "@mantine/notifications"
+import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 
-import { getUnlinkedPlayersByClan } from "@/actions/server"
+import { bulkLinkAccounts, getUnlinkedPlayersByClan } from "@/actions/server"
 import { getClanBadgeFileName } from "@/lib/functions/utils"
 
 import DebouncedSearch from "../../ui/debounced-search"
 import Image from "../../ui/image"
 
-export default function AddByClanModal({ guildID }) {
+export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining, setLinkedAccounts }) {
   const [unlinkedMembers, setUnlinkedMembers] = useState([])
   const [clan, setClan] = useState(null)
+  const [clanLoading, setClanLoading] = useState(false)
+  const [loading, setLoading] = useState(false)
+  const [linksLeft, setLinksLeft] = useState(linksRemaining)
+  const [showButton, setShowButton] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
   const isTablet = useMediaQuery("(max-width: 48em)")
 
   const handleClose = () => {
     close()
     setUnlinkedMembers([])
+    setShowButton(false)
     setClan(null)
   }
 
   const handleClanSelect = async (clan) => {
     setClan(clan)
+
+    setClanLoading(true)
     const { error, players } = await getUnlinkedPlayersByClan(guildID, clan.tag)
+    setClanLoading(false)
 
     if (!error) {
       setUnlinkedMembers(players)
@@ -30,17 +40,49 @@ export default function AddByClanModal({ guildID }) {
   }
 
   const handleChange = (e, tag) => {
+    setShowButton(true)
     const newUnlinkedMembers = [...unlinkedMembers]
     newUnlinkedMembers.find((m) => m.tag === tag).username = e.currentTarget.value
 
     setUnlinkedMembers(newUnlinkedMembers)
   }
 
-  const handleSubmit = () => {
-    // const usersToAdd = unlinkedMembers.filter((m) => m.username)
-  }
+  const handleSubmit = async () => {
+    const usersToAdd = unlinkedMembers.filter((m) => m?.username?.trim())
 
-  // TODO: account for 0 unlinked members
+    setLoading(true)
+
+    const { players } = await bulkLinkAccounts(guildID, usersToAdd)
+
+    const newUnlinkedMembers = []
+    const playersAdded = []
+
+    for (const m of unlinkedMembers) {
+      const player = players.find((p) => p.tag === m.tag)
+
+      if (player?.added) {
+        playersAdded.push(player)
+      } else {
+        newUnlinkedMembers.push(m)
+      }
+    }
+
+    setUnlinkedMembers(newUnlinkedMembers)
+
+    if (playersAdded.length) {
+      setLinkedAccounts([...linkedAccounts, ...playersAdded])
+      notifications.show({
+        autoClose: 7000,
+        color: "green",
+        message: `${playersAdded.length} player(s) were successfully linked.`,
+        title: "Player(s) linked!",
+      })
+    }
+
+    setLinksLeft(linksRemaining - playersAdded.length)
+    setLoading(false)
+    setShowButton(false)
+  }
 
   return (
     <>
@@ -64,17 +106,29 @@ export default function AddByClanModal({ guildID }) {
           </Stack>
         )}
 
-        {unlinkedMembers.length ? (
+        {!clan || clanLoading ? null : clan && !unlinkedMembers.length ? (
+          <Group gap="xs" mt="md">
+            <IconCheck color="var(--mantine-color-green-6)" size="1.25rem" stroke={2} />
+            <Text c="dimmed">All players from this clan are linked!</Text>
+          </Group>
+        ) : (
           <Stack mt="md">
-            <Text c="dimmed" size="sm">
-              Unlinked Members: <span style={{ color: "var(--mantine-color-red-6)" }}>{unlinkedMembers.length}</span>
-            </Text>
+            <Stack gap="0">
+              <Text c="dimmed" size="sm">
+                Links Remaining: <span style={{ color: "var(--mantine-color-green-6)" }}>{linksLeft}</span>
+              </Text>
+              <Text c="dimmed" size="sm">
+                Unlinked Members: <span style={{ color: "var(--mantine-color-red-6)" }}>{unlinkedMembers.length}</span>
+              </Text>
+            </Stack>
+
             <ScrollArea h="50vh" type="always">
               <Stack gap="0.25rem">
                 {unlinkedMembers.map((m) => (
                   <Group bg="gray.8" justify="space-between" key={m.tag} p="xs">
                     <Text size="sm">{m.name}</Text>
-                    <Input
+                    <TextInput
+                      error={m.error}
                       maw="8rem"
                       onChange={(e) => handleChange(e, m.tag)}
                       placeholder="Discord Username"
@@ -84,13 +138,19 @@ export default function AddByClanModal({ guildID }) {
                 ))}
               </Stack>
             </ScrollArea>
-            <Button maw="4rem" onClick={handleSubmit} style={{ alignSelf: "flex-end" }}>
+            <Button
+              disabled={!showButton}
+              loading={loading}
+              maw="4rem"
+              onClick={handleSubmit}
+              style={{ alignSelf: "flex-end" }}
+            >
               Add
             </Button>
           </Stack>
-        ) : null}
+        )}
       </Modal>
-      <Button color="green" disabled onClick={open} size="xs" variant="light">
+      <Button color="green" onClick={open} size="xs" variant="light">
         Add By Clan
       </Button>
     </>

@@ -1,4 +1,4 @@
-import { Card, Group, Stack, Text, Title } from "@mantine/core"
+import { Card, Group, Stack, Title } from "@mantine/core"
 
 import InfoPopover from "@/components/ui/info-popover"
 
@@ -17,13 +17,14 @@ export default function PlayerActions({ guildID, limit, linkedAccounts, setLinke
       <Card bd="2px solid var(--mantine-color-gray-7)" bg="gray.8" component={Stack} gap="xs">
         <Title size="h5">Quick Actions</Title>
         <Group>
-          <AddByClanModal guildID={guildID} />
+          <AddByClanModal
+            guildID={guildID}
+            linkedAccounts={linkedAccounts}
+            linksRemaining={limit - linkedAccounts.length}
+            setLinkedAccounts={setLinkedAccounts}
+          />
           <PruneModal />
         </Group>
-
-        <Text c="dimmed" fs="italic" size="xs">
-          These features are pending approval from Discord. Hopefully coming soon! 🎉
-        </Text>
       </Card>
 
       <Card bd="2px solid var(--mantine-color-gray-7)" bg="gray.8" component={Stack} gap="xs">

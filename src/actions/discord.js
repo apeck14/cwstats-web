@@ -207,7 +207,7 @@ export async function deleteWebhook(tag) {
   }
 }
 
-export async function getAllGuildUsers(id) {
+export async function getAllGuildUsers(id, mapResponse = false) {
   try {
     let members = []
     let lastMemberId = null
@@ -230,8 +230,13 @@ export async function getAllGuildUsers(id) {
       const data = await res.json()
 
       if (data.length > 0) {
-        members = members.concat(data)
+        members = members.concat(
+          mapResponse ? data.map((m) => ({ id: m.user.id, username: m.user.username.toLowerCase() })) : data,
+        )
+
         lastMemberId = data[data.length - 1].user.id // Set the last member ID for pagination
+
+        if (data.length < 1000) hasMore = false
       } else {
         hasMore = false
       }
@@ -242,6 +247,6 @@ export async function getAllGuildUsers(id) {
     const log = new Logger()
     log.warn("getAllGuildUsers Error", err)
 
-    return { success: false }
+    return { error: "Unexpected error. Please try again." }
   }
 }
