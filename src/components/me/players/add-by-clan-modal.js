@@ -5,6 +5,7 @@ import { IconCheck } from "@tabler/icons-react"
 import { useState } from "react"
 
 import { bulkLinkAccounts, getUnlinkedPlayersByClan } from "@/actions/server"
+import { sendLogWebhook } from "@/actions/upgrade"
 import { getClanBadgeFileName } from "@/lib/functions/utils"
 
 import DebouncedSearch from "../../ui/debounced-search"
@@ -77,6 +78,15 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
         message: `${playersAdded.length} player(s) were successfully linked.`,
         title: "Player(s) linked!",
       })
+
+      sendLogWebhook(
+        {
+          clan: clan.name,
+          guild: guildID,
+          title: "Bulk Link Used",
+        },
+        true,
+      )
     }
 
     setLinksLeft(linksRemaining - playersAdded.length)
