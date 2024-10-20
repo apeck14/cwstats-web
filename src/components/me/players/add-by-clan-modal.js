@@ -1,8 +1,8 @@
-import { Button, Group, Modal, ScrollArea, Stack, Text, TextInput, Title } from "@mantine/core"
+import { Button, Group, Modal, ScrollArea, Select, Stack, Text, Title } from "@mantine/core"
 import { useDisclosure, useMediaQuery } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications"
 import { IconCheck } from "@tabler/icons-react"
-import { useState } from "react"
+import { useMemo, useState } from "react"
 
 import { bulkLinkAccounts, getUnlinkedPlayersByClan } from "@/actions/server"
 import { sendLogWebhook } from "@/actions/upgrade"
@@ -11,7 +11,7 @@ import { getClanBadgeFileName } from "@/lib/functions/utils"
 import DebouncedSearch from "../../ui/debounced-search"
 import Image from "../../ui/image"
 
-export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining, setLinkedAccounts }) {
+export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining, setLinkedAccounts, users }) {
   const [unlinkedMembers, setUnlinkedMembers] = useState([])
   const [clan, setClan] = useState(null)
   const [clanLoading, setClanLoading] = useState(false)
@@ -43,7 +43,7 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
   const handleChange = (e, tag) => {
     setShowButton(true)
     const newUnlinkedMembers = [...unlinkedMembers]
-    newUnlinkedMembers.find((m) => m.tag === tag).username = e.currentTarget.value
+    newUnlinkedMembers.find((m) => m.tag === tag).username = e
 
     setUnlinkedMembers(newUnlinkedMembers)
   }
@@ -95,6 +95,8 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
     setShowButton(false)
   }
 
+  const allUsernames = useMemo(() => users.map((u) => u.username).sort(), [])
+
   return (
     <>
       <Modal centered={!isTablet} onClose={handleClose} opened={opened} title={<Title fz="1.25rem">Add By Clan</Title>}>
@@ -138,11 +140,14 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
                 {unlinkedMembers.map((m) => (
                   <Group bg="gray.8" justify="space-between" key={m.tag} p="xs">
                     <Text size="sm">{m.name}</Text>
-                    <TextInput
+                    <Select
+                      data={allUsernames}
                       error={m.error}
-                      maw="8rem"
+                      limit={3}
+                      maw="8.5rem"
                       onChange={(e) => handleChange(e, m.tag)}
                       placeholder="Discord Username"
+                      searchable
                       size="xs"
                     />
                   </Group>

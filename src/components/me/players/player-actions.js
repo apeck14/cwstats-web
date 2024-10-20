@@ -6,7 +6,7 @@ import AddByClanModal from "./add-by-clan-modal"
 import AddLinkedAccount from "./add-linked-account"
 import PruneModal from "./prune-modal"
 
-export default function PlayerActions({ guildID, limit, linkedAccounts, setLinkedAccounts }) {
+export default function PlayerActions({ guildID, limit, linkedAccounts, setLinkedAccounts, users }) {
   return (
     <Stack>
       <Group>
@@ -22,6 +22,7 @@ export default function PlayerActions({ guildID, limit, linkedAccounts, setLinke
             linkedAccounts={linkedAccounts}
             linksRemaining={limit - linkedAccounts.length}
             setLinkedAccounts={setLinkedAccounts}
+            users={users}
           />
           <PruneModal />
         </Group>

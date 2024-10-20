@@ -8,7 +8,7 @@ import { calcLinkedPlayerLimit } from "@/lib/functions/utils"
 import LinkedAccounts from "./linked-accounts"
 import PlayerActions from "./player-actions"
 
-export default function PlayersContent({ guild, linkedClansCount }) {
+export default function PlayersContent({ guild, linkedClansCount, users }) {
   const [linkedAccounts, setLinkedAccounts] = useState(guild?.nudges?.links || [])
 
   const linkedPlayerLimit = calcLinkedPlayerLimit(linkedClansCount)
@@ -21,6 +21,7 @@ export default function PlayersContent({ guild, linkedClansCount }) {
           limit={linkedPlayerLimit}
           linkedAccounts={linkedAccounts}
           setLinkedAccounts={setLinkedAccounts}
+          users={users}
         />
         <LinkedAccounts
           guildID={guild.guildID}
