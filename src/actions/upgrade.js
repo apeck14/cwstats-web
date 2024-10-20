@@ -75,7 +75,9 @@ export async function addPlus(tag) {
     })
 
     return { name: clan.name, tag: clan.tag }
-  } catch {
+  } catch (e) {
+    const log = new Logger()
+    log.error("addPlus error", e)
     return { error: "Unexpected error. Please try again." }
   }
 }
@@ -89,6 +91,8 @@ export async function isPlusClan(tag) {
 
     return !!plusClan
   } catch (e) {
+    const log = new Logger()
+    log.error("isPlusClan error", e)
     return false
   }
 }
@@ -106,7 +110,9 @@ export async function getAllPlusClans(tagsOnly = false) {
     }
 
     return data
-  } catch {
+  } catch (e) {
+    const log = new Logger()
+    log.error("getAllPlusClans error", e)
     return []
   }
 }
@@ -138,6 +144,8 @@ export async function getPlusClanData(tag, formatHourlyAverages = false) {
 
     return plusClan
   } catch (e) {
+    const log = new Logger()
+    log.error("getPlusClanData error", e)
     return null
   }
 }
