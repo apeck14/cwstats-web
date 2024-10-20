@@ -83,6 +83,7 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
         {
           clan: clan.name,
           guild: guildID,
+          tag: clan.tag,
           title: "Bulk Link Used",
         },
         true,
