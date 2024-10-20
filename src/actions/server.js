@@ -18,7 +18,7 @@ import { getAllGuildUsers, getGuilds, isValidInviteCode } from "./discord"
 import { getClan, getClanMembers, getPlayer } from "./supercell"
 import { getAllPlusClans } from "./upgrade"
 
-export async function getServerSettings(id, redirectOnError = false, authenticate = true) {
+export async function getServerSettings(id, redirectOnError = false, authenticate = false) {
   if (authenticate) {
     const { data: guilds } = await getGuilds(true)
 
@@ -455,18 +455,23 @@ export async function linkClanToServer(id, tag) {
   }
 }
 
-export async function getLinkedClans(id) {
+export async function getLinkedClans(id, plusOnly = false) {
   try {
     const db = client.db("General")
     const linkedClans = db.collection("Linked Clans")
 
-    const results = await linkedClans.find({ guildID: id }).toArray()
+    let serverLinkedClans = await linkedClans.find({ guildID: id }).toArray()
 
-    for (const c of results) {
+    if (plusOnly) {
+      const allPlusClans = await getAllPlusClans(true)
+      serverLinkedClans = serverLinkedClans.filter((c) => allPlusClans.includes(c.tag))
+    }
+
+    for (const c of serverLinkedClans) {
       delete c._id
     }
 
-    return { clans: results || [] }
+    return { clans: serverLinkedClans || [] }
   } catch (err) {
     const logger = new Logger()
     logger.error("getLinkedClans error", err)
@@ -619,9 +624,9 @@ export async function addLinkedAccount(id, tag, discordID) {
     const formattedTag = formatTag(tag, true)
 
     if (links) {
-      const { clans: linkedClans } = await getLinkedClans(id)
+      const { clans: linkedPLusClans } = await getLinkedClans(id, true)
 
-      if (links.length >= calcLinkedPlayerLimit(linkedClans.length)) {
+      if (links.length >= calcLinkedPlayerLimit(linkedPLusClans.length)) {
         return { message: "Max number of linked accounts reached.", status: 400 }
       }
 

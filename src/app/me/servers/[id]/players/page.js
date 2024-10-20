@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic"
 export default async function PlayersPage({ params }) {
   const [{ guild }, { clans }, { members }] = await Promise.all([
     getServerSettings(params.id, true),
-    getLinkedClans(params.id),
+    getLinkedClans(params.id, true),
     getAllGuildUsers(params.id, true),
   ])
 

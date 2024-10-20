@@ -9,7 +9,7 @@ export default async function NudgesPage({ params }) {
   const [{ guild }, { data: channels }, { clans }] = await Promise.all([
     getServerSettings(params.id, true),
     getGuildChannels(params.id, true),
-    getLinkedClans(params.id),
+    getLinkedClans(params.id, true),
   ])
 
   return (
