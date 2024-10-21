@@ -7,6 +7,7 @@ import { useMemo, useState } from "react"
 import { bulkLinkAccounts, getUnlinkedPlayersByClan } from "@/actions/server"
 import { sendLogWebhook } from "@/actions/upgrade"
 import { getClanBadgeFileName } from "@/lib/functions/utils"
+import { embedColors } from "@/static/colors"
 
 import DebouncedSearch from "../../ui/debounced-search"
 import Image from "../../ui/image"
@@ -82,6 +83,7 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
       sendLogWebhook(
         {
           clan: clan.name,
+          color: embedColors.orange,
           guild: guildID,
           tag: clan.tag,
           title: "Bulk Link Used",
