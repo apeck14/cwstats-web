@@ -669,7 +669,7 @@ export async function addLinkedAccount(id, tag, discordID) {
   }
 }
 
-// players: [{ username: "", tag: "", name: "" }]
+// playersToAdd: [{ username: "", tag: "", name: "" }]
 export async function bulkLinkAccounts(id, playersToAdd) {
   try {
     const db = client.db("General")
@@ -737,6 +737,59 @@ export async function bulkLinkAccounts(id, playersToAdd) {
   } catch (err) {
     const logger = new Logger()
     logger.error("bulkLinkAccounts error", err)
+
+    return { error: "Unexpected error. Please try again." }
+  }
+}
+
+export async function bulkUnlinkAccounts(id) {
+  try {
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    const [guildExists, { error, members }] = await Promise.all([
+      guilds.findOne({
+        guildID: id,
+      }),
+      getAllGuildUsers(id, true),
+    ])
+
+    if (!guildExists) return { error: "Server not found." }
+    if (error) return { error }
+
+    const { nudges } = guildExists
+    const { links } = nudges || {}
+
+    const playerLinks = links ?? []
+    const userIdSet = new Set(members.map((m) => m.id))
+
+    const linksRemoved = []
+    const tagsRemoved = []
+
+    for (const link of playerLinks) {
+      if (!userIdSet.has(link.discordID)) {
+        linksRemoved.push(link)
+        tagsRemoved.push(link.tag)
+      }
+    }
+
+    if (linksRemoved.length) {
+      await guilds.updateOne(
+        { guildID: id },
+        {
+          $pull: {
+            "nudges.links": {
+              tag: { $in: tagsRemoved },
+            },
+          },
+        },
+      )
+    }
+
+    return { linksRemoved }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("bulkUnlinkAccounts error", err)
 
     return { error: "Unexpected error. Please try again." }
   }

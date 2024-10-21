@@ -24,7 +24,7 @@ export default function PlayerActions({ guildID, limit, linkedAccounts, setLinke
             setLinkedAccounts={setLinkedAccounts}
             users={users}
           />
-          <PruneModal />
+          <PruneModal guildID={guildID} linkedAccounts={linkedAccounts} setLinkedAccounts={setLinkedAccounts} />
         </Group>
       </Card>
 
