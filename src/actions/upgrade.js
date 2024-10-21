@@ -35,6 +35,11 @@ export const sendLogWebhook = async (data = {}, attachUser = false) => {
       embed.description += `**User**: ${providerId}`
     }
 
+    if (data.details) {
+      // add details to bottom of description
+      embed.description += `\n\n${data.details}`
+    }
+
     await fetch(process.env.WEBHOOK_URL, {
       body: JSON.stringify({ embeds: [embed] }),
       headers: { "Content-Type": "application/json" },

@@ -84,6 +84,7 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
         {
           clan: clan.name,
           color: embedColors.orange,
+          details: `**${playersAdded.length}** player(s) linked.`,
           guild: guildID,
           tag: clan.tag,
           title: "Bulk Link Used",
