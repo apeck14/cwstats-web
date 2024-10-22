@@ -9,6 +9,7 @@ import { createWebhook } from "@/actions/discord"
 import { sendLogWebhook } from "@/actions/upgrade"
 import Image from "@/components/ui/image"
 import { formatTag } from "@/lib/functions/utils"
+import { embedColors } from "@/static/colors"
 
 import ChannelDropdown from "../home/channel-dropdown"
 
@@ -45,6 +46,7 @@ export default function WarReportModal({ channels, clan, id, isPlus, setWebhookA
       sendLogWebhook(
         {
           clan: clan.clanName,
+          color: embedColors.orange,
           guild: id,
           tag: formatTag(clan.tag, true),
           title: "War Report Created",
