@@ -17,7 +17,7 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
   const [clan, setClan] = useState(null)
   const [clanLoading, setClanLoading] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [linksLeft, setLinksLeft] = useState(linksRemaining)
+  const [linksLeft, setLinksLeft] = useState(1)
   const [showButton, setShowButton] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
   const isTablet = useMediaQuery("(max-width: 48em)")
@@ -42,6 +42,8 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
   }
 
   const handleChange = (e, tag) => {
+    // add or remove link depending on if select was cleared or not
+    setLinksLeft(linksLeft - (e ? 1 : -1))
     setShowButton(true)
     const newUnlinkedMembers = [...unlinkedMembers]
     newUnlinkedMembers.find((m) => m.tag === tag).username = e
@@ -158,7 +160,7 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
               </Stack>
             </ScrollArea>
             <Button
-              disabled={!showButton}
+              disabled={!showButton || linksLeft < 0}
               loading={loading}
               maw="4rem"
               onClick={handleSubmit}
