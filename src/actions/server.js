@@ -630,7 +630,7 @@ export async function addLinkedAccount(id, tag, discordID) {
         return { message: "Max number of linked accounts reached.", status: 400 }
       }
 
-      const tagAlreadyLinked = guildExists.nudges.links.some((l) => l.tag === formattedTag)
+      const tagAlreadyLinked = links.some((l) => l.tag === formattedTag)
 
       if (tagAlreadyLinked) {
         return {
