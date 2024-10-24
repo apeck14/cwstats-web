@@ -690,7 +690,7 @@ export async function bulkLinkAccounts(id, playersToAdd) {
     const linksSet = new Set(links?.length ? links.map((l) => l.tag) : [])
 
     const linkedPlayerLimit = calcLinkedPlayerLimit(linkedClans.length)
-    const availableLinks = linkedPlayerLimit - linksSet.size
+    let availableLinks = linkedPlayerLimit - linksSet.size
 
     if (availableLinks <= 0) return { error: "No player links remaining." }
 
@@ -728,6 +728,7 @@ export async function bulkLinkAccounts(id, playersToAdd) {
                 },
               },
             )
+            availableLinks--
           }
         }
       } else p.error = "User not found."
