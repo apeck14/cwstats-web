@@ -15,6 +15,49 @@ function createRandomState(length = 32) {
   return state
 }
 
+async function refreshAccessToken(token) {
+  try {
+    const url = "https://discord.com/api/oauth2/token"
+
+    const body = new URLSearchParams({
+      client_id: process.env.DISCORD_ID,
+      client_secret: process.env.DISCORD_SECRET,
+      grant_type: "refresh_token",
+      refresh_token: token.refreshToken,
+    })
+
+    const response = await fetch(url, {
+      body: body.toString(),
+      headers: {
+        "Content-Type": "application/x-www-form-urlencoded",
+      },
+      method: "POST",
+    })
+
+    const refreshedTokens = await response.json()
+
+    if (!response.ok) {
+      throw refreshedTokens
+    }
+
+    return {
+      ...token,
+      accessToken: refreshedTokens.access_token,
+      expiresAt: Date.now() + refreshedTokens.expires_in * 1000,
+      providerId: refreshedTokens.providerAccountId,
+      refreshToken: refreshedTokens.refresh_token ?? token.refreshToken, // Fall back to old refresh token if not provided
+    }
+  } catch (err) {
+    const log = new Logger()
+    log.error(err)
+
+    return {
+      ...token,
+      error: "RefreshAccessTokenError",
+    }
+  }
+}
+
 const scope = ["identify", "guilds", "guilds.members.read"].join(" ")
 
 export const authOptions = {
@@ -29,7 +72,12 @@ export const authOptions = {
         token.providerId = account.providerAccountId
       }
 
-      return token
+      if (Date.now() < token.expiresAt) {
+        return token
+      }
+
+      // expired
+      return refreshAccessToken(token)
     },
     session: async ({ session, token }) => {
       if (token) {
