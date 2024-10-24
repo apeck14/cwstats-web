@@ -17,7 +17,7 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
   const [clan, setClan] = useState(null)
   const [clanLoading, setClanLoading] = useState(false)
   const [loading, setLoading] = useState(false)
-  const [linksLeft, setLinksLeft] = useState(1)
+  const [linksLeft, setLinksLeft] = useState(linksRemaining)
   const [showButton, setShowButton] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
   const isTablet = useMediaQuery("(max-width: 48em)")
