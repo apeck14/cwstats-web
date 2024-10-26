@@ -18,7 +18,9 @@ import { getAllGuildUsers, getGuilds, isValidInviteCode } from "./discord"
 import { getClan, getClanMembers, getPlayer } from "./supercell"
 import { getAllPlusClans } from "./upgrade"
 
-export async function getServerSettings(id, redirectOnError = false, authenticate = true) {
+const isDev = process.env.NODE_ENV === "development"
+
+export async function getServerSettings(id, redirectOnError = false, authenticate = !isDev) {
   if (authenticate) {
     const { data: guilds } = await getGuilds(true)
 
