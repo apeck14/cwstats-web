@@ -14,11 +14,11 @@ export async function getAccessToken() {
       return { error: "Not logged in.", status: 403 }
     }
 
-    if (!session.accessToken) {
+    if (!session.user.accessToken) {
       return { error: "Access token is missing.", status: 403 }
     }
 
-    return { token: session.accessToken }
+    return { token: session.user.accessToken }
   } catch (err) {
     const log = new Logger()
     log.error("getAccessToken Error", err)
