@@ -1,4 +1,4 @@
-name: Deploy NextJS Website
+name: Deploy CWStats.com
 
 on:
   push:
