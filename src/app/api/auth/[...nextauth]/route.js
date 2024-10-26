@@ -177,7 +177,7 @@ export const authOptions = {
         }
       }
 
-      const timeUntilExpiration = token.user.accessTokenExpires - Date.now()
+      const timeUntilExpiration = token?.user?.accessTokenExpires - Date.now()
 
       // Refresh token if it's within threshold time
       if (timeUntilExpiration < REFRESH_THRESHOLD) {
