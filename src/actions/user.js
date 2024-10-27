@@ -27,7 +27,7 @@ export async function getAccessToken() {
   }
 }
 
-export async function getProviderId() {
+export async function getDiscordId() {
   try {
     const session = await getServerSession(authOptions)
 
@@ -35,14 +35,14 @@ export async function getProviderId() {
       return { error: "Not logged in.", status: 403 }
     }
 
-    if (!session.providerId) {
-      return { error: "No provider ID.", status: 403 }
+    if (!session.user) {
+      return { error: "No discord ID.", status: 403 }
     }
 
-    return { providerId: session.providerId }
+    return { discordId: session.user.discordId }
   } catch (err) {
     const log = new Logger()
-    log.error("getProviderId Error", err)
+    log.error("getDiscordId Error", err)
 
     return { error: err.message, status: 500 }
   }
@@ -50,7 +50,7 @@ export async function getProviderId() {
 
 export async function getLinkedAccount() {
   try {
-    const { error, providerId } = await getProviderId()
+    const { discordId, error } = await getDiscordId()
 
     if (error) return { error }
 
@@ -59,7 +59,7 @@ export async function getLinkedAccount() {
 
     const linkedAccount = await linkedAccounts.findOne(
       {
-        discordID: providerId,
+        discordID: discordId,
       },
       { projection: { _id: 0 } },
     )

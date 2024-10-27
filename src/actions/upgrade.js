@@ -9,7 +9,7 @@ import client from "@/lib/mongodb"
 import { embedColors } from "@/static/colors"
 
 import { getClan } from "./supercell"
-import { getProviderId } from "./user"
+import { getDiscordId } from "./user"
 
 export const sendLogWebhook = async (data = {}, attachUser = false) => {
   try {
@@ -31,8 +31,8 @@ export const sendLogWebhook = async (data = {}, attachUser = false) => {
     }
 
     if (attachUser) {
-      const { providerId } = await getProviderId()
-      embed.description += `**User**: ${providerId}`
+      const { discordId } = await getDiscordId()
+      embed.description += `**User**: ${discordId}`
     }
 
     if (data.details) {
