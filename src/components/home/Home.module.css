@@ -43,3 +43,623 @@
   cursor: pointer;
   transition: 0.2s ease;
 }
+
+/* CSS to create a starry background effect in a React component */
+
+.starryBackground {
+  padding: 10rem 0;
+  overflow: hidden;
+  background: radial-gradient(ellipse at bottom, var(--mantine-color-gray-8) 0%, var(--mantine-color-gray-10) 100%);
+  position: relative;
+}
+
+/* Animation */
+@keyframes animStar {
+  from {
+    transform: translateY(0px);
+  }
+  to {
+    transform: translateY(-2000px);
+  }
+}
+
+/* Small stars */
+.stars {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  z-index: 0;
+  background: transparent;
+  overflow: hidden;
+  box-shadow:
+    351px 1379px var(--mantine-color-gray-1),
+    2205px 2285px var(--mantine-color-gray-1),
+    1850px 784px var(--mantine-color-gray-1),
+    2438px 433px var(--mantine-color-gray-1),
+    572px 2548px var(--mantine-color-gray-1),
+    2386px 1732px var(--mantine-color-gray-1),
+    1019px 235px var(--mantine-color-gray-1),
+    2209px 635px var(--mantine-color-gray-1),
+    296px 271px var(--mantine-color-gray-1),
+    712px 144px var(--mantine-color-gray-1),
+    1128px 337px var(--mantine-color-gray-1),
+    1655px 1719px var(--mantine-color-gray-1),
+    508px 2952px var(--mantine-color-gray-1),
+    1533px 2351px var(--mantine-color-gray-1),
+    1139px 2819px var(--mantine-color-gray-1),
+    565px 1311px var(--mantine-color-gray-1),
+    278px 998px var(--mantine-color-gray-1),
+    572px 1196px var(--mantine-color-gray-1),
+    1434px 1493px var(--mantine-color-gray-1),
+    763px 174px var(--mantine-color-gray-1),
+    1861px 1960px var(--mantine-color-gray-1),
+    2024px 749px var(--mantine-color-gray-1),
+    1343px 21px var(--mantine-color-gray-1),
+    58px 2471px var(--mantine-color-gray-1),
+    288px 929px var(--mantine-color-gray-1),
+    2239px 2304px var(--mantine-color-gray-1),
+    1571px 1537px var(--mantine-color-gray-1),
+    623px 2638px var(--mantine-color-gray-1),
+    866px 991px var(--mantine-color-gray-1),
+    1151px 2208px var(--mantine-color-gray-1),
+    1519px 1837px var(--mantine-color-gray-1),
+    331px 568px var(--mantine-color-gray-1),
+    2514px 269px var(--mantine-color-gray-1),
+    1896px 2012px var(--mantine-color-gray-1),
+    1646px 1469px var(--mantine-color-gray-1),
+    2304px 2591px var(--mantine-color-gray-1),
+    964px 1012px var(--mantine-color-gray-1),
+    2201px 2928px var(--mantine-color-gray-1),
+    907px 787px var(--mantine-color-gray-1),
+    217px 2411px var(--mantine-color-gray-1),
+    951px 1417px var(--mantine-color-gray-1),
+    1168px 713px var(--mantine-color-gray-1),
+    1197px 712px var(--mantine-color-gray-1),
+    570px 2339px var(--mantine-color-gray-1),
+    1293px 266px var(--mantine-color-gray-1),
+    2087px 1586px var(--mantine-color-gray-1),
+    493px 2699px var(--mantine-color-gray-1),
+    2404px 1564px var(--mantine-color-gray-1),
+    476px 1755px var(--mantine-color-gray-1),
+    453px 1774px var(--mantine-color-gray-1),
+    59px 153px var(--mantine-color-gray-1),
+    1581px 9px var(--mantine-color-gray-1),
+    605px 827px var(--mantine-color-gray-1),
+    1648px 2590px var(--mantine-color-gray-1),
+    1599px 2543px var(--mantine-color-gray-1),
+    1722px 2567px var(--mantine-color-gray-1),
+    1229px 2553px var(--mantine-color-gray-1),
+    1377px 268px var(--mantine-color-gray-1),
+    64px 2279px var(--mantine-color-gray-1),
+    814px 2184px var(--mantine-color-gray-1),
+    1099px 1577px var(--mantine-color-gray-1),
+    1176px 1574px var(--mantine-color-gray-1),
+    2205px 2108px var(--mantine-color-gray-1),
+    399px 360px var(--mantine-color-gray-1),
+    186px 1200px var(--mantine-color-gray-1),
+    395px 340px var(--mantine-color-gray-1),
+    17px 914px var(--mantine-color-gray-1),
+    42px 408px var(--mantine-color-gray-1),
+    687px 766px var(--mantine-color-gray-1),
+    2525px 2778px var(--mantine-color-gray-1),
+    706px 2298px var(--mantine-color-gray-1),
+    259px 1098px var(--mantine-color-gray-1),
+    1150px 864px var(--mantine-color-gray-1),
+    1917px 1572px var(--mantine-color-gray-1),
+    1371px 2479px var(--mantine-color-gray-1),
+    2210px 762px var(--mantine-color-gray-1),
+    2488px 2680px var(--mantine-color-gray-1),
+    2114px 948px var(--mantine-color-gray-1),
+    2231px 1970px var(--mantine-color-gray-1),
+    1381px 2641px var(--mantine-color-gray-1),
+    101px 1924px var(--mantine-color-gray-1),
+    1294px 908px var(--mantine-color-gray-1),
+    1067px 619px var(--mantine-color-gray-1),
+    2384px 1310px var(--mantine-color-gray-1),
+    1203px 550px var(--mantine-color-gray-1),
+    514px 2703px var(--mantine-color-gray-1),
+    1142px 2131px var(--mantine-color-gray-1),
+    569px 2791px var(--mantine-color-gray-1),
+    987px 1249px var(--mantine-color-gray-1),
+    1823px 200px var(--mantine-color-gray-1),
+    260px 636px var(--mantine-color-gray-1),
+    1840px 2523px var(--mantine-color-gray-1),
+    344px 2638px var(--mantine-color-gray-1),
+    2111px 1626px var(--mantine-color-gray-1),
+    1845px 1751px var(--mantine-color-gray-1),
+    968px 974px var(--mantine-color-gray-1),
+    526px 1572px var(--mantine-color-gray-1),
+    1578px 2027px var(--mantine-color-gray-1),
+    1316px 1808px var(--mantine-color-gray-1),
+    2306px 1509px var(--mantine-color-gray-1),
+    1527px 2704px var(--mantine-color-gray-1),
+    1292px 2038px var(--mantine-color-gray-1),
+    2420px 444px var(--mantine-color-gray-1),
+    2255px 1679px var(--mantine-color-gray-1),
+    776px 235px var(--mantine-color-gray-1),
+    1726px 2919px var(--mantine-color-gray-1),
+    1834px 1303px var(--mantine-color-gray-1),
+    979px 396px var(--mantine-color-gray-1),
+    1866px 1764px var(--mantine-color-gray-1),
+    189px 564px var(--mantine-color-gray-1),
+    828px 2530px var(--mantine-color-gray-1),
+    2405px 2047px var(--mantine-color-gray-1),
+    2454px 1091px var(--mantine-color-gray-1),
+    1304px 2627px var(--mantine-color-gray-1),
+    396px 383px var(--mantine-color-gray-1),
+    1088px 1860px var(--mantine-color-gray-1),
+    872px 2872px var(--mantine-color-gray-1),
+    1529px 1758px var(--mantine-color-gray-1),
+    2367px 673px var(--mantine-color-gray-1),
+    1154px 2873px var(--mantine-color-gray-1),
+    2004px 21px var(--mantine-color-gray-1),
+    1172px 387px var(--mantine-color-gray-1),
+    353px 302px var(--mantine-color-gray-1),
+    1000px 1248px var(--mantine-color-gray-1),
+    833px 983px var(--mantine-color-gray-1),
+    371px 1409px var(--mantine-color-gray-1),
+    2177px 317px var(--mantine-color-gray-1),
+    1px 1654px var(--mantine-color-gray-1),
+    803px 1550px var(--mantine-color-gray-1),
+    377px 708px var(--mantine-color-gray-1),
+    1239px 1491px var(--mantine-color-gray-1),
+    2485px 268px var(--mantine-color-gray-1),
+    104px 18px var(--mantine-color-gray-1),
+    1781px 667px var(--mantine-color-gray-1),
+    2530px 2628px var(--mantine-color-gray-1),
+    327px 545px var(--mantine-color-gray-1),
+    1778px 2792px var(--mantine-color-gray-1),
+    916px 1250px var(--mantine-color-gray-1),
+    2067px 1802px var(--mantine-color-gray-1),
+    1128px 1314px var(--mantine-color-gray-1),
+    1456px 1425px var(--mantine-color-gray-1),
+    2038px 689px var(--mantine-color-gray-1),
+    1888px 1466px var(--mantine-color-gray-1),
+    1298px 812px var(--mantine-color-gray-1),
+    694px 2837px var(--mantine-color-gray-1),
+    1947px 2271px var(--mantine-color-gray-1),
+    2095px 984px var(--mantine-color-gray-1),
+    413px 1276px var(--mantine-color-gray-1),
+    542px 1574px var(--mantine-color-gray-1),
+    477px 621px var(--mantine-color-gray-1);
+  animation: animStar 50s linear infinite;
+}
+.stars:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 2px;
+  height: 2px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+/* Medium stars */
+.stars2 {
+  position: absolute;
+  width: 3px;
+  height: 3px;
+  z-index: 0;
+  background: transparent;
+  overflow: hidden;
+  box-shadow:
+    650px 788px var(--mantine-color-pink-6),
+    1350px 1677px var(--mantine-color-pink-6),
+    1138px 1331px var(--mantine-color-pink-6),
+    1909px 2294px var(--mantine-color-pink-6),
+    2140px 764px var(--mantine-color-pink-6),
+    2453px 705px var(--mantine-color-pink-6),
+    623px 1669px var(--mantine-color-pink-6),
+    1457px 2402px var(--mantine-color-pink-6),
+    586px 723px var(--mantine-color-pink-6),
+    153px 2554px var(--mantine-color-pink-6),
+    1290px 357px var(--mantine-color-pink-6),
+    893px 1058px var(--mantine-color-pink-6),
+    586px 1736px var(--mantine-color-pink-6),
+    1131px 1557px var(--mantine-color-pink-6),
+    403px 838px var(--mantine-color-pink-6),
+    825px 2734px var(--mantine-color-pink-6),
+    1420px 570px var(--mantine-color-pink-6),
+    873px 1354px var(--mantine-color-pink-6),
+    100px 43px var(--mantine-color-pink-6),
+    1717px 980px var(--mantine-color-pink-6),
+    1051px 1022px var(--mantine-color-pink-6),
+    2146px 1447px var(--mantine-color-pink-6),
+    1366px 490px var(--mantine-color-pink-6),
+    244px 451px var(--mantine-color-pink-6),
+    2385px 1910px var(--mantine-color-pink-6),
+    592px 2339px var(--mantine-color-pink-6),
+    1243px 673px var(--mantine-color-pink-6),
+    363px 438px var(--mantine-color-pink-6),
+    140px 1644px var(--mantine-color-pink-6),
+    1514px 2643px var(--mantine-color-pink-6),
+    1634px 469px var(--mantine-color-pink-6),
+    1531px 789px var(--mantine-color-pink-6),
+    1821px 101px var(--mantine-color-pink-6),
+    1713px 1488px var(--mantine-color-pink-6),
+    2190px 2096px var(--mantine-color-pink-6),
+    2070px 986px var(--mantine-color-pink-6),
+    2200px 2549px var(--mantine-color-pink-6),
+    195px 1597px var(--mantine-color-pink-6),
+    1697px 1598px var(--mantine-color-pink-6),
+    998px 2494px var(--mantine-color-pink-6),
+    117px 1026px var(--mantine-color-pink-6),
+    1027px 1059px var(--mantine-color-pink-6),
+    50px 1858px var(--mantine-color-pink-6),
+    2097px 1959px var(--mantine-color-pink-6),
+    2119px 350px var(--mantine-color-pink-6),
+    2210px 2396px var(--mantine-color-pink-6),
+    2307px 2669px var(--mantine-color-pink-6),
+    1706px 1485px var(--mantine-color-pink-6),
+    2460px 1756px var(--mantine-color-pink-6),
+    824px 1141px var(--mantine-color-pink-6),
+    58px 1226px var(--mantine-color-pink-6),
+    1691px 2553px var(--mantine-color-pink-6),
+    769px 1692px var(--mantine-color-pink-6),
+    2456px 2319px var(--mantine-color-pink-6),
+    1008px 2200px var(--mantine-color-pink-6),
+    955px 274px var(--mantine-color-pink-6),
+    1697px 157px var(--mantine-color-pink-6),
+    2353px 1303px var(--mantine-color-pink-6),
+    1764px 2259px var(--mantine-color-pink-6),
+    1098px 1794px var(--mantine-color-pink-6),
+    2382px 1676px var(--mantine-color-pink-6),
+    465px 96px var(--mantine-color-pink-6),
+    1110px 2641px var(--mantine-color-pink-6),
+    974px 465px var(--mantine-color-pink-6),
+    1022px 492px var(--mantine-color-pink-6),
+    760px 531px var(--mantine-color-pink-6),
+    1011px 2699px var(--mantine-color-pink-6),
+    666px 1966px var(--mantine-color-pink-6),
+    2062px 2294px var(--mantine-color-pink-6),
+    2212px 1832px var(--mantine-color-pink-6),
+    2352px 80px var(--mantine-color-pink-6),
+    477px 2049px var(--mantine-color-pink-6),
+    1273px 2230px var(--mantine-color-pink-6),
+    2261px 1463px var(--mantine-color-pink-6),
+    619px 2882px var(--mantine-color-pink-6),
+    1045px 2237px var(--mantine-color-pink-6),
+    1258px 434px var(--mantine-color-pink-6),
+    1801px 2743px var(--mantine-color-pink-6),
+    2033px 614px var(--mantine-color-pink-6),
+    1684px 2496px var(--mantine-color-pink-6),
+    398px 1520px var(--mantine-color-pink-6),
+    1848px 986px var(--mantine-color-pink-6),
+    2283px 195px var(--mantine-color-pink-6),
+    584px 68px var(--mantine-color-pink-6),
+    876px 1072px var(--mantine-color-pink-6),
+    1289px 227px var(--mantine-color-pink-6),
+    1256px 2535px var(--mantine-color-pink-6),
+    1050px 2923px var(--mantine-color-pink-6),
+    1492px 1263px var(--mantine-color-pink-6),
+    407px 203px var(--mantine-color-pink-6),
+    1133px 1320px var(--mantine-color-pink-6),
+    2372px 2937px var(--mantine-color-pink-6),
+    697px 1875px var(--mantine-color-pink-6),
+    797px 2248px var(--mantine-color-pink-6),
+    445px 881px var(--mantine-color-pink-6),
+    1484px 1817px var(--mantine-color-pink-6),
+    1575px 1121px var(--mantine-color-pink-6),
+    2554px 1825px var(--mantine-color-pink-6),
+    1522px 777px var(--mantine-color-pink-6),
+    2519px 923px var(--mantine-color-pink-6);
+  animation: animStar 100s linear infinite;
+}
+.stars2:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 3px;
+  height: 3px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+/* Large stars */
+.stars3 {
+  position: absolute;
+  width: 4px;
+  height: 4px;
+  z-index: 0;
+  background: transparent;
+  overflow: hidden;
+  box-shadow:
+    563px 131px var(--mantine-color-orange-5),
+    1591px 2553px var(--mantine-color-orange-5),
+    452px 1611px var(--mantine-color-orange-5),
+    2012px 2407px var(--mantine-color-orange-5),
+    1795px 1401px var(--mantine-color-orange-5),
+    1473px 2549px var(--mantine-color-orange-5),
+    1219px 782px var(--mantine-color-orange-5),
+    2240px 2649px var(--mantine-color-orange-5),
+    28px 1786px var(--mantine-color-orange-5),
+    1669px 821px var(--mantine-color-orange-5),
+    456px 2912px var(--mantine-color-orange-5),
+    239px 1245px var(--mantine-color-orange-5),
+    1571px 1649px var(--mantine-color-orange-5),
+    762px 1047px var(--mantine-color-orange-5),
+    87px 1900px var(--mantine-color-orange-5),
+    645px 685px var(--mantine-color-orange-5),
+    311px 2101px var(--mantine-color-orange-5),
+    2330px 2988px var(--mantine-color-orange-5),
+    594px 2924px var(--mantine-color-orange-5),
+    998px 1331px var(--mantine-color-orange-5),
+    122px 1452px var(--mantine-color-orange-5),
+    1713px 1815px var(--mantine-color-orange-5),
+    812px 2768px var(--mantine-color-orange-5),
+    222px 2084px var(--mantine-color-orange-5),
+    2213px 1956px var(--mantine-color-orange-5),
+    2127px 44px var(--mantine-color-orange-5),
+    83px 2787px var(--mantine-color-orange-5),
+    92px 407px var(--mantine-color-orange-5),
+    2139px 1816px var(--mantine-color-orange-5),
+    535px 374px var(--mantine-color-orange-5),
+    2502px 1147px var(--mantine-color-orange-5),
+    1385px 218px var(--mantine-color-orange-5),
+    2128px 1424px var(--mantine-color-orange-5),
+    1233px 587px var(--mantine-color-orange-5),
+    837px 2231px var(--mantine-color-orange-5),
+    2513px 125px var(--mantine-color-orange-5),
+    2121px 1643px var(--mantine-color-orange-5),
+    1426px 944px var(--mantine-color-orange-5),
+    1939px 410px var(--mantine-color-orange-5),
+    118px 2446px var(--mantine-color-orange-5),
+    1048px 1134px var(--mantine-color-orange-5),
+    2209px 2654px var(--mantine-color-orange-5),
+    251px 1737px var(--mantine-color-orange-5),
+    530px 1178px var(--mantine-color-orange-5),
+    359px 1322px var(--mantine-color-orange-5),
+    1926px 1031px var(--mantine-color-orange-5),
+    740px 2556px var(--mantine-color-orange-5),
+    998px 2503px var(--mantine-color-orange-5),
+    2352px 2873px var(--mantine-color-orange-5),
+    352px 1249px var(--mantine-color-orange-5),
+    1363px 289px var(--mantine-color-orange-5),
+    2164px 1394px var(--mantine-color-orange-5),
+    134px 1296px var(--mantine-color-orange-5),
+    2022px 1841px var(--mantine-color-orange-5),
+    1819px 28px var(--mantine-color-orange-5),
+    2425px 2544px var(--mantine-color-orange-5),
+    1648px 2470px var(--mantine-color-orange-5),
+    2097px 1968px var(--mantine-color-orange-5),
+    645px 1458px var(--mantine-color-orange-5),
+    1420px 1015px var(--mantine-color-orange-5),
+    866px 403px var(--mantine-color-orange-5),
+    1171px 455px var(--mantine-color-orange-5),
+    952px 1395px var(--mantine-color-orange-5),
+    2464px 625px var(--mantine-color-orange-5),
+    458px 54px var(--mantine-color-orange-5),
+    347px 1421px var(--mantine-color-orange-5),
+    125px 240px var(--mantine-color-orange-5),
+    993px 1781px var(--mantine-color-orange-5),
+    1253px 1066px var(--mantine-color-orange-5),
+    436px 1096px var(--mantine-color-orange-5),
+    5px 1700px var(--mantine-color-orange-5),
+    1224px 177px var(--mantine-color-orange-5),
+    2245px 616px var(--mantine-color-orange-5),
+    1680px 927px var(--mantine-color-orange-5),
+    2505px 3px var(--mantine-color-orange-5);
+  animation: animStar 150s linear infinite;
+}
+.stars3:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 4px;
+  height: 4px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+/* Small / slow stars */
+.stars4 {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  z-index: 0;
+  background: transparent;
+  overflow: hidden;
+  box-shadow:
+    498px 762px var(--mantine-color-gray-1),
+    1702px 1913px var(--mantine-color-gray-1),
+    1146px 422px var(--mantine-color-gray-1),
+    548px 1026px var(--mantine-color-gray-1),
+    2353px 482px var(--mantine-color-gray-1),
+    269px 1738px var(--mantine-color-gray-1),
+    556px 62px var(--mantine-color-gray-1),
+    906px 292px var(--mantine-color-gray-1),
+    261px 942px var(--mantine-color-gray-1),
+    600px 851px var(--mantine-color-gray-1),
+    1996px 1189px var(--mantine-color-gray-1),
+    916px 452px var(--mantine-color-gray-1),
+    463px 156px var(--mantine-color-gray-1),
+    12px 1485px var(--mantine-color-gray-1),
+    2513px 1928px var(--mantine-color-gray-1),
+    1790px 2724px var(--mantine-color-gray-1),
+    1984px 221px var(--mantine-color-gray-1),
+    1374px 2197px var(--mantine-color-gray-1),
+    878px 528px var(--mantine-color-gray-1),
+    1829px 1498px var(--mantine-color-gray-1),
+    1491px 1351px var(--mantine-color-gray-1),
+    881px 2064px var(--mantine-color-gray-1),
+    813px 2633px var(--mantine-color-gray-1),
+    734px 2856px var(--mantine-color-gray-1),
+    687px 593px var(--mantine-color-gray-1),
+    2391px 2011px var(--mantine-color-gray-1),
+    1106px 1541px var(--mantine-color-gray-1),
+    1088px 565px var(--mantine-color-gray-1),
+    1325px 441px var(--mantine-color-gray-1),
+    2160px 1230px var(--mantine-color-gray-1),
+    918px 1139px var(--mantine-color-gray-1),
+    429px 1220px var(--mantine-color-gray-1),
+    918px 707px var(--mantine-color-gray-1),
+    121px 2059px var(--mantine-color-gray-1),
+    1529px 2619px var(--mantine-color-gray-1),
+    1062px 1731px var(--mantine-color-gray-1),
+    535px 241px var(--mantine-color-gray-1),
+    906px 2764px var(--mantine-color-gray-1),
+    1626px 2597px var(--mantine-color-gray-1),
+    1972px 258px var(--mantine-color-gray-1),
+    2034px 661px var(--mantine-color-gray-1),
+    362px 900px var(--mantine-color-gray-1),
+    625px 2581px var(--mantine-color-gray-1),
+    654px 2396px var(--mantine-color-gray-1),
+    1558px 2091px var(--mantine-color-gray-1),
+    412px 2387px var(--mantine-color-gray-1),
+    123px 654px var(--mantine-color-gray-1),
+    575px 2211px var(--mantine-color-gray-1),
+    446px 2052px var(--mantine-color-gray-1),
+    553px 43px var(--mantine-color-gray-1),
+    1333px 1001px var(--mantine-color-gray-1),
+    1093px 737px var(--mantine-color-gray-1),
+    1474px 2709px var(--mantine-color-gray-1),
+    1904px 1077px var(--mantine-color-gray-1),
+    24px 856px var(--mantine-color-gray-1),
+    1119px 760px var(--mantine-color-gray-1),
+    1657px 665px var(--mantine-color-gray-1),
+    161px 345px var(--mantine-color-gray-1),
+    2286px 35px var(--mantine-color-gray-1),
+    353px 2681px var(--mantine-color-gray-1),
+    2537px 366px var(--mantine-color-gray-1),
+    848px 1868px var(--mantine-color-gray-1),
+    2334px 1055px var(--mantine-color-gray-1),
+    142px 906px var(--mantine-color-gray-1),
+    2181px 2589px var(--mantine-color-gray-1),
+    1214px 178px var(--mantine-color-gray-1),
+    2070px 334px var(--mantine-color-gray-1),
+    327px 1200px var(--mantine-color-gray-1),
+    1164px 422px var(--mantine-color-gray-1),
+    1538px 748px var(--mantine-color-gray-1),
+    1258px 2080px var(--mantine-color-gray-1),
+    1423px 1017px var(--mantine-color-gray-1),
+    586px 2628px var(--mantine-color-gray-1),
+    1542px 720px var(--mantine-color-gray-1),
+    400px 526px var(--mantine-color-gray-1),
+    2128px 2613px var(--mantine-color-gray-1),
+    789px 2244px var(--mantine-color-gray-1),
+    1037px 1508px var(--mantine-color-gray-1),
+    808px 841px var(--mantine-color-gray-1),
+    145px 1545px var(--mantine-color-gray-1),
+    2137px 2780px var(--mantine-color-gray-1),
+    1949px 553px var(--mantine-color-gray-1),
+    49px 2749px var(--mantine-color-gray-1),
+    2520px 2503px var(--mantine-color-gray-1),
+    2026px 2645px var(--mantine-color-gray-1),
+    1091px 807px var(--mantine-color-gray-1),
+    346px 2219px var(--mantine-color-gray-1),
+    1273px 1px var(--mantine-color-gray-1),
+    674px 873px var(--mantine-color-gray-1),
+    2226px 398px var(--mantine-color-gray-1),
+    1788px 1243px var(--mantine-color-gray-1),
+    1580px 880px var(--mantine-color-gray-1),
+    1822px 2102px var(--mantine-color-gray-1),
+    1773px 2870px var(--mantine-color-gray-1),
+    2394px 2972px var(--mantine-color-gray-1),
+    1295px 2183px var(--mantine-color-gray-1),
+    1630px 2876px var(--mantine-color-gray-1),
+    2053px 1654px var(--mantine-color-gray-1),
+    574px 2281px var(--mantine-color-gray-1),
+    2467px 889px var(--mantine-color-gray-1);
+  animation: animStar 400s linear infinite;
+}
+.stars4:after {
+  content: " ";
+  position: absolute;
+  top: 2000px;
+  width: 1px;
+  height: 1px;
+  background: transparent;
+  box-shadow: inherit;
+}
+
+.subTitle {
+  font-size: 1.5rem;
+  z-index: 100;
+  font-weight: 600;
+  text-align: center;
+}
+
+.title {
+  font-size: 6rem;
+  z-index: 100;
+  font-weight: 800;
+  text-align: center;
+}
+
+.featureTitle {
+  font-size: 1.5rem;
+  z-index: 100;
+}
+
+.featureSubTitle {
+  font-size: 1rem;
+  z-index: 100;
+  font-weight: 500;
+}
+
+.featureGrid {
+  flex-direction: row;
+}
+
+.feature {
+  flex-direction: column;
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+}
+
+.featureContent {
+  text-align: center;
+  flex-direction: column;
+}
+
+/* mobile */
+@media (max-width: 30em) {
+  .subTitle {
+    font-size: 1.15rem !important;
+  }
+
+  .title {
+    font-size: 2.5rem !important;
+  }
+
+  .starryBackground {
+    padding: 5rem 0 !important;
+  }
+
+  .featureTitle {
+    font-size: 1.2rem;
+  }
+}
+
+/* tablet */
+@media (max-width: 48em) {
+  .subTitle {
+    font-size: 1.3rem;
+  }
+
+  .starryBackground {
+    padding: 7rem 0;
+  }
+
+  .featureGrid {
+    flex-direction: column;
+  }
+
+  .feature {
+    flex-direction: row;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
+
+  .featureContent {
+    text-align: left;
+  }
+}
+
+/* laptop */
+@media (max-width: 64em) {
+  .title {
+    font-size: 4rem;
+  }
+}

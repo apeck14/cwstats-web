@@ -1,18 +1,18 @@
 "use client"
 
-import { Button, Card, Container, Divider, Flex, Group, Stack, Text, ThemeIcon, Title } from "@mantine/core"
+import { Button, Card, Container, Divider, Group, Stack, Text, Title } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
-import { IconBrandDiscord, IconClockBolt, IconTools } from "@tabler/icons-react"
+import { IconBrandDiscord } from "@tabler/icons-react"
 import Link from "next/link"
 
 import colors from "@/static/colors"
-import { CWSTATS_DESC } from "@/static/constants"
 
 import Image from "../ui/image"
 import classes from "./Home.module.css"
 import LoginOverlay from "./loginOverlay"
 import SavedItem from "./saved-item"
 import SegmentedSearch from "./segmented-search"
+import StarryBackground from "./starryBackground"
 
 function HomeContainer({ children, ...props }) {
   return (
@@ -23,69 +23,17 @@ function HomeContainer({ children, ...props }) {
 }
 
 export default function Home({ loggedIn, savedClans, savedPlayers }) {
-  const isPhone = useMediaQuery("(max-width: 23.75em)")
   const isMobile = useMediaQuery("(max-width: 30em)")
   const isTablet = useMediaQuery("(max-width: 48em)")
   const isLaptop = useMediaQuery("(max-width: 64em)")
 
   const savedCardSize = isLaptop ? "100%" : "28rem"
-  const titleSize = isMobile ? 2.5 : isLaptop ? 4 : 6
-  const titleYPadding = isMobile ? 4.5 : isTablet ? 6.5 : 8
-  const subTitleSize = isPhone ? 1.1 : isMobile ? 1.15 : isTablet ? 1.3 : 1.5
 
   const direction = isMobile ? "row" : "column"
-  const featureTitleSize = isMobile ? 1.2 : 1.5
 
   return (
     <Stack mt="-1rem">
-      <Stack className="circuit" py={`${titleYPadding}rem`}>
-        <HomeContainer>
-          <Stack gap="xl">
-            <Title className={classes.title} fw={800} fz={`${titleSize}rem`}>
-              The trusted source for everything <span className="gradientText">Clan Wars</span>
-            </Title>
-            <Title c="gray.2" fw={500} fz={`${subTitleSize}rem`}>
-              {CWSTATS_DESC}
-            </Title>
-
-            <Flex direction={isMobile ? "column" : "row"} gap="xl" pt="xl">
-              <Flex direction={direction} gap="sm">
-                <ThemeIcon size="xl" variant="gradient">
-                  <IconBrandDiscord />
-                </ThemeIcon>
-                <Flex direction="column">
-                  <Title fz={`${featureTitleSize}rem`}>Discord Bot</Title>
-                  <Text c="gray.1" fw={500}>
-                    Bring the analytics you love directly to your Discord servers
-                  </Text>
-                </Flex>
-              </Flex>
-              <Flex direction={direction} gap="sm">
-                <ThemeIcon size="xl" variant="gradient">
-                  <IconClockBolt />
-                </ThemeIcon>
-                <Flex direction="column">
-                  <Title fz={`${featureTitleSize}rem`}>Real-Time Data</Title>
-                  <Text c="gray.1" fw={500}>
-                    Foster quick, informed decisions to maximize your clan&apos;s success
-                  </Text>
-                </Flex>
-              </Flex>
-              <Flex direction={direction} gap="sm">
-                <ThemeIcon size="xl" variant="gradient">
-                  <IconTools />
-                </ThemeIcon>
-                <Flex direction="column">
-                  <Title fz={`${featureTitleSize}rem`}>CW2 Tools</Title>
-                  <Text c="gray.1" fw={500}>
-                    Explore cutting-edge tools to always give you and your clan the advantage
-                  </Text>
-                </Flex>
-              </Flex>
-            </Flex>
-          </Stack>
-        </HomeContainer>
-      </Stack>
+      <StarryBackground direction={direction} />
       <Stack bg="gray.10" mt="-1rem">
         <HomeContainer py="3rem">
           <Stack>
