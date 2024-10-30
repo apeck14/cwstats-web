@@ -599,6 +599,7 @@
 
 .featureGrid {
   flex-direction: row;
+  align-items: flex-start;
 }
 
 .feature {
