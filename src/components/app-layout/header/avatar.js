@@ -20,6 +20,7 @@ export default function AvatarDropdown() {
       trigger="hover"
       width={200}
       withArrow
+      zIndex={1000}
     >
       <Menu.Target>
         <Group>
