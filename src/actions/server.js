@@ -380,7 +380,7 @@ export async function generateLinkCode(id, tag) {
     if (clanAlreadyLinked) return { error: "Clan is already linked to a server.", status: 400 }
 
     const clansLinkedToServer = await linkedClans.find({ guildID: id }).toArray()
-    if (clansLinkedToServer.length >= 10) return { error: "Max clans linked to server reached.", status: 400 }
+    if (clansLinkedToServer.length >= 20) return { error: "Max clans linked to server reached.", status: 400 }
 
     const codeExists = await clanLinkCodes.findOne({ guildID: id, tag: clan.tag })
     if (codeExists) return { code: codeExists.code, status: 200 }
