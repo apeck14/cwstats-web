@@ -11,7 +11,7 @@
     "test:debug": "jest --silent=false"
   },
   "dependencies": {
-    "@auth/mongodb-adapter": "^3.7.2",
+    "@auth/mongodb-adapter": "^3.7.3",
     "@mantine/charts": "^7.13.4",
     "@mantine/core": "^7.13.4",
     "@mantine/form": "^7.13.4",
@@ -27,11 +27,11 @@
     "react": "^18.3.1",
     "react-select": "^5.8.2",
     "realm-web": "^2.0.1",
-    "recharts": "^2.13.2",
+    "recharts": "^2.13.3",
     "sharp": "^0.33.5"
   },
   "devDependencies": {
-    "@testing-library/jest-dom": "^6.6.2",
+    "@testing-library/jest-dom": "^6.6.3",
     "@testing-library/react": "^16.0.1",
     "eslint": "^8.57.1",
     "eslint-config-airbnb": "^19.0.4",
