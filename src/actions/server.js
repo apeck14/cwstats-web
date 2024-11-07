@@ -530,12 +530,60 @@ export async function setDiscordInvite(id, invCode) {
   }
 }
 
-export async function deleteLinkedClan(tag) {
+// called on plus clan deletion or plus link unlinking from server
+// check if any plus features are over new limit
+export async function deleteOverLimitUsage(id) {
+  try {
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    const guildExists = await guilds.findOne({
+      guildID: id,
+    })
+
+    if (!guildExists) return { error: "Server not found." }
+
+    const { clans: plusClans, error } = await getLinkedClans(id, true)
+
+    if (error) throw error
+
+    const linkedPlayerLimit = calcLinkedPlayerLimit(plusClans.length)
+    const scheduledNudgeLimit = calcNudgeLimit(plusClans.length)
+
+    // slice extra limits
+    if (guildExists.nudges) {
+      await guilds.updateOne(
+        { guildID: id },
+        {
+          $push: {
+            "nudges.links": {
+              $each: [],
+              $slice: linkedPlayerLimit,
+            },
+            "nudges.scheduled": {
+              $each: [],
+              $slice: scheduledNudgeLimit,
+            },
+          },
+        },
+      )
+    }
+
+    return { linkedPlayerLimit, scheduledNudgeLimit }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("deleteOverLimitUsage error", err)
+
+    return { error: "Unexpected error. Please try again." }
+  }
+}
+
+export async function deleteLinkedClan(id, tag) {
   try {
     const db = client.db("General")
     const linkedClans = db.collection("Linked Clans")
 
-    await linkedClans.deleteOne({ tag })
+    await Promise.all([linkedClans.deleteOne({ tag }), deleteOverLimitUsage(id)])
 
     return { status: 200 }
   } catch (err) {

@@ -18,7 +18,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
 
   const handleConfirm = async () => {
     setClans(clans.filter((c) => c.tag !== clan.tag))
-    await deleteLinkedClan(clan.tag)
+    await deleteLinkedClan(id, clan.tag)
 
     sendLogWebhook(
       {
