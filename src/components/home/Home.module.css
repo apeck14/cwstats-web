@@ -773,11 +773,11 @@
 
   .title {
     font-size: 2.5rem !important;
-    padding-top: 5rem !important;
+    margin-top: 5rem !important;
   }
 
   .featureGrid {
-    padding-bottom: 5rem !important;
+    margin-bottom: 5rem !important;
   }
 
   .featureTitle {
@@ -788,7 +788,7 @@
 /* tablet */
 @media (max-width: 48em) {
   .title {
-    padding-top: 7rem !important;
+    margin-top: 7rem !important;
   }
 
   .subTitle {
@@ -797,7 +797,7 @@
 
   .featureGrid {
     flex-direction: column;
-    padding-bottom: 7rem;
+    margin-bottom: 7rem !important;
   }
 
   .feature {
