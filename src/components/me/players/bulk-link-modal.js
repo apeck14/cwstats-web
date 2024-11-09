@@ -12,7 +12,7 @@ import { embedColors } from "@/static/colors"
 import DebouncedSearch from "../../ui/debounced-search"
 import Image from "../../ui/image"
 
-export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining, setLinkedAccounts, users }) {
+export default function BulkLinkModal({ guildID, linkedAccounts, linksRemaining, setLinkedAccounts, users }) {
   const [unlinkedMembers, setUnlinkedMembers] = useState([])
   const [clan, setClan] = useState(null)
   const [clanLoading, setClanLoading] = useState(false)
@@ -21,6 +21,8 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
   const [showButton, setShowButton] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
   const isTablet = useMediaQuery("(max-width: 48em)")
+
+  const usersToAdd = unlinkedMembers.filter((m) => m?.username?.trim())
 
   const handleClose = () => {
     close()
@@ -43,8 +45,10 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
 
   const handleChange = (e, tag) => {
     // add or remove link depending on if select was cleared or not
-    setLinksLeft(linksLeft - (e ? 1 : -1))
-    setShowButton(true)
+    const newLinksLeft = linksLeft - (e ? 1 : -1)
+
+    setLinksLeft(newLinksLeft)
+    setShowButton(newLinksLeft !== linksRemaining)
     const newUnlinkedMembers = [...unlinkedMembers]
     newUnlinkedMembers.find((m) => m.tag === tag).username = e
 
@@ -52,8 +56,6 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
   }
 
   const handleSubmit = async () => {
-    const usersToAdd = unlinkedMembers.filter((m) => m?.username?.trim())
-
     setLoading(true)
 
     const { players } = await bulkLinkAccounts(guildID, usersToAdd)
@@ -104,7 +106,7 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
 
   return (
     <>
-      <Modal centered={!isTablet} onClose={handleClose} opened={opened} title={<Title fz="1.25rem">Add By Clan</Title>}>
+      <Modal centered={!isTablet} onClose={handleClose} opened={opened} title={<Title fz="1.25rem">Bulk Link</Title>}>
         {clan ? (
           <Group fw={600} gap="xs">
             <Image
@@ -162,17 +164,18 @@ export default function AddByClanModal({ guildID, linkedAccounts, linksRemaining
             <Button
               disabled={!showButton || linksLeft < 0}
               loading={loading}
-              maw="4rem"
+              miw="3.5rem"
               onClick={handleSubmit}
+              px="xs"
               style={{ alignSelf: "flex-end" }}
             >
-              Add
+              Link {usersToAdd.length ? `(${usersToAdd.length})` : ""}
             </Button>
           </Stack>
         )}
       </Modal>
       <Button color="green" onClick={open} size="xs" variant="light">
-        Add By Clan
+        Bulk Link
       </Button>
     </>
   )

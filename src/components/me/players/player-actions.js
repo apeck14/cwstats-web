@@ -2,8 +2,8 @@ import { Card, Group, Stack, Title } from "@mantine/core"
 
 import InfoPopover from "@/components/ui/info-popover"
 
-import AddByClanModal from "./add-by-clan-modal"
 import AddLinkedAccount from "./add-linked-account"
+import BulkLinkModal from "./bulk-link-modal"
 import PruneModal from "./prune-modal"
 
 export default function PlayerActions({ guildID, limit, linkedAccounts, setLinkedAccounts, users }) {
@@ -17,7 +17,7 @@ export default function PlayerActions({ guildID, limit, linkedAccounts, setLinke
       <Card bd="2px solid var(--mantine-color-gray-7)" bg="gray.8" component={Stack} gap="xs">
         <Title size="h5">Quick Actions</Title>
         <Group>
-          <AddByClanModal
+          <BulkLinkModal
             guildID={guildID}
             linkedAccounts={linkedAccounts}
             linksRemaining={limit - linkedAccounts.length}
