@@ -68,14 +68,7 @@ export default function ServerHeaderContent({ guild }) {
                 href={t.url(guild.id)}
                 key={t.key}
               >
-                <Group gap="0.4rem">
-                  {t.label}
-                  {t.key === "players" && (
-                    <Text c="orange" fw="600" fz={{ base: "0.5rem", lg: "0.7rem", md: "0.6rem" }}>
-                      NEW
-                    </Text>
-                  )}
-                </Group>
+                {t.label}
               </Link>
             ))}
           </Group>
