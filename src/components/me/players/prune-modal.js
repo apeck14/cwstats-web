@@ -58,8 +58,8 @@ export default function PruneModal({ guildID, linkedAccounts, setLinkedAccounts 
           {showButtons ? (
             <>
               <Text c="gray.1" size="sm">
-                <span style={{ color: "var(--mantine-color-yellow-6)" }}>WARNING:</span> This will remove all player
-                links linked to Discord users no longer in your server.
+                <span style={{ color: "var(--mantine-color-yellow-6)" }}>WARNING:</span> This will remove all links for
+                users no longer in your server.
               </Text>
               <Text size="sm">Are you sure you&apos;d like to continue?</Text>
               <Group gap="xs" justify="flex-end">
