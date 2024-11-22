@@ -51,8 +51,6 @@ export async function getLinkedAccount() {
   try {
     const { discordId, error, logout } = await getDiscordId()
 
-    console.log({ discordId, error, logout })
-
     if (logout) {
       signUserOut = true
       throw error
