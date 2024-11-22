@@ -29,7 +29,7 @@ export async function getDiscordId() {
     const session = await getServerSession(authOptions)
 
     if (!session) {
-      return { error: "Not logged in.", logout: true }
+      return { error: "Not logged in.", logout: false }
     }
 
     if (!session?.user?.discord_id) {
@@ -50,6 +50,8 @@ export async function getLinkedAccount() {
 
   try {
     const { discordId, error, logout } = await getDiscordId()
+
+    console.log({ discordId, error, logout })
 
     if (logout) {
       signUserOut = true
