@@ -39,8 +39,8 @@ export default function LeaderboardTable({ clans, isWarLb, league, plusClans, sa
     const isPlus = plusClans.includes(c.tag)
 
     return (
-      <Table.Tr fw={600} fz={{ base: "0.9rem", md: "1rem" }} key={c.tag}>
-        <Table.Td py="sm" ta="center">
+      <Table.Tr fw={600} fz={{ base: "0.9rem", md: "1rem" }} h={`${isMobile ? 3.5 : 5}rem`} key={c.tag}>
+        <Table.Td ta="center">
           {isWarLb ? (
             c.rank
           ) : (
