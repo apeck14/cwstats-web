@@ -80,8 +80,12 @@ export async function revokeAccessToken(accessToken, discordId) {
   // remove from DB
   const db = client.db("General")
   const accounts = db.collection("accounts")
+  const users = db.collection("users")
 
-  accounts.deleteOne({ providerAccountId: discordId })
+  accounts.deleteMany({ providerAccountId: discordId })
+  users.deleteMany({
+    image: { $regex: discordId },
+  })
 
   return { success: true }
 }
