@@ -22,12 +22,22 @@ export async function getGuilds(redirectOnError = false) {
   const log = new Logger()
   let error = false
   let sessionError = false
+  let signUserOut = false
 
   try {
-    const { error, token } = await getAccessToken()
+    const { error, logout, token } = await getAccessToken()
+
+    if (logout) {
+      signUserOut = true
+      throw error
+    }
 
     if (error) {
-      if (redirectOnError) sessionError = true
+      if (redirectOnError) {
+        sessionError = true
+        throw error
+      }
+
       return { error }
     }
 
@@ -60,7 +70,7 @@ export async function getGuilds(redirectOnError = false) {
     if (!redirectOnError) return { message: err?.message || err, status: 500 }
     error = true
   } finally {
-    if (redirectOnError && sessionError) redirect("/login?callback=/me/servers")
+    if (signUserOut || (redirectOnError && sessionError)) redirect("/login?callback=/me/servers")
     else if (redirectOnError && error) redirect("/500_")
   }
 }

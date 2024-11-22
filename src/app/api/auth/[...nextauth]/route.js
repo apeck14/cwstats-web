@@ -5,6 +5,22 @@ import { Logger } from "next-axiom"
 
 import client from "@/lib/mongodb"
 
+// Constants
+const DISCORD_API = {
+  ME: "https://discord.com/api/users/@me",
+  REVOKE: "https://discord.com/api/oauth2/token/revoke",
+  TOKEN: "https://discord.com/api/oauth2/token",
+}
+
+const REQUIRED_SCOPES = ["identify", "guilds", "guilds.members.read"]
+
+export const SessionErrors = {
+  EXPIRED_ACCESS_TOKEN: "ExpiredAccessTokenError",
+  INVALID_DISCORD_TOKEN: "InvalidDiscordTokenError",
+  REFRESH_TOKEN_ERROR: "RefreshAccessTokenError",
+  REVOKED_ACCESS: "RevokedAccessError",
+}
+
 export async function discordRequest(url, options) {
   try {
     const response = await fetch(url, {
@@ -15,11 +31,13 @@ export async function discordRequest(url, options) {
       ...options,
     })
 
+    const data = await response.json()
+
     if (!response.ok) {
-      throw new Error(`Discord API error: ${response.status}`)
+      return { error: data.error, success: false }
     }
 
-    return { data: await response.json(), success: true }
+    return { data, success: true }
   } catch (error) {
     const log = new Logger()
     log.error(`Discord API error: ${url}`, error)
@@ -27,46 +45,9 @@ export async function discordRequest(url, options) {
   }
 }
 
-// Constants
-const DISCORD_API = {
-  ME: "https://discord.com/api/users/@me",
-  REVOKE: "https://discord.com/api/oauth2/token/revoke",
-  TOKEN: "https://discord.com/api/oauth2/token",
-}
+export async function validateDiscordToken(accessToken) {
+  if (!accessToken) return { isValid: false }
 
-const REQUIRED_SCOPES = ["identify", "guilds", "guilds.members.read"]
-
-const SessionErrors = {
-  EXPIRED_ACCESS_TOKEN: "ExpiredAccessTokenError",
-  INVALID_DISCORD_TOKEN: "InvalidDiscordTokenError",
-  REFRESH_TOKEN_ERROR: "RefreshAccessTokenError",
-  REVOKED_ACCESS: "RevokedAccessError",
-}
-
-const ErrorMessages = {
-  [SessionErrors.INVALID_DISCORD_TOKEN]: {
-    code: "INVALID_TOKEN",
-    message: "Invalid Discord token",
-    recoverable: true,
-  },
-  [SessionErrors.REFRESH_TOKEN_ERROR]: {
-    code: "TOKEN_REFRESH_ERROR",
-    message: "Failed to refresh access token",
-    recoverable: true,
-  },
-  [SessionErrors.REVOKED_ACCESS]: {
-    code: "ACCESS_REVOKED",
-    message: "Discord access has been revoked",
-    recoverable: false,
-  },
-  UNKNOWN: {
-    code: "UNKNOWN_ERROR",
-    message: "An unknown error occurred",
-    recoverable: true,
-  },
-}
-
-async function validateDiscordToken(accessToken) {
   const { success } = await discordRequest(DISCORD_API.ME, {
     headers: { Authorization: `Bearer ${accessToken}` },
   })
@@ -78,12 +59,39 @@ async function validateDiscordToken(accessToken) {
   return { isValid: true }
 }
 
-async function refreshAccessToken(token) {
+export async function revokeAccessToken(accessToken, discordId) {
+  if (!accessToken) return { success: false }
+
+  const body = new URLSearchParams({
+    client_id: process.env.DISCORD_ID,
+    client_secret: process.env.DISCORD_SECRET,
+    token: accessToken,
+  })
+
+  const { success } = await discordRequest(DISCORD_API.REVOKE, {
+    body,
+    method: "POST",
+  })
+
+  if (!success) {
+    return { error: SessionErrors.REVOKED_ACCESS, success: false }
+  }
+
+  // remove from DB
+  const db = client.db("General")
+  const accounts = db.collection("accounts")
+
+  accounts.deleteOne({ providerAccountId: discordId })
+
+  return { success: true }
+}
+
+export async function refreshAccessToken(session) {
   const body = new URLSearchParams({
     client_id: process.env.DISCORD_ID,
     client_secret: process.env.DISCORD_SECRET,
     grant_type: "refresh_token",
-    refresh_token: token.user.refreshToken,
+    refresh_token: session.user.refresh_token,
   })
 
   const { data, error, success } = await discordRequest(DISCORD_API.TOKEN, {
@@ -93,60 +101,32 @@ async function refreshAccessToken(token) {
 
   if (!success) {
     return {
-      ...token,
-      error: error?.error === "invalid_grant" ? SessionErrors.REVOKED_ACCESS : SessionErrors.REFRESH_TOKEN_ERROR,
+      ...session,
+      error: error === "invalid_grant" ? SessionErrors.REVOKED_ACCESS : SessionErrors.REFRESH_TOKEN_ERROR,
     }
   }
+
+  // Update database with new token data
+  const db = client.db("General")
+  const accounts = db.collection("accounts")
+
+  await accounts.updateOne(
+    { providerAccountId: session.user.discord_id },
+    {
+      $set: {
+        access_token: data.access_token,
+        expires_at: Date.now() + data.expires_in * 1000,
+        refresh_token: data.refresh_token ?? session.user.refresh_token,
+      },
+    },
+  )
 
   return {
-    ...token,
-    accessToken: data.access_token,
-    accessTokenExpires: Date.now() + data.expires_in * 1000,
+    ...session,
+    access_token: data.access_token,
     error: null,
-    refreshToken: data.refresh_token ?? token.user.refreshToken,
-  }
-}
-
-async function revokeDiscordToken(token) {
-  const body = new URLSearchParams({
-    client_id: process.env.DISCORD_ID,
-    client_secret: process.env.DISCORD_SECRET,
-    token,
-  })
-
-  const { success } = await discordRequest(DISCORD_API.REVOKE, {
-    body,
-    method: "POST",
-  })
-
-  return success
-}
-
-// Database Operations
-async function handleUserData(profile) {
-  try {
-    const db = client.db("General")
-    const linkedAccounts = db.collection("Linked Accounts")
-
-    const userExists = await linkedAccounts.findOne({
-      discordID: profile.id,
-    })
-
-    if (!userExists) {
-      // Create new user
-      await linkedAccounts.insertOne({
-        discordID: profile.id,
-        savedClans: [],
-        savedPlayers: [],
-        tag: null,
-      })
-    }
-
-    return true
-  } catch (error) {
-    const log = new Logger()
-    log.error("Database operation error:", error)
-    return false
+    expires_at: Date.now() + data.expires_in * 1000,
+    refresh_token: data.refresh_token ?? session.user.refresh_token,
   }
 }
 
@@ -156,74 +136,119 @@ const REFRESH_THRESHOLD = 5 * 60 * 1000 // 5 minutes
 export const authOptions = {
   adapter: MongoDBAdapter(client),
   callbacks: {
-    jwt: async ({ account, profile, token, user }) => {
-      // initial sign-in
+    /*
+    JWT called:
+      - on sign in
+      - on session check (useSession, getServerSession)right before session callback
+      - token refresh
+     */
+    jwt: async ({ account, profile, token }) => {
       if (account && profile) {
         const image = profile.avatar
           ? `https://cdn.discordapp.com/avatars/${profile.id}/${profile.avatar}.png`
           : `https://cdn.discordapp.com/embed/avatars/${parseInt(profile.discriminator) % 5}.png`
 
         return {
+          ...token,
           user: {
-            ...token,
-            accessToken: account.access_token,
-            accessTokenExpires: account.expires_at * 1000,
-            discordId: profile.id,
-            id: user.id,
-            image, // Set image here
+            access_token: account.access_token,
+            discord_id: profile.id,
+            expires_at: account.expires_at * 1000,
+            image,
             name: profile.username,
-            refreshToken: account.refresh_token,
+            refresh_token: account.refresh_token,
           },
         }
       }
 
-      const timeUntilExpiration = token?.user?.accessTokenExpires - Date.now()
+      const timeUntilExpiration = token?.user?.expires_at - Date.now()
 
-      // Refresh token if it's within threshold time
+      // less than 5 mins until expiration
       if (timeUntilExpiration < REFRESH_THRESHOLD) {
-        return refreshAccessToken(token)
+        // Refresh the access token using the refresh token (make sure this logic is handled)
+        try {
+          // Attempt to refresh the token
+          const refreshedToken = await refreshAccessToken(token)
+
+          return {
+            ...token,
+            user: {
+              ...token.user,
+              access_token: refreshedToken.access_token,
+              access_token_expires: refreshedToken.expires_at * 1000,
+            },
+          }
+        } catch {
+          token.error = SessionErrors.REFRESH_TOKEN_ERROR
+          return token
+        }
       }
 
       return token
     },
+    /*
+    session called:
+      - getSession, useSession, getServerSession
+     */
     session: async ({ session, token }) => {
-      // Handle token errors
-      if (token.error) {
-        session.error = ErrorMessages[token.error] || ErrorMessages.UNKNOWN
+      try {
+        const { isValid } = await validateDiscordToken(token.user.access_token)
 
-        if (token.error === SessionErrors.REVOKED_ACCESS) {
-          throw new Error("Discord access revoked")
-        }
-      }
-
-      // Validate token if present
-      if (token.accessToken && !token.error) {
-        const { error, isValid } = await validateDiscordToken(token.accessToken)
         if (!isValid) {
-          session.error = {
-            code: error,
-            message: "Session validation failed",
-            recoverable: true,
+          token = await refreshAccessToken(token)
+
+          if (token.error) {
+            // If the refresh fails, handle gracefully
+            return {
+              ...session,
+              ...token,
+              error: SessionErrors.REFRESH_TOKEN_ERROR,
+            }
           }
         }
-      }
 
-      // Update session
-      session.user = {
-        ...session.user,
-        ...token.user,
-      }
+        session.user = {
+          ...session.user,
+          ...token.user,
+        }
 
-      return session
+        return session
+      } catch {
+        session.error = SessionErrors.REFRESH_TOKEN_ERROR
+        return session
+      }
     },
-    signIn: ({ profile }) => handleUserData(profile),
+    signIn: async ({ profile }) => {
+      try {
+        const db = client.db("General")
+        const linkedAccounts = db.collection("Linked Accounts")
+
+        const userExists = await linkedAccounts.findOne({
+          discordID: profile.id,
+        })
+
+        if (!userExists) {
+          // Create new user
+          await linkedAccounts.insertOne({
+            discordID: profile.id,
+            savedClans: [],
+            savedPlayers: [],
+            tag: null,
+          })
+        }
+
+        return true
+      } catch (error) {
+        const log = new Logger()
+        log.error("Database operation error:", error)
+        return false
+      }
+    },
   },
   debug: process.env.NODE_ENV !== "production",
   events: {
-    signOut: async ({ session }) => {
-      if (session?.accessToken) {
-        await revokeDiscordToken(session.accessToken)
-      }
+    async signOut({ token }) {
+      revokeAccessToken(token.user.access_token, token.user.discord_id)
     },
   },
   providers: [

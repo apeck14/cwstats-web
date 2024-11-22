@@ -1,29 +1,26 @@
 "use server"
 
+import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route"
+import { authOptions, SessionErrors } from "@/app/api/auth/[...nextauth]/route"
 import client from "@/lib/mongodb"
 
 export async function getAccessToken() {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session || session.error === "RefreshAccessTokenError") {
-      return { error: "Not logged in.", status: 403 }
+    if (!session || session.error === SessionErrors.REFRESH_TOKEN_ERROR) {
+      return { error: SessionErrors.REFRESH_TOKEN_ERROR, logout: true }
     }
 
-    if (!session.user.accessToken) {
-      return { error: "Access token is missing.", status: 403 }
-    }
-
-    return { token: session.user.accessToken }
+    return { token: session.user.access_token }
   } catch (err) {
     const log = new Logger()
     log.error("getAccessToken Error", err)
 
-    return { error: err.message, status: 500 }
+    return { error: err.message, logout: true, status: 500 }
   }
 }
 
@@ -31,15 +28,15 @@ export async function getDiscordId() {
   try {
     const session = await getServerSession(authOptions)
 
-    if (!session || session.error === "RefreshAccessTokenError") {
-      return { error: "Not logged in.", status: 403 }
+    if (!session) {
+      return { error: "Not logged in.", logout: true }
     }
 
-    if (!session.user) {
-      return { error: "No discord ID.", status: 403 }
+    if (!session?.user?.discord_id) {
+      return { error: "No discord ID.", logout: true }
     }
 
-    return { discordId: session.user.discordId }
+    return { discordId: session.user.discord_id }
   } catch (err) {
     const log = new Logger()
     log.error("getDiscordId Error", err)
@@ -49,8 +46,15 @@ export async function getDiscordId() {
 }
 
 export async function getLinkedAccount() {
+  let signUserOut = false
+
   try {
-    const { discordId, error } = await getDiscordId()
+    const { discordId, error, logout } = await getDiscordId()
+
+    if (logout) {
+      signUserOut = true
+      throw error
+    }
 
     if (error) return { error }
 
@@ -72,6 +76,8 @@ export async function getLinkedAccount() {
     log.error("getLinkedAccount Error", err)
 
     return { message: err.message, status: 500 }
+  } finally {
+    if (signUserOut) redirect("/login")
   }
 }
 
