@@ -532,7 +532,7 @@ export async function setDiscordInvite(id, invCode) {
 
 // called on plus clan deletion or plus link unlinking from server
 // check if any plus features are over new limit
-export async function deleteOverLimitUsage(id) {
+async function deleteOverLimitUsage(id) {
   try {
     const db = client.db("General")
     const guilds = db.collection("Guilds")
