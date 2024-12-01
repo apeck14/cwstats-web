@@ -1,20 +1,21 @@
-import { ActionIcon, Card, Divider, Group, Stack, Text, Title } from "@mantine/core"
+import { ActionIcon, Button, Card, Divider, Group, Stack, Text, Title } from "@mantine/core"
 import { IconCheck, IconTrash, IconX } from "@tabler/icons-react"
 import Link from "next/link"
 import { useState } from "react"
 
-import { deleteWebhook } from "@/actions/discord"
+import { setDailyWarReport, setSeasonalReport } from "@/actions/discord"
 import { deleteLinkedClan } from "@/actions/server"
 import { sendLogWebhook } from "@/actions/upgrade"
 import Image from "@/components/ui/image"
 import { formatTag } from "@/lib/functions/utils"
 import { embedColors } from "@/static/colors"
 
-import WarReportModal from "./war-report-modal"
+import ReportModal from "./report-modal"
 
 export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setClans }) {
   const [showConfirmButtons, setShowConfirmButtons] = useState(false)
-  const [webhookActive, setWebhookActive] = useState(!!clan.webhookUrl)
+  const [warReportEnabled, setWarReportEnabled] = useState(!!clan.warReportEnabled)
+  const [seasonalReportEnabled, setSeasonalReportEnabled] = useState(!!clan.seasonalReportEnabled)
 
   const handleConfirm = async () => {
     setClans(clans.filter((c) => c.tag !== clan.tag))
@@ -32,9 +33,9 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
     )
   }
 
-  const handleDelete = () => {
-    deleteWebhook(clan.tag)
-    setWebhookActive(false)
+  const handleSeasonReportDisable = () => {
+    setSeasonalReport(clan.tag, false)
+    setSeasonalReportEnabled(false)
 
     sendLogWebhook(
       {
@@ -42,7 +43,23 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
         color: embedColors.red,
         guild: id,
         tag: formatTag(clan.tag, true),
-        title: "War Report Deleted",
+        title: "Season Report Disabled",
+      },
+      true,
+    )
+  }
+
+  const handleWarReportDisable = () => {
+    setDailyWarReport(clan.tag, false)
+    setWarReportEnabled(false)
+
+    sendLogWebhook(
+      {
+        clan: clan.clanName,
+        color: embedColors.red,
+        guild: id,
+        tag: formatTag(clan.tag, true),
+        title: "War Report Disabled",
       },
       true,
     )
@@ -92,33 +109,54 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
           </Link>
         </Group>
 
-        <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" maw="20rem">
-          <Text c="dimmed" fw="600">
-            Daily War Report
-          </Text>
-          {webhookActive ? (
-            <Stack gap="0.1rem">
-              <Text fw="600" fz="sm">
-                Status: <span style={{ color: "var(--mantine-color-green-6)" }}>ACTIVE</span>
+        <Group>
+          <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" w="20rem">
+            <Group gap="0.2rem">
+              <Text c="dimmed" fw="600">
+                Seasonal Report
               </Text>
-              <Text c="dimmed" fs="italic" fz="xs">
-                This webhook can be managed on Discord in your server&apos;s app integrations.
+              <Text c="pink" fw="600" fz="0.6rem">
+                NEW
               </Text>
+            </Group>
 
-              <Text c="red.6" className="cursorPointer" fz="sm" onClick={handleDelete} td="underline" w="fit-content">
-                Delete
-              </Text>
-            </Stack>
-          ) : (
-            <WarReportModal
-              channels={channels}
-              clan={clan}
-              id={id}
-              isPlus={isPlus}
-              setWebhookActive={setWebhookActive}
-            />
-          )}
-        </Card>
+            {seasonalReportEnabled ? (
+              <Button color="red" maw="fit-content" onClick={handleSeasonReportDisable} size="xs" variant="light">
+                Disable
+              </Button>
+            ) : (
+              <ReportModal
+                channels={channels}
+                clan={clan}
+                id={id}
+                isPlus={isPlus}
+                setReportActive={setSeasonalReportEnabled}
+                type="seasonal"
+              />
+            )}
+          </Card>
+
+          <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" w="20rem">
+            <Text c="dimmed" fw="600">
+              Daily War Report
+            </Text>
+
+            {warReportEnabled ? (
+              <Button color="red" maw="fit-content" onClick={handleWarReportDisable} size="xs" variant="light">
+                Disable
+              </Button>
+            ) : (
+              <ReportModal
+                channels={channels}
+                clan={clan}
+                id={id}
+                isPlus={isPlus}
+                setReportActive={setWarReportEnabled}
+                type="war"
+              />
+            )}
+          </Card>
+        </Group>
       </Stack>
     </Card>
   )

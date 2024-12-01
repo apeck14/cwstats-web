@@ -201,22 +201,6 @@ export async function createWebhook(channelId, title, tag, isPlus) {
   }
 }
 
-export async function deleteWebhook(tag) {
-  try {
-    const db = client.db("General")
-    const linkedClans = db.collection("Linked Clans")
-
-    linkedClans.updateOne({ tag }, { $unset: { webhookUrl: "" } })
-
-    return { status: 200, success: true }
-  } catch (err) {
-    const log = new Logger()
-    log.warn("deleteWebhook Error", err)
-
-    return { error: "Unexpected error. Please try again.", status: 500 }
-  }
-}
-
 export async function getAllGuildUsers(id, mapResponse = false) {
   try {
     let members = []
@@ -258,5 +242,37 @@ export async function getAllGuildUsers(id, mapResponse = false) {
     log.warn("getAllGuildUsers Error", err)
 
     return { error: "Unexpected error. Please try again." }
+  }
+}
+
+export async function setDailyWarReport(tag, enabled = true) {
+  try {
+    const db = client.db("General")
+    const linkedClans = db.collection("Linked Clans")
+
+    linkedClans.updateOne({ tag }, { $set: { warReportEnabled: enabled } })
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const log = new Logger()
+    log.warn("disableDailyWarReport Error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
+export async function setSeasonalReport(tag, enabled = true) {
+  try {
+    const db = client.db("General")
+    const linkedClans = db.collection("Linked Clans")
+
+    linkedClans.updateOne({ tag }, { $set: { seasonalReportEnabled: enabled } })
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const log = new Logger()
+    log.warn("disableSeasonalReport Error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
   }
 }
