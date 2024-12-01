@@ -43,7 +43,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
         color: embedColors.red,
         guild: id,
         tag: formatTag(clan.tag, true),
-        title: "Season Report Disabled",
+        title: "Seasonal Report Disabled",
       },
       true,
     )

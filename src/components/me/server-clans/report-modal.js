@@ -48,13 +48,13 @@ export default function ReportModal({ channels, clan, id, isPlus, setReportActiv
 
     const { error } = await createWebhook(channelId, "CWStats Reports", clan.tag, isPlus)
 
-    if (type === "war") setDailyWarReport(clan.tag)
-    else if (type === "seasonal") setSeasonalReport(clan.tag)
-
     setLoading(false)
 
     if (error) setError(error)
     else {
+      if (type === "war") setDailyWarReport(clan.tag)
+      else if (type === "seasonal") setSeasonalReport(clan.tag)
+
       setReportActive(true)
       close()
       notifications.show({
