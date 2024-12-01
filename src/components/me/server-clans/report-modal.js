@@ -23,6 +23,26 @@ export default function ReportModal({ channels, clan, id, isPlus, setReportActiv
 
   const formattedType = `${type[0].toUpperCase()}${type.slice(1)}`
 
+  const sendEnableNotifications = () => {
+    notifications.show({
+      autoClose: 8000,
+      color: "green",
+      message: `${formattedType} Report successfully enabled for ${clan.clanName} in #${channels.find((c) => c.id === channelId)?.name}.`,
+      title: `${formattedType} Report Enabled!`,
+    })
+
+    sendLogWebhook(
+      {
+        clan: clan.clanName,
+        color: embedColors.orange,
+        guild: id,
+        tag: formatTag(clan.tag, true),
+        title: `${formattedType} Report Enabled`,
+      },
+      true,
+    )
+  }
+
   const handleOpen = async () => {
     setError("")
     setChannelId(null)
@@ -38,6 +58,7 @@ export default function ReportModal({ channels, clan, id, isPlus, setReportActiv
       if (type === "war") setDailyWarReport(clan.tag)
       else if (type === "seasonal") setSeasonalReport(clan.tag)
       setReportActive(true)
+      sendEnableNotifications()
     } else {
       open()
     }
@@ -57,23 +78,7 @@ export default function ReportModal({ channels, clan, id, isPlus, setReportActiv
 
       setReportActive(true)
       close()
-      notifications.show({
-        autoClose: 8000,
-        color: "green",
-        message: `${formattedType} Report successfully enabled for ${clan.clanName} in #${channels.find((c) => c.id === channelId)?.name}.`,
-        title: `${formattedType} Report Enabled!`,
-      })
-
-      sendLogWebhook(
-        {
-          clan: clan.clanName,
-          color: embedColors.orange,
-          guild: id,
-          tag: formatTag(clan.tag, true),
-          title: `${formattedType} Report Enabled`,
-        },
-        true,
-      )
+      sendEnableNotifications()
     }
   }
 
