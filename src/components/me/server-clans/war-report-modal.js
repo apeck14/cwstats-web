@@ -77,13 +77,13 @@ export default function WarReportModal({ channels, clan, id, isPlus, setWebhookA
 
           <Group justify="flex-end">
             <Button disabled={!channelId} loading={loading} onClick={handleSubmit}>
-              Create
+              Enable
             </Button>
           </Group>
         </Stack>
       </Modal>
       <Button disabled={!isPlus} maw="fit-content" onClick={handleOpen} size="xs" variant="default">
-        Create
+        Enable
       </Button>
     </>
   )
