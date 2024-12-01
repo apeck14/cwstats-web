@@ -121,7 +121,14 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
             </Group>
 
             {seasonalReportEnabled ? (
-              <Button color="red" maw="fit-content" onClick={handleSeasonReportDisable} size="xs" variant="light">
+              <Button
+                color="red"
+                disabled={!isPlus || !clan.webhookUrl}
+                maw="fit-content"
+                onClick={handleSeasonReportDisable}
+                size="xs"
+                variant="light"
+              >
                 Disable
               </Button>
             ) : (
@@ -142,7 +149,14 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
             </Text>
 
             {warReportEnabled ? (
-              <Button color="red" maw="fit-content" onClick={handleWarReportDisable} size="xs" variant="light">
+              <Button
+                color="red"
+                disabled={!isPlus || !clan.webhookUrl}
+                maw="fit-content"
+                onClick={handleWarReportDisable}
+                size="xs"
+                variant="light"
+              >
                 Disable
               </Button>
             ) : (
