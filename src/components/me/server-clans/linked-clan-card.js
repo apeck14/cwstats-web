@@ -105,7 +105,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
         <Group gap="0.3rem">
           <Title size="h5">Plus Features</Title>
           <Link href="/upgrade">
-            <Image alt="CWStats Plus" height={12} src="/assets/icons/plus.webp" />
+            <Image alt="CWStats Plus" height={12} src={`/assets/icons/${!isPlus ? "not-" : ""}plus.webp`} />
           </Link>
         </Group>
 
