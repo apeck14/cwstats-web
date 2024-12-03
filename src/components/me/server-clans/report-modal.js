@@ -27,7 +27,7 @@ export default function ReportModal({ channels, clan, id, isPlus, setReportActiv
     notifications.show({
       autoClose: 8000,
       color: "green",
-      message: `${formattedType} Report successfully enabled for ${clan.clanName} in #${channels.find((c) => c.id === channelId)?.name}.`,
+      message: `${formattedType} Report successfully enabled for ${clan.clanName}.`,
       title: `${formattedType} Report Enabled!`,
     })
 
