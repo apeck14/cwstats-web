@@ -19,7 +19,7 @@
     "@mantine/hooks": "^7.14.3",
     "@mantine/notifications": "^7.14.3",
     "@next/third-parties": "^14.2.18",
-    "@tabler/icons-react": "^3.23.0",
+    "@tabler/icons-react": "^3.24.0",
     "mongodb": "^6.11.0",
     "next": "^14.2.18",
     "next-auth": "^4.24.10",
@@ -28,7 +28,7 @@
     "react": "^18.3.1",
     "react-select": "^5.8.3",
     "realm-web": "^2.0.1",
-    "recharts": "^2.13.3",
+    "recharts": "^2.14.0",
     "sharp": "^0.33.5"
   },
   "devDependencies": {
