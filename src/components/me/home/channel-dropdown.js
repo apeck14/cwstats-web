@@ -50,7 +50,7 @@ export default function ChannelDropdown({
   ))
 
   const handleOptionSelect = (id) => {
-    setSearch(textChannels.find((c) => c.id === id).name)
+    setSearch(textChannels.find((c) => c.id === id)?.name)
     setChannel(id)
   }
 
@@ -76,10 +76,11 @@ export default function ChannelDropdown({
           }}
           onChange={(event) => {
             const val = event.currentTarget.value
-            combobox.updateSelectedOptionIndex()
-            setSearch(val)
 
-            if (!val) {
+            setSearch(val)
+            combobox.updateSelectedOptionIndex()
+
+            if (!val && noneAsOption) {
               handleOptionSelect("none")
             }
           }}

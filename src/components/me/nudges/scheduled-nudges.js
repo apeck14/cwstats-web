@@ -1,26 +1,14 @@
 "use client"
 
-import { ActionIcon, Group, Stack, Table, Text, Title, Tooltip } from "@mantine/core"
-import { IconCheck, IconTrash, IconX } from "@tabler/icons-react"
+import { ActionIcon, Group, Stack, Table, Text, Title } from "@mantine/core"
+import { IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 
 import { deleteScheduledNudge } from "@/actions/server"
 
 import InfoPopover from "../../ui/info-popover"
 import AddNudgeModal from "./add-nudge-modal"
-
-const formatError = (str) => {
-  switch (str) {
-    case "Missing Access":
-      return "Missing access: bot cannot view set channel."
-    case "Missing Permissions":
-      return "Missing permissions: bot cannot send messages in set channel."
-    case "Unknown Channel":
-      return "Channel has been deleted."
-    default:
-      return "Unknown error. Please join the Support Server."
-  }
-}
+import EditNudgeModal from "./edit-nudge-modal"
 
 export default function ScheduledNudges({ channels, guild, limit }) {
   const { guildID, nudges } = guild
@@ -34,6 +22,17 @@ export default function ScheduledNudges({ channels, guild, limit }) {
 
   const handleAdd = (nudge) => {
     setScheduledNudges([...scheduledNudges, nudge])
+  }
+
+  const handleEdit = (oldNudge, newNudge) => {
+    const newNudges = [
+      ...scheduledNudges.filter(
+        (n) => n.clanTag !== oldNudge.clanTag || n.scheduledHourUTC !== oldNudge.scheduledHourUTC,
+      ),
+      newNudge,
+    ]
+
+    setScheduledNudges(newNudges)
   }
 
   const rows = scheduledNudges
@@ -52,20 +51,6 @@ export default function ScheduledNudges({ channels, guild, limit }) {
       })
       const channelName = channels.find((c) => c.id === a.channelID)?.name || "deleted-channel"
 
-      const activeIcon = a.error ? (
-        <Tooltip
-          bg="gray.6"
-          c="white"
-          events={{ focus: true, hover: true, touch: true }}
-          label={formatError(a.error)}
-          withArrow
-        >
-          <IconX color="var(--mantine-color-red-6)" size="1.25rem" />
-        </Tooltip>
-      ) : (
-        <IconCheck color="var(--mantine-color-green-6)" size="1.25rem" />
-      )
-
       return (
         <Table.Tr key={`${a.clanTag}-${a.scheduledHourUTC}`}>
           <Table.Td>{a.clanName}</Table.Td>
@@ -74,11 +59,9 @@ export default function ScheduledNudges({ channels, guild, limit }) {
           </Table.Td>
           <Table.Td c="gray.1">{timeStr}</Table.Td>
           <Table.Td c="gray.1">#{channelName}</Table.Td>
-          <Table.Td c="gray.1" p="0">
-            {activeIcon}
-          </Table.Td>
           <Table.Td>
-            <Group justify="center" py="0.1rem">
+            <Group gap="xs" justify="flex-end" py="0.1rem">
+              <EditNudgeModal channels={channels} id={guildID} nudge={a} onEdit={handleEdit} />
               <ActionIcon
                 aria-label="Delete Scheduled Nudge"
                 color="orange"
@@ -118,7 +101,6 @@ export default function ScheduledNudges({ channels, guild, limit }) {
             <Table.Th visibleFrom="md">Tag</Table.Th>
             <Table.Th>Time</Table.Th>
             <Table.Th>Channel</Table.Th>
-            <Table.Th />
             <Table.Th />
           </Table.Tr>
         </Table.Thead>

@@ -657,6 +657,58 @@ export async function addScheduledNudge(id, tag, hourUTC, channelID) {
   }
 }
 
+export async function editScheduledNudge(id, oldNudge, newNudge) {
+  if (!id || !newNudge || !newNudge.clanTag || !newNudge.scheduledHourUTC || !newNudge.channelID) {
+    return { error: "Missing required fields." }
+  }
+
+  try {
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    const guildExists = await guilds.findOne({
+      guildID: id,
+    })
+
+    if (!guildExists) return { error: "Server not found." }
+
+    const { nudges } = guildExists
+    const { scheduled } = nudges || {}
+
+    if (scheduled) {
+      const duplicateExists = scheduled.find(
+        (sn) => sn.clanTag === newNudge.clanTag && sn.scheduledHourUTC === newNudge.scheduledHourUTC,
+      )
+
+      if (duplicateExists) return { error: "You cannot have duplicate nudges." }
+    }
+
+    await guilds.updateOne(
+      {
+        guildID: id,
+        "nudges.scheduled": {
+          $elemMatch: {
+            clanTag: oldNudge.clanTag,
+            scheduledHourUTC: oldNudge.scheduledHourUTC,
+          },
+        },
+      },
+      {
+        $set: {
+          "nudges.scheduled.$": { ...newNudge },
+        },
+      },
+    )
+
+    return { success: true }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("editScheduledNudge error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
+
 export async function addLinkedAccount(id, tag, discordID) {
   try {
     const db = client.db("General")
