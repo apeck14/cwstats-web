@@ -1,6 +1,8 @@
+/* eslint-disable no-prototype-builtins */
+
 "use client"
 
-import { ActionIcon, Button, Checkbox, Group, Modal, Select, Stack, Text, Title } from "@mantine/core"
+import { ActionIcon, Button, Checkbox, Divider, Group, Modal, Select, Stack, Switch, Text, Title } from "@mantine/core"
 import { useForm } from "@mantine/form"
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications"
@@ -36,6 +38,7 @@ export default function EditNudgeModal({ channels, id, nudge, onEdit }) {
     initialValues: {
       amPm: initialTimeData.amPm,
       channelID,
+      enableOverrides: nudge.hasOwnProperty("ignoreLeaders") || nudge.hasOwnProperty("ignoreWhenCrossedFinishLine"),
       hour: initialTimeData.hour,
       ignoreLeaders: !!ignoreLeaders,
       ignoreWhenCrossedFinishLine: !!ignoreWhenCrossedFinishLine,
@@ -61,6 +64,7 @@ export default function EditNudgeModal({ channels, id, nudge, onEdit }) {
     const {
       amPm,
       channelID,
+      enableOverrides,
       hour: hourInput,
       ignoreLeaders: ignoreLeadersInput,
       ignoreWhenCrossedFinishLine: ignoreWhenCrossedFinishLineInput,
@@ -75,6 +79,7 @@ export default function EditNudgeModal({ channels, id, nudge, onEdit }) {
     const newNudge = {
       ...nudge,
       channelID,
+      enableOverrides,
       ignoreLeaders: ignoreLeadersInput,
       ignoreWhenCrossedFinishLine: ignoreWhenCrossedFinishLineInput,
       scheduledHourUTC: utcHour,
@@ -146,13 +151,19 @@ export default function EditNudgeModal({ channels, id, nudge, onEdit }) {
             Nudge Overrides
           </Title>
 
+          <Switch label="Enable overrides" {...form.getInputProps("enableOverrides", { type: "checkbox" })} />
+
+          <Divider color="gray.6" size="xs" />
+
           <Checkbox
             label="Ignore Co-Leaders & Leaders"
             {...form.getInputProps("ignoreLeaders", { type: "checkbox" })}
+            disabled={!form.values.enableOverrides}
           />
           <Checkbox
             label="Don't send nudge(s) if clan has crossed finish line"
             {...form.getInputProps("ignoreWhenCrossedFinishLine", { type: "checkbox" })}
+            disabled={!form.values.enableOverrides}
           />
 
           <Group justify="space-between">
