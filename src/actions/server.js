@@ -676,11 +676,16 @@ export async function editScheduledNudge(id, oldNudge, newNudge) {
     const { scheduled } = nudges || {}
 
     if (scheduled) {
-      const duplicateExists = scheduled.find(
-        (sn) => sn.clanTag === newNudge.clanTag && sn.scheduledHourUTC === newNudge.scheduledHourUTC,
-      )
+      const isSameNudge =
+        oldNudge.clanTag === newNudge.clanTag && oldNudge.scheduledHourUTC === newNudge.scheduledHourUTC
 
-      if (duplicateExists) return { error: "You cannot have duplicate nudges." }
+      if (!isSameNudge) {
+        const duplicateExists = scheduled.find(
+          (sn) => sn.clanTag === newNudge.clanTag && sn.scheduledHourUTC === newNudge.scheduledHourUTC,
+        )
+
+        if (duplicateExists) return { error: "You cannot have duplicate nudges." }
+      }
     }
 
     await guilds.updateOne(

@@ -49,6 +49,7 @@ export default function EditNudgeModal({ channels, id, nudge, onEdit }) {
   })
 
   const handleOpen = () => {
+    setError(null)
     open()
   }
 
