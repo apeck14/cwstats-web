@@ -1,5 +1,3 @@
-/* eslint-disable no-prototype-builtins */
-
 "use client"
 
 import { ActionIcon, Button, Checkbox, Divider, Group, Modal, Select, Stack, Switch, Text, Title } from "@mantine/core"
@@ -19,7 +17,8 @@ export default function EditNudgeModal({ channels, id, nudge, onEdit }) {
   const [error, setError] = useState(null)
   const [opened, { close, open }] = useDisclosure(false)
 
-  const { channelID, clanName, ignoreLeaders, ignoreWhenCrossedFinishLine, scheduledHourUTC } = nudge || {}
+  const { channelID, clanName, enableOverrides, ignoreLeaders, ignoreWhenCrossedFinishLine, scheduledHourUTC } =
+    nudge || {}
 
   const usersTimezone = useMemo(() => Intl.DateTimeFormat().resolvedOptions().timeZone, [])
 
@@ -38,7 +37,7 @@ export default function EditNudgeModal({ channels, id, nudge, onEdit }) {
     initialValues: {
       amPm: initialTimeData.amPm,
       channelID,
-      enableOverrides: nudge.hasOwnProperty("ignoreLeaders") || nudge.hasOwnProperty("ignoreWhenCrossedFinishLine"),
+      enableOverrides: !!enableOverrides,
       hour: initialTimeData.hour,
       ignoreLeaders: !!ignoreLeaders,
       ignoreWhenCrossedFinishLine: !!ignoreWhenCrossedFinishLine,
