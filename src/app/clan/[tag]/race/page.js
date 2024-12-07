@@ -70,7 +70,7 @@ export default async function ClanRace({ params }) {
                 dayDescriptions={selectedClan.periodLogDescriptions}
                 dayOfWeek={dayOfWeek}
                 isColosseum={isColosseum}
-                periodLogs={race.periodLogs}
+                periodLogs={race?.periodLogs || []}
                 tag={clan.tag}
               />
               <RaceItems clans={race.clans} isColosseum={isColosseum} />

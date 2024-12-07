@@ -13,9 +13,10 @@ const formatPlacement = (place) => {
 
 const getRaceIndexDescriptions = (periodLogs, tag, isColosseum) => {
   // return ["+3000", ...]
-  const descriptions = []
 
-  if (isColosseum) return []
+  if (isColosseum || !periodLogs) return []
+
+  const descriptions = []
 
   for (let i = 0; i < periodLogs.length; i++) {
     const period = periodLogs[i]
