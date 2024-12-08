@@ -5,11 +5,11 @@ export default function Image({
   alt,
   circle,
   className,
+  fallbackSrc,
   fill,
   fit,
   height,
   hiddenFrom,
-  onError,
   onLoad,
   priority,
   radius,
@@ -27,11 +27,11 @@ export default function Image({
         alt={alt}
         className={className || ""}
         component={NextImage}
+        fallbackSrc={fallbackSrc}
         fill={fill}
         fit={fit || "contain"}
         height={height}
         hiddenFrom={hiddenFrom}
-        onError={onError}
         onLoad={onLoad}
         priority={priority}
         radius={radius}
