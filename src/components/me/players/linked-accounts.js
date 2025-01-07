@@ -20,8 +20,8 @@ export default function LinkedAccounts({ guildID, limit, linkedAccounts, setLink
   }
 
   const rows = linkedAccounts
-    .slice(start, end)
     .sort((a, b) => a.name.localeCompare(b.name))
+    .slice(start, end)
     .map((l) => (
       <Table.Tr key={`${l.tag}-${l.discordID}`}>
         <Table.Td>{l.name}</Table.Td>
