@@ -30,7 +30,7 @@ const cards = [
     label: "DAILY FAME",
   },
   {
-    description: "Average daily ttacks missed.",
+    description: "Average daily attacks missed.",
     label: "ATTACKS MISSED",
   },
   {
