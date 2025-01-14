@@ -52,7 +52,7 @@ export default function AbbreviationsTable({ data, id }) {
         </Stack>
       </Group>
 
-      <Table className="ignoreContainerPadding" mt="0.1rem" striped={rows.length}>
+      <Table className="ignoreContainerPadding" mt="0.1rem" striped={!!rows.length}>
         <Table.Thead>
           <Table.Tr>
             <Table.Th ta={rows.length ? "center" : "left"}>Abbr.</Table.Th>
