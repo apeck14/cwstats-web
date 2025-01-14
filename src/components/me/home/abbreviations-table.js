@@ -52,16 +52,29 @@ export default function AbbreviationsTable({ data, id }) {
         </Stack>
       </Group>
 
-      <Table className="ignoreContainerPadding" mt="0.1rem" striped>
+      <Table className="ignoreContainerPadding" mt="0.1rem" striped={rows.length}>
         <Table.Thead>
           <Table.Tr>
-            <Table.Th ta="center">Abbr.</Table.Th>
+            <Table.Th ta={rows.length ? "center" : "left"}>Abbr.</Table.Th>
             <Table.Th>Clan</Table.Th>
             <Table.Th>Tag</Table.Th>
             <Table.Th />
           </Table.Tr>
         </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
+        <Table.Tbody>
+          {!rows.length ? (
+            <Table.Tr>
+              <Table.Td fw="600" c="dimmed">
+                No abbreviations
+              </Table.Td>
+              <Table.Td />
+              <Table.Td />
+              <Table.Td />
+            </Table.Tr>
+          ) : (
+            rows
+          )}
+        </Table.Tbody>
       </Table>
     </Stack>
   )
