@@ -74,7 +74,7 @@ export default function AppFooter() {
 
         <Group justify="space-between">
           <Text c="dimmed" fz={{ base: "xs", md: "sm" }}>
-            ©2024 CWStats. All rights reserved.
+            ©2025 CWStats. All rights reserved.
           </Text>
           <Button
             component={Link}
