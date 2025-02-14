@@ -40,7 +40,7 @@ export async function GET(req) {
             ...dailyLbQuery,
             clanScore: {
               $gte: Number(minTrophies) || 0,
-              ...(typeof maxTrophies === "number" && !isNaN(maxTrophies) ? { $lte: maxTrophies } : {}),
+              ...(typeof maxTrophies === "number" && !Number.isNaN(maxTrophies) ? { $lte: maxTrophies } : {}),
             },
           },
           { projection: { _id: 0 } },

@@ -64,7 +64,7 @@ export default function AbbreviationsTable({ data, id }) {
         <Table.Tbody>
           {!rows.length ? (
             <Table.Tr>
-              <Table.Td fw="600" c="dimmed">
+              <Table.Td c="dimmed" fw="600">
                 No abbreviations
               </Table.Td>
               <Table.Td />
