@@ -21,14 +21,14 @@ export default function ReportModal({ channels, clan, id, isPlus, setHasWebhook,
   const [opened, { close, open }] = useDisclosure(false)
   const [channelId, setChannelId] = useState(null)
 
-  const formattedType = `${type[0].toUpperCase()}${type.slice(1)}`
+  const formattedType = type === "webhook-only" ? "Webhook" : `${type[0].toUpperCase()}${type.slice(1)} Report`
 
   const sendEnableNotifications = () => {
     notifications.show({
       autoClose: 8000,
       color: "green",
-      message: `${formattedType} Report successfully enabled for ${clan.clanName}.`,
-      title: `${formattedType} Report Enabled!`,
+      message: `${formattedType} successfully enabled for ${clan.clanName}.`,
+      title: `${formattedType} Enabled!`,
     })
 
     sendLogWebhook(
@@ -37,7 +37,7 @@ export default function ReportModal({ channels, clan, id, isPlus, setHasWebhook,
         color: embedColors.orange,
         guild: id,
         tag: formatTag(clan.tag, true),
-        title: `${formattedType} Report Enabled`,
+        title: `${formattedType} Enabled`,
       },
       true,
     )
@@ -67,7 +67,7 @@ export default function ReportModal({ channels, clan, id, isPlus, setHasWebhook,
   const handleSubmit = async () => {
     setLoading(true)
 
-    const { error } = await createWebhook(channelId, "CWStats Reports", clan.tag, isPlus)
+    const { error } = await createWebhook(channelId, `CWStats Reports - ${clan.clanName}`, clan.tag, isPlus)
 
     setLoading(false)
 
