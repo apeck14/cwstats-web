@@ -16,6 +16,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
   const [showConfirmButtons, setShowConfirmButtons] = useState(false)
   const [warReportEnabled, setWarReportEnabled] = useState(!!clan.warReportEnabled)
   const [seasonalReportEnabled, setSeasonalReportEnabled] = useState(!!clan.seasonalReportEnabled)
+  const [hasWebhook, setHasWebhook] = useState(!!clan.webhookUrl)
 
   const handleConfirm = async () => {
     setClans(clans.filter((c) => c.tag !== clan.tag))
@@ -109,68 +110,80 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
           </Link>
         </Group>
 
-        <Group>
-          <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" w="20rem">
-            <Group gap="0.2rem">
+        {!hasWebhook ? (
+          <Stack>
+            <Text c="red.6" fs="italic">
+              Missing webhook for this clan.
+            </Text>
+
+            <ReportModal
+              channels={channels}
+              clan={clan}
+              id={id}
+              isPlus={isPlus}
+              setHasWebhook={setHasWebhook}
+              type="webhook-only"
+            />
+          </Stack>
+        ) : (
+          <Group>
+            <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" w="20rem">
               <Text c="dimmed" fw="600">
                 Seasonal Report
               </Text>
-              <Text c="pink" fw="600" fz="0.6rem">
-                NEW
+
+              {seasonalReportEnabled ? (
+                <Button
+                  color="red"
+                  disabled={!isPlus}
+                  maw="fit-content"
+                  onClick={handleSeasonReportDisable}
+                  size="xs"
+                  variant="light"
+                >
+                  Disable
+                </Button>
+              ) : (
+                <ReportModal
+                  channels={channels}
+                  clan={clan}
+                  id={id}
+                  isPlus={isPlus}
+                  setReportActive={setSeasonalReportEnabled}
+                  type="seasonal"
+                />
+              )}
+            </Card>
+
+            <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" w="20rem">
+              <Text c="dimmed" fw="600">
+                Daily War Report
               </Text>
-            </Group>
 
-            {seasonalReportEnabled ? (
-              <Button
-                color="red"
-                disabled={!isPlus || !clan.webhookUrl}
-                maw="fit-content"
-                onClick={handleSeasonReportDisable}
-                size="xs"
-                variant="light"
-              >
-                Disable
-              </Button>
-            ) : (
-              <ReportModal
-                channels={channels}
-                clan={clan}
-                id={id}
-                isPlus={isPlus}
-                setReportActive={setSeasonalReportEnabled}
-                type="seasonal"
-              />
-            )}
-          </Card>
-
-          <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" w="20rem">
-            <Text c="dimmed" fw="600">
-              Daily War Report
-            </Text>
-
-            {warReportEnabled ? (
-              <Button
-                color="red"
-                disabled={!isPlus || !clan.webhookUrl}
-                maw="fit-content"
-                onClick={handleWarReportDisable}
-                size="xs"
-                variant="light"
-              >
-                Disable
-              </Button>
-            ) : (
-              <ReportModal
-                channels={channels}
-                clan={clan}
-                id={id}
-                isPlus={isPlus}
-                setReportActive={setWarReportEnabled}
-                type="war"
-              />
-            )}
-          </Card>
-        </Group>
+              {warReportEnabled ? (
+                <Button
+                  color="red"
+                  disabled={!isPlus}
+                  maw="fit-content"
+                  onClick={handleWarReportDisable}
+                  size="xs"
+                  variant="light"
+                >
+                  Disable
+                </Button>
+              ) : (
+                <ReportModal
+                  channels={channels}
+                  clan={clan}
+                  id={id}
+                  isPlus={isPlus}
+                  setReportActive={setWarReportEnabled}
+                  type="war"
+                />
+              )}
+            </Card>
+          </Group>
+        )}
       </Stack>
     </Card>
   )

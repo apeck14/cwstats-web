@@ -14,7 +14,7 @@ import { embedColors } from "@/static/colors"
 
 import ChannelDropdown from "../home/channel-dropdown"
 
-export default function ReportModal({ channels, clan, id, isPlus, setReportActive, type }) {
+export default function ReportModal({ channels, clan, id, isPlus, setHasWebhook, setReportActive, type }) {
   const [error, setError] = useState("")
   const [enabledLoading, setEnableLoading] = useState(false)
   const [loading, setLoading] = useState(false)
@@ -76,7 +76,9 @@ export default function ReportModal({ channels, clan, id, isPlus, setReportActiv
       if (type === "war") setDailyWarReport(clan.tag)
       else if (type === "seasonal") setSeasonalReport(clan.tag)
 
-      setReportActive(true)
+      if (type === "webhook-only") setHasWebhook(true)
+      else setReportActive(true)
+
       close()
       sendEnableNotifications()
     }
@@ -109,14 +111,14 @@ export default function ReportModal({ channels, clan, id, isPlus, setReportActiv
         </Stack>
       </Modal>
       <Button
-        disabled={!isPlus}
+        disabled={type !== "webhook-only" && !isPlus}
         loading={enabledLoading}
         maw="fit-content"
         onClick={handleOpen}
         size="xs"
         variant="default"
       >
-        Enable
+        {type === "webhook-only" ? "Create Webhook" : "Enable"}
       </Button>
     </>
   )
