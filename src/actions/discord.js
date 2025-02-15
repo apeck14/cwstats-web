@@ -1,5 +1,3 @@
-/* eslint-disable import/prefer-default-export */
-
 "use server"
 
 import fs from "fs"
@@ -255,7 +253,7 @@ export async function setDailyWarReport(tag, enabled = true) {
     return { status: 200, success: true }
   } catch (err) {
     const log = new Logger()
-    log.warn("disableDailyWarReport Error", err)
+    log.warn("setDailyWarReport Error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
@@ -271,7 +269,7 @@ export async function setSeasonalReport(tag, enabled = true) {
     return { status: 200, success: true }
   } catch (err) {
     const log = new Logger()
-    log.warn("disableSeasonalReport Error", err)
+    log.warn("setSeasonalReport Error", err)
 
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
