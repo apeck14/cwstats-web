@@ -32,12 +32,15 @@ export default function PruneModal({ guildID, linkedAccounts, setLinkedAccounts 
       setUnlinkedUsers(linksRemoved)
       setLinkedAccounts(linkedAccounts.filter((a) => !linksRemoved.find((l) => l.tag === a.tag)))
 
-      notifications.show({
-        autoClose: 7000,
-        color: "green",
-        message: `${linksRemoved.length} link(s) were successfully removed.`,
-        title: "Link(s) removed!",
-      })
+      // dont show notifcation if no users unlinked
+      if (linksRemoved.length) {
+        notifications.show({
+          autoClose: 7000,
+          color: "green",
+          message: `${linksRemoved.length} link(s) were successfully removed.`,
+          title: "Link(s) removed!",
+        })
+      }
 
       sendLogWebhook(
         {

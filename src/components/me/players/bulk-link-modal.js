@@ -83,19 +83,19 @@ export default function BulkLinkModal({ guildID, linkedAccounts, linksRemaining,
         message: `${playersAdded.length} player(s) were successfully linked.`,
         title: "Player(s) linked!",
       })
-
-      sendLogWebhook(
-        {
-          clan: clan.name,
-          color: embedColors.orange,
-          details: `**${playersAdded.length}** player(s) linked.`,
-          guild: guildID,
-          tag: clan.tag,
-          title: "Bulk Link Used",
-        },
-        true,
-      )
     }
+
+    sendLogWebhook(
+      {
+        clan: clan.name,
+        color: embedColors.orange,
+        details: `**${playersAdded.length}** player(s) linked.`,
+        guild: guildID,
+        tag: clan.tag,
+        title: "Bulk Link Used",
+      },
+      true,
+    )
 
     setLinksLeft(linksRemaining - playersAdded.length)
     setLoading(false)
