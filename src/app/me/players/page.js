@@ -1,16 +1,13 @@
-import { Container } from "@mantine/core"
-
-import ComingSoon from "@/components/ui/coming-soon"
+import { getLinkedAccount } from "@/actions/user"
+import SavedContent from "@/components/me/saved-content"
 
 export const metadata = {
   description: "View my saved players in CWStats.",
   title: "My Players | CWStats",
 }
 
-export default function PlayersPage() {
-  return (
-    <Container size="lg">
-      <ComingSoon />
-    </Container>
-  )
+export default async function PlayersPage() {
+  const linkedAccount = await getLinkedAccount()
+
+  return <SavedContent items={linkedAccount.savedPlayers} />
 }

@@ -20,7 +20,7 @@ export default function LeaderboardTable({ clans, isWarLb, league, plusClans, sa
   const searchParams = useSearchParams()
   const isMobile = useMediaQuery("(max-width: 30em)")
 
-  const start = 0 + 50 * (page - 1)
+  const start = 50 * (page - 1)
   const end = 50 * page
 
   const getFilteredClans = (clans) =>
