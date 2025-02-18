@@ -44,8 +44,7 @@
   visibility: hidden;
   transform: translateX(100%);
   padding: var(--mantine-spacing-md);
-  backdrop-filter: blur(10px);
-  background: rgba(35, 34, 37, 0.95);
+  background: rgba(35, 34, 37);
 }
 
 .mobileMenu[data-open] {
