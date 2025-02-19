@@ -20,7 +20,7 @@ export default function SavedContent({ items }) {
   const end = 10 * page
 
   return (
-    <Container pt={{ base: "3rem", md: "10rem" }} size="lg">
+    <Container mb="md" mt={{ base: "3rem", md: "8rem" }} size="lg">
       <Title size="2.5rem">My {isClans ? "Clans" : "Players"}</Title>
 
       <Stack align="end">
@@ -36,7 +36,7 @@ export default function SavedContent({ items }) {
         </Text>
       </Stack>
 
-      <Card bg="gray.7" component={Stack} gap="xs" mih="47.75rem" my="md" p="md" radius="md">
+      <Card bg="gray.7" component={Stack} gap="xs" mih="47.75rem" mt="md" p="md" radius="md">
         {items
           .sort((a, b) => a.name.localeCompare(b.name))
           .slice(start, end)
