@@ -19,5 +19,5 @@ export default async function PlayersPage() {
 
   const linkedAccount = await getLinkedAccount()
 
-  return <SavedContent items={linkedAccount.savedPlayers} />
+  return <SavedContent discordID={linkedAccount.discordID} items={linkedAccount.savedPlayers} />
 }

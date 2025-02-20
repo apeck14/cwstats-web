@@ -22,5 +22,5 @@ export default async function ClansPage() {
 
   const items = linkedAccount.savedClans.map((c) => ({ ...c, isPlus: plusTags.includes(c.tag) }))
 
-  return <SavedContent items={items} />
+  return <SavedContent discordID={linkedAccount.discordID} items={items} />
 }
