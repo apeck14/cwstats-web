@@ -18,7 +18,7 @@ const formatNum = (num, label) => {
 
 const cards = [
   {
-    description: "Average fame per attack, grouped by each played day of the week.",
+    description: "Average fame per attack.",
     label: "AVG. FAME",
   },
   {
@@ -26,7 +26,7 @@ const cards = [
     label: "MEDIAN SCORE",
   },
   {
-    description: "Average total daily clan fame, grouped by each played day of the week.",
+    description: "Average total daily clan fame.",
     label: "DAILY FAME",
   },
   {
