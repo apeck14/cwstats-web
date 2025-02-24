@@ -87,6 +87,46 @@ const cellColors = [
   "rgb(250, 82, 82, 0.6)", // 100 avg or less than 400 fame
 ]
 
+function getWeekData(week) {
+  const tableData = {}
+
+  for (let i = 0; i < week.length; i++) {
+    const day = week[i]
+    const dayIndex = day.day - 1
+
+    for (const entry of day.scores) {
+      if (!entry.fame && !entry.missed) continue
+
+      if (entry.tag in tableData) {
+        tableData[entry.tag].scores[dayIndex] = { attacks: entry.attacks, fame: entry.fame, missed: entry.missed }
+        tableData[entry.tag].totalFame += entry.fame
+        tableData[entry.tag].totalAttacks += entry.attacks
+      } else {
+        const scores = Array(4).fill({ attacks: 0, fame: 0 })
+
+        scores[dayIndex] = { attacks: entry.attacks, fame: entry.fame, missed: entry.missed }
+
+        tableData[entry.tag] = {
+          name: entry.name,
+          scores,
+          tag: entry.tag,
+          totalAttacks: entry.attacks,
+          totalFame: entry.fame,
+        }
+      }
+    }
+  }
+
+  // add avg
+  for (const tag of Object.keys(tableData)) {
+    const { totalAttacks, totalFame } = tableData[tag]
+
+    tableData[tag].avg = totalAttacks ? totalFame / totalAttacks : 0
+  }
+
+  return tableData
+}
+
 function getFameCellColor(attacks, fame, missed) {
   if ((attacks > 0 && fame < 400) || (missed && !fame)) return cellColors[cellColors.length - 1]
   if (!fame || !attacks) return
@@ -105,6 +145,9 @@ export default function DailyTrackingTable({ data, week }) {
     dir: "dsc",
     key: "totalFame",
   })
+
+  const weekData = data[week]
+  const tableData = useMemo(() => getWeekData(weekData), [week])
 
   const handleThClick = (key, col) => {
     const sameKey = key === sortConfig.key
@@ -127,7 +170,7 @@ export default function DailyTrackingTable({ data, week }) {
 
   const rows = useMemo(
     () =>
-      Object.values(data)
+      Object.values(tableData)
         .sort(columns[sortConfig.col](sortConfig.key, sortConfig.dir === "asc"))
         .map((entry, i) => (
           <Table.Tr fw="600" fz={{ base: "0.65rem", md: "0.85rem" }} key={entry.tag}>

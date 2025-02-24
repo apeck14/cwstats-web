@@ -8,40 +8,14 @@ import DailyTrackingContent from "@/components/clan/plus/daily-tracking/daily-tr
 import NotUnlocked from "@/components/upgrade/not-unlocked"
 import { getSupercellRedirectRoute } from "@/lib/functions/utils"
 
-const shouldCutoff = (d, nextDay) =>
-  (d === 5 && nextDay !== 4) || (d === 6 && nextDay !== 5 && nextDay !== 4) || (d === 0 && nextDay === 0)
-
-function groupByWeek(days) {
-  const result = []
-  let tempGroup = []
-
-  for (let i = 0; i < days.length; i++) {
-    const d = days[i]
-    const nextDay = days[i + 1]
-
-    tempGroup.push(d)
-
-    if (d === 4 || shouldCutoff(d, nextDay)) {
-      result.push(tempGroup)
-      tempGroup = []
-    }
-  }
-
-  if (tempGroup.length > 0) {
-    result.push(tempGroup)
-  }
-
-  return result
-}
-
-// [{ label: "Current Week", start: 0, length: 3 }, ...]
-function groupsToData(groups, timestamps) {
+function groupByWeek(entries) {
+  // label = "Current Week" | "118-5"
+  const groupedData = {} // { 'Current Week': []}
   const now = new Date()
-  const data = []
-  let tsIndex = 0 // timestamp index
 
-  for (const group of groups) {
-    const timestamp = timestamps[tsIndex]
+  for (const e of entries) {
+    const { season, timestamp, week } = e
+
     const lastDayOfWeek = timestamp.getUTCDay()
     const daysToThursday = 4 - (lastDayOfWeek === 0 ? 7 : lastDayOfWeek)
     const daysToSunday = (7 - lastDayOfWeek) % 7
@@ -56,29 +30,17 @@ function groupsToData(groups, timestamps) {
     endOfWeek.setDate(sunday.getDate() + 1)
     endOfWeek.setUTCHours(10)
 
-    let label
+    const isCurrentWeek = now >= thursday && now <= endOfWeek
+    const label = isCurrentWeek ? "Current Week" : `${season}-${week}`
 
-    if (now >= thursday && now <= endOfWeek) {
-      label = "Current Week"
+    if (Object.prototype.hasOwnProperty.call(groupedData, label)) {
+      groupedData[label].push(e)
     } else {
-      const thursdayStr = thursday.toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "numeric",
-      })
-
-      const sundayStr = sunday.toLocaleDateString("en-US", {
-        day: "numeric",
-        month: "numeric",
-      })
-
-      label = `${thursdayStr} - ${sundayStr}`
+      groupedData[label] = [e]
     }
-
-    data.push({ label, length: group.length, start: tsIndex })
-    tsIndex += group.length
   }
 
-  return data
+  return groupedData
 }
 
 export default async function DailyTrackingPage({ params }) {
@@ -88,16 +50,22 @@ export default async function DailyTrackingPage({ params }) {
   if (status !== 200) redirect(getSupercellRedirectRoute(status))
   else {
     const dailyTrackingData = plusClan?.dailyTracking?.reverse() || []
-    const timestamps = dailyTrackingData.map((e) => e.timestamp)
-    const utcDays = timestamps.map((e) => e.getUTCDay())
-    const groupedByWeek = groupByWeek(utcDays)
-    const weeks = groupsToData(groupedByWeek, timestamps)
+    const groupedByWeek = groupByWeek(dailyTrackingData)
+    const labels = Object.keys(groupedByWeek)
 
     return (
       <>
         <ClanHeader clan={clan} />
         <Container py="xl" size="lg">
-          {plusClan ? <DailyTrackingContent data={dailyTrackingData} weekData={weeks} /> : <NotUnlocked />}
+          {plusClan ? (
+            <DailyTrackingContent
+              data={groupedByWeek}
+              memberTags={clan?.memberList?.map((m) => m.tag)}
+              weekLabels={labels}
+            />
+          ) : (
+            <NotUnlocked />
+          )}
         </Container>
       </>
     )
