@@ -44,11 +44,11 @@ export default function DailyTrackingContent({ data, memberTags, weekLabels }) {
             {showOverview ? (
               <Switch
                 c="dimmed"
+                checked={filter}
                 label="Filter by players in-clan"
                 labelPosition="left"
                 onChange={() => setFilter(!filter)}
                 size={isMobile ? "sm" : "md"}
-                value={filter}
               />
             ) : (
               <Select
