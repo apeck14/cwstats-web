@@ -23,7 +23,7 @@ export default function DailyTrackingContent({ data, memberTags, weekLabels }) {
     <>
       <Group gap="xs" justify="center">
         <IconCalendarWeek color="var(--mantine-color-orange-5)" size={isMobile ? "1.5rem" : "2rem"} />
-        <Title size={isMobile ? "h2" : "h1"}>Daily Player Tracking</Title>
+        <Title size={isMobile ? "h2" : "h1"}>Player Tracking</Title>
       </Group>
       {!Object.keys(data).length ? (
         <Text c="gray.3" fw="600" mt="xl" ta="center">

@@ -30,7 +30,7 @@ export default function PlusDropdown({ active, tag }) {
           leftSection={<IconCalendarWeek color="var(--mantine-color-orange-5)" size="1.25rem" />}
           px="0.5rem"
         >
-          Daily Player Tracking
+          Player Tracking
         </Menu.Item>
         <Menu.Item
           disabled
