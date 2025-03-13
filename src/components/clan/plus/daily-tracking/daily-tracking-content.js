@@ -15,10 +15,6 @@ export default function DailyTrackingContent({ data, memberTags, weekLabels }) {
   const [week, setWeek] = useState(weekLabels[0])
   const isMobile = useMediaQuery("(max-width: 30em)")
 
-  const handleSelect = (val) => {
-    setWeek(val)
-  }
-
   return (
     <>
       <Group gap="xs" justify="center">
@@ -53,10 +49,12 @@ export default function DailyTrackingContent({ data, memberTags, weekLabels }) {
             ) : (
               <Select
                 allowDeselect={false}
+                checkIconPosition="right"
                 data={weekLabels}
                 maw="9rem"
-                onChange={handleSelect}
+                onChange={setWeek}
                 placeholder="Pick value"
+                searchable
                 value={week}
               />
             )}
