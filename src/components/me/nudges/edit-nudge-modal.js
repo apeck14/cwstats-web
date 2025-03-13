@@ -123,6 +123,7 @@ export default function EditNudgeModal({ channels, id, nudge, onEdit }) {
               withAsterisk
               {...form.getInputProps("hour")}
               allowDeselect={false}
+              searchable
             />
             <Select
               data={["AM", "PM"]}
@@ -132,6 +133,7 @@ export default function EditNudgeModal({ channels, id, nudge, onEdit }) {
               withAsterisk
               {...form.getInputProps("amPm")}
               allowDeselect={false}
+              searchable
             />
           </Group>
 
