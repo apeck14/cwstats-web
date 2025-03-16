@@ -103,6 +103,7 @@ export default function BulkLinkModal({ guildID, linkedAccounts, linksRemaining,
   }
 
   const allUsernames = useMemo(() => users.map((u) => u.username).sort(), [])
+  const unlinkedMemberCount = unlinkedMembers.filter((m) => !m.username).length
 
   return (
     <>
@@ -138,7 +139,7 @@ export default function BulkLinkModal({ guildID, linkedAccounts, linksRemaining,
                 Links Remaining: <span style={{ color: "var(--mantine-color-green-6)" }}>{linksLeft}</span>
               </Text>
               <Text c="dimmed" size="sm">
-                Unlinked Members: <span style={{ color: "var(--mantine-color-red-6)" }}>{unlinkedMembers.length}</span>
+                Unlinked Members: <span style={{ color: "var(--mantine-color-red-6)" }}>{unlinkedMemberCount}</span>
               </Text>
             </Stack>
 
