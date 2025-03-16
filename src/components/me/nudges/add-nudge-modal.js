@@ -139,7 +139,6 @@ export default function AddNudgeModal({ channels, disabled, id, onAdd }) {
               {...form.getInputProps("hour")}
               allowDeselect={false}
               onChange={handleHourSelect}
-              searchable
             />
             <Select
               data={["AM", "PM"]}
@@ -150,7 +149,6 @@ export default function AddNudgeModal({ channels, disabled, id, onAdd }) {
               {...form.getInputProps("amPm")}
               allowDeselect={false}
               onChange={handleAMPMSelect}
-              searchable
             />
           </Group>
 

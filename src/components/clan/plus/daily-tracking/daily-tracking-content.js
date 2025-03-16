@@ -54,7 +54,6 @@ export default function DailyTrackingContent({ data, memberTags, weekLabels }) {
                 maw="9rem"
                 onChange={setWeek}
                 placeholder="Pick value"
-                searchable
                 value={week}
               />
             )}
