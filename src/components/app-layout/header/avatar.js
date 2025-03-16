@@ -41,6 +41,11 @@ export default function AvatarDropdown() {
           component={Link}
           href="/me/clans"
           leftSection={<IconShield color="var(--mantine-color-pink-6)" size="1.25rem" />}
+          rightSection={
+            <ActionIcon fw="600" fz="xs" size="xs">
+              {session?.user?.savedClans?.length || 0}
+            </ActionIcon>
+          }
         >
           Clans
         </Menu.Item>
@@ -48,6 +53,11 @@ export default function AvatarDropdown() {
           component={Link}
           href="/me/players"
           leftSection={<IconUsers color="var(--mantine-color-pink-6)" size="1.25rem" />}
+          rightSection={
+            <ActionIcon fw="600" fz="xs" size="xs">
+              {session?.user?.savedPlayers?.length || 0}
+            </ActionIcon>
+          }
         >
           Players
         </Menu.Item>

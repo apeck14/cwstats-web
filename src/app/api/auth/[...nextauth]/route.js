@@ -196,7 +196,18 @@ export const authOptions = {
      */
     session: async ({ session, token }) => {
       try {
-        const { isValid } = await validateDiscordToken(token.user.access_token)
+        const db = client.db("General")
+        const linkedAccounts = db.collection("Linked Accounts")
+
+        const [{ isValid }, linkedAccount] = await Promise.all([
+          validateDiscordToken(token.user.access_token),
+          linkedAccounts.findOne(
+            {
+              discordID: token.user.discord_id,
+            },
+            { projection: { _id: 0, savedClans: 1, savedPlayers: 1, tag: 1 } },
+          ),
+        ])
 
         if (!isValid) {
           token = await refreshAccessToken(token)
@@ -206,6 +217,7 @@ export const authOptions = {
             return {
               ...session,
               ...token,
+              ...linkedAccount,
               error: SessionErrors.REFRESH_TOKEN_ERROR,
             }
           }
@@ -214,6 +226,7 @@ export const authOptions = {
         session.user = {
           ...session.user,
           ...token.user,
+          ...linkedAccount,
         }
 
         return session
