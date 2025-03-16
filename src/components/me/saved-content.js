@@ -18,7 +18,7 @@ export default function SavedContent({ discordID, items }) {
   const end = 10 * page
 
   return (
-    <Container mb="md" mt={{ base: "3rem", md: "8rem" }} size="lg">
+    <Container mb="md" mt={{ base: "3rem", lg: "8rem", md: "6rem" }} size="lg">
       <Title size="2.5rem">My {isClans ? "Clans" : "Players"}</Title>
 
       <Stack align="end">
