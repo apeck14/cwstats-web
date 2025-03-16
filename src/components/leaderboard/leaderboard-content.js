@@ -3,6 +3,7 @@
 import { Alert, Container, Group, Stack } from "@mantine/core"
 import { IconInfoCircle } from "@tabler/icons-react"
 import { notFound, useSearchParams } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { useState } from "react"
 
 import { getRegionByKey } from "@/lib/functions/utils"
@@ -14,9 +15,11 @@ import LeaderboardTable from "./leaderboard-table"
 import LeagueSegmentControl from "./league-segment-control"
 import SavedClansToggle from "./saved-clans-toggle"
 
-export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linkedAccount, location, plusClans }) {
-  const region = getRegionByKey(location)
+export default function LeaderboardContent({ clans, isWarLb, lastUpdated, location, plusClans }) {
+  const { data: session } = useSession()
   const searchParamsData = useSearchParams()
+
+  const region = getRegionByKey(location)
   const searchParams = searchParamsData.toString()
   const formattedParam = searchParams.slice(searchParams.indexOf("=") + 1)
 
@@ -57,16 +60,12 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linked
 
             <LeagueSegmentControl onChange={onLeagueChange} value={formattedParam} />
 
-            <SavedClansToggle handleChange={handleSavedToggle} loggedIn={!!linkedAccount?.discordID} visibleFrom="md" />
+            <SavedClansToggle handleChange={handleSavedToggle} loggedIn={!!session} visibleFrom="md" />
           </Group>
           <Group>
             <Group w="100%">
               <ClanSearch onChange={handleSearch} reset={() => setSearch("")} value={search} />
-              <SavedClansToggle
-                handleChange={handleSavedToggle}
-                hiddenFrom="md"
-                loggedIn={!!linkedAccount?.discordID}
-              />
+              <SavedClansToggle handleChange={handleSavedToggle} hiddenFrom="md" loggedIn={!!session} />
             </Group>
           </Group>
 
@@ -75,7 +74,7 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, linked
             isWarLb={isWarLb}
             league={league}
             plusClans={plusClans}
-            savedClans={linkedAccount?.savedClans?.map((c) => c.tag)}
+            savedClans={session?.savedClans?.map((c) => c.tag)}
             search={search}
             showSavedClans={showSaved}
           />

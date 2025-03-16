@@ -43,7 +43,7 @@ export default function AvatarDropdown() {
           leftSection={<IconShield color="var(--mantine-color-pink-6)" size="1.25rem" />}
           rightSection={
             <ActionIcon fw="600" fz="xs" size="xs">
-              {session?.user?.savedClans?.length || 0}
+              {session?.savedClans?.length || 0}
             </ActionIcon>
           }
         >
@@ -55,7 +55,7 @@ export default function AvatarDropdown() {
           leftSection={<IconUsers color="var(--mantine-color-pink-6)" size="1.25rem" />}
           rightSection={
             <ActionIcon fw="600" fz="xs" size="xs">
-              {session?.user?.savedPlayers?.length || 0}
+              {session?.savedPlayers?.length || 0}
             </ActionIcon>
           }
         >

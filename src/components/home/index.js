@@ -4,6 +4,7 @@ import { Button, Card, Container, Divider, Group, Stack, Text, Title } from "@ma
 import { useMediaQuery } from "@mantine/hooks"
 import { IconBrandDiscord } from "@tabler/icons-react"
 import Link from "next/link"
+import { useSession } from "next-auth/react"
 
 import colors from "@/static/colors"
 
@@ -22,7 +23,8 @@ function HomeContainer({ children, ...props }) {
   )
 }
 
-export default function Home({ loggedIn, savedClans, savedPlayers }) {
+export default function Home() {
+  const { data: session } = useSession()
   const isMobile = useMediaQuery("(max-width: 30em)")
   const isTablet = useMediaQuery("(max-width: 48em)")
   const isLaptop = useMediaQuery("(max-width: 64em)")
@@ -44,9 +46,9 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                 <Title className="text" component={Link} href="/me/clans" size="h2" w="fit-content">
                   My Clans
                 </Title>
-                {loggedIn ? (
+                {session ? (
                   <Card bg="transparent" className={classes.card} h="23.25rem" p={0} withBorder>
-                    {savedClans.slice(0, 5).map((c, i) => (
+                    {session?.savedClans.slice(0, 5).map((c, i) => (
                       <span key={c.tag}>
                         <SavedItem {...c} />
                         {i < 4 && <Divider color="gray.7" />}
@@ -61,9 +63,9 @@ export default function Home({ loggedIn, savedClans, savedPlayers }) {
                 <Title className="text" component={Link} href="/me/players" size="h2" w="fit-content">
                   My Players
                 </Title>
-                {loggedIn ? (
+                {session ? (
                   <Card bg="transparent" className={classes.card} h="23.25rem" p={0} withBorder>
-                    {savedPlayers.slice(0, 5).map((p, i) => (
+                    {session?.savedPlayers.slice(0, 5).map((p, i) => (
                       <span key={p.tag}>
                         <SavedItem {...p} />
                         {i < 4 && <Divider color="gray.7" />}

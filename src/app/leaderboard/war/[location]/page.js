@@ -2,7 +2,6 @@ import { notFound } from "next/navigation"
 
 import { getWarLeaderboard } from "@/actions/supercell"
 import { getAllPlusClans } from "@/actions/upgrade"
-import { getLinkedAccount } from "@/actions/user"
 import LeaderboardContent from "@/components/leaderboard/leaderboard-content"
 import { getRegionByKey } from "@/lib/functions/utils"
 
@@ -31,19 +30,7 @@ export default async function WarLeaderboardPage({ params }) {
 
   if (!region) notFound()
 
-  const [{ data: leaderboard }, linkedAccount, plusClans] = await Promise.all([
-    getWarLeaderboard(region?.id),
-    getLinkedAccount(),
-    getAllPlusClans(true),
-  ])
+  const [{ data: leaderboard }, plusClans] = await Promise.all([getWarLeaderboard(region?.id), getAllPlusClans(true)])
 
-  return (
-    <LeaderboardContent
-      clans={leaderboard || []}
-      isWarLb
-      linkedAccount={linkedAccount}
-      location={location}
-      plusClans={plusClans}
-    />
-  )
+  return <LeaderboardContent clans={leaderboard || []} isWarLb location={location} plusClans={plusClans} />
 }

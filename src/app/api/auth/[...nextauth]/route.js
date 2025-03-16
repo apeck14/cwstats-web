@@ -223,9 +223,11 @@ export const authOptions = {
           }
         }
 
-        session.user = {
-          ...session.user,
-          ...token.user,
+        session = {
+          user: {
+            ...session.user,
+            ...token.user,
+          },
           ...linkedAccount,
         }
 

@@ -2,15 +2,25 @@
 
 import { Card, Container, Pagination, Stack, Text, Title } from "@mantine/core"
 import { useMediaQuery } from "@mantine/hooks"
+import { redirect } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { useState } from "react"
 
 import SavedItem from "./saved-item"
 
-export default function SavedContent({ discordID, items }) {
+export default function SavedContent({ plusTags }) {
+  const { data: session } = useSession()
   const [page, setPage] = useState(1)
   const isMobile = useMediaQuery("(max-width: 30em)")
 
-  const isClans = Object.prototype.hasOwnProperty.call(items[0] || {}, "badge")
+  if (!session) {
+    redirect("/login")
+  }
+
+  const isClans = !!plusTags
+  const items = isClans
+    ? session?.savedClans.map((c) => ({ ...c, isPlus: plusTags.includes(c.tag) })) || []
+    : session?.savedPlayers || []
 
   const count = `${items.length} ${isClans ? "Clan" : "Player"}(s)`
 
@@ -35,12 +45,24 @@ export default function SavedContent({ discordID, items }) {
       </Stack>
 
       <Card bg="gray.7" component={Stack} gap="xs" mih="47.75rem" mt="md" p="md" radius="md">
-        {items
-          .sort((a, b) => a.name.localeCompare(b.name))
-          .slice(start, end)
-          .map((i) => (
-            <SavedItem discordID={discordID} isClans={isClans} isMobile={isMobile} item={i} key={i.tag} />
-          ))}
+        {!items.length ? (
+          <Text c="dimmed" fs="italic" fw="500" mt="5rem" ta="center">
+            No saved {isClans ? "clans" : "players"}
+          </Text>
+        ) : (
+          items
+            .sort((a, b) => a.name.localeCompare(b.name))
+            .slice(start, end)
+            .map((i) => (
+              <SavedItem
+                discordID={session?.user?.discord_id}
+                isClans={isClans}
+                isMobile={isMobile}
+                item={i}
+                key={i.tag}
+              />
+            ))
+        )}
       </Card>
     </Container>
   )

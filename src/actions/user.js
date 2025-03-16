@@ -1,6 +1,5 @@
 "use server"
 
-import { redirect } from "next/navigation"
 import { getServerSession } from "next-auth"
 import { Logger } from "next-axiom"
 
@@ -42,42 +41,6 @@ export async function getDiscordId() {
     log.error("getDiscordId Error", err)
 
     return { error: err.message, status: 500 }
-  }
-}
-
-export async function getLinkedAccount() {
-  let signUserOut = false
-
-  try {
-    const { discordId, error, logout } = await getDiscordId()
-
-    if (logout) {
-      signUserOut = true
-      throw error
-    }
-
-    if (error) return { error }
-
-    const db = client.db("General")
-    const linkedAccounts = db.collection("Linked Accounts")
-
-    const linkedAccount = await linkedAccounts.findOne(
-      {
-        discordID: discordId,
-      },
-      { projection: { _id: 0 } },
-    )
-
-    if (!linkedAccount) return { status: 404 }
-
-    return { success: true, ...linkedAccount, status: 200 }
-  } catch (err) {
-    const log = new Logger()
-    log.error("getLinkedAccount Error", err)
-
-    return { message: err.message, status: 500 }
-  } finally {
-    if (signUserOut) redirect("/login")
   }
 }
 
