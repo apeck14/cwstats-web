@@ -1,10 +1,11 @@
 "use client"
 
 import { ActionIcon, Button, Container, Group, Stack, Text, Title } from "@mantine/core"
-import { useDebouncedCallback, useMediaQuery } from "@mantine/hooks"
+import { useMediaQuery, useThrottledCallback } from "@mantine/hooks"
 import { IconBrandDiscordFilled, IconExternalLink } from "@tabler/icons-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
@@ -19,21 +20,15 @@ import classes from "./header.module.css"
 import MobileActionsMenu from "./mobile-actions-popover"
 import PlusDropdown from "./plus-dropdown"
 
-export default function HeaderContent({
-  clan,
-  clanFollowed,
-  discordID,
-  discordInviteCode,
-  followClan,
-  isPlus,
-  unfollowClan,
-}) {
+export default function HeaderContent({ clan, discordInviteCode, followClan, isPlus, unfollowClan }) {
+  const { data: session } = useSession()
   const router = useRouter()
   const pathname = usePathname()
-  const [followed, setFollowed] = useState(clanFollowed)
+  const [followed, setFollowed] = useState(session?.savedClans?.find((c) => c.tag === clan?.tag))
   const isMobile = useMediaQuery("(max-width: 30em)")
   const isLessThanTablet = useMediaQuery("(max-width: calc(48em - 1px))")
 
+  const discordID = session?.user?.discord_id
   const formattedTag = clan?.tag.substring(1)
 
   const activeTab = pathname.includes("/race")
@@ -48,8 +43,8 @@ export default function HeaderContent({
 
   const badge = getClanBadgeFileName(clan?.badgeId, clan?.clanWarTrophies)
 
-  const updateFollowed = useDebouncedCallback(() => {
-    if (followed) followClan({ badge, discordID, name: clan?.name, tag: clan?.tag })
+  const updateFollowed = useThrottledCallback((newFollowed) => {
+    if (newFollowed) followClan({ badge, discordID, name: clan?.name, tag: clan?.tag })
     else unfollowClan({ discordID, tag: clan?.tag })
   }, 1500)
 
@@ -57,7 +52,7 @@ export default function HeaderContent({
     // not logged in
     if (!discordID) router.push(`/login?callback=${pathname}`)
     else {
-      updateFollowed()
+      updateFollowed(!followed)
       setFollowed(!followed)
     }
   }

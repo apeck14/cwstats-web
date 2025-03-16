@@ -1,10 +1,11 @@
 "use client"
 
 import { ActionIcon, Button, Container, Divider, Group, Stack, Text, Title } from "@mantine/core"
-import { useDebouncedCallback, useMediaQuery } from "@mantine/hooks"
+import { useMediaQuery, useThrottledCallback } from "@mantine/hooks"
 import { IconExternalLink } from "@tabler/icons-react"
 import Link from "next/link"
 import { usePathname } from "next/navigation"
+import { useSession } from "next-auth/react"
 import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
@@ -15,15 +16,18 @@ import FollowButton from "../../ui/follow-button"
 import Image from "../../ui/image"
 import classes from "./header.module.css"
 
-export default function HeaderContent({ clan, discordID, followPlayer, player, playerFollowed, unfollowPlayer }) {
+export default function HeaderContent({ clan, followPlayer, player, unfollowPlayer }) {
+  const { data: session } = useSession()
   const router = useRouter()
   const pathname = usePathname()
-  const [followed, setFollowed] = useState(playerFollowed)
+  const [followed, setFollowed] = useState(!!session?.savedPlayers?.find((p) => p.tag === player?.tag))
   const isMobile = useMediaQuery("(max-width: 30em)")
 
   const formattedTag = player?.tag?.substring(1)
   const inClan = !!player?.clan?.tag
   const itemFz = { base: "0.9rem", md: "1rem" }
+
+  const discordID = session?.user?.discord_id
 
   const activeTab = pathname.includes("/cards")
     ? "cards"
@@ -35,8 +39,8 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
 
   const arena = getArenaFileName(player?.arena?.name)
 
-  const updateFollowed = useDebouncedCallback(() => {
-    if (followed) followPlayer({ discordID, name: player?.name, tag: player?.tag })
+  const updateFollowed = useThrottledCallback((newFollowed) => {
+    if (newFollowed) followPlayer({ discordID, name: player?.name, tag: player?.tag })
     else unfollowPlayer({ discordID, tag: player?.tag })
   }, 1500)
 
@@ -44,7 +48,7 @@ export default function HeaderContent({ clan, discordID, followPlayer, player, p
     // not logged in
     if (!discordID) router.push(`/login?callback=${pathname}`)
     else {
-      updateFollowed()
+      updateFollowed(!followed)
       setFollowed(!followed)
     }
   }
