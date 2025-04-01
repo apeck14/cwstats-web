@@ -175,7 +175,7 @@ export const getClanSearchParams = (params) => {
         newParams[key] = maxMembers
       }
     } else if (key === "name") {
-      newParams[key] = value
+      newParams[key] = value.trim()
     } else if (key === "trophies") {
       const trophies = parseInt(value)
       if (Number.isInteger(trophies) && trophies > 0) {

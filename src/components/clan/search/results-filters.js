@@ -41,7 +41,8 @@ export default function SearchFilters({ params, resultsFound, setTrophies, troph
   }
 
   const handleQueryChange = (e) => {
-    const value = e.currentTarget.value.trim()
+    const { value } = e.currentTarget
+
     setQuery(value)
 
     if (value !== params.name) setSearchColor("var(--mantine-color-pink-6)")
