@@ -3,6 +3,7 @@
 import { Combobox, Group, InputBase, Loader, rem, Text, useCombobox } from "@mantine/core"
 import { useDebouncedValue, useMediaQuery } from "@mantine/hooks"
 import { IconSearch } from "@tabler/icons-react"
+import Link from "next/link"
 import { useEffect, useRef, useState } from "react"
 
 import { getPlayersByQuery } from "@/actions/api"
@@ -19,6 +20,7 @@ export default function DebouncedSearch({
   placeholder,
   required,
   searchIconSize,
+  showMoreResults = false,
   size,
 }) {
   const inputRef = useRef(null)
@@ -43,7 +45,9 @@ export default function DebouncedSearch({
     }
 
     setLoading(true)
-    const { data, players, status, success } = await (isClans ? searchClans(debounced) : getPlayersByQuery(debounced))
+    const { data, players, status, success } = await (isClans
+      ? searchClans({ limit: 5, name: debounced })
+      : getPlayersByQuery(debounced))
     setLoading(false)
 
     if (success || status === 200) {
@@ -55,10 +59,6 @@ export default function DebouncedSearch({
   useEffect(() => {
     updateResults()
   }, [debounced])
-
-  const blurInputFocus = () => {
-    inputRef.current.blur()
-  }
 
   const clanBadgePx = isMobile ? 28 : 32
 
@@ -100,14 +100,16 @@ export default function DebouncedSearch({
         <Combobox.Dropdown>
           <Combobox.Options>
             {results.length === 0 ? (
-              <Combobox.Empty c="white">No Results</Combobox.Empty>
+              <Combobox.Empty c="white" fw="600">
+                No Results
+              </Combobox.Empty>
             ) : (
               results.map((r) => (
                 <Combobox.Option
                   component={Group}
                   justify="space-between"
                   key={r.tag}
-                  onClick={blurInputFocus}
+                  onClick={() => inputRef.current.blur()}
                   value={r.tag}
                   wrap="nowrap"
                 >
@@ -129,6 +131,17 @@ export default function DebouncedSearch({
               ))
             )}
           </Combobox.Options>
+          {showMoreResults && results.length >= 5 && (
+            <Combobox.Footer fw="600">
+              <Link
+                className="pinkText"
+                href={`/${isClans ? "clan" : "player"}/search?name=${debounced}`}
+                w="fit-content"
+              >
+                View all results...
+              </Link>
+            </Combobox.Footer>
+          )}
         </Combobox.Dropdown>
       )}
     </Combobox>

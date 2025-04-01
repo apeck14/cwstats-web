@@ -111,15 +111,23 @@ export async function getClanMembers(tag, redirectOnError = false) {
   return supercellRequest(`/clans/%23${formatTag(tag)}/members`, redirectOnError)
 }
 
-export async function searchClans(query, sortByWarTrophies = true, limit = 5, redirectOnError = false) {
-  const resp = await supercellRequest(`/clans?name=${encodeURIComponent(query)}`, redirectOnError)
+export async function searchClans(params = {}, sortByWarTrophies = true, redirectOnError = false) {
+  const { limit, ...queryParams } = params // Keep limit for slicing but exclude from queryParams if slicing manually
+
+  if (!sortByWarTrophies && limit) {
+    queryParams.limit = limit // Include limit in API call only if not slicing manually
+  }
+
+  const queryString = new URLSearchParams(queryParams).toString()
+
+  const url = `/clans?${queryString}`
+
+  const resp = await supercellRequest(url, redirectOnError)
 
   if (resp.status === 200) {
     if (sortByWarTrophies) {
-      resp?.data?.sort((a, b) => b.clanWarTrophies - a.clanWarTrophies)
+      resp.data = resp?.data?.sort((a, b) => b.clanWarTrophies - a.clanWarTrophies).slice(0, limit)
     }
-
-    resp.data = resp?.data?.slice(0, limit)
   }
 
   return resp

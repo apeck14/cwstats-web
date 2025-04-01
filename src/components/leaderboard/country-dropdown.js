@@ -1,9 +1,7 @@
 "use client"
 
 import { Combobox, Group, InputBase, Text, useCombobox } from "@mantine/core"
-import { usePathname, useSearchParams } from "next/navigation"
-import { useRouter } from "next-nprogress-bar"
-import { useState } from "react"
+import { forwardRef, useImperativeHandle, useState } from "react"
 
 import locations from "@/static/locations"
 
@@ -16,20 +14,20 @@ const countries = locations.map((l) => ({
       <Text fz="0.8rem">{l.name}</Text>
     </Group>
   ),
+  id: l.id,
   key: l.key,
-  name: l.name.toLowerCase(),
+  name: l.name,
+  query: l.name.toLowerCase(),
 }))
 
-export default function CountryDropdown() {
-  const router = useRouter()
-  const pathname = usePathname()
-  const searchParams = useSearchParams()
+function CountryDropdown({ handleOptionSelect, initialKey }, ref) {
   const combobox = useCombobox({
     onDropdownClose: () => combobox.resetSelectedOption(),
   })
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState(initialKey ? countries.find((c) => c.key === initialKey)?.name || "" : "")
+  const [key, setKey] = useState(initialKey)
 
-  const filteredOptions = countries.filter((c) => c.name.includes(search.toLowerCase().trim()))
+  const filteredOptions = countries.filter((c) => c.query.includes(search.toLowerCase().trim()))
 
   const options = filteredOptions.map((c) => (
     <Combobox.Option key={c.key} value={c.key}>
@@ -37,10 +35,12 @@ export default function CountryDropdown() {
     </Combobox.Option>
   ))
 
-  const handleOptionSelect = (key) => {
-    const newUrl = `${pathname.slice(0, pathname.lastIndexOf("/"))}/${key.toLowerCase()}`
-    router.push(`${newUrl}?${searchParams.toString()}`)
-  }
+  useImperativeHandle(ref, () => ({
+    reset: () => {
+      setKey(null)
+      setSearch("")
+    },
+  }))
 
   return (
     <Combobox
@@ -48,7 +48,12 @@ export default function CountryDropdown() {
       middlewares={{ flip: false }}
       onOptionSubmit={(val) => {
         combobox.closeDropdown()
-        handleOptionSelect(val)
+        setKey(val)
+
+        const selectedCountry = countries.find((c) => c.key === val)
+        setSearch(selectedCountry ? selectedCountry.name : "")
+
+        handleOptionSelect(val, selectedCountry.id)
       }}
       store={combobox}
       style={{ flexGrow: 1 }}
@@ -57,7 +62,7 @@ export default function CountryDropdown() {
         <InputBase
           onBlur={() => {
             combobox.closeDropdown()
-            setSearch("")
+            setSearch(key ? countries.find((c) => c.key === key)?.name || "" : "")
           }}
           onChange={(event) => {
             combobox.updateSelectedOptionIndex()
@@ -80,3 +85,5 @@ export default function CountryDropdown() {
     </Combobox>
   )
 }
+
+export default forwardRef(CountryDropdown)

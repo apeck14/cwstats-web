@@ -33,6 +33,7 @@ export default function SegmentedSearch() {
         isClans={currentSegment === "Clans"}
         onSelect={handleSelect}
         placeholder="Search by name or tag, e.g. ABC123"
+        showMoreResults
       />
     </>
   )

@@ -2,8 +2,9 @@
 
 import { Alert, Container, Group, Stack } from "@mantine/core"
 import { IconInfoCircle } from "@tabler/icons-react"
-import { notFound, useSearchParams } from "next/navigation"
+import { notFound, usePathname, useSearchParams } from "next/navigation"
 import { useSession } from "next-auth/react"
+import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
 import { getRegionByKey } from "@/lib/functions/utils"
@@ -18,6 +19,8 @@ import SavedClansToggle from "./saved-clans-toggle"
 export default function LeaderboardContent({ clans, isWarLb, lastUpdated, location, plusClans }) {
   const { data: session } = useSession()
   const searchParamsData = useSearchParams()
+  const router = useRouter()
+  const pathname = usePathname()
 
   const region = getRegionByKey(location)
   const searchParams = searchParamsData.toString()
@@ -42,6 +45,11 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, locati
     setLeague(val)
   }
 
+  const handleRegionSelect = (key) => {
+    const newUrl = `${pathname.slice(0, pathname.lastIndexOf("/"))}/${key.toLowerCase()}`
+    router.push(`${newUrl}?${searchParams.toString()}`)
+  }
+
   const handleSearch = (e) => {
     setSearch(e.currentTarget.value.toLowerCase())
   }
@@ -56,7 +64,7 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, locati
       <Container pb="md" size="lg">
         <Stack>
           <Group w="100%" wrap="nowrap">
-            <CountryDropdown />
+            <CountryDropdown handleOptionSelect={handleRegionSelect} />
 
             <LeagueSegmentControl onChange={onLeagueChange} value={formattedParam} />
 

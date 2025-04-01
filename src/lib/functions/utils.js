@@ -148,3 +148,48 @@ export const formatDiscordStr = (clanName) =>
 export const calcNudgeLimit = (linkedPlusClansCount) => 3 + linkedPlusClansCount * 2
 
 export const calcLinkedPlayerLimit = (linkedPlusClansCount) => 100 + linkedPlusClansCount * 75
+
+// supercell search api behaves differently depending on params sent, so we remove params from the url that are invalid or default values
+export const getClanSearchParams = (params) => {
+  const newParams = {}
+
+  for (const [key, value] of Object.entries(params)) {
+    if (key === "limit") {
+      const limit = parseInt(value)
+      if (Number.isInteger(limit)) {
+        newParams[key] = limit
+      }
+    } else if (key === "minScore") {
+      const minScore = parseInt(value)
+      if (Number.isInteger(minScore) && minScore > 0) {
+        newParams[key] = minScore
+      }
+    } else if (key === "minMembers") {
+      const minMembers = parseInt(value)
+      if (Number.isInteger(minMembers) && minMembers > 2) {
+        newParams[key] = minMembers
+      }
+    } else if (key === "maxMembers") {
+      const maxMembers = parseInt(value)
+      if (Number.isInteger(maxMembers) && maxMembers < 50) {
+        newParams[key] = maxMembers
+      }
+    } else if (key === "name") {
+      newParams[key] = value
+    } else if (key === "trophies") {
+      const trophies = parseInt(value)
+      if (Number.isInteger(trophies) && trophies > 0) {
+        newParams[key] = trophies
+      }
+    } else if (key === "locationId") {
+      if (value !== "global") {
+        const locationId = parseInt(value)
+        if (Number.isInteger(locationId)) {
+          newParams[key] = locationId
+        }
+      }
+    }
+  }
+
+  return newParams
+}
