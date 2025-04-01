@@ -5,6 +5,11 @@ import SearchResultsContent from "@/components/clan/search/results-content"
 import Image from "@/components/ui/image"
 import { getClanSearchParams } from "@/lib/functions/utils"
 
+export const metadata = {
+  description: "Filter clans by name, location, trophies, members & more!",
+  title: "Clan Search | CWStats",
+}
+
 export default async function ClanSearch({ searchParams }) {
   const params = getClanSearchParams(searchParams)
   const { data: results } = await searchClans(params, false)
