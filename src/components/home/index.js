@@ -99,6 +99,7 @@ export default function Home() {
                   leftSection={<IconBrandDiscord />}
                   maw="10rem"
                   mt="1rem"
+                  prefetch={false}
                   target="_blank"
                 >
                   Invite to Server
