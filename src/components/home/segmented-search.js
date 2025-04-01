@@ -30,6 +30,7 @@ export default function SegmentedSearch() {
       />
       <DebouncedSearch
         autoFocus={false}
+        enterRedirects
         isClans={currentSegment === "Clans"}
         onSelect={handleSelect}
         placeholder="Search by name or tag, e.g. ABC123"

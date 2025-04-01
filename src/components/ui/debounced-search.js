@@ -4,6 +4,7 @@ import { Combobox, Group, InputBase, Loader, rem, Text, useCombobox } from "@man
 import { useDebouncedValue, useMediaQuery } from "@mantine/hooks"
 import { IconSearch } from "@tabler/icons-react"
 import Link from "next/link"
+import { useRouter } from "next-nprogress-bar"
 import { useEffect, useRef, useState } from "react"
 
 import { getPlayersByQuery } from "@/actions/api"
@@ -14,6 +15,7 @@ import Image from "./image"
 
 export default function DebouncedSearch({
   autoFocus = true,
+  enterRedirects = false,
   isClans,
   label,
   onSelect,
@@ -35,6 +37,7 @@ export default function DebouncedSearch({
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
   const isMobile = useMediaQuery("(max-width: 30em)")
+  const router = useRouter()
 
   const showDropdown = search && debounced && !loading
 
@@ -87,6 +90,11 @@ export default function DebouncedSearch({
           onChange={(e) => {
             combobox.updateSelectedOptionIndex()
             setSearch(e.currentTarget.value)
+          }}
+          onKeyDown={(e) => {
+            if (enterRedirects && e.key === "Enter") {
+              router.push(`/${isClans ? "clan" : "player"}/search?name=${search}`)
+            }
           }}
           placeholder={placeholder || `Search ${isClans ? "clans" : "players"}...`}
           ref={inputRef}
