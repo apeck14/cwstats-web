@@ -59,7 +59,7 @@ export default function LinkedAccounts({ guildID, limit, linkedAccounts, setLink
           <Text c="dimmed" fw="600">
             {linkedAccounts.length} / {limit}
           </Text>
-          <InfoPopover text="Default linked player limit is 100. Each plus clan linked to your server adds an additional 75." />
+          <InfoPopover text="Default linked player limit is 100. Each Plus clan linked to your server adds an additional 75." />
         </Group>
       </Stack>
 

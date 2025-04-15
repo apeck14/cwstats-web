@@ -91,7 +91,7 @@ export default function ScheduledNudges({ channels, guild, limit }) {
         <Text c="dimmed" fw="600">
           {scheduledNudges.length} / {limit}
         </Text>
-        <InfoPopover text="Default nudge limit is 3. Each plus clan linked to your server adds an additional 2." />
+        <InfoPopover text="Default nudge limit is 3. Each Plus clan linked to your server adds an additional 2." />
       </Group>
 
       <Table className="ignoreContainerPadding" mt="0.1rem" striped>
