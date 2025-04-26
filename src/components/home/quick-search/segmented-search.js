@@ -4,7 +4,7 @@ import { SegmentedControl } from "@mantine/core"
 import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
-import DebouncedSearch from "../ui/debounced-search"
+import DebouncedSearch from "../../ui/debounced-search"
 
 export default function SegmentedSearch() {
   const [currentSegment, setCurrentSegment] = useState("Clans")

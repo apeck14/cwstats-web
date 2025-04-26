@@ -19,3 +19,13 @@ export async function getDailyLeaderboard({ key, limit, maxTrophies, minTrophies
 
   return leaderboard.json()
 }
+
+export async function getWeeklyStats() {
+  const options = {
+    next: { revalidate: 10800 }, // 3 hours in seconds
+  }
+
+  const stats = await fetch(`${HOST}/api/weekly-stats`, options)
+
+  return stats.json()
+}

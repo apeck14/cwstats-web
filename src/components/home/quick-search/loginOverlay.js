@@ -4,7 +4,7 @@ import { signIn } from "next-auth/react"
 
 import colors from "@/static/colors"
 
-import classes from "./Home.module.css"
+import classes from "../Home.module.css"
 
 export default function LoginOverlay() {
   return (

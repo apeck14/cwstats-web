@@ -1,8 +1,8 @@
 import { Group, Stack, Text } from "@mantine/core"
 import Link from "next/link"
 
-import Image from "../ui/image"
-import classes from "./Home.module.css"
+import Image from "../../ui/image"
+import classes from "../Home.module.css"
 
 export default function SavedItem({ badge, name, tag }) {
   return (

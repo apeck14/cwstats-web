@@ -44,6 +44,15 @@
   transition: 0.2s ease;
 }
 
+.risersFallersCard {
+  transition: 0.2s ease-in-out;
+}
+
+.risersFallersCard:hover {
+  background-color: var(--mantine-color-gray-8) !important;
+  cursor: pointer;
+}
+
 /* CSS to create a starry background effect in a React component */
 
 .starryBackground {
