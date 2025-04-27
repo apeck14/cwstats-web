@@ -21,6 +21,7 @@ export default function PlayersContent({ guild, linkedClansCount, users }) {
           limit={linkedPlayerLimit}
           linkedAccounts={linkedAccounts}
           setLinkedAccounts={setLinkedAccounts}
+          updateNicknames={guild?.nudges?.updateNicknameUponLinking}
           users={users}
         />
         <LinkedAccounts

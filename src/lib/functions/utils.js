@@ -193,3 +193,5 @@ export const getClanSearchParams = (params) => {
 
   return newParams
 }
+
+export const generateDiscordNickname = (linkedIGNs = []) => linkedIGNs.join(" | ")

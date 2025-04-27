@@ -12,7 +12,14 @@ import { embedColors } from "@/static/colors"
 import DebouncedSearch from "../../ui/debounced-search"
 import Image from "../../ui/image"
 
-export default function BulkLinkModal({ guildID, linkedAccounts, linksRemaining, setLinkedAccounts, users }) {
+export default function BulkLinkModal({
+  guildID,
+  linkedAccounts,
+  linksRemaining,
+  setLinkedAccounts,
+  updateNicknames,
+  users,
+}) {
   const [unlinkedMembers, setUnlinkedMembers] = useState([])
   const [clan, setClan] = useState(null)
   const [clanLoading, setClanLoading] = useState(false)
@@ -58,7 +65,7 @@ export default function BulkLinkModal({ guildID, linkedAccounts, linksRemaining,
   const handleSubmit = async () => {
     setLoading(true)
 
-    const { players } = await bulkLinkAccounts(guildID, usersToAdd)
+    const { players } = await bulkLinkAccounts(guildID, usersToAdd, !!updateNicknames)
 
     const newUnlinkedMembers = []
     const playersAdded = []

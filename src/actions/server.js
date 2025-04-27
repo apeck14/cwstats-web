@@ -9,12 +9,13 @@ import {
   calcLinkedPlayerLimit,
   calcNudgeLimit,
   formatTag,
+  generateDiscordNickname,
   getClanBadgeFileName,
   mongoSanitize,
 } from "@/lib/functions/utils"
 import client from "@/lib/mongodb"
 
-import { getAllGuildUsers, getGuilds, isValidInviteCode } from "./discord"
+import { getAllGuildUsers, getGuilds, isValidInviteCode, updateDiscordNickname } from "./discord"
 import { getClan, getClanMembers, getPlayer } from "./supercell"
 import { getAllPlusClans } from "./upgrade"
 
@@ -714,7 +715,7 @@ export async function editScheduledNudge(id, oldNudge, newNudge) {
   }
 }
 
-export async function addLinkedAccount(id, tag, discordID) {
+export async function addLinkedAccount(id, tag, discordID, updateNickname = false) {
   try {
     const db = client.db("General")
     const guilds = db.collection("Guilds")
@@ -723,7 +724,7 @@ export async function addLinkedAccount(id, tag, discordID) {
       guildID: id,
     })
 
-    if (!guildExists) return { message: "Server not found.", status: 404 }
+    if (!guildExists) return { error: "Server not found.", status: 404 }
 
     const { nudges } = guildExists
     const { links } = nudges || {}
@@ -749,8 +750,14 @@ export async function addLinkedAccount(id, tag, discordID) {
 
     const { data: player, error, status } = await getPlayer(tag)
 
-    if (status === 404) return { message: "Player does not exist.", status: 404 }
-    if (error) return { message: "Unexpected Supercell error.", status }
+    if (status === 404) return { error: "Player does not exist.", status: 404 }
+    if (error) return { error: "Unexpected Supercell error.", status }
+
+    if (updateNickname) {
+      const existingLinks = links?.filter((l) => l.discordID === discordID)?.map((l) => l.name) || []
+      const newNickname = generateDiscordNickname([...existingLinks, player.name])
+      updateDiscordNickname({ guildId: id, nickname: newNickname, userId: discordID })
+    }
 
     await guilds.updateOne(
       {
@@ -777,24 +784,17 @@ export async function addLinkedAccount(id, tag, discordID) {
 }
 
 // playersToAdd: [{ username: "", tag: "", name: "" }]
-export async function bulkLinkAccounts(id, playersToAdd) {
+export async function bulkLinkAccounts(id, playersToAdd, updateNickname = false) {
   try {
     const db = client.db("General")
     const guilds = db.collection("Guilds")
 
-    const [guildExists, linkedClans] = await Promise.all([
-      guilds.findOne({
-        guildID: id,
-      }),
-      getAllPlusClans(true),
-    ])
+    const [guildExists, linkedClans] = await Promise.all([guilds.findOne({ guildID: id }), getAllPlusClans(true)])
 
     if (!guildExists) return { error: "Server not found." }
 
-    const { nudges } = guildExists
-    const { links } = nudges || {}
-
-    const linksSet = new Set(links?.length ? links.map((l) => l.tag) : [])
+    const links = guildExists.nudges?.links || []
+    const linksSet = new Set(links.map((l) => l.tag))
 
     const linkedPlayerLimit = calcLinkedPlayerLimit(linkedClans.length)
     let availableLinks = linkedPlayerLimit - linksSet.size
@@ -802,50 +802,62 @@ export async function bulkLinkAccounts(id, playersToAdd) {
     if (availableLinks <= 0) return { error: "No player links remaining." }
 
     const { error, members } = await getAllGuildUsers(id, true)
-
     if (error) return { error }
 
-    // assign error(s) and add user(s)
+    // Map usernames for faster lookup
+    const memberMap = new Map(members.map((m) => [m.username.toLowerCase(), m]))
+
     for (const p of playersToAdd) {
       const formattedUsername = p.username.trim().toLowerCase()
-
       if (!formattedUsername) {
         p.error = "Invalid username."
         continue
       }
 
-      const user = members.find((m) => m.username === formattedUsername)
+      const user = memberMap.get(formattedUsername)
+      if (!user) {
+        p.error = "User not found."
+        continue
+      }
 
-      if (user) {
-        if (availableLinks <= 0) p.error = "No player links remaining."
-        else {
-          const formattedTag = formatTag(p.tag, true)
-          const tagFound = linksSet.has(formattedTag)
+      if (availableLinks <= 0) {
+        p.error = "No player links remaining."
+        continue
+      }
 
-          if (tagFound) p.error = "Player already linked."
-          else {
-            p.added = true
-            p.discordID = user.id
-            linksSet.add(formattedTag)
-            await guilds.updateOne(
-              { guildID: id },
-              {
-                $push: {
-                  "nudges.links": { discordID: user.id, name: p.name, tag: formattedTag },
-                },
-              },
-            )
-            availableLinks--
-          }
-        }
-      } else p.error = "User not found."
+      const formattedTag = formatTag(p.tag, true)
+      if (linksSet.has(formattedTag)) {
+        p.error = "Player already linked."
+        continue
+      }
+
+      // All checks passed: add the player
+      p.added = true
+      p.discordID = user.id
+      linksSet.add(formattedTag)
+
+      // Update nickname if needed (non-blocking)
+      if (updateNickname) {
+        const existingLinks = links.filter((l) => l.discordID === user.id).map((l) => l.name)
+        const newNickname = generateDiscordNickname([...existingLinks, p.name])
+        updateDiscordNickname({ guildId: id, nickname: newNickname, userId: user.id })
+      }
+
+      // Update database
+      await guilds.updateOne(
+        { guildID: id },
+        { $push: { "nudges.links": { discordID: user.id, name: p.name, tag: formattedTag } } },
+      )
+
+      // Update local links cache
+      links.push({ discordID: user.id, name: p.name, tag: formattedTag })
+      availableLinks--
     }
 
     return { players: playersToAdd }
   } catch (err) {
     const logger = new Logger()
     logger.error("bulkLinkAccounts error", err)
-
     return { error: "Unexpected error. Please try again." }
   }
 }
@@ -940,5 +952,32 @@ export async function getUnlinkedPlayersByClan(id, tag) {
     logger.error("getUnlinkedPlayersByClan error", err)
 
     return { error: "Unexpected error. Please try again." }
+  }
+}
+
+export async function setUpdateNicknameUponLinking(id, value) {
+  try {
+    if (typeof value !== "boolean") throw new Error("Value must be a boolean.")
+
+    const db = client.db("General")
+    const guilds = db.collection("Guilds")
+
+    await guilds.updateOne(
+      {
+        guildID: id,
+      },
+      {
+        $set: {
+          "nudges.updateNicknameUponLinking": value,
+        },
+      },
+    )
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const logger = new Logger()
+    logger.error("setUpdateNicknameUponLinking error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
   }
 }

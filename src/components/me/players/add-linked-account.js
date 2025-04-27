@@ -7,7 +7,7 @@ import { searchGuildUsers } from "@/actions/discord"
 import { addLinkedAccount } from "@/actions/server"
 import { formatTag } from "@/lib/functions/utils"
 
-export default function AddLinkedAccount({ disabled, id, linkedAccounts, setLinkedAccounts }) {
+export default function AddLinkedAccount({ disabled, id, linkedAccounts, setLinkedAccounts, updateNicknames }) {
   const inputRef = useRef(null)
   const combobox = useCombobox({
     onDropdownClose: () => {
@@ -36,11 +36,11 @@ export default function AddLinkedAccount({ disabled, id, linkedAccounts, setLink
     }
 
     setLoading(true)
-    const { message, name, success } = await addLinkedAccount(id, tag, discordID)
+    const { error, name, success } = await addLinkedAccount(id, tag, discordID, !!updateNicknames)
     setLoading(false)
 
     if (!success) {
-      setError(message)
+      setError(error)
     } else {
       setLinkedAccounts([...linkedAccounts, { discordID, name, tag: formatTag(tag, true) }])
       setError("")

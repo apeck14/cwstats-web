@@ -274,3 +274,27 @@ export async function setSeasonalReport(tag, enabled = true) {
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
 }
+
+export async function updateDiscordNickname({ guildId, nickname, userId }) {
+  try {
+    const res = await fetch(`https://discord.com/api/v10/guilds/${guildId}/members/${userId}`, {
+      body: JSON.stringify({ nick: nickname }),
+      headers: {
+        Authorization: `Bot ${process.env.BOT_TOKEN}`,
+        "Content-Type": "application/json",
+      },
+      method: "PATCH",
+    })
+
+    const data = await res.json()
+
+    if (!res.ok) throw new Error(data?.message)
+
+    return { status: 200, success: true }
+  } catch (err) {
+    const log = new Logger()
+    log.warn("updateDiscordNickname Error", err)
+
+    return { error: "Unexpected error. Please try again.", status: 500 }
+  }
+}
