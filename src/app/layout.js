@@ -25,12 +25,23 @@ export const metadata = {
   description: CWSTATS_DESC,
   metadataBase: new URL("https://cwstats.com"),
   openGraph: {
-    images: "/assets/icons/logo-og.webp",
+    description: CWSTATS_DESC,
+    images: [
+      {
+        alt: "CWStats Logo",
+        url: "/assets/icons/logo-og-thumb.webp", // Small, square image
+      },
+    ],
     locale: "en_US",
     siteName: "CWStats",
+    title: "CWStats - Clash Royale Clan Wars Analytics, Leaderboards, Stats & more!",
     type: "website",
+    url: "https://cwstats.com",
   },
   title: "CWStats - Clash Royale Clan Wars Analytics, Leaderboards, Stats & more!",
+  twitter: {
+    card: "summary",
+  },
 }
 
 export default async function RootLayout({ children }) {
