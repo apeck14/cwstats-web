@@ -40,7 +40,7 @@ export default async function RisersAndFallers() {
                     </Group>
                     <Stack align="end" gap="0">
                       <Group gap="0.25rem">
-                        <IconTrendingDown color="var(--mantine-color-green-6)" />
+                        <IconTrendingUp color="var(--mantine-color-green-6)" />
                         <Text fw={600}>{r.previousRank - r.rank}</Text>
                       </Group>
                       <Group gap="0.1rem">
@@ -84,7 +84,7 @@ export default async function RisersAndFallers() {
                     </Group>
                     <Stack align="end" gap="0">
                       <Group gap="0.25rem">
-                        <IconTrendingUp color="var(--mantine-color-red-6)" />
+                        <IconTrendingDown color="var(--mantine-color-red-6)" />
                         <Text fw={600}>{f.rank - f.previousRank}</Text>
                       </Group>
                       <Group gap="0.1rem">
