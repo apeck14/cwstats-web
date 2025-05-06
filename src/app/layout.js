@@ -30,7 +30,7 @@ export const metadata = {
       {
         alt: "CWStats Logo",
         height: 128,
-        url: "https://cwstats.com/assets/icons/logo-og-thumb.webp",
+        url: "https://cwstats.com/assets/icons/logo-og.webp",
         width: 124,
       },
     ],
