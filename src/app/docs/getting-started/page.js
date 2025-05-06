@@ -7,6 +7,11 @@ import Link from "next/link"
 import Image from "@/components/ui/image"
 import colors from "@/static/colors"
 
+export const metadata = {
+  description: "Navigate basic setup instructions to take full advantage of all CWStats has to offer!",
+  title: "Getting Started | CWStats",
+}
+
 export default function GettingStartedPage() {
   return (
     <Stack gap="3rem">
