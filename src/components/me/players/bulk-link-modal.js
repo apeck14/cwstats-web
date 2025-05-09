@@ -51,14 +51,14 @@ export default function BulkLinkModal({
   }
 
   const handleChange = (e, tag) => {
-    // add or remove link depending on if select was cleared or not
+    const selectedUsername = e?.split("__")[0] // remove suffix
     const newLinksLeft = linksLeft - (e ? 1 : -1)
 
     setLinksLeft(newLinksLeft)
     setShowButton(newLinksLeft !== linksRemaining)
-    const newUnlinkedMembers = [...unlinkedMembers]
-    newUnlinkedMembers.find((m) => m.tag === tag).username = e
 
+    const newUnlinkedMembers = [...unlinkedMembers]
+    newUnlinkedMembers.find((m) => m.tag === tag).username = selectedUsername
     setUnlinkedMembers(newUnlinkedMembers)
   }
 
@@ -109,7 +109,20 @@ export default function BulkLinkModal({
     setShowButton(false)
   }
 
-  const allUsernames = useMemo(() => users.map((u) => u.username).sort(), [])
+  const allUsernames = useMemo(() => {
+    const counts = new Map()
+    return users.map((u) => {
+      const { username } = u
+      const count = counts.get(username) || 0
+      counts.set(username, count + 1)
+
+      return {
+        label: username,
+        value: count === 0 ? username : `${username}__${count}`, // suffix to make it unique
+      }
+    })
+  }, [users])
+
   const unlinkedMemberCount = unlinkedMembers.filter((m) => !m.username).length
 
   return (
