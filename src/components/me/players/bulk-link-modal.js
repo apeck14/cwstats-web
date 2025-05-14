@@ -143,7 +143,7 @@ export default function BulkLinkModal({
             <Text c="dimmed" size="sm">
               Quickly find and link unlinked players by clan.
             </Text>
-            <DebouncedSearch isClans label="Clan Name" onSelect={handleClanSelect} required />
+            <DebouncedSearch checkIfTag isClans label="Clan Name" onSelect={handleClanSelect} required />
           </Stack>
         )}
 

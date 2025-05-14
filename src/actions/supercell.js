@@ -111,26 +111,32 @@ export async function getClanMembers(tag, redirectOnError = false) {
   return supercellRequest(`/clans/%23${formatTag(tag)}/members`, redirectOnError)
 }
 
-export async function searchClans(params = {}, sortByWarTrophies = true, redirectOnError = false) {
-  const { limit, ...queryParams } = params // Keep limit for slicing but exclude from queryParams if slicing manually
+export async function searchClans(params = {}, sortByWarTrophies = true, redirectOnError = false, checkIfTag = false) {
+  const { limit, ...queryParams } = params
 
-  if (!sortByWarTrophies && limit) {
-    queryParams.limit = limit // Include limit in API call only if not slicing manually
+  // Only include `limit` in query if we're not slicing after sorting
+  if (!sortByWarTrophies && limit) queryParams.limit = limit
+
+  const url = `/clans?${new URLSearchParams(queryParams)}`
+  const promises = [supercellRequest(url, redirectOnError)]
+
+  if (checkIfTag && params.name?.length > 2) {
+    promises.push(getClan(params.name))
   }
 
-  const queryString = new URLSearchParams(queryParams).toString()
+  const [queryResp, clanResp] = await Promise.all(promises)
 
-  const url = `/clans?${queryString}`
-
-  const resp = await supercellRequest(url, redirectOnError)
-
-  if (resp.status === 200) {
-    if (sortByWarTrophies) {
-      resp.data = resp?.data?.sort((a, b) => b.clanWarTrophies - a.clanWarTrophies).slice(0, limit)
-    }
+  // If a valid clan tag match was found, return it wrapped in an array
+  if (clanResp?.status === 200) {
+    return { ...clanResp, data: [clanResp.data] }
   }
 
-  return resp
+  // Sort and slice if needed
+  if (queryResp?.status === 200 && sortByWarTrophies) {
+    queryResp.data = queryResp.data?.sort((a, b) => b.clanWarTrophies - a.clanWarTrophies).slice(0, limit)
+  }
+
+  return queryResp || { data: [] }
 }
 
 export async function getWarLeaderboard(id, redirectOnError = false, limit = 1000) {

@@ -15,6 +15,7 @@ import Image from "./image"
 
 export default function DebouncedSearch({
   autoFocus = true,
+  checkIfTag = false,
   enterRedirects = false,
   isClans,
   label,
@@ -48,8 +49,9 @@ export default function DebouncedSearch({
     }
 
     setLoading(true)
+
     const { data, players, status, success } = await (isClans
-      ? searchClans({ limit: 5, name: debounced })
+      ? searchClans({ limit: 5, name: debounced }, true, false, checkIfTag)
       : getPlayersByQuery(debounced))
     setLoading(false)
 
