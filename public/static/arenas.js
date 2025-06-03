@@ -1,7 +1,7 @@
 module.exports = [
   {
     arena: 23,
-    name: "Valkalla",
+    name: "Legendary Arena",
     trophyLimit: 9000,
   },
   {
