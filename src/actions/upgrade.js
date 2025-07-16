@@ -25,7 +25,7 @@ export const sendLogWebhook = async (data = {}, attachUser = false) => {
       if (Object.prototype.hasOwnProperty.call(data, prop)) {
         // if prop exists in data
         const val = formatDiscordStr(data[prop])
-        const displayedVal = prop === "clan" ? `[${val}](https:cwstats.com/clan/${data.tag.substring(1)})` : val
+        const displayedVal = prop === "clan" ? `[${val}](https://cwstats.com/clan/${data.tag.substring(1)})` : val
         embed.description += `**${prop.charAt(0).toUpperCase() + prop.slice(1)}**: ${displayedVal}\n`
       }
     }
