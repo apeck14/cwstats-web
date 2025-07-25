@@ -14,15 +14,22 @@ export default async function ClansPage({ params }) {
     getGuildChannels(params.id, true),
   ])
 
+  for (const c of clans) {
+    const isPlus = plusClans.includes(c.tag)
+    if (isPlus) {
+      c.plus = true
+    }
+  }
+
   return (
     <>
       <ServerHeader id={params.id} />
       <ServerClansContent
         channels={channels}
         discordInviteCode={guild?.discordInviteCode}
+        freeWarLogClan={guild?.freeWarLogClan}
         id={params.id}
         linkedClans={clans || []}
-        plusClans={plusClans || []}
       />
     </>
   )

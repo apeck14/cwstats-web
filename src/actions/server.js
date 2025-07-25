@@ -20,6 +20,36 @@ import { getClan, getClanMembers, getPlayer } from "./supercell"
 import { getAllPlusClans } from "./upgrade"
 
 const isDev = process.env.NODE_ENV === "development"
+const BASE_URL = "https://api.cwstats.com"
+const { INTERNAL_API_KEY } = process.env
+
+const handleAPISuccess = async (res) => {
+  const json = await res.json().catch(() => ({}))
+
+  if (!res.ok) {
+    throw {
+      error: json?.error,
+      status: res.status,
+    }
+  }
+
+  return json
+}
+
+// Format error messages to make them more user friendly
+const handleAPIFailure = (e, notFoundMessage = `Not found.`) => {
+  const status = e?.status
+  const errorText = e?.error
+
+  let error = `Unexpected error. Please try again.`
+
+  if (status === 404) error = notFoundMessage
+  else if (status === 429) error = `Rate limit exceeded. Please try again later.`
+  else if (status === 503) error = `:tools: Maintenance break.`
+  else if (status !== 500 && errorText) error = errorText
+
+  return { error, status }
+}
 
 export async function getServerSettings(id, redirectOnError = false, authenticate = !isDev) {
   if (authenticate) {
@@ -981,3 +1011,15 @@ export async function setUpdateNicknameUponLinking(id, value) {
     return { error: "Unexpected error. Please try again.", status: 500 }
   }
 }
+
+export const setFreeWarLogClan = async ({ channelId, guildId, tag }) =>
+  fetch(`${BASE_URL}/guild/free-war-log-clan`, {
+    body: JSON.stringify({ channelId, guildId, tag: formatTag(tag, false) }),
+    headers: {
+      Authorization: `Bearer ${INTERNAL_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    method: "PATCH",
+  })
+    .then(handleAPISuccess)
+    .catch(handleAPIFailure)

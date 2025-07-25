@@ -1,22 +1,24 @@
 "use client"
 
-import { ActionIcon, Card, Container, Divider, Group, Input, Stack, Text, Title } from "@mantine/core"
-import { IconBrandDiscordFilled, IconCheck, IconSlash } from "@tabler/icons-react"
+import { ActionIcon, Card, Container, Divider, Group, Input, Paper, Stack, Text, Title } from "@mantine/core"
+import { IconBrandDiscordFilled, IconCheck, IconSlash, IconTrash } from "@tabler/icons-react"
 import { useState } from "react"
 
-import { setDiscordInvite } from "@/actions/server"
+import { setDiscordInvite, setFreeWarLogClan } from "@/actions/server"
 import InfoPopover from "@/components/ui/info-popover"
 import colors from "@/static/colors"
 
 import LinkClanModal from "./link-clan-modal"
 import LinkedClanCard from "./linked-clan-card"
+import WarLogsModal from "./war-logs-modal"
 
-export default function ServerClansContent({ channels, discordInviteCode, id, linkedClans, plusClans }) {
+export default function ServerClansContent({ channels, discordInviteCode, freeWarLogClan, id, linkedClans }) {
   const [clans, setClans] = useState(linkedClans)
   const [inviteError, setInviteError] = useState("")
   const [tempDiscordInv, setTempDiscordInv] = useState(discordInviteCode || "")
   const [discordInv, setDiscordInv] = useState(discordInviteCode || "")
   const [showConfirmButtons, setShowConfirmButtons] = useState(false)
+  const [warLogClan, setWarLogClan] = useState(freeWarLogClan?.webhookUrl1 && freeWarLogClan) // ensure it has more than just timestamp
 
   const handleInviteChange = (e) => {
     const val = e.currentTarget.value
@@ -48,6 +50,13 @@ export default function ServerClansContent({ channels, discordInviteCode, id, li
     }
   }
 
+  const handleWarLogsClanDelete = async () => {
+    setFreeWarLogClan({ channelId: null, guildId: id, tag: warLogClan.tag })
+    setWarLogClan(null)
+  }
+
+  const warLogClanName = linkedClans.find((c) => c.tag === warLogClan?.tag)?.clanName || "Unknown Clan"
+
   return (
     <Container py="xl" size="lg">
       <Stack>
@@ -62,41 +71,72 @@ export default function ServerClansContent({ channels, discordInviteCode, id, li
         {clans?.length ? (
           <Stack>
             <Group align="flex-end" justify="space-between" mt="md">
-              <Stack gap="xs">
-                <Group c={colors.discord} gap="xs">
-                  <IconBrandDiscordFilled size={20} />
-                  <Text c="gray.1" fw="500">
-                    Server Invite Code
-                  </Text>
-                </Group>
+              <Group gap="xl">
+                <Stack gap="xs">
+                  <Group c={colors.discord} gap="xs">
+                    <IconBrandDiscordFilled size={20} />
+                    <Text c="gray.1" fw="500">
+                      Server Invite Code
+                    </Text>
+                  </Group>
 
-                <Group>
-                  <Stack>
-                    <Group>
-                      <Input
-                        error={inviteError}
-                        leftSection={<IconSlash size={16} />}
-                        maw="10rem"
-                        onChange={handleInviteChange}
-                        placeholder="rx4fosQd"
-                        value={tempDiscordInv}
-                      />
+                  <Group>
+                    <Stack>
+                      <Group>
+                        <Input
+                          error={inviteError}
+                          leftSection={<IconSlash size={16} />}
+                          maw="10rem"
+                          onChange={handleInviteChange}
+                          placeholder="rx4fosQd"
+                          value={tempDiscordInv}
+                        />
 
-                      {showConfirmButtons && !inviteError && (
-                        <ActionIcon color="green" onClick={handleConfirm}>
-                          <IconCheck size="1.25rem" />
-                        </ActionIcon>
+                        {showConfirmButtons && !inviteError && (
+                          <ActionIcon color="green" onClick={handleConfirm}>
+                            <IconCheck size="1.25rem" />
+                          </ActionIcon>
+                        )}
+                      </Group>
+
+                      {inviteError && (
+                        <Text c="red.6" fz="0.75rem">
+                          {inviteError}
+                        </Text>
                       )}
-                    </Group>
+                    </Stack>
+                  </Group>
+                </Stack>
 
-                    {inviteError && (
-                      <Text c="red.6" fz="0.75rem">
-                        {inviteError}
+                <Stack gap="xs">
+                  <Group gap="0.25rem">
+                    <Text c="gray.1" fw="500">
+                      War Logs
+                    </Text>
+                    <InfoPopover text="Each server can enable war logs for 1 clan. Clan can only be changed every 7 days." />
+                  </Group>
+
+                  {warLogClan ? (
+                    <Paper bg="gray.8" component={Group} p="xs" radius="md" w="fit-content">
+                      <Text fw={600} size="sm">
+                        {warLogClanName}
                       </Text>
-                    )}
-                  </Stack>
-                </Group>
-              </Stack>
+                      <ActionIcon
+                        aria-label="Settings"
+                        color="orange"
+                        onClick={handleWarLogsClanDelete}
+                        size="sm"
+                        variant="filled"
+                      >
+                        <IconTrash size="1rem" />
+                      </ActionIcon>
+                    </Paper>
+                  ) : (
+                    <WarLogsModal channels={channels} id={id} linkedClans={linkedClans} setWarLogClan={setWarLogClan} />
+                  )}
+                </Stack>
+              </Group>
+
               <Text c="gray.2" fw="500" size="sm">
                 {clans?.length} / 20 clans
               </Text>
@@ -110,7 +150,7 @@ export default function ServerClansContent({ channels, discordInviteCode, id, li
                 clan={c}
                 clans={clans}
                 id={id}
-                isPlus={plusClans.includes(c.tag)}
+                isPlus={c.plus}
                 key={c.tag}
                 setClans={setClans}
               />
