@@ -24,16 +24,19 @@ const BASE_URL = "https://api.cwstats.com"
 const { INTERNAL_API_KEY } = process.env
 
 export const handleAPISuccess = async (res) => {
-  const json = await res.json().catch(() => ({}))
+  const contentType = res.headers.get("content-type") || ""
+
+  const isJson = contentType.includes("application/json")
+  const body = isJson ? await res.json().catch(() => ({})) : await res.text()
 
   if (!res.ok) {
     throw {
-      error: json?.error,
+      error: isJson ? body?.error : `Unexpected error: ${body.slice(0, 100)}...`,
       status: res.status,
     }
   }
 
-  return json
+  return isJson ? body : {}
 }
 
 // Format error messages to make them more user friendly
