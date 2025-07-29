@@ -30,11 +30,14 @@ export default async function DailyLeaderboardPage({ params }) {
 
   if (!region) notFound()
 
-  const [leaderboard, plusClans] = await Promise.all([getDailyLeaderboard({ key: region.key }), getAllPlusClans(true)])
+  const [{ data: leaderboard }, plusClans] = await Promise.all([
+    getDailyLeaderboard({ key: region.key }),
+    getAllPlusClans(true),
+  ])
 
   return (
     <LeaderboardContent
-      clans={leaderboard?.dailyLbArr || []}
+      clans={leaderboard?.clans || []}
       lastUpdated={leaderboard?.lbLastUpdated}
       location={location}
       plusClans={plusClans}

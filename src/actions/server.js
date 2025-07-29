@@ -23,7 +23,7 @@ const isDev = process.env.NODE_ENV === "development"
 const BASE_URL = "https://api.cwstats.com"
 const { INTERNAL_API_KEY } = process.env
 
-const handleAPISuccess = async (res) => {
+export const handleAPISuccess = async (res) => {
   const json = await res.json().catch(() => ({}))
 
   if (!res.ok) {
@@ -37,7 +37,7 @@ const handleAPISuccess = async (res) => {
 }
 
 // Format error messages to make them more user friendly
-const handleAPIFailure = (e, notFoundMessage = `Not found.`) => {
+export const handleAPIFailure = (e, notFoundMessage = `Not found.`) => {
   const status = e?.status
   const errorText = e?.error
 
