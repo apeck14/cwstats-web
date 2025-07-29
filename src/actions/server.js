@@ -48,7 +48,7 @@ export const handleAPIFailure = (e, notFoundMessage = `Not found.`) => {
 
   if (status === 404) error = notFoundMessage
   else if (status === 429) error = `Rate limit exceeded. Please try again later.`
-  else if (status === 503) error = `:tools: Maintenance break.`
+  else if (status === 503) error = `Maintenance break.`
   else if (status !== 500 && errorText) error = errorText
 
   return { error, status }
