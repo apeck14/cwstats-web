@@ -8,6 +8,7 @@ import { setDiscordInvite, setFreeWarLogClan } from "@/actions/server"
 import InfoPopover from "@/components/ui/info-popover"
 import colors from "@/static/colors"
 
+import NewText from "../../new-text"
 import LinkClanModal from "./link-clan-modal"
 import LinkedClanCard from "./linked-clan-card"
 import WarLogsModal from "./war-logs-modal"
@@ -110,6 +111,7 @@ export default function ServerClansContent({ channels, discordInviteCode, freeWa
 
                 <Stack gap="xs">
                   <Group gap="0.25rem">
+                    <NewText />
                     <Text c="gray.1" fw="500">
                       War Logs
                     </Text>
