@@ -38,7 +38,7 @@ export default async function DailyLeaderboardPage({ params }) {
   return (
     <LeaderboardContent
       clans={leaderboard?.clans || []}
-      lastUpdated={leaderboard?.lbLastUpdated}
+      lastUpdated={leaderboard?.lastUpdated}
       location={location}
       plusClans={plusClans}
     />
