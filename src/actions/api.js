@@ -23,11 +23,13 @@ export const getDailyLeaderboard = async ({ key, limit, maxTrophies, minTrophies
   if (minTrophies) params.append("minTrophies", minTrophies)
 
   return fetch(`${BASE_URL}/leaderboard/daily?${params.toString()}`, {
+    cache: "no-store",
     headers: {
       Authorization: `Bearer ${INTERNAL_API_KEY}`,
       "Content-Type": "application/json",
     },
     method: "GET",
+    next: { revalidate: 0 },
   })
     .then(handleAPISuccess)
     .catch(handleAPIFailure)
