@@ -5,15 +5,20 @@ import QuickSearch from "@/components/home/quick-search"
 import RisersAndFallers from "@/components/home/risers-and-fallers"
 import StarryBackground from "@/components/home/starryBackground"
 
+import WhatsNewModal from "../components/home/whats-new-modal"
+
 // * Leave metadata as default
 
 export default async function Page() {
   return (
-    <Stack>
-      <StarryBackground />
-      <QuickSearch />
-      <DiscordBotAd />
-      <RisersAndFallers />
-    </Stack>
+    <>
+      <Stack>
+        <StarryBackground />
+        <QuickSearch />
+        <DiscordBotAd />
+        <RisersAndFallers />
+      </Stack>
+      <WhatsNewModal />
+    </>
   )
 }
