@@ -27,18 +27,18 @@ export default function WhatsNewModal() {
 
   return (
     <Modal onClose={handleClose} opened={opened} size="lg" title={<Title size="h2">What&apos;s New? 🎉</Title>}>
-      <Stack gap="0" p="lg">
+      <Stack gap="0" p="xs">
         <Title size="h4" td="underline">
           War Logs
         </Title>
 
-        <Text mt="1rem">
+        <Text>
           War Logs let you track your clan’s battles in near real-time, automatically sending every single, duel, and
           boat battle to your chosen Discord channel. <strong>Limited to 1 plus clan per server.</strong> Enable them
           from your server&apos;s dashboard.
         </Text>
 
-        <Stack align="center" my="-4rem">
+        <Stack align="center" my="-2rem">
           <Image alt="What's New?" height={isMobile ? 300 : isTablet ? 400 : 500} src="/assets/whatsNew.webp" />
         </Stack>
       </Stack>
