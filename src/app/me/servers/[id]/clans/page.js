@@ -27,7 +27,6 @@ export default async function ClansPage({ params }) {
       <ServerClansContent
         channels={channels}
         discordInviteCode={guild?.discordInviteCode}
-        freeWarLogClan={guild?.freeWarLogClan}
         id={params.id}
         linkedClans={clans || []}
       />

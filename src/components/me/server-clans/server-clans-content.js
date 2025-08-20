@@ -1,25 +1,22 @@
 "use client"
 
-import { ActionIcon, Card, Container, Divider, Group, Input, Paper, Stack, Text, Title } from "@mantine/core"
-import { IconBrandDiscordFilled, IconCheck, IconSlash, IconTrash } from "@tabler/icons-react"
+import { ActionIcon, Card, Container, Divider, Group, Input, Stack, Text, Title } from "@mantine/core"
+import { IconBrandDiscordFilled, IconCheck, IconSlash } from "@tabler/icons-react"
 import { useState } from "react"
 
-import { setDiscordInvite, setFreeWarLogClan } from "@/actions/server"
+import { setDiscordInvite } from "@/actions/server"
 import InfoPopover from "@/components/ui/info-popover"
 import colors from "@/static/colors"
 
-import NewText from "../../new-text"
 import LinkClanModal from "./link-clan-modal"
 import LinkedClanCard from "./linked-clan-card"
-import WarLogsModal from "./war-logs-modal"
 
-export default function ServerClansContent({ channels, discordInviteCode, freeWarLogClan, id, linkedClans }) {
+export default function ServerClansContent({ channels, discordInviteCode, id, linkedClans }) {
   const [clans, setClans] = useState(linkedClans)
   const [inviteError, setInviteError] = useState("")
   const [tempDiscordInv, setTempDiscordInv] = useState(discordInviteCode || "")
   const [discordInv, setDiscordInv] = useState(discordInviteCode || "")
   const [showConfirmButtons, setShowConfirmButtons] = useState(false)
-  const [warLogClan, setWarLogClan] = useState(freeWarLogClan?.webhookUrl1 && freeWarLogClan) // ensure it has more than just timestamp
 
   const handleInviteChange = (e) => {
     const val = e.currentTarget.value
@@ -50,13 +47,6 @@ export default function ServerClansContent({ channels, discordInviteCode, freeWa
       }
     }
   }
-
-  const handleWarLogsClanDelete = async () => {
-    setFreeWarLogClan({ channelId: null, guildId: id, tag: warLogClan.tag })
-    setWarLogClan(null)
-  }
-
-  const warLogClanName = linkedClans.find((c) => c.tag === warLogClan?.tag)?.clanName || "Unknown Clan"
 
   return (
     <Container py="xl" size="lg">
@@ -107,35 +97,6 @@ export default function ServerClansContent({ channels, discordInviteCode, freeWa
                       )}
                     </Stack>
                   </Group>
-                </Stack>
-
-                <Stack gap="xs">
-                  <Group gap="0.25rem">
-                    <NewText />
-                    <Text c="gray.1" fw="500">
-                      War Logs
-                    </Text>
-                    <InfoPopover text="Each server can enable war logs for 1 clan. Clan can only be changed every 7 days." />
-                  </Group>
-
-                  {warLogClan ? (
-                    <Paper bg="gray.8" component={Group} p="xs" radius="md" w="fit-content">
-                      <Text fw={600} size="sm">
-                        {warLogClanName}
-                      </Text>
-                      <ActionIcon
-                        aria-label="Settings"
-                        color="orange"
-                        onClick={handleWarLogsClanDelete}
-                        size="sm"
-                        variant="filled"
-                      >
-                        <IconTrash size="1rem" />
-                      </ActionIcon>
-                    </Paper>
-                  ) : (
-                    <WarLogsModal channels={channels} id={id} linkedClans={linkedClans} setWarLogClan={setWarLogClan} />
-                  )}
                 </Stack>
               </Group>
 
