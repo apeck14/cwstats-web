@@ -1,10 +1,9 @@
 "use server"
 
-import { HOST } from "@/static/constants"
+import { API_BASE_URL, HOST } from "@/static/constants"
 
 import { handleAPIFailure, handleAPISuccess } from "./server"
 
-const BASE_URL = "https://api.cwstats.com"
 const { INTERNAL_API_KEY } = process.env
 
 export async function getPlayersByQuery(query, limit = 5) {
@@ -22,14 +21,13 @@ export const getDailyLeaderboard = async ({ key, limit, maxTrophies, minTrophies
   if (maxTrophies) params.append("maxTrophies", maxTrophies)
   if (minTrophies) params.append("minTrophies", minTrophies)
 
-  return fetch(`${BASE_URL}/leaderboard/daily?${params.toString()}`, {
+  return fetch(`${API_BASE_URL}/leaderboard/daily?${params.toString()}`, {
     cache: "no-store",
     headers: {
       Authorization: `Bearer ${INTERNAL_API_KEY}`,
       "Content-Type": "application/json",
     },
     method: "GET",
-    next: { revalidate: 0 },
   })
     .then(handleAPISuccess)
     .catch(handleAPIFailure)
@@ -44,3 +42,16 @@ export async function getWeeklyStats() {
 
   return stats.json()
 }
+
+export const postStripePortal = async (userToken) =>
+  fetch(`${API_BASE_URL}/pro/portal`, {
+    cache: "no-store",
+    headers: {
+      Authorization: `Bearer ${INTERNAL_API_KEY}`,
+      "Content-Type": "application/json",
+      "x-user-token": userToken,
+    },
+    method: "POST",
+  })
+    .then(handleAPISuccess)
+    .catch(handleAPIFailure)

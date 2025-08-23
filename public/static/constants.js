@@ -7,3 +7,4 @@ export const CWSTATS_DESC =
 export const DEFAULT_NUDGE_MESSAGE = "**You have attacks remaining.** Please get them in before the deadline!"
 export const SUPERCELL_BASE_URL = "https://proxy.royaleapi.dev/v1"
 export const HOST = process.env.NEXTAUTH_URL
+export const API_BASE_URL = "https://api.cwstats.com"

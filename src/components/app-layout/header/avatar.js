@@ -1,10 +1,18 @@
 import { ActionIcon, Group, Menu } from "@mantine/core"
-import { IconBrandDiscordFilled, IconLogout2, IconServer2, IconShield, IconUsers } from "@tabler/icons-react"
+import {
+  IconBrandDiscordFilled,
+  IconCreditCard,
+  IconLogout2,
+  IconServer2,
+  IconShield,
+  IconUsers,
+} from "@tabler/icons-react"
 import Link from "next/link"
 import { signIn, signOut, useSession } from "next-auth/react"
 
 import colors from "@/static/colors"
 
+import NewText from "../../new-text"
 import AvatarWithFallback from "./avatar-with-fallback"
 import classes from "./header.module.css"
 
@@ -60,6 +68,16 @@ export default function AvatarDropdown() {
           }
         >
           Players
+        </Menu.Item>
+        <Menu.Divider />
+
+        <Menu.Item
+          component={Link}
+          href="/me/subscriptions"
+          leftSection={<IconCreditCard color="var(--mantine-color-pink-6)" size="1.25rem" />}
+          rightSection={<NewText />}
+        >
+          Subscriptions
         </Menu.Item>
 
         <Menu.Divider />

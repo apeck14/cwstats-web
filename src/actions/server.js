@@ -15,12 +15,12 @@ import {
 } from "@/lib/functions/utils"
 import client from "@/lib/mongodb"
 
+import { API_BASE_URL } from "../../public/static/constants"
 import { getAllGuildUsers, getGuilds, isValidInviteCode, updateDiscordNickname } from "./discord"
 import { getClan, getClanMembers, getPlayer } from "./supercell"
 import { getAllPlusClans } from "./upgrade"
 
 const isDev = process.env.NODE_ENV === "development"
-const BASE_URL = "https://api.cwstats.com"
 const { INTERNAL_API_KEY } = process.env
 
 export const handleAPISuccess = async (res) => {
@@ -1016,7 +1016,7 @@ export async function setUpdateNicknameUponLinking(id, value) {
 }
 
 export const setFreeWarLogClan = async ({ channelId, guildId, tag }) =>
-  fetch(`${BASE_URL}/guild/free-war-log-clan`, {
+  fetch(`${API_BASE_URL}/guild/free-war-log-clan`, {
     body: JSON.stringify({ channelId, guildId, tag: formatTag(tag, false) }),
     headers: {
       Authorization: `Bearer ${INTERNAL_API_KEY}`,
