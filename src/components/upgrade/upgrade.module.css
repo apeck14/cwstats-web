@@ -1,0 +1,9 @@
+.striped-gray {
+  background: repeating-linear-gradient(
+    45deg,
+    transparent,
+    transparent 10px,
+    var(--mantine-color-gray-7) 10px,
+    var(--mantine-color-gray-7) 20px
+  );
+}
