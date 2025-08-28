@@ -1,6 +1,6 @@
 "use client"
 
-import { Button, Group, List, Modal, Stack, Text, TextInput, ThemeIcon, Title } from "@mantine/core"
+import { Button, Divider, Group, List, Modal, Stack, Text, TextInput, ThemeIcon, Title } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
 import { notifications } from "@mantine/notifications"
 import { IconCheck, IconHash } from "@tabler/icons-react"
@@ -9,16 +9,17 @@ import { useState } from "react"
 import { addPlus } from "@/actions/upgrade"
 import { formatTag } from "@/lib/functions/utils"
 
+import Image from "../ui/image"
 import InfoPopover from "../ui/info-popover"
 
-export default function PlusFormModal() {
-  const [tag, setTag] = useState("")
+export default function PlusFormModal({ clan, size, width }) {
+  const [tag, setTag] = useState(clan?.tag || "")
   const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
 
   const handleOpen = () => {
-    setTag("")
+    setTag(clan?.tag || "")
     setError("")
     open()
   }
@@ -93,34 +94,57 @@ export default function PlusFormModal() {
               Click <b>Activate</b> 🎉
             </List.Item>
           </List>
-          <TextInput
-            data-autofocus
-            error={error}
-            label="Clan Tag"
-            leftSection={<IconHash />}
-            leftSectionPointerEvents="none"
-            maxLength={10}
-            onChange={handleChange}
-            placeholder="ABC123"
-            size="md"
-            value={tag}
-            variant="filled"
-            withAsterisk
-          />
+          {clan?.tag ? (
+            <>
+              <Divider color="gray.6" size="sm" />
+              <Group gap="0.4rem">
+                <Image alt="Clan Badge" height={20} src={`/assets/badges/${clan.clanBadge}.webp`} />
+                <Text fw="600" size="md">
+                  {clan.clanName}
+                </Text>
+              </Group>
+            </>
+          ) : (
+            <TextInput
+              data-autofocus
+              label="Clan Tag"
+              leftSection={<IconHash />}
+              leftSectionPointerEvents="none"
+              maxLength={10}
+              onChange={handleChange}
+              placeholder="ABC123"
+              size="md"
+              value={tag}
+              variant="filled"
+              withAsterisk
+            />
+          )}
 
-          <Group justify="flex-end">
-            <Button color="orange.5" loading={loading} onClick={handleSubmit} w="6rem">
+          <Group justify="space-between">
+            <Text c="red.6" fw={600} fz={{ base: "xs", md: "sm" }}>
+              {error}
+            </Text>
+            <Button
+              color="orange.5"
+              fz={{ base: "xs", md: "sm" }}
+              loading={loading}
+              onClick={handleSubmit}
+              p={{ base: "xs", md: "sm" }}
+              w={{ base: "4.5rem", md: "5rem" }}
+            >
               Activate
             </Button>
           </Group>
         </Stack>
       </Modal>
+
       <Button
         className="buttonHover"
         gradient={{ deg: 180, from: "orange.5", to: "orange.6" }}
         onClick={handleOpen}
+        size={size || "sm"}
         variant="gradient"
-        w="100%"
+        w={width || "100%"}
       >
         Activate
       </Button>

@@ -11,14 +11,12 @@ import { embedColors } from "@/static/colors"
 
 import { setFreeWarLogClan } from "../../../actions/server"
 import ChannelDropdown from "../home/channel-dropdown"
-import LinkedClansDropdown from "./linked-clans-dropdown"
 
-export default function WarLogsModal({ channels, id, linkedClans, setWarLogClan }) {
+export default function WarLogsModal({ channels, clan, disabled, id, setWarLogClan }) {
   const [error, setError] = useState("You need to wait 7 days.")
   const [loading, setLoading] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
   const [channelId, setChannelId] = useState(null)
-  const [clan, setClan] = useState(null)
 
   const sendEnableNotifications = () => {
     notifications.show({
@@ -63,11 +61,6 @@ export default function WarLogsModal({ channels, id, linkedClans, setWarLogClan 
     }
   }
 
-  const setWarLogsClan = (tag) => {
-    const linkedClan = linkedClans.find((c) => c.tag === tag)
-    setClan(linkedClan)
-  }
-
   return (
     <>
       <Modal centered onClose={close} opened={opened} title={<Title fz="1.5rem">Enable War Logs</Title>}>
@@ -78,8 +71,6 @@ export default function WarLogsModal({ channels, id, linkedClans, setWarLogClan 
             <span style={{ color: "var(--mantine-color-orange-6)" }}>IMPORTANT</span>: Enable the Manage Webhooks
             permission for the bot!
           </Text>
-
-          <LinkedClansDropdown handleOptionSelect={setWarLogsClan} linkedClans={linkedClans} />
 
           <ChannelDropdown channels={channels} setChannel={setChannelId} />
 
@@ -96,7 +87,7 @@ export default function WarLogsModal({ channels, id, linkedClans, setWarLogClan 
         </Stack>
       </Modal>
 
-      <Button fz="0.9rem" onClick={handleOpen} size="sm" variant="default" w="fit-content">
+      <Button disabled={disabled} onClick={handleOpen} size="xs" variant="default" w="fit-content">
         Enable
       </Button>
     </>

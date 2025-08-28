@@ -1,19 +1,33 @@
-import { cookies } from "next/headers"
-import { redirect } from "next/navigation"
+"use client"
 
-import { postStripePortal } from "@/actions/api"
+import { useRouter } from "next-nprogress-bar"
+import { useEffect } from "react"
 
-export default async function SubscriptionsPage() {
-  const cookieStore = cookies()
-  const userToken = cookieStore.get("next-auth.session-token")?.value
-  if (!userToken) redirect("/login")
+import { postStripePortal } from "../../../actions/api"
+import Redirecting from "../../../components/ui/redirecting"
 
-  try {
-    const { url } = await postStripePortal(userToken)
+export default function SubscriptionsPage() {
+  const router = useRouter()
 
-    if (!url) redirect("/upgrade")
-    redirect("/portal")
-  } catch (err) {
-    redirect("/upgrade")
-  }
+  useEffect(() => {
+    let timeoutId
+
+    postStripePortal()
+      .then(({ url }) => {
+        if (url) {
+          window.open(url, "_blank")
+          // Redirect back home after 3 seconds
+          timeoutId = setTimeout(() => router.push("/"), 2500)
+        } else {
+          router.push("/upgrade")
+        }
+      })
+      .catch(() => router.push("/upgrade"))
+
+    return () => {
+      if (timeoutId) clearTimeout(timeoutId)
+    }
+  }, [router])
+
+  return <Redirecting />
 }

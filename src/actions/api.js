@@ -1,5 +1,7 @@
 "use server"
 
+import { cookies } from "next/headers"
+
 import { API_BASE_URL, HOST } from "@/static/constants"
 
 import { handleAPIFailure, handleAPISuccess } from "./server"
@@ -43,15 +45,31 @@ export async function getWeeklyStats() {
   return stats.json()
 }
 
-export const postStripePortal = async (userToken) =>
-  fetch(`${API_BASE_URL}/pro/portal`, {
+export const postStripePortal = async () => {
+  const response = await fetch(`${HOST}/api/pro/portal`, {
     cache: "no-store",
     headers: {
       Authorization: `Bearer ${INTERNAL_API_KEY}`,
       "Content-Type": "application/json",
-      "x-user-token": userToken,
+      Cookie: cookies().toString(),
     },
     method: "POST",
   })
-    .then(handleAPISuccess)
-    .catch(handleAPIFailure)
+
+  const data = await response.json()
+
+  return data
+}
+
+export const postStripeCheckout = async (clanTag) => {
+  const response = await fetch(`${HOST}/api/pro/checkout`, {
+    body: JSON.stringify({ clanTag }),
+    cache: "no-store",
+    headers: { "Content-Type": "application/json", Cookie: cookies().toString() },
+    method: "POST",
+  })
+
+  const data = await response.json()
+
+  return data
+}

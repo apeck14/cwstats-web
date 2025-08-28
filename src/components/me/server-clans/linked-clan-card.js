@@ -1,6 +1,15 @@
-import { ActionIcon, Button, Card, Divider, Group, Stack, Text, Title } from "@mantine/core"
-import { IconCheck, IconTrash, IconX } from "@tabler/icons-react"
+import { Accordion, ActionIcon, Button, Card, Divider, Group, Stack, Text, Title } from "@mantine/core"
+import {
+  IconCheck,
+  IconClipboardData,
+  IconNotes,
+  IconServerBolt,
+  IconTrash,
+  IconWorldBolt,
+  IconX,
+} from "@tabler/icons-react"
 import Link from "next/link"
+import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
 import { setDailyWarReport, setSeasonalReport } from "@/actions/discord"
@@ -10,13 +19,47 @@ import Image from "@/components/ui/image"
 import { formatTag } from "@/lib/functions/utils"
 import { embedColors } from "@/static/colors"
 
+import { postStripeCheckout } from "../../../actions/api"
+import ProIcon from "../../ui/pro-icon"
+import PlusFormModal from "../../upgrade/plus-form-modal"
+import classes from "../me.module.css"
 import ReportModal from "./report-modal"
+import WarLogsModal from "./war-logs-modal"
 
-export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setClans }) {
+function FeatureCard({ children, icon, isPlus, title }) {
+  return (
+    <Card
+      align="center"
+      bd="2px solid gray.7"
+      bg="gray.8"
+      className={classes[`feature-card-${isPlus ? "plus" : "pro"}`]}
+      component={Stack}
+      gap="md"
+      h="10rem"
+      justify="center"
+      w="15rem"
+    >
+      <Group gap="0.25rem">
+        {icon}
+        <Text c="gray.1" fw="700">
+          {title}
+        </Text>
+      </Group>
+
+      {children}
+    </Card>
+  )
+}
+
+export default function LinkedClanCard({ channels, clan, clans, id, setClans }) {
   const [showConfirmButtons, setShowConfirmButtons] = useState(false)
-  const [warReportEnabled, setWarReportEnabled] = useState(!!clan.warReportEnabled)
-  const [seasonalReportEnabled, setSeasonalReportEnabled] = useState(!!clan.seasonalReportEnabled)
+  const [warReportEnabled, setWarReportEnabled] = useState(clan.warReportEnabled)
+  const [seasonalReportEnabled, setSeasonalReportEnabled] = useState(clan.seasonalReportEnabled)
   const [hasWebhook, setHasWebhook] = useState(!!clan.webhookUrl)
+  const router = useRouter()
+
+  const isPlus = !!clan.plus
+  const isPro = !!clan.isPro
 
   const handleConfirm = async () => {
     setClans(clans.filter((c) => c.tag !== clan.tag))
@@ -66,125 +109,191 @@ export default function LinkedClanCard({ channels, clan, clans, id, isPlus, setC
     )
   }
 
+  const handleUpgrade = async () => {
+    const { url } = await postStripeCheckout(clan.tag)
+
+    if (url) {
+      window.open(url, "_blank")
+    } else {
+      router.push("/500_")
+    }
+  }
+
+  const clanIcon = isPro ? (
+    <ProIcon size="xs" />
+  ) : isPlus ? (
+    <Image alt="CWStats Plus" height={16} src="/assets/icons/plus.webp" />
+  ) : (
+    <Image alt="CWStats Plus" height={16} src="/assets/icons/not-plus.webp" />
+  )
+
   return (
-    <Card bd="2px solid var(--mantine-color-gray-7)" bg="gray.8">
-      <Group justify="space-between">
-        <Group gap="xs">
-          <Image alt="Clan Badge" height={28} src={`/assets/badges/${clan.clanBadge}.webp`} />
-          <Text className="pinkText" component={Link} fw="600" fz="xl" href={`/clan/${clan.tag.substring(1)}`}>
-            {clan.clanName}
-          </Text>
-          {isPlus ? (
-            <Link href={`/clan/${clan.tag.substring(1)}/plus/daily-tracking`}>
-              <Image alt="CWStats Plus" height={16} src="/assets/icons/plus.webp" />
-            </Link>
-          ) : (
-            <Link href="/upgrade">
-              <Image alt="CWStats Plus" height={16} src="/assets/icons/not-plus.webp" />
-            </Link>
-          )}
-        </Group>
-        {showConfirmButtons ? (
-          <Group gap="xs">
-            <ActionIcon color="green" onClick={handleConfirm}>
-              <IconCheck size="1.25rem" />
-            </ActionIcon>
-            <ActionIcon color="red" onClick={() => setShowConfirmButtons(false)}>
-              <IconX size="1.25rem" />
-            </ActionIcon>
+    <Accordion variant="separated">
+      <Accordion.Item
+        bd="2px solid var(--mantine-color-gray-7)"
+        bg="gray.8"
+        component={Card}
+        p={{ base: "0.2rem", md: "xs" }}
+        value={clan.tag}
+      >
+        <Accordion.Control>
+          <Group justify="space-between">
+            <Group gap="0.4rem">
+              <Image alt="Clan Badge" height={28} src={`/assets/badges/${clan.clanBadge}.webp`} />
+              <Text fw="600" fz="xl">
+                {clan.clanName}
+              </Text>
+              {clanIcon}
+            </Group>
           </Group>
-        ) : (
-          <ActionIcon color="red" onClick={() => setShowConfirmButtons(true)}>
-            <IconTrash size="1.25rem" />
-          </ActionIcon>
-        )}
-      </Group>
+        </Accordion.Control>
 
-      <Divider color="gray.7" my="md" size="md" />
+        <Accordion.Panel>
+          <Stack gap="xs">
+            <Group justify="space-between">
+              <Group gap="xs">
+                <Title c="gray.1" size="h5">
+                  PLUS
+                </Title>
+                <Link href="/upgrade">
+                  <Image alt="CWStats Plus" height={16} src="/assets/icons/plus.webp" />
+                </Link>
+              </Group>
+              {!isPlus && (
+                <PlusFormModal clan={clan} size="xs" width="4.5rem">
+                  Activate
+                </PlusFormModal>
+              )}
+            </Group>
 
-      <Stack gap="xs">
-        <Group gap="0.3rem">
-          <Title size="h5">Plus Features</Title>
-          <Link href="/upgrade">
-            <Image alt="CWStats Plus" height={12} src={`/assets/icons/${!isPlus ? "not-" : ""}plus.webp`} />
-          </Link>
-        </Group>
+            {isPlus && !hasWebhook ? (
+              <Stack>
+                <Text c="red.6" fs="italic">
+                  Missing webhook for this clan.
+                </Text>
 
-        {!hasWebhook ? (
-          <Stack>
-            <Text c="red.6" fs="italic">
-              Missing webhook for this clan.
-            </Text>
+                <ReportModal
+                  channels={channels}
+                  clan={clan}
+                  id={id}
+                  isPlus={isPlus}
+                  setHasWebhook={setHasWebhook}
+                  type="webhook-only"
+                />
+              </Stack>
+            ) : (
+              <Group>
+                <FeatureCard
+                  icon={<IconClipboardData color="var(--mantine-color-gray-5)" />}
+                  isPlus
+                  title="Seasonal Report"
+                >
+                  {isPlus && seasonalReportEnabled ? (
+                    <Button
+                      color="red"
+                      disabled={!isPlus}
+                      maw="fit-content"
+                      onClick={handleSeasonReportDisable}
+                      size="xs"
+                      variant="light"
+                    >
+                      Disable
+                    </Button>
+                  ) : (
+                    <ReportModal
+                      channels={channels}
+                      clan={clan}
+                      id={id}
+                      isPlus={isPlus}
+                      setReportActive={setSeasonalReportEnabled}
+                      type="seasonal"
+                    />
+                  )}
+                </FeatureCard>
 
-            <ReportModal
-              channels={channels}
-              clan={clan}
-              id={id}
-              isPlus={isPlus}
-              setHasWebhook={setHasWebhook}
-              type="webhook-only"
-            />
+                <FeatureCard
+                  icon={<IconClipboardData color="var(--mantine-color-gray-5)" />}
+                  isPlus
+                  title="Daily War Report"
+                >
+                  {isPlus && warReportEnabled ? (
+                    <Button
+                      color="red"
+                      disabled={!isPlus}
+                      maw="fit-content"
+                      onClick={handleWarReportDisable}
+                      size="xs"
+                      variant="light"
+                    >
+                      Disable
+                    </Button>
+                  ) : (
+                    <ReportModal
+                      channels={channels}
+                      clan={clan}
+                      id={id}
+                      isPlus={isPlus}
+                      setReportActive={setWarReportEnabled}
+                      type="war"
+                    />
+                  )}
+                </FeatureCard>
+              </Group>
+            )}
           </Stack>
-        ) : (
-          <Group>
-            <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" w="20rem">
-              <Text c="dimmed" fw="600">
-                Seasonal Report
-              </Text>
 
-              {seasonalReportEnabled ? (
-                <Button
-                  color="red"
-                  disabled={!isPlus}
-                  maw="fit-content"
-                  onClick={handleSeasonReportDisable}
-                  size="xs"
-                  variant="light"
-                >
-                  Disable
+          <Divider color="gray.7" my="lg" size="md" />
+
+          <Stack gap="xs">
+            <Group justify="space-between">
+              <Group gap="xs">
+                <Title c="gray.1" size="h5">
+                  PRO
+                </Title>
+                <ProIcon size="xs" />
+              </Group>
+              <Button onClick={handleUpgrade} size="xs" variant="gradient" w="4.5rem">
+                Upgrade
+              </Button>
+            </Group>
+
+            <Group>
+              <FeatureCard icon={<IconServerBolt color="var(--mantine-color-gray-5)" />} title="War Logs">
+                <WarLogsModal channels={channels} disabled={!isPro} id={id} linkedClans={clans} />
+              </FeatureCard>
+              <FeatureCard icon={<IconNotes color="var(--mantine-color-gray-5)" />} title="Clan Logs">
+                <Button disabled={!isPro} size="xs" variant="default" w="fit-content">
+                  Coming Soon 🎉
                 </Button>
-              ) : (
-                <ReportModal
-                  channels={channels}
-                  clan={clan}
-                  id={id}
-                  isPlus={isPlus}
-                  setReportActive={setSeasonalReportEnabled}
-                  type="seasonal"
-                />
-              )}
-            </Card>
-
-            <Card bd="2px solid gray.7" bg="gray.8" component={Stack} gap="xs" w="20rem">
-              <Text c="dimmed" fw="600">
-                Daily War Report
-              </Text>
-
-              {warReportEnabled ? (
-                <Button
-                  color="red"
-                  disabled={!isPlus}
-                  maw="fit-content"
-                  onClick={handleWarReportDisable}
-                  size="xs"
-                  variant="light"
-                >
-                  Disable
+              </FeatureCard>
+              <FeatureCard icon={<IconWorldBolt color="var(--mantine-color-gray-5)" />} title="Global Abbreviation">
+                <Button disabled={!isPro} size="xs" variant="default" w="fit-content">
+                  Coming Soon 🎉
                 </Button>
-              ) : (
-                <ReportModal
-                  channels={channels}
-                  clan={clan}
-                  id={id}
-                  isPlus={isPlus}
-                  setReportActive={setWarReportEnabled}
-                  type="war"
-                />
-              )}
-            </Card>
-          </Group>
-        )}
-      </Stack>
-    </Card>
+              </FeatureCard>
+            </Group>
+          </Stack>
+
+          <Divider color="gray.7" my="lg" size="md" />
+
+          {showConfirmButtons ? (
+            <Group gap="xs" justify="end">
+              <ActionIcon color="green" onClick={handleConfirm}>
+                <IconCheck size="1.25rem" />
+              </ActionIcon>
+              <ActionIcon color="red" onClick={() => setShowConfirmButtons(false)}>
+                <IconX size="1.25rem" />
+              </ActionIcon>
+            </Group>
+          ) : (
+            <Group justify="end">
+              <ActionIcon color="red" onClick={() => setShowConfirmButtons(true)}>
+                <IconTrash size="1.25rem" />
+              </ActionIcon>
+            </Group>
+          )}
+        </Accordion.Panel>
+      </Accordion.Item>
+    </Accordion>
   )
 }

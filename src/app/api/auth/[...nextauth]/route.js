@@ -264,7 +264,17 @@ export const authOptions = {
       }
     },
   },
-  debug: process.env.NODE_ENV !== "production",
+  cookies: {
+    sessionToken: {
+      name: process.env.NODE_ENV === "production" ? "__Secure-next-auth.session-token" : "next-auth.session-token",
+      options: {
+        httpOnly: true,
+        path: "/",
+        sameSite: "lax",
+        secure: process.env.NODE_ENV === "production",
+      },
+    },
+  },
   events: {
     async signOut({ token }) {
       revokeAccessToken(token.user.access_token, token.user.discord_id)

@@ -1,0 +1,4 @@
+.proIcon {
+  background: linear-gradient(to right bottom, var(--mantine-color-orange-5), var(--mantine-color-pink-6));
+  font-weight: 700;
+}
