@@ -1,17 +1,15 @@
 "use client"
 
 import { Button, Group, Modal, Stack, Text, Title } from "@mantine/core"
-import { useMediaQuery } from "@mantine/hooks"
+import Link from "next/link"
 import { useEffect, useState } from "react"
 
-import Image from "../../ui/image"
+import ProIcon from "../../ui/pro-icon"
 
-const LATEST_ANNOUNCEMENT_ID = "2025-08-07"
+const LATEST_ANNOUNCEMENT_ID = "2025-08-28"
 
 export default function WhatsNewModal() {
   const [opened, setOpened] = useState(false)
-  const isMobile = useMediaQuery("(max-width: 30em)")
-  const isTablet = useMediaQuery("(max-width: 48em)")
 
   useEffect(() => {
     const lastSeen = localStorage.getItem("whatsNewLastSeen")
@@ -27,20 +25,20 @@ export default function WhatsNewModal() {
 
   return (
     <Modal onClose={handleClose} opened={opened} size="lg" title={<Title size="h2">What&apos;s New? 🎉</Title>}>
-      <Stack gap="0" p="xs">
-        <Title size="h4" td="underline">
-          War Logs
-        </Title>
+      <Stack gap="xs" p="xs">
+        <Group gap="xs">
+          <Title size="h3">CWStats PRO</Title>
+          <ProIcon />
+        </Group>
 
         <Text>
-          War Logs let you track your clan’s battles in near real-time, automatically sending every single, duel, and
-          boat battle to your chosen Discord channel. <strong>Limited to 1 plus clan per server.</strong> Enable them
-          from your server&apos;s dashboard.
+          To combat increasing server costs to maintain CWStats, a NEW tier of perks has been added. Unlock the full
+          power of CWStats with advanced features. See the full details{" "}
+          <Link className="pinkText" color="pink" href="/upgrade" style={{ color: "var(--mantine-color-pink-6)" }}>
+            here
+          </Link>
+          !
         </Text>
-
-        <Stack align="center" my="-2rem">
-          <Image alt="What's New?" height={isMobile ? 300 : isTablet ? 400 : 500} src="/assets/whatsNew.webp" />
-        </Stack>
       </Stack>
       <Group justify="end" m={0}>
         <Button onClick={handleClose}>Got it</Button>
