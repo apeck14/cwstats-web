@@ -20,6 +20,7 @@ import { formatTag } from "@/lib/functions/utils"
 import { embedColors } from "@/static/colors"
 
 import { postStripeCheckout } from "../../../actions/api"
+import ClanTierIcon from "../../clan-tier-icon"
 import ProIcon from "../../ui/pro-icon"
 import PlusFormModal from "../../upgrade/plus-form-modal"
 import classes from "../me.module.css"
@@ -119,14 +120,6 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
     }
   }
 
-  const clanIcon = isPro ? (
-    <ProIcon size="xs" />
-  ) : isPlus ? (
-    <Image alt="CWStats Plus" height={16} src="/assets/icons/plus.webp" />
-  ) : (
-    <Image alt="CWStats Plus" height={16} src="/assets/icons/not-plus.webp" />
-  )
-
   return (
     <Accordion variant="separated">
       <Accordion.Item
@@ -143,7 +136,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
               <Text fw="600" fz="xl">
                 {clan.clanName}
               </Text>
-              {clanIcon}
+              <ClanTierIcon isPlus={isPlus} isPro={isPro} showPopover={false} size="xs" />
             </Group>
           </Group>
         </Accordion.Control>

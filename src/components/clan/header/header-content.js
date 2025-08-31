@@ -9,18 +9,18 @@ import { useSession } from "next-auth/react"
 import { useRouter } from "next-nprogress-bar"
 import { useState } from "react"
 
-import PlusIcon from "@/components/ui/plus-icon"
 import { getClanBadgeFileName } from "@/lib/functions/utils"
 import colors from "@/static/colors"
 import { CLAN_IN_GAME_LINK } from "@/static/constants"
 
+import ClanTierIcon from "../../clan-tier-icon"
 import FollowButton from "../../ui/follow-button"
 import Image from "../../ui/image"
 import classes from "./header.module.css"
 import MobileActionsMenu from "./mobile-actions-popover"
 import PlusDropdown from "./plus-dropdown"
 
-export default function HeaderContent({ clan, discordInviteCode, followClan, isPlus, unfollowClan }) {
+export default function HeaderContent({ clan, discordInviteCode, followClan, unfollowClan }) {
   const { data: session } = useSession()
   const router = useRouter()
   const pathname = usePathname()
@@ -74,7 +74,7 @@ export default function HeaderContent({ clan, discordInviteCode, followClan, isP
                 <Group gap={isMobile ? "xs" : "md"}>
                   {isMobile && <Image alt="Badge" height={30} src={`/assets/badges/${badge}.webp`} unoptimized />}
                   <Title fz={`${isMobile ? 1.5 : 2}rem`}>{clan?.name}</Title>
-                  <PlusIcon isPlus={isPlus} size={isMobile ? 20 : 24} tag={formattedTag} />
+                  <ClanTierIcon isPlus={clan.isPlus} isPro={clan.isPro} showPopover size={isMobile ? "xs" : "sm"} />
                   {!isMobile && discordInviteCode && (
                     <ActionIcon
                       component={Link}

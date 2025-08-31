@@ -16,7 +16,7 @@ import LeaderboardTable from "./leaderboard-table"
 import LeagueSegmentControl from "./league-segment-control"
 import SavedClansToggle from "./saved-clans-toggle"
 
-export default function LeaderboardContent({ clans, isWarLb, lastUpdated, location, plusClans }) {
+export default function LeaderboardContent({ clans, isWarLb, lastUpdated, location, plusClanTags, proClanTags }) {
   const { data: session } = useSession()
   const searchParamsData = useSearchParams()
   const router = useRouter()
@@ -81,7 +81,8 @@ export default function LeaderboardContent({ clans, isWarLb, lastUpdated, locati
             clans={clans}
             isWarLb={isWarLb}
             league={league}
-            plusClans={plusClans}
+            plusClanTags={plusClanTags}
+            proClanTags={proClanTags}
             savedClans={session?.savedClans?.map((c) => c.tag)}
             search={search}
             showSavedClans={showSaved}

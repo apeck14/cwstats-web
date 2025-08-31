@@ -102,6 +102,24 @@ export async function isPlusClan(tag) {
   }
 }
 
+export async function getClanTiers(tag) {
+  try {
+    const db = client.db("General")
+    const plus = db.collection("CWStats+")
+
+    const plusClan = await plus.findOne({ tag: formatTag(tag, true) })
+
+    return {
+      isPlus: !!plusClan,
+      isPro: !!plusClan?.isPro,
+    }
+  } catch (e) {
+    const log = new Logger()
+    log.error("getClanTiers error", e)
+    return false
+  }
+}
+
 export async function getAllPlusClans(tagsOnly = false) {
   try {
     const db = client.db("General")
@@ -118,6 +136,24 @@ export async function getAllPlusClans(tagsOnly = false) {
   } catch (e) {
     const log = new Logger()
     log.error("getAllPlusClans error", e)
+    return []
+  }
+}
+
+export async function getAllClanTiers() {
+  try {
+    const db = client.db("General")
+    const CWStatsPlus = db.collection("CWStats+")
+    const plusClans = await CWStatsPlus.find({}).toArray()
+
+    return plusClans.map((c) => ({
+      tag: c.tag,
+      isPlus: true,
+      isPro: !!c?.isPro,
+    }))
+  } catch (e) {
+    const log = new Logger()
+    log.error("getAllClanTiers error", e)
     return []
   }
 }

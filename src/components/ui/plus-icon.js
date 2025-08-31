@@ -2,16 +2,17 @@
 
 import { Group, Popover, Text } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import Link from "next/link"
 
 import Image from "./image"
 
-export default function PlusIcon({ isPlus, showPopover = true, size = 16, tag }) {
+export default function PlusIcon({ height = 16, isPlus, showNonPlusIcon = true, showPopover = true }) {
   const [opened, { close, open }] = useDisclosure(false)
 
+  if (!showNonPlusIcon && !isPlus) return null
+
   const ImageComponent = (
-    <Group component={Link} href={isPlus ? `/clan/${tag}/plus/daily-tracking` : "/upgrade"} prefetch={false}>
-      <Image alt="CWStats Plus" height={size} src={`/assets/icons/${isPlus ? "" : "not-"}plus.webp`} width={size} />
+    <Group>
+      <Image alt="CWStats Plus" height={height} src={`/assets/icons/${isPlus ? "" : "not-"}plus.webp`} width={height} />
     </Group>
   )
 

@@ -9,11 +9,20 @@ import { useEffect, useState } from "react"
 
 import { getClanBadgeFileName, getRegionById } from "@/lib/functions/utils"
 
+import ClanTierIcon from "../clan-tier-icon"
 import Image from "../ui/image"
-import PlusIcon from "../ui/plus-icon"
 import classes from "./leaderboard.module.css"
 
-export default function LeaderboardTable({ clans, isWarLb, league, plusClans, savedClans, search, showSavedClans }) {
+export default function LeaderboardTable({
+  clans,
+  isWarLb,
+  league,
+  plusClanTags,
+  proClanTags,
+  savedClans,
+  search,
+  showSavedClans,
+}) {
   const [leaderboard, setLeaderboard] = useState(clans)
   const [page, setPage] = useState(1)
   const pathname = usePathname()
@@ -36,7 +45,8 @@ export default function LeaderboardTable({ clans, isWarLb, league, plusClans, sa
     const key = c.location?.countryCode || getRegionById(c.location.id)?.key || "unknown"
     const formattedKey = key.toLowerCase()
     const flagHref = `${pathname.slice(0, pathname.lastIndexOf("/"))}/${formattedKey}?${searchParams.toString()}`
-    const isPlus = plusClans.includes(c.tag)
+    const isPlus = plusClanTags.has(c.tag)
+    const isPro = proClanTags.has(c.tag)
 
     return (
       <Table.Tr fw={600} fz={{ base: "0.9rem", md: "1rem" }} h={`${isMobile ? 3.5 : 5}rem`} key={c.tag}>
@@ -66,7 +76,14 @@ export default function LeaderboardTable({ clans, isWarLb, league, plusClans, sa
               <Link className="pinkText" href={`/clan/${c.tag.substring(1)}/race`} prefetch={false}>
                 {c.name}
               </Link>
-              {isPlus && <PlusIcon isPlus showPopover={false} size={isMobile ? 12 : 16} tag={c.tag.substring(1)} />}
+              <ClanTierIcon
+                isMobile={isMobile}
+                isPlus={isPlus}
+                isPro={isPro}
+                showNonPlusIcon={false}
+                showPopover={false}
+                size="xs"
+              />
             </Group>
           </Group>
         </Table.Td>
