@@ -76,7 +76,7 @@ const options = [
       { text: "No clan description or trophy requirement" },
       { text: "& more coming soon! 🎉" },
     ],
-    price: "$2.50",
+    price: "$2.99",
     subtitle: "Unlock the full power of CWStats with advanced features.",
     title: "Pro",
   },
