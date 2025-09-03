@@ -127,9 +127,12 @@ export async function getAllPlusClans(tagsOnly = false) {
     let data
 
     if (tagsOnly) {
-      data = await CWStatsPlus.distinct("tag", { active: true })
+      data = await CWStatsPlus.distinct("tag", { $or: [{ active: true }, { active: { $exists: false } }] })
     } else {
-      data = await CWStatsPlus.find({ active: true }, { projection: { __id: 0, __v: 0 } }).toArray()
+      data = await CWStatsPlus.find(
+        { $or: [{ active: true }, { active: { $exists: false } }] },
+        { projection: { __id: 0, __v: 0 } },
+      ).toArray()
     }
 
     return data
@@ -147,9 +150,12 @@ export async function getAllProClans(tagsOnly = false) {
     let data
 
     if (tagsOnly) {
-      data = await CWStatsPro.distinct("tag", { active: true })
+      data = await CWStatsPro.distinct("tag", { $or: [{ active: true }, { active: { $exists: false } }] })
     } else {
-      data = await CWStatsPro.find({ active: true }, { projection: { _id: 0, __v: 0 } }).toArray()
+      data = await CWStatsPro.find(
+        { $or: [{ active: true }, { active: { $exists: false } }] },
+        { projection: { _id: 0, __v: 0 } },
+      ).toArray()
     }
 
     return data
