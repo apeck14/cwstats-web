@@ -41,7 +41,6 @@
 .feature-card-pro {
   position: relative;
   overflow: hidden;
-  border-radius: 1rem;
 
   &::before,
   &::after {

@@ -1,4 +1,4 @@
-import { Accordion, ActionIcon, Button, Card, Divider, Group, Stack, Text, Title } from "@mantine/core"
+import { Accordion, ActionIcon, Button, Card, Divider, Group, SimpleGrid, Stack, Text, Title } from "@mantine/core"
 import {
   IconCheck,
   IconClipboardData,
@@ -38,7 +38,6 @@ function FeatureCard({ children, icon, isPlus, title }) {
       gap="md"
       h="10rem"
       justify="center"
-      w="15rem"
     >
       <Group gap="0.25rem">
         {icon}
@@ -182,7 +181,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
                 />
               </Stack>
             ) : (
-              <Group>
+              <SimpleGrid cols={{ base: 1, md: 3 }}>
                 <FeatureCard
                   icon={<IconClipboardData color="var(--mantine-color-gray-5)" />}
                   isPlus
@@ -238,7 +237,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
                     />
                   )}
                 </FeatureCard>
-              </Group>
+              </SimpleGrid>
             )}
           </Stack>
 
@@ -266,7 +265,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
               )}
             </Group>
 
-            <Group>
+            <SimpleGrid cols={{ base: 1, md: 3 }}>
               <FeatureCard icon={<IconServerBolt color="var(--mantine-color-gray-5)" />} title="War Logs">
                 <WarLogsModal channels={channels} clan={clan} enabled={isPro} id={id} />
               </FeatureCard>
@@ -280,7 +279,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
                   Coming Soon 🎉
                 </Button>
               </FeatureCard>
-            </Group>
+            </SimpleGrid>
           </Stack>
 
           <Divider color="gray.7" my="lg" size="md" />
