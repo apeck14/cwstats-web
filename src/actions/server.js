@@ -1015,9 +1015,21 @@ export async function setUpdateNicknameUponLinking(id, value) {
   }
 }
 
-export const setFreeWarLogClan = async ({ channelId, guildId, tag }) =>
-  fetch(`${API_BASE_URL}/guild/free-war-log-clan`, {
+export const setWarLogClan = async ({ channelId, guildId, tag }) =>
+  fetch(`${API_BASE_URL}/pro/war-logs`, {
     body: JSON.stringify({ channelId, guildId, tag: formatTag(tag, false) }),
+    headers: {
+      Authorization: `Bearer ${INTERNAL_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    method: "PATCH",
+  })
+    .then(handleAPISuccess)
+    .catch(handleAPIFailure)
+
+export const setWarLogClanActive = async (tag, active) =>
+  fetch(`${API_BASE_URL}/war-logs/active`, {
+    body: JSON.stringify({ active, tag: formatTag(tag, false) }),
     headers: {
       Authorization: `Bearer ${INTERNAL_API_KEY}`,
       "Content-Type": "application/json",

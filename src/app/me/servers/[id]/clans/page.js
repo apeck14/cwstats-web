@@ -1,23 +1,27 @@
 import { getGuildChannels } from "@/actions/discord"
 import { getLinkedClans, getServerSettings } from "@/actions/server"
-import { getAllPlusClans } from "@/actions/upgrade"
+import { getAllPlusClans, getAllProClans } from "@/actions/upgrade"
 import ServerHeader from "@/components/me/header"
 import ServerClansContent from "@/components/me/server-clans/server-clans-content"
 
 export const dynamic = "force-dynamic"
 
 export default async function ClansPage({ params }) {
-  const [{ clans }, plusClans, { guild }, { data: channels }] = await Promise.all([
+  const [{ clans }, { guild }, { data: channels }, proClans, plusClanTags] = await Promise.all([
     getLinkedClans(params.id),
-    getAllPlusClans(true),
     getServerSettings(params.id, true),
     getGuildChannels(params.id, true),
+    getAllProClans(),
+    getAllPlusClans(true),
   ])
 
   for (const c of clans) {
-    const isPlus = plusClans.includes(c.tag)
-    if (isPlus) {
-      c.plus = true
+    const proClan = proClans.find((cl) => cl.tag === c.tag)
+
+    if (proClan) {
+      Object.assign(c, proClan, { isPlus: true, isPro: true })
+    } else {
+      c.isPlus = plusClanTags.includes(c.tag)
     }
   }
 

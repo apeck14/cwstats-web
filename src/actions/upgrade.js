@@ -127,9 +127,9 @@ export async function getAllPlusClans(tagsOnly = false) {
     let data
 
     if (tagsOnly) {
-      data = await CWStatsPlus.distinct("tag")
+      data = await CWStatsPlus.distinct("tag", { active: true })
     } else {
-      data = await CWStatsPlus.find({}).toArray()
+      data = await CWStatsPlus.find({ active: true }, { projection: { __id: 0, __v: 0 } }).toArray()
     }
 
     return data
@@ -140,16 +140,46 @@ export async function getAllPlusClans(tagsOnly = false) {
   }
 }
 
+export async function getAllProClans(tagsOnly = false) {
+  try {
+    const db = client.db("General")
+    const CWStatsPro = db.collection("CWStats Pro")
+    let data
+
+    if (tagsOnly) {
+      data = await CWStatsPro.distinct("tag", { active: true })
+    } else {
+      data = await CWStatsPro.find({ active: true }, { projection: { _id: 0, __v: 0 } }).toArray()
+    }
+
+    return data
+  } catch (e) {
+    const log = new Logger()
+    log.error("getAllProClans error", e)
+    return []
+  }
+}
+
 export async function getAllClanTiers() {
   try {
     const db = client.db("General")
     const CWStatsPlus = db.collection("CWStats+")
-    const plusClans = await CWStatsPlus.find({}).toArray()
+    const CWStatsPro = db.collection("CWStats Pro")
 
-    return plusClans.map((c) => ({
-      tag: c.tag,
-      isPlus: true,
-      isPro: !!c?.isPro,
+    const [plusDocs, proDocs] = await Promise.all([
+      CWStatsPlus.find({}, { projection: { tag: 1, _id: 0 } }).toArray(),
+      CWStatsPro.find({}, { projection: { tag: 1, _id: 0 } }).toArray(),
+    ])
+
+    const plusTags = plusDocs.map((doc) => doc.tag)
+    const proTags = proDocs.map((doc) => doc.tag)
+
+    const allTags = new Set([...plusTags, ...proTags])
+
+    return Array.from(allTags).map((tag) => ({
+      tag,
+      isPlus: plusTags.includes(tag),
+      isPro: proTags.includes(tag),
     }))
   } catch (e) {
     const log = new Logger()

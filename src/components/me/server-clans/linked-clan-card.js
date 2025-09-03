@@ -59,7 +59,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
   const [hasWebhook, setHasWebhook] = useState(!!clan.webhookUrl)
   const router = useRouter()
 
-  const isPlus = !!clan.plus
+  const isPlus = !!clan.isPlus
   const isPro = !!clan.isPro
 
   const handleConfirm = async () => {
@@ -152,7 +152,14 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
                   <Image alt="CWStats Plus" height={16} src="/assets/icons/plus.webp" />
                 </Link>
               </Group>
-              {!isPlus && (
+              {isPlus ? (
+                <Group gap="0.25rem">
+                  <Text c="green.6" fw={500}>
+                    Active
+                  </Text>
+                  <IconCheck color="var(--mantine-color-green-6)" size="1rem" />
+                </Group>
+              ) : (
                 <PlusFormModal clan={clan} size="xs" width="4.5rem">
                   Activate
                 </PlusFormModal>
@@ -245,21 +252,30 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
                 </Title>
                 <ProIcon size="xs" />
               </Group>
-              <Button onClick={handleUpgrade} size="xs" variant="gradient" w="4.5rem">
-                Upgrade
-              </Button>
+              {isPro ? (
+                <Group gap="0.25rem">
+                  <Text c="green.6" fw={500}>
+                    Active
+                  </Text>
+                  <IconCheck color="var(--mantine-color-green-6)" size="1rem" />
+                </Group>
+              ) : (
+                <Button onClick={handleUpgrade} size="xs" variant="gradient" w="4.5rem">
+                  Upgrade
+                </Button>
+              )}
             </Group>
 
             <Group>
               <FeatureCard icon={<IconServerBolt color="var(--mantine-color-gray-5)" />} title="War Logs">
-                <WarLogsModal channels={channels} disabled={!isPro} id={id} linkedClans={clans} />
+                <WarLogsModal channels={channels} clan={clan} enabled={isPro} id={id} />
               </FeatureCard>
               <FeatureCard icon={<IconNotes color="var(--mantine-color-gray-5)" />} title="Clan Logs">
                 <Button disabled={!isPro} size="xs" variant="default" w="fit-content">
                   Coming Soon 🎉
                 </Button>
               </FeatureCard>
-              <FeatureCard icon={<IconWorldBolt color="var(--mantine-color-gray-5)" />} title="Global Abbreviation">
+              <FeatureCard icon={<IconWorldBolt color="var(--mantine-color-gray-5)" />} title="Vanity URL">
                 <Button disabled={!isPro} size="xs" variant="default" w="fit-content">
                   Coming Soon 🎉
                 </Button>

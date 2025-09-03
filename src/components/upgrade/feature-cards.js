@@ -70,7 +70,7 @@ const options = [
     featureHeader: "All PLUS features, plus:",
     features: [
       { subText: "Real-time battle logs posted in your Discord server", text: "War Logs" },
-      { text: "Global clan abbreviation" },
+      { subText: "Ex: cwstats.com/your_clan", text: "Vanity URL" },
       { text: "Special role in Support Server" },
       { text: "Pro checkmark" },
       { text: "No clan description or trophy requirement" },

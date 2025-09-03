@@ -9,14 +9,15 @@ import { sendLogWebhook } from "@/actions/upgrade"
 import { formatTag } from "@/lib/functions/utils"
 import { embedColors } from "@/static/colors"
 
-import { setFreeWarLogClan } from "../../../actions/server"
+import { setWarLogClan, setWarLogClanActive } from "../../../actions/server"
 import ChannelDropdown from "../home/channel-dropdown"
 
-export default function WarLogsModal({ channels, clan, disabled, id, setWarLogClan }) {
-  const [error, setError] = useState("You need to wait 7 days.")
+export default function WarLogsModal({ channels, clan, enabled, id }) {
+  const [error, setError] = useState("")
   const [loading, setLoading] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
   const [channelId, setChannelId] = useState(null)
+  const [showEnabled, setShowEnabled] = useState(!clan?.warLogsEnabled || !clan?.webhookUrl1 || !clan?.webhookUrl2)
 
   const sendEnableNotifications = () => {
     notifications.show({
@@ -48,17 +49,21 @@ export default function WarLogsModal({ channels, clan, disabled, id, setWarLogCl
   const handleSubmit = async () => {
     setLoading(true)
 
-    const { error } = await setFreeWarLogClan({ channelId, guildId: id, tag: clan.tag })
+    const { error } = await setWarLogClan({ channelId, guildId: id, tag: clan.tag })
 
     setLoading(false)
 
     if (error) {
       setError(error)
     } else {
-      setWarLogClan(clan)
       close()
       sendEnableNotifications()
     }
+  }
+
+  const handleDisable = async () => {
+    const { success } = await setWarLogClanActive(clan.tag, false)
+    if (success) setShowEnabled(true)
   }
 
   return (
@@ -80,16 +85,22 @@ export default function WarLogsModal({ channels, clan, disabled, id, setWarLogCl
                 {error}
               </Text>
             )}
-            <Button disabled={!channelId || !clan} loading={loading} onClick={handleSubmit}>
+            <Button disabled={!channelId} loading={loading} onClick={handleSubmit}>
               Enable
             </Button>
           </Group>
         </Stack>
       </Modal>
 
-      <Button disabled={disabled} onClick={handleOpen} size="xs" variant="default" w="fit-content">
-        Enable
-      </Button>
+      {showEnabled ? (
+        <Button disabled={!enabled} onClick={handleOpen} size="xs" variant="default" w="fit-content">
+          Enable
+        </Button>
+      ) : (
+        <Button color="red" disabled={!enabled} onClick={handleDisable} size="xs" variant="light">
+          Disable
+        </Button>
+      )}
     </>
   )
 }

@@ -9,7 +9,7 @@ const mockdata = [
     title: "Advanced Features",
   },
   {
-    description: "Reduce bot and website limitations, and unlock new functionalities, including Global Abbreviations!",
+    description: "Reduce bot and website limitations, and unlock new functionalities, including vanity URLs!",
     icon: IconChartCandle,
     title: "More Functionality",
   },
