@@ -2,9 +2,8 @@ import { Button, Container, Stack, Text, Title } from "@mantine/core"
 import { IconCircleDashedCheck } from "@tabler/icons-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
-import Stripe from "stripe"
 
-const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
+import { getStripeSession } from "../../../actions/stripe"
 
 export const metadata = {
   description: "CWStats Pro subscription was successfully enabled!",
@@ -13,23 +12,12 @@ export const metadata = {
 
 export default async function CheckoutSuccessPage({ searchParams }) {
   const { sessionId } = searchParams
-  let redirectUrl = "/"
 
   if (!sessionId) {
     notFound()
   }
 
-  try {
-    const session = await stripe.checkout.sessions.retrieve(sessionId)
-
-    const guildId = session.metadata?.guildId
-
-    if (guildId) {
-      redirectUrl = `/me/servers/${guildId}/clans`
-    }
-  } catch (err) {
-    notFound()
-  }
+  const { url: redirectUrl } = await getStripeSession(sessionId)
 
   return (
     <Container size="lg">
