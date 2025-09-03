@@ -24,6 +24,7 @@ jobs:
       - name: Build project
         env:
           URI: ${{ secrets.URI }}
+          STRIPE_SECRET_KEY: ${{ secrets.STRIPE_SECRET_KEY }}
         run: npm run build
 
       - name: Set up SSH key
