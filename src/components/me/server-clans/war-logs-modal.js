@@ -57,6 +57,7 @@ export default function WarLogsModal({ channels, clan, enabled, id }) {
       setError(error)
     } else {
       close()
+      setShowEnabled(false)
       sendEnableNotifications()
     }
   }
