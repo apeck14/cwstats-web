@@ -10,6 +10,8 @@ export const metadata = {
   title: "My Servers | CWStats",
 }
 
+export const dynamic = "force-dynamic"
+
 export default async function ServersPage() {
   const { data: guilds } = await getGuilds(true)
 
