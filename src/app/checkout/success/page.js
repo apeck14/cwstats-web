@@ -10,6 +10,8 @@ export const metadata = {
   title: "Success | CWStats Pro",
 }
 
+export const dynamic = "force-dynamic"
+
 export default async function CheckoutSuccessPage({ searchParams }) {
   const { sessionId } = searchParams
 
