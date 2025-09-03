@@ -41,7 +41,7 @@ export default function WhatsNewModal() {
         </Text>
       </Stack>
       <Group justify="end" m={0}>
-        <Button onClick={handleClose}>Got it</Button>
+        <Button onClick={handleClose}>Got it!</Button>
       </Group>
     </Modal>
   )
