@@ -6,7 +6,7 @@ import Stripe from "stripe"
 
 const stripe = new Stripe(process.env.STRIPE_SECRET_KEY)
 
-export const getStripeSession = async (sessionId) => {
+export const getStripeRedirectUrl = async (sessionId) => {
   try {
     const session = await stripe.checkout.sessions.retrieve(sessionId)
     const subscription = await stripe.subscriptions.retrieve(session.subscription)

@@ -3,7 +3,7 @@ import { IconCircleDashedCheck } from "@tabler/icons-react"
 import Link from "next/link"
 import { notFound } from "next/navigation"
 
-import { getStripeSession } from "../../../actions/stripe"
+import { getStripeRedirectUrl } from "../../../actions/stripe"
 
 export const metadata = {
   description: "CWStats Pro subscription was successfully enabled!",
@@ -19,7 +19,7 @@ export default async function CheckoutSuccessPage({ searchParams }) {
     notFound()
   }
 
-  const { url: redirectUrl } = await getStripeSession(sessionId)
+  const { url: redirectUrl } = await getStripeRedirectUrl(sessionId)
 
   return (
     <Container size="lg">
