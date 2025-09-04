@@ -1,15 +1,22 @@
 import { getLinkedClanByTag } from "@/actions/server"
-import { getClanTiers } from "@/actions/upgrade"
+import { getAllPlusClans, getAllProClans } from "@/actions/upgrade"
 import { followClan, unfollowClan } from "@/actions/user"
 
 import HeaderContent from "./header-content"
 
 export default async function ClanHeader({ clan }) {
-  const [clanTiers, linkedClan] = await Promise.all([getClanTiers(clan?.tag), getLinkedClanByTag(clan?.tag)])
+  const [proClanTags, plusClanTags, linkedClan] = await Promise.all([
+    getAllProClans(true),
+    getAllPlusClans(true),
+    getLinkedClanByTag(clan?.tag),
+  ])
+
+  clan.isPlus = plusClanTags.includes(clan?.tag)
+  clan.isPro = proClanTags.includes(clan?.tag)
 
   return (
     <HeaderContent
-      clan={{ ...clan, ...clanTiers }}
+      clan={clan}
       discordInviteCode={linkedClan?.clan?.discordInviteCode}
       followClan={followClan}
       unfollowClan={unfollowClan}

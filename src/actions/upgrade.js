@@ -120,7 +120,7 @@ export async function getClanTiers(tag) {
   }
 }
 
-export async function getAllPlusClans(tagsOnly = false) {
+export async function getAllPlusClans(tagsOnly = false, projection = {}) {
   try {
     const db = client.db("General")
     const CWStatsPlus = db.collection("CWStats+")
@@ -131,7 +131,7 @@ export async function getAllPlusClans(tagsOnly = false) {
     } else {
       data = await CWStatsPlus.find(
         { $or: [{ active: true }, { active: { $exists: false } }] },
-        { projection: { __id: 0, __v: 0 } },
+        { projection: { __id: 0, __v: 0, ...projection } },
       ).toArray()
     }
 
