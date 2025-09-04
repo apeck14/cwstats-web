@@ -1,14 +1,13 @@
 /* eslint-disable import/no-mutable-exports */
 import { MongoClient, ServerApiVersion } from "mongodb"
 
-if (!process.env.URI) throw new Error("Invalid URI")
+if (!process.env.MONGODB_URI) throw new Error("Invalid MONGODB_URI")
 
-const uri = process.env.URI
+const uri = process.env.NODE_ENV === "development" ? process.env.MONGODB_TEST_URI : process.env.MONGODB_URI
 
 const options = {
   serverApi: {
     deprecationErrors: true,
-    // strict: true,
     version: ServerApiVersion.v1,
   },
 }

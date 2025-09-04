@@ -145,8 +145,7 @@ export async function getAllPlusClans(tagsOnly = false) {
 
 export async function getAllProClans(tagsOnly = false) {
   try {
-    const db = client.db("General")
-    const CWStatsPro = db.collection("CWStats Pro")
+    const CWStatsPro = client.db().collection("CWStats Pro")
     let data
 
     if (tagsOnly) {
