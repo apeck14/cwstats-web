@@ -16,8 +16,6 @@ export default function SubscriptionsPage() {
       .then(({ url }) => {
         if (url) {
           window.location.href = url
-          // Redirect back home after 2.5 seconds
-          timeoutId = setTimeout(() => router.push("/"), 2500)
         } else {
           router.push("/upgrade")
         }
