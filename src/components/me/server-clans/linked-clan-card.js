@@ -24,6 +24,7 @@ import ClanTierIcon from "../../clan-tier-icon"
 import ProIcon from "../../ui/pro-icon"
 import PlusFormModal from "../../upgrade/plus-form-modal"
 import classes from "../me.module.css"
+import ClanLogsModal from "./clan-logs-modal"
 import ReportModal from "./report-modal"
 import WarLogsModal from "./war-logs-modal"
 
@@ -270,9 +271,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
                 <WarLogsModal channels={channels} clan={clan} enabled={isPro} id={id} />
               </FeatureCard>
               <FeatureCard icon={<IconNotes color="var(--mantine-color-gray-5)" />} title="Clan Logs">
-                <Button disabled={!isPro} size="xs" variant="default" w="fit-content">
-                  Coming Soon 🎉
-                </Button>
+                <ClanLogsModal channels={channels} clan={clan} enabled={isPro} id={id} />
               </FeatureCard>
               <FeatureCard icon={<IconWorldBolt color="var(--mantine-color-gray-5)" />} title="Vanity URL">
                 <Button disabled={!isPro} size="xs" variant="default" w="fit-content">

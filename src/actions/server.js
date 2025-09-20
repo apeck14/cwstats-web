@@ -1038,3 +1038,27 @@ export const setWarLogClanActive = async (tag, active) =>
   })
     .then(handleAPISuccess)
     .catch(handleAPIFailure)
+
+export const setClanLogClan = async ({ channelId, guildId, tag }) =>
+  fetch(`${API_BASE_URL}/pro/clan-logs`, {
+    body: JSON.stringify({ channelId, guildId, tag: formatTag(tag, false) }),
+    headers: {
+      Authorization: `Bearer ${INTERNAL_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    method: "PATCH",
+  })
+    .then(handleAPISuccess)
+    .catch(handleAPIFailure)
+
+export const setClanLogClanEnabled = async (tag, enabled) =>
+  fetch(`${API_BASE_URL}/clan-logs/enabled`, {
+    body: JSON.stringify({ enabled, tag: formatTag(tag, false) }),
+    headers: {
+      Authorization: `Bearer ${INTERNAL_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    method: "PATCH",
+  })
+    .then(handleAPISuccess)
+    .catch(handleAPIFailure)
