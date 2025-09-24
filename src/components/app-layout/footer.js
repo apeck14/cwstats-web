@@ -21,6 +21,10 @@ const categories = {
     { label: "Invite", url: "/invite" },
     { label: "Support Server", url: "/support" },
   ],
+  Resources: [
+    { label: "Privacy Policy", url: "/privacy-policy" },
+    { label: "Terms of Service", url: "/terms-of-service" },
+  ],
 }
 
 export default function AppFooter() {
@@ -40,7 +44,7 @@ export default function AppFooter() {
               The trusted source for everything Clan Wars.
             </Text>
           </Stack>
-          <Group align="top" gap="5rem">
+          <Group align="top" gap="3.5rem">
             {Object.keys(categories).map((key) => {
               const links = categories[key]
 
