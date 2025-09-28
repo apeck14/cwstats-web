@@ -1062,3 +1062,15 @@ export const setClanLogClanEnabled = async (tag, enabled) =>
   })
     .then(handleAPISuccess)
     .catch(handleAPIFailure)
+
+export const setGuildTimezone = async (id, timezone) =>
+  fetch(`${API_BASE_URL}/guild/${id}/timezone`, {
+    body: JSON.stringify({ timezone }),
+    headers: {
+      Authorization: `Bearer ${INTERNAL_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    method: "PATCH",
+  })
+    .then(handleAPISuccess)
+    .catch(handleAPIFailure)
