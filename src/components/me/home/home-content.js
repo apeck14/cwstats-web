@@ -32,8 +32,8 @@ export default function HomeContent({ channels, guild, roles }) {
   const [savedChannelState, setSavedChannelState] = useState(initialChannelState)
   const [unsavedChannelState, setUnsavedChannelState] = useState(initialChannelState)
 
-  const [savedTimezone, setSavedTimezone] = useState(guild?.timezone || "")
-  const [unsavedTimezone, setUnsavedTimezone] = useState(guild?.timezone || "")
+  const [savedTimezone, setSavedTimezone] = useState(guild?.timezone || "America/New_York")
+  const [unsavedTimezone, setUnsavedTimezone] = useState(guild?.timezone || "America/New_York")
 
   // Utility to check if any setting has changed to open save modal
   const checkIfSettingsChanged = (roleID, channelState, timezone = unsavedTimezone) => {
