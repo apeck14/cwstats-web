@@ -51,7 +51,7 @@ export default function BulkLinkModal({
   }
 
   const handleChange = (e, tag) => {
-    const selectedUsername = e?.split("__")[0] // remove suffix
+    const selectedUsername = e?.substring(0, e.lastIndexOf("__")) || e // remove suffix
     const newLinksLeft = linksLeft - (e ? 1 : -1)
 
     setLinksLeft(newLinksLeft)
