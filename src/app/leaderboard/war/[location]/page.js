@@ -1,7 +1,7 @@
 import { notFound } from "next/navigation"
 
 import { getWarLeaderboard } from "@/actions/supercell"
-import { getAllPlusClans } from "@/actions/upgrade"
+import { getAllClanTiers } from "@/actions/upgrade"
 import LeaderboardContent from "@/components/leaderboard/leaderboard-content"
 import { getRegionByKey } from "@/lib/functions/utils"
 
@@ -30,7 +30,18 @@ export default async function WarLeaderboardPage({ params }) {
 
   if (!region) notFound()
 
-  const [{ data: leaderboard }, plusClans] = await Promise.all([getWarLeaderboard(region?.id), getAllPlusClans(true)])
+  const [{ data: leaderboard }, clanTiers] = await Promise.all([getWarLeaderboard(region?.id), getAllClanTiers()])
 
-  return <LeaderboardContent clans={leaderboard || []} isWarLb location={location} plusClans={plusClans} />
+  const plusClans = new Set(clanTiers.map((c) => c.tag))
+  const proClans = new Set(clanTiers.filter((c) => c.isPro).map((c) => c.tag))
+
+  return (
+    <LeaderboardContent
+      clans={leaderboard || []}
+      isWarLb
+      location={location}
+      plusClanTags={plusClans}
+      proClanTags={proClans}
+    />
+  )
 }
