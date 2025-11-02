@@ -114,7 +114,7 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans }) 
     const { url } = await postStripeCheckout(clan.tag)
 
     if (url) {
-      window.open(url, "_blank")
+      window.location.assign(url)
     } else {
       router.push("/500_")
     }
