@@ -52,21 +52,22 @@ async function supercellRequest(url, redirectOnError) {
 }
 
 async function addPlayer({ clanName, name, tag }) {
-  if ((!clanName && clanName !== "") || !name || !tag) return
+  return
+  // if ((!clanName && clanName !== "") || !name || !tag) return
 
-  try {
-    const db = client.db("General")
-    const players = db.collection("Players")
+  // try {
+  //   const db = client.db("General")
+  //   const players = db.collection("Players")
 
-    const query = { tag }
-    const update = { $set: { clanName, name, tag } }
-    const options = { upsert: true }
+  //   const query = { tag }
+  //   const update = { $set: { clanName, name, tag } }
+  //   const options = { upsert: true }
 
-    players.updateOne(query, update, options)
-  } catch (err) {
-    const log = new Logger()
-    log.error("addPlayer Error", err)
-  }
+  //   players.updateOne(query, update, options)
+  // } catch (err) {
+  //   const log = new Logger()
+  //   log.error("addPlayer Error", err)
+  // }
 }
 
 export async function getPlayer(tag, redirectOnError = false) {
