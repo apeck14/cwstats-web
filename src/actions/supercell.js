@@ -72,12 +72,12 @@ async function supercellRequest(url, redirectOnError) {
 export async function getPlayer(tag, redirectOnError = false) {
   const player = await supercellRequest(`/players/%23${formatTag(tag)}`, redirectOnError)
 
-  if (!player.error) {
-    const {
-      data: { clan, name, tag: pTag },
-    } = player
-    // addPlayer({ clanName: clan ? clan.name : "", name, tag: pTag })
-  }
+  // if (!player.error) {
+  //   const {
+  //     data: { clan, name, tag: pTag },
+  //   } = player
+  //   addPlayer({ clanName: clan ? clan.name : "", name, tag: pTag })
+  // }
 
   return player
 }
