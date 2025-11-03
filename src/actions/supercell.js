@@ -1,12 +1,12 @@
-'use server'
+"use server"
 
-import { redirect } from 'next/navigation'
+import { redirect } from "next/navigation"
 
 // import { Logger } from "next-axiom"
-import { getLogDetails } from '@/lib/functions/race'
-import { formatTag, getSupercellRedirectRoute } from '@/lib/functions/utils'
+import { getLogDetails } from "@/lib/functions/race"
+import { formatTag, getSupercellRedirectRoute } from "@/lib/functions/utils"
 // import client from "@/lib/mongodb"
-import { HOST, SUPERCELL_BASE_URL } from '@/static/constants'
+import { HOST, SUPERCELL_BASE_URL } from "@/static/constants"
 
 export const formatSupercellResponse = async (resp, redirectOnError) => {
   const { status } = resp
@@ -16,27 +16,27 @@ export const formatSupercellResponse = async (resp, redirectOnError) => {
 
     return {
       data: data.items ?? data,
-      status
+      status,
     }
   }
 
   if (redirectOnError) redirect(getSupercellRedirectRoute(status))
   else {
-    let error = 'Unexpected error. Please try again.'
+    let error = "Unexpected error. Please try again."
 
-    if (status === 404) error = 'Not found.'
-    else if (status === 429) error = 'API limit exceeded. Please try again later.'
-    else if (status === 503) error = 'Maintenence break.'
+    if (status === 404) error = "Not found."
+    else if (status === 429) error = "API limit exceeded. Please try again later."
+    else if (status === 503) error = "Maintenence break."
 
     return {
       error,
-      status
+      status,
     }
   }
 }
 
 async function supercellRequest(url, redirectOnError) {
-  const options = { cache: 'no-store', headers: { Authorization: `Bearer ${process.env.CR_API_TOKEN}` } }
+  const options = { cache: "no-store", headers: { Authorization: `Bearer ${process.env.CR_API_TOKEN}` } }
   let error = false
 
   try {
@@ -44,40 +44,39 @@ async function supercellRequest(url, redirectOnError) {
 
     return formatSupercellResponse(resp, redirectOnError)
   } catch {
-    if (!redirectOnError) return { error: 'Unexpected error. Please try again.', status: 500 }
+    if (!redirectOnError) return { error: "Unexpected error. Please try again.", status: 500 }
     error = true
   } finally {
-    if (redirectOnError && error) redirect('/500_')
+    if (redirectOnError && error) redirect("/500_")
   }
 }
 
-async function addPlayer() {
-  return
-  // if ((!clanName && clanName !== "") || !name || !tag) return
+// async function addPlayer() {
+//   if ((!clanName && clanName !== "") || !name || !tag) return
 
-  // try {
-  //   const db = client.db("General")
-  //   const players = db.collection("Players")
+//   try {
+//     const db = client.db("General")
+//     const players = db.collection("Players")
 
-  //   const query = { tag }
-  //   const update = { $set: { clanName, name, tag } }
-  //   const options = { upsert: true }
+//     const query = { tag }
+//     const update = { $set: { clanName, name, tag } }
+//     const options = { upsert: true }
 
-  //   players.updateOne(query, update, options)
-  // } catch (err) {
-  //   const log = new Logger()
-  //   log.error("addPlayer Error", err)
-  // }
-}
+//     players.updateOne(query, update, options)
+//   } catch (err) {
+//     const log = new Logger()
+//     log.error("addPlayer Error", err)
+//   }
+// }
 
 export async function getPlayer(tag, redirectOnError = false) {
   const player = await supercellRequest(`/players/%23${formatTag(tag)}`, redirectOnError)
 
   if (!player.error) {
     const {
-      data: { clan, name, tag: pTag }
+      data: { clan, name, tag: pTag },
     } = player
-    addPlayer({ clanName: clan ? clan.name : '', name, tag: pTag })
+    // addPlayer({ clanName: clan ? clan.name : "", name, tag: pTag })
   }
 
   return player
@@ -88,7 +87,7 @@ export async function getPlayerBattleLog(tag, redirectOnError = false) {
 }
 
 export async function getClan(tag) {
-  const options = { cache: 'no-store' }
+  const options = { cache: "no-store" }
   return fetch(`${HOST}/api/clan?tag=${formatTag(tag)}`, options).then((res) => res.json())
 }
 
@@ -102,9 +101,9 @@ export async function getRaceLog(tag, redirectOnError = false, getLogStats = fal
 }
 
 export async function getRace(tag, getRaceStats = false) {
-  const options = { cache: 'no-store' }
+  const options = { cache: "no-store" }
   return fetch(`${HOST}/api/clan/race?tag=${formatTag(tag)}&getRaceStats=${getRaceStats}`, options).then((res) =>
-    res.json()
+    res.json(),
   )
 }
 
