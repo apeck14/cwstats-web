@@ -2,91 +2,45 @@
 
 import { Button, Divider, Group, Modal, Stack, Text, Title } from "@mantine/core"
 import { useDisclosure } from "@mantine/hooks"
-import { notifications } from "@mantine/notifications"
 import { useState } from "react"
 
-import { createWebhook, setDailyWarReport, setSeasonalReport } from "@/actions/discord"
-import { getLinkedClanByTag } from "@/actions/server"
-import { sendLogWebhook } from "@/actions/upgrade"
 import Image from "@/components/ui/image"
-import { formatTag } from "@/lib/functions/utils"
-import { embedColors } from "@/static/colors"
 
 import ChannelDropdown from "../home/channel-dropdown"
 
-export default function ReportModal({ channels, clan, id, isPlus, setHasWebhook, setReportActive, type }) {
+/**
+ * Report modal for setting up war/seasonal reports
+ * - Only acccessible when no webhookUrl is set
+ */
+
+export default function ReportModal({ channels, clan, handleReportUpdate, isPlus, type }) {
   const [error, setError] = useState("")
-  const [enabledLoading, setEnableLoading] = useState(false)
   const [loading, setLoading] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
   const [channelId, setChannelId] = useState(null)
 
-  const formattedType = type === "webhook-only" ? "Webhook" : `${type[0].toUpperCase()}${type.slice(1)} Report`
-
-  const sendEnableNotifications = () => {
-    notifications.show({
-      autoClose: 8000,
-      color: "green",
-      message: `${formattedType} successfully enabled for ${clan.clanName}.`,
-      title: `${formattedType} Enabled!`,
-    })
-
-    sendLogWebhook(
-      {
-        clan: clan.clanName,
-        color: embedColors.orange,
-        guild: id,
-        tag: formatTag(clan.tag, true),
-        title: `${formattedType} Enabled`,
-      },
-      true,
-    )
-  }
+  const formattedType = `${type[0].toUpperCase()}${type.slice(1)} Report`
 
   const handleOpen = async () => {
     setError("")
     setChannelId(null)
-
-    setEnableLoading(true)
-
-    const { clan: linkedClan } = await getLinkedClanByTag(clan.tag)
-    const webhookExists = !!linkedClan?.webhookUrl
-
-    setEnableLoading(false)
-
-    if (webhookExists) {
-      if (type === "war") setDailyWarReport(clan.tag)
-      else if (type === "seasonal") setSeasonalReport(clan.tag)
-      setReportActive(true)
-      sendEnableNotifications()
-    } else {
-      open()
-    }
+    open()
   }
 
   const handleSubmit = async () => {
     setLoading(true)
-
-    const { error } = await createWebhook(channelId, `CWStats Reports - ${clan.clanName}`, clan.tag, isPlus)
-
+    const { error } = await handleReportUpdate(true)
     setLoading(false)
 
     if (error) setError(error)
     else {
-      if (type === "war") setDailyWarReport(clan.tag)
-      else if (type === "seasonal") setSeasonalReport(clan.tag)
-
-      if (type === "webhook-only") setHasWebhook(true)
-      else setReportActive(true)
-
       close()
-      sendEnableNotifications()
     }
   }
 
   return (
     <>
-      <Modal centered onClose={close} opened={opened} title={<Title fz="1.5rem">Enable {formattedType} Report</Title>}>
+      <Modal centered onClose={close} opened={opened} title={<Title fz="1.5rem">Enable {formattedType}</Title>}>
         <Stack gap="md">
           <Divider color="gray.6" size="sm" />
 
@@ -110,15 +64,8 @@ export default function ReportModal({ channels, clan, id, isPlus, setHasWebhook,
           </Group>
         </Stack>
       </Modal>
-      <Button
-        disabled={type !== "webhook-only" && !isPlus}
-        loading={enabledLoading}
-        maw="fit-content"
-        onClick={handleOpen}
-        size="xs"
-        variant="default"
-      >
-        {type === "webhook-only" ? "Create Webhook" : "Enable"}
+      <Button disabled={!isPlus} maw="fit-content" onClick={handleOpen} size="xs" variant="default">
+        Enable
       </Button>
     </>
   )

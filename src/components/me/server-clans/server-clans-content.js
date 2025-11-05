@@ -108,7 +108,15 @@ export default function ServerClansContent({ channels, discordInviteCode, id, li
             <Divider color="gray.7" my="md" size="md" />
 
             {clans.map((c) => (
-              <LinkedClanCard channels={channels} clan={c} clans={clans} id={id} key={c.tag} setClans={setClans} />
+              <LinkedClanCard
+                channels={channels}
+                clan={c}
+                clans={clans}
+                id={id}
+                key={c.tag}
+                setClans={setClans}
+                webhookExists={!!c.webhookUrl}
+              />
             ))}
           </Stack>
         ) : (

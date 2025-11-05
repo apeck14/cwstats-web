@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+ 
 import { getToken } from "next-auth/jwt"
 
 import { API_BASE_URL } from "../../../../../public/static/constants"

@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+ 
 
 "use server"
 
@@ -493,7 +493,7 @@ export async function linkClanToServer(id, tag) {
 
 export async function getLinkedClans(id, plusOnly = false) {
   try {
-    const db = client.db("General")
+    const db = client.db("Test") // TODO
     const linkedClans = db.collection("Linked Clans")
 
     let serverLinkedClans = await linkedClans.find({ guildID: id }).toArray()
@@ -1071,6 +1071,30 @@ export const setGuildTimezone = async (id, timezone) =>
       "Content-Type": "application/json",
     },
     method: "PATCH",
+  })
+    .then(handleAPISuccess)
+    .catch(handleAPIFailure)
+
+export const postSeasonalReport = async ({ enabled, guildId, tag }) =>
+  fetch(`${API_BASE_URL}/plus/seasonal-report`, {
+    body: JSON.stringify({ enabled, guildId, tag: formatTag(tag, false) }),
+    headers: {
+      Authorization: `Bearer ${INTERNAL_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    method: "POST",
+  })
+    .then(handleAPISuccess)
+    .catch(handleAPIFailure)
+
+export const postDailyWarReport = async ({ enabled, guildId, tag }) =>
+  fetch(`${API_BASE_URL}/plus/war-report`, {
+    body: JSON.stringify({ enabled, guildId, tag: formatTag(tag, false) }),
+    headers: {
+      Authorization: `Bearer ${INTERNAL_API_KEY}`,
+      "Content-Type": "application/json",
+    },
+    method: "POST",
   })
     .then(handleAPISuccess)
     .catch(handleAPIFailure)

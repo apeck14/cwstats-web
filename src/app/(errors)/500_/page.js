@@ -1,6 +1,6 @@
-import Link from "next/link"
+import Link from 'next/link'
 
-import ErrorPage from "@/components/error-page"
+import ErrorPage from '@/components/error-page'
 
 export default function Page500() {
   return (
@@ -8,14 +8,14 @@ export default function Page500() {
       code={500}
       description={
         <>
-          Something went wrong behind the scenes. If this issue persists, please join the{" "}
-          <Link className="pinkText" href="/support">
+          Something went wrong behind the scenes. If this issue persists, please join the{' '}
+          <Link className='pinkText' href='/support'>
             Support Server
           </Link>
           .
         </>
       }
-      title="Unexpected error."
+      title='Unexpected error.'
     />
   )
 }

@@ -1,16 +1,16 @@
-import { Group, Stack, Table, Text } from "@mantine/core"
-import { useMediaQuery } from "@mantine/hooks"
-import { IconCaretDownFilled, IconCaretUpFilled } from "@tabler/icons-react"
-import Link from "next/link"
-import React, { useMemo, useState } from "react"
+import { Group, Stack, Table, Text } from '@mantine/core'
+import { useMediaQuery } from '@mantine/hooks'
+import { IconCaretDownFilled, IconCaretUpFilled } from '@tabler/icons-react'
+import Link from 'next/link'
+import React, { useMemo, useState } from 'react'
 
-import Image from "@/components/ui/image"
+import Image from '@/components/ui/image'
 
-import classes from "./daily-tracking.module.css"
+import classes from './daily-tracking.module.css'
 
 const columns = {
   attacks: (key, asc) => {
-    const isTotal = key.includes("total")
+    const isTotal = key.includes('total')
 
     if (isTotal) {
       if (asc) return (a, b) => a.totalAttacks - b.totalAttacks
@@ -47,7 +47,7 @@ const columns = {
     }
   },
   fame: (key, asc) => {
-    const isTotal = key.includes("total")
+    const isTotal = key.includes('total')
 
     if (isTotal) {
       if (asc) return (a, b) => a.totalFame - b.totalFame
@@ -75,16 +75,16 @@ const columns = {
   player: (key, asc) => {
     if (asc) return (a, b) => b.name.localeCompare(a.name)
     return (a, b) => a.name.localeCompare(b.name)
-  },
+  }
 }
 
 const cellColors = [
-  "rgb(43, 138, 62, 0.5)", // 225
-  "rgb(81, 207, 102, 0.6)", // 200
-  "rgb(169, 227, 75, 0.4)", // 175
-  "rgb(250, 176, 5, 0.4)", // 150
-  "rgb(255, 146, 43, 0.6)", // 125
-  "rgb(250, 82, 82, 0.6)", // 100 avg or less than 400 fame
+  'rgb(43, 138, 62, 0.5)', // 225
+  'rgb(81, 207, 102, 0.6)', // 200
+  'rgb(169, 227, 75, 0.4)', // 175
+  'rgb(250, 176, 5, 0.4)', // 150
+  'rgb(255, 146, 43, 0.6)', // 125
+  'rgb(250, 82, 82, 0.6)' // 100 avg or less than 400 fame
 ]
 
 function getWeekData(week) {
@@ -111,7 +111,7 @@ function getWeekData(week) {
           scores,
           tag: entry.tag,
           totalAttacks: entry.attacks,
-          totalFame: entry.fame,
+          totalFame: entry.fame
         }
       }
     }
@@ -139,30 +139,30 @@ function getFameCellColor(attacks, fame, missed) {
 }
 
 export default function DailyTrackingTable({ data, week }) {
-  const isLessThanTablet = useMediaQuery("(max-width: calc(48em - 1px))")
+  const isLessThanTablet = useMediaQuery('(max-width: calc(48em - 1px))')
   const [sortConfig, setSortConfig] = useState({
-    col: "fame",
-    dir: "dsc",
-    key: "totalFame",
+    col: 'fame',
+    dir: 'dsc',
+    key: 'totalFame'
   })
 
   const weekData = data[week]
-  const tableData = useMemo(() => getWeekData(weekData), [week])
+  const tableData = useMemo(() => getWeekData(weekData), [weekData])
 
   const handleThClick = (key, col) => {
     const sameKey = key === sortConfig.key
 
     setSortConfig({
       col: col || key,
-      dir: sameKey ? (sortConfig.dir === "asc" ? "dsc" : "asc") : "dsc",
-      key,
+      dir: sameKey ? (sortConfig.dir === 'asc' ? 'dsc' : 'asc') : 'dsc',
+      key
     })
   }
 
   const showCaret = (key) => {
     if (sortConfig.key === key) {
-      if (sortConfig.dir === "asc") return <IconCaretUpFilled size={isLessThanTablet ? "0.75rem" : "1rem"} />
-      return <IconCaretDownFilled size={isLessThanTablet ? "0.75rem" : "1rem"} />
+      if (sortConfig.dir === 'asc') return <IconCaretUpFilled size={isLessThanTablet ? '0.75rem' : '1rem'} />
+      return <IconCaretDownFilled size={isLessThanTablet ? '0.75rem' : '1rem'} />
     }
 
     return null
@@ -171,14 +171,14 @@ export default function DailyTrackingTable({ data, week }) {
   const rows = useMemo(
     () =>
       Object.values(tableData)
-        .sort(columns[sortConfig.col](sortConfig.key, sortConfig.dir === "asc"))
+        .sort(columns[sortConfig.col](sortConfig.key, sortConfig.dir === 'asc'))
         .map((entry, i) => (
-          <Table.Tr fw="600" fz={{ base: "0.65rem", md: "0.85rem" }} key={entry.tag}>
-            <Table.Td bg="gray.10" px="0" ta="center">
+          <Table.Tr fw='600' fz={{ base: '0.65rem', md: '0.85rem' }} key={entry.tag}>
+            <Table.Td bg='gray.10' px='0' ta='center'>
               {i + 1}
             </Table.Td>
-            <Table.Td fz={{ base: "0.75rem", md: "0.9rem" }}>
-              <Link className="pinkText" href={`/player/${entry.tag.substring(1)}`} prefetch={false}>
+            <Table.Td fz={{ base: '0.75rem', md: '0.9rem' }}>
+              <Link className='pinkText' href={`/player/${entry.tag.substring(1)}`} prefetch={false}>
                 {entry.name}
               </Link>
             </Table.Td>
@@ -186,20 +186,20 @@ export default function DailyTrackingTable({ data, week }) {
               let fameCellBg = getFameCellColor(s.attacks, s.fame, s.missed)
 
               // show stripes for missed attacks
-              if ("missed" in s && ((s.attacks === 0 && s.missed) || s.attacks % 4 !== 0)) {
+              if ('missed' in s && ((s.attacks === 0 && s.missed) || s.attacks % 4 !== 0)) {
                 fameCellBg = `repeating-linear-gradient(45deg, transparent, transparent 10px, ${fameCellBg} 10px, ${fameCellBg} 20px)`
               }
 
               return (
                 <React.Fragment key={`${entry.tag}-${i}`}>
-                  <Table.Td ta="center" visibleFrom="md">
+                  <Table.Td ta='center' visibleFrom='md'>
                     {s.attacks}
                   </Table.Td>
-                  <Table.Td bg={fameCellBg} colSpan={isLessThanTablet && 2} ta="center">
+                  <Table.Td bg={fameCellBg} colSpan={isLessThanTablet && 2} ta='center'>
                     {isLessThanTablet ? (
-                      <Stack gap="0">
-                        <Text fz={{ base: "0.65rem", md: "0.85rem" }}>{s.fame}</Text>
-                        <Text fz={{ base: "0.65rem", md: "0.85rem" }}>({s.attacks})</Text>
+                      <Stack gap='0'>
+                        <Text fz={{ base: '0.65rem', md: '0.85rem' }}>{s.fame}</Text>
+                        <Text fz={{ base: '0.65rem', md: '0.85rem' }}>({s.attacks})</Text>
                       </Stack>
                     ) : (
                       s.fame
@@ -208,17 +208,17 @@ export default function DailyTrackingTable({ data, week }) {
                 </React.Fragment>
               )
             })}
-            <Table.Td ta="center" visibleFrom="md">
+            <Table.Td ta='center' visibleFrom='md'>
               {entry.avg.toFixed(1)}
             </Table.Td>
-            <Table.Td ta="center" visibleFrom="md">
+            <Table.Td ta='center' visibleFrom='md'>
               {entry.totalAttacks}
             </Table.Td>
-            <Table.Td colSpan={isLessThanTablet && 2} ta="center">
+            <Table.Td colSpan={isLessThanTablet && 2} ta='center'>
               {isLessThanTablet ? (
-                <Stack gap="0">
-                  <Text fz={{ base: "0.65rem", md: "0.85rem" }}>{entry.totalFame}</Text>
-                  <Text fz={{ base: "0.65rem", md: "0.85rem" }}>({entry.totalAttacks})</Text>
+                <Stack gap='0'>
+                  <Text fz={{ base: '0.65rem', md: '0.85rem' }}>{entry.totalFame}</Text>
+                  <Text fz={{ base: '0.65rem', md: '0.85rem' }}>({entry.totalAttacks})</Text>
                 </Stack>
               ) : (
                 entry.totalFame
@@ -226,143 +226,143 @@ export default function DailyTrackingTable({ data, week }) {
             </Table.Td>
           </Table.Tr>
         )),
-    [sortConfig, isLessThanTablet, week],
+    [sortConfig, isLessThanTablet, tableData]
   )
 
   return (
-    <Table className="ignoreContainerPadding" highlightOnHover layout="fixed" mt="md" striped withColumnBorders>
-      <Table.Thead fz={{ base: "0.65rem", md: "0.9rem" }}>
+    <Table className='ignoreContainerPadding' highlightOnHover layout='fixed' mt='md' striped withColumnBorders>
+      <Table.Thead fz={{ base: '0.65rem', md: '0.9rem' }}>
         <Table.Tr>
-          <Table.Th bg="gray.10" px="0" rowSpan={2} ta="center" w={{ base: "1.25rem", md: "2.5rem" }}>
+          <Table.Th bg='gray.10' px='0' rowSpan={2} ta='center' w={{ base: '1.25rem', md: '2.5rem' }}>
             #
           </Table.Th>
           <Table.Th
             className={isLessThanTablet ? null : classes.hoverableTh}
-            onClick={() => handleThClick("player")}
+            onClick={() => handleThClick('player')}
             rowSpan={2}
-            ta="center"
-            w={{ base: "7rem", lg: "20%", md: "10rem" }}
+            ta='center'
+            w={{ base: '7rem', lg: '20%', md: '10rem' }}
           >
-            <Group gap={0} justify="center">
-              <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
+            <Group gap={0} justify='center'>
+              <Text fw={700} fz={{ base: '0.65rem', md: '0.9rem' }}>
                 Player
               </Text>
-              {showCaret("player")}
+              {showCaret('player')}
             </Group>
           </Table.Th>
           <Table.Th
             bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isLessThanTablet ? () => handleThClick("day1Fame", "fame") : () => {}}
-            px="0"
+            onClick={isLessThanTablet ? () => handleThClick('day1Fame', 'fame') : () => {}}
+            px='0'
             rowSpan={isLessThanTablet && 2}
-            ta="center"
+            ta='center'
           >
-            <Group gap={0} justify="center">
-              <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
+            <Group gap={0} justify='center'>
+              <Text fw={700} fz={{ base: '0.65rem', md: '0.9rem' }}>
                 Day 1
               </Text>
-              {isLessThanTablet && showCaret("day1Fame")}
+              {isLessThanTablet && showCaret('day1Fame')}
             </Group>
           </Table.Th>
           <Table.Th
             bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isLessThanTablet ? () => handleThClick("day2Fame", "fame") : () => {}}
-            px="0"
+            onClick={isLessThanTablet ? () => handleThClick('day2Fame', 'fame') : () => {}}
+            px='0'
             rowSpan={isLessThanTablet && 2}
-            ta="center"
+            ta='center'
           >
-            <Group gap={0} justify="center">
-              <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
+            <Group gap={0} justify='center'>
+              <Text fw={700} fz={{ base: '0.65rem', md: '0.9rem' }}>
                 Day 2
               </Text>
-              {isLessThanTablet && showCaret("day2Fame")}
+              {isLessThanTablet && showCaret('day2Fame')}
             </Group>
           </Table.Th>
           <Table.Th
             bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isLessThanTablet ? () => handleThClick("day3Fame", "fame") : () => {}}
-            px="0"
+            onClick={isLessThanTablet ? () => handleThClick('day3Fame', 'fame') : () => {}}
+            px='0'
             rowSpan={isLessThanTablet && 2}
-            ta="center"
+            ta='center'
           >
-            <Group gap={0} justify="center">
-              <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
+            <Group gap={0} justify='center'>
+              <Text fw={700} fz={{ base: '0.65rem', md: '0.9rem' }}>
                 Day 3
               </Text>
-              {isLessThanTablet && showCaret("day3Fame")}
+              {isLessThanTablet && showCaret('day3Fame')}
             </Group>
           </Table.Th>
           <Table.Th
             bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isLessThanTablet ? () => handleThClick("day4Fame", "fame") : () => {}}
-            px="0"
+            onClick={isLessThanTablet ? () => handleThClick('day4Fame', 'fame') : () => {}}
+            px='0'
             rowSpan={isLessThanTablet && 2}
-            ta="center"
+            ta='center'
           >
-            <Group gap={0} justify="center">
-              <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
+            <Group gap={0} justify='center'>
+              <Text fw={700} fz={{ base: '0.65rem', md: '0.9rem' }}>
                 Day 4
               </Text>
-              {isLessThanTablet && showCaret("day4Fame")}
+              {isLessThanTablet && showCaret('day4Fame')}
             </Group>
           </Table.Th>
           <Table.Th
             className={classes.hoverableTh}
-            onClick={() => handleThClick("avg")}
+            onClick={() => handleThClick('avg')}
             rowSpan={2}
-            ta="center"
-            visibleFrom="md"
+            ta='center'
+            visibleFrom='md'
           >
-            <Group gap={0} justify="center">
-              <Text fw={700} fz="0.9rem">
+            <Group gap={0} justify='center'>
+              <Text fw={700} fz='0.9rem'>
                 Avg.
               </Text>
-              {showCaret("avg")}
+              {showCaret('avg')}
             </Group>
           </Table.Th>
           <Table.Th
             bg={`gray.${isLessThanTablet ? 9 : 10}`}
             colSpan={2}
-            onClick={isLessThanTablet ? () => handleThClick("totalFame", "fame") : () => {}}
-            px="0"
-            ta="center"
+            onClick={isLessThanTablet ? () => handleThClick('totalFame', 'fame') : () => {}}
+            px='0'
+            ta='center'
           >
-            <Group gap={0} justify="center">
-              <Text fw={700} fz={{ base: "0.65rem", md: "0.9rem" }}>
+            <Group gap={0} justify='center'>
+              <Text fw={700} fz={{ base: '0.65rem', md: '0.9rem' }}>
                 Total
               </Text>
-              {isLessThanTablet && showCaret("totalFame")}
+              {isLessThanTablet && showCaret('totalFame')}
             </Group>
           </Table.Th>
         </Table.Tr>
-        <Table.Tr className="noselect">
-          {[1, 2, 3, 4, "total"].map((d) => {
-            const prefix = d === "total" ? d : `day${d}`
+        <Table.Tr className='noselect'>
+          {[1, 2, 3, 4, 'total'].map((d) => {
+            const prefix = d === 'total' ? d : `day${d}`
             return (
               <React.Fragment key={d}>
                 <Table.Th
                   className={classes.hoverableTh}
-                  onClick={() => handleThClick(`${prefix}Attacks`, "attacks")}
-                  px="0"
-                  visibleFrom="md"
+                  onClick={() => handleThClick(`${prefix}Attacks`, 'attacks')}
+                  px='0'
+                  visibleFrom='md'
                 >
-                  <Group gap={0} justify="center">
-                    <Image alt="Attacks" height="16" src="/assets/icons/decksRemaining.webp" />
+                  <Group gap={0} justify='center'>
+                    <Image alt='Attacks' height='16' src='/assets/icons/decksRemaining.webp' />
                     {showCaret(`${prefix}Attacks`)}
                   </Group>
                 </Table.Th>
                 <Table.Th
                   className={classes.hoverableTh}
-                  onClick={() => handleThClick(`${prefix}Fame`, "fame")}
-                  px="0"
-                  visibleFrom="md"
+                  onClick={() => handleThClick(`${prefix}Fame`, 'fame')}
+                  px='0'
+                  visibleFrom='md'
                 >
-                  <Group gap={0} justify="center">
-                    <Image alt="Fame" height="16" src="/assets/icons/fame.webp" />
+                  <Group gap={0} justify='center'>
+                    <Image alt='Fame' height='16' src='/assets/icons/fame.webp' />
                     {showCaret(`${prefix}Fame`)}
                   </Group>
                 </Table.Th>
@@ -371,7 +371,7 @@ export default function DailyTrackingTable({ data, week }) {
           })}
         </Table.Tr>
       </Table.Thead>
-      <Table.Tbody fw="500">{rows}</Table.Tbody>
+      <Table.Tbody fw='500'>{rows}</Table.Tbody>
     </Table>
   )
 }

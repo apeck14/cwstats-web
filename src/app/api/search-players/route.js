@@ -1,4 +1,4 @@
-/* eslint-disable import/prefer-default-export */
+ 
 import { NextResponse } from "next/server"
 import { Logger } from "next-axiom"
 import * as Realm from "realm-web"

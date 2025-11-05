@@ -1,34 +1,35 @@
-import { MongoDBAdapter } from "@auth/mongodb-adapter"
-import NextAuth from "next-auth/next"
-import DiscordProvider from "next-auth/providers/discord"
-import { Logger } from "next-axiom"
+/* eslint-disable camelcase */
+import { MongoDBAdapter } from '@auth/mongodb-adapter'
+import NextAuth from 'next-auth/next'
+import DiscordProvider from 'next-auth/providers/discord'
+import { Logger } from 'next-axiom'
 
-import client from "@/lib/mongodb"
+import client from '@/lib/mongodb'
 
 // Constants
 const DISCORD_API = {
-  ME: "https://discord.com/api/users/@me",
-  REVOKE: "https://discord.com/api/oauth2/token/revoke",
-  TOKEN: "https://discord.com/api/oauth2/token",
+  ME: 'https://discord.com/api/users/@me',
+  REVOKE: 'https://discord.com/api/oauth2/token/revoke',
+  TOKEN: 'https://discord.com/api/oauth2/token'
 }
 
-const REQUIRED_SCOPES = ["identify", "guilds", "guilds.members.read"]
+const REQUIRED_SCOPES = ['identify', 'guilds', 'guilds.members.read']
 
 export const SessionErrors = {
-  EXPIRED_ACCESS_TOKEN: "ExpiredAccessTokenError",
-  INVALID_DISCORD_TOKEN: "InvalidDiscordTokenError",
-  REFRESH_TOKEN_ERROR: "RefreshAccessTokenError",
-  REVOKED_ACCESS: "RevokedAccessError",
+  EXPIRED_ACCESS_TOKEN: 'ExpiredAccessTokenError',
+  INVALID_DISCORD_TOKEN: 'InvalidDiscordTokenError',
+  REFRESH_TOKEN_ERROR: 'RefreshAccessTokenError',
+  REVOKED_ACCESS: 'RevokedAccessError'
 }
 
 export async function discordRequest(url, options) {
   try {
     const response = await fetch(url, {
       headers: {
-        "Content-Type": "application/x-www-form-urlencoded",
-        ...options.headers,
+        'Content-Type': 'application/x-www-form-urlencoded',
+        ...options.headers
       },
-      ...options,
+      ...options
     })
 
     const data = await response.json()
@@ -49,7 +50,7 @@ export async function validateDiscordToken(accessToken) {
   if (!accessToken) return { isValid: false }
 
   const { success } = await discordRequest(DISCORD_API.ME, {
-    headers: { Authorization: `Bearer ${accessToken}` },
+    headers: { Authorization: `Bearer ${accessToken}` }
   })
 
   if (!success) {
@@ -65,12 +66,12 @@ export async function revokeAccessToken(accessToken, discordId) {
   const body = new URLSearchParams({
     client_id: process.env.DISCORD_ID,
     client_secret: process.env.DISCORD_SECRET,
-    token: accessToken,
+    token: accessToken
   })
 
   const { success } = await discordRequest(DISCORD_API.REVOKE, {
     body,
-    method: "POST",
+    method: 'POST'
   })
 
   if (!success) {
@@ -78,13 +79,13 @@ export async function revokeAccessToken(accessToken, discordId) {
   }
 
   // remove from DB
-  const db = client.db("General")
-  const accounts = db.collection("accounts")
-  const users = db.collection("users")
+  const db = client.db('General')
+  const accounts = db.collection('accounts')
+  const users = db.collection('users')
 
   accounts.deleteMany({ providerAccountId: discordId })
   users.deleteMany({
-    image: { $regex: discordId },
+    image: { $regex: discordId }
   })
 
   return { success: true }
@@ -94,25 +95,25 @@ export async function refreshAccessToken(session) {
   const body = new URLSearchParams({
     client_id: process.env.DISCORD_ID,
     client_secret: process.env.DISCORD_SECRET,
-    grant_type: "refresh_token",
-    refresh_token: session.user.refresh_token,
+    grant_type: 'refresh_token',
+    refresh_token: session.user.refresh_token
   })
 
   const { data, error, success } = await discordRequest(DISCORD_API.TOKEN, {
     body,
-    method: "POST",
+    method: 'POST'
   })
 
   if (!success) {
     return {
       ...session,
-      error: error === "invalid_grant" ? SessionErrors.REVOKED_ACCESS : SessionErrors.REFRESH_TOKEN_ERROR,
+      error: error === 'invalid_grant' ? SessionErrors.REVOKED_ACCESS : SessionErrors.REFRESH_TOKEN_ERROR
     }
   }
 
   // Update database with new token data
-  const db = client.db("General")
-  const accounts = db.collection("accounts")
+  const db = client.db('General')
+  const accounts = db.collection('accounts')
 
   await accounts.updateOne(
     { providerAccountId: session.user.discord_id },
@@ -120,9 +121,9 @@ export async function refreshAccessToken(session) {
       $set: {
         access_token: data.access_token,
         expires_at: Date.now() + data.expires_in * 1000,
-        refresh_token: data.refresh_token ?? session.user.refresh_token,
-      },
-    },
+        refresh_token: data.refresh_token ?? session.user.refresh_token
+      }
+    }
   )
 
   return {
@@ -130,7 +131,7 @@ export async function refreshAccessToken(session) {
     access_token: data.access_token,
     error: null,
     expires_at: Date.now() + data.expires_in * 1000,
-    refresh_token: data.refresh_token ?? session.user.refresh_token,
+    refresh_token: data.refresh_token ?? session.user.refresh_token
   }
 }
 
@@ -160,8 +161,8 @@ export const authOptions = {
             expires_at: account.expires_at * 1000,
             image,
             name: profile.username,
-            refresh_token: account.refresh_token,
-          },
+            refresh_token: account.refresh_token
+          }
         }
       }
 
@@ -179,8 +180,8 @@ export const authOptions = {
             user: {
               ...token.user,
               access_token: refreshedToken.access_token,
-              access_token_expires: refreshedToken.expires_at * 1000,
-            },
+              access_token_expires: refreshedToken.expires_at * 1000
+            }
           }
         } catch {
           token.error = SessionErrors.REFRESH_TOKEN_ERROR
@@ -196,17 +197,17 @@ export const authOptions = {
      */
     session: async ({ session, token }) => {
       try {
-        const db = client.db("General")
-        const linkedAccounts = db.collection("Linked Accounts")
+        const db = client.db('General')
+        const linkedAccounts = db.collection('Linked Accounts')
 
         const [{ isValid }, linkedAccount] = await Promise.all([
           validateDiscordToken(token.user.access_token),
           linkedAccounts.findOne(
             {
-              discordID: token.user.discord_id,
+              discordID: token.user.discord_id
             },
-            { projection: { _id: 0, savedClans: 1, savedPlayers: 1, tag: 1 } },
-          ),
+            { projection: { _id: 0, savedClans: 1, savedPlayers: 1, tag: 1 } }
+          )
         ])
 
         if (!isValid) {
@@ -218,7 +219,7 @@ export const authOptions = {
               ...session,
               ...token,
               ...linkedAccount,
-              error: SessionErrors.REFRESH_TOKEN_ERROR,
+              error: SessionErrors.REFRESH_TOKEN_ERROR
             }
           }
         }
@@ -226,9 +227,9 @@ export const authOptions = {
         session = {
           user: {
             ...session.user,
-            ...token.user,
+            ...token.user
           },
-          ...linkedAccount,
+          ...linkedAccount
         }
 
         return session
@@ -239,11 +240,11 @@ export const authOptions = {
     },
     signIn: async ({ profile }) => {
       try {
-        const db = client.db("General")
-        const linkedAccounts = db.collection("Linked Accounts")
+        const db = client.db('General')
+        const linkedAccounts = db.collection('Linked Accounts')
 
         const userExists = await linkedAccounts.findOne({
-          discordID: profile.id,
+          discordID: profile.id
         })
 
         if (!userExists) {
@@ -252,54 +253,54 @@ export const authOptions = {
             discordID: profile.id,
             savedClans: [],
             savedPlayers: [],
-            tag: null,
+            tag: null
           })
         }
 
         return true
       } catch (error) {
         const log = new Logger()
-        log.error("Database operation error:", error)
+        log.error('Database operation error:', error)
         return false
       }
-    },
+    }
   },
   cookies: {
     sessionToken: {
-      name: process.env.NODE_ENV === "production" ? "__Secure-next-auth.session-token" : "next-auth.session-token",
+      name: process.env.NODE_ENV === 'production' ? '__Secure-next-auth.session-token' : 'next-auth.session-token',
       options: {
         httpOnly: true,
-        path: "/",
-        sameSite: "lax",
-        secure: process.env.NODE_ENV === "production",
-      },
-    },
+        path: '/',
+        sameSite: 'lax',
+        secure: process.env.NODE_ENV === 'production'
+      }
+    }
   },
   events: {
     async signOut({ token }) {
       revokeAccessToken(token.user.access_token, token.user.discord_id)
-    },
+    }
   },
   providers: [
     DiscordProvider({
       authorization: {
         params: {
-          scope: REQUIRED_SCOPES.join(" "),
-        },
+          scope: REQUIRED_SCOPES.join(' ')
+        }
       },
-      check: ["none"],
+      check: ['none'],
       clientId: process.env.DISCORD_ID,
-      clientSecret: process.env.DISCORD_SECRET,
-    }),
+      clientSecret: process.env.DISCORD_SECRET
+    })
   ],
   secret: process.env.NEXTAUTH_SECRET,
   session: {
     maxAge: 30 * 24 * 60 * 60, // 30 days
-    strategy: "jwt",
+    strategy: 'jwt'
   },
   theme: {
-    logo: "https://www.cwstats.com/_next/image?url=%2Fassets%2Ficons%2Flogo.webp&w=96&q=100",
-  },
+    logo: 'https://www.cwstats.com/_next/image?url=%2Fassets%2Ficons%2Flogo.webp&w=96&q=100'
+  }
 }
 
 const handler = NextAuth(authOptions)

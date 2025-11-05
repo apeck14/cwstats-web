@@ -1,4 +1,4 @@
-/* eslint-disable import/no-mutable-exports */
+ 
 import { MongoClient, ServerApiVersion } from "mongodb"
 
 const uri = process.env.NODE_ENV === "development" ? process.env.MONGODB_TEST_URI : process.env.URI

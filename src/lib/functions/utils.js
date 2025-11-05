@@ -154,40 +154,64 @@ export const getClanSearchParams = (params) => {
   const newParams = {}
 
   for (const [key, value] of Object.entries(params)) {
-    if (key === "limit") {
+    switch (key) {
+    case "limit": {
       const limit = parseInt(value)
       if (Number.isInteger(limit)) {
         newParams[key] = limit
       }
-    } else if (key === "minScore") {
+    
+    break;
+    }
+    case "minScore": {
       const minScore = parseInt(value)
       if (Number.isInteger(minScore) && minScore > 0) {
         newParams[key] = minScore
       }
-    } else if (key === "minMembers") {
+    
+    break;
+    }
+    case "minMembers": {
       const minMembers = parseInt(value)
       if (Number.isInteger(minMembers) && minMembers > 2) {
         newParams[key] = minMembers
       }
-    } else if (key === "maxMembers") {
+    
+    break;
+    }
+    case "maxMembers": {
       const maxMembers = parseInt(value)
       if (Number.isInteger(maxMembers) && maxMembers < 50) {
         newParams[key] = maxMembers
       }
-    } else if (key === "name") {
+    
+    break;
+    }
+    case "name": {
       newParams[key] = value.trim()
-    } else if (key === "trophies") {
+    
+    break;
+    }
+    case "trophies": {
       const trophies = parseInt(value)
       if (Number.isInteger(trophies) && trophies > 0) {
         newParams[key] = trophies
       }
-    } else if (key === "locationId") {
+    
+    break;
+    }
+    case "locationId": {
       if (value !== "global") {
         const locationId = parseInt(value)
         if (Number.isInteger(locationId)) {
           newParams[key] = locationId
         }
       }
+    
+    break;
+    }
+    default:
+    // Do nothing
     }
   }
 

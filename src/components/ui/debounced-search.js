@@ -1,20 +1,19 @@
-"use client"
+'use client'
 
-import { Combobox, Group, InputBase, Loader, rem, Text, useCombobox } from "@mantine/core"
-import { useDebouncedValue, useMediaQuery } from "@mantine/hooks"
-import { IconSearch } from "@tabler/icons-react"
-import Link from "next/link"
-import { useRouter } from "next-nprogress-bar"
-import { useEffect, useRef, useState } from "react"
+import { Combobox, Group, InputBase, Loader, rem, Text, useCombobox } from '@mantine/core'
+import { useDebouncedValue, useMediaQuery } from '@mantine/hooks'
+import { IconSearch } from '@tabler/icons-react'
+import Link from 'next/link'
+import { useRouter } from 'next-nprogress-bar'
+import { useEffect, useRef, useState } from 'react'
 
-import { getPlayersByQuery } from "@/actions/api"
-import { searchClans } from "@/actions/supercell"
-import { getClanBadgeFileName } from "@/lib/functions/utils"
+import { getPlayersByQuery } from '@/actions/api'
+import { searchClans } from '@/actions/supercell'
+import { getClanBadgeFileName } from '@/lib/functions/utils'
 
-import Image from "./image"
+import Image from './image'
 
 export default function DebouncedSearch({
-  autoFocus = true,
   checkIfTag = false,
   enterRedirects = false,
   isClans,
@@ -24,20 +23,20 @@ export default function DebouncedSearch({
   required,
   searchIconSize,
   showMoreResults = false,
-  size,
+  size
 }) {
   const inputRef = useRef(null)
   const combobox = useCombobox({
     onDropdownClose: () => {
       combobox.resetSelectedOption()
-    },
+    }
   })
 
-  const [search, setSearch] = useState("")
+  const [search, setSearch] = useState('')
   const [debounced] = useDebouncedValue(search, 600)
   const [results, setResults] = useState([])
   const [loading, setLoading] = useState(false)
-  const isMobile = useMediaQuery("(max-width: 30em)")
+  const isMobile = useMediaQuery('(max-width: 30em)')
   const router = useRouter()
 
   const showDropdown = search && debounced && !loading
@@ -74,17 +73,15 @@ export default function DebouncedSearch({
         const option = results.find((o) => o.tag === val)
         onSelect(option)
       }}
-      position="bottom"
+      position='bottom'
       store={combobox}
     >
       <Combobox.Target>
         <InputBase
-          autoFocus={autoFocus}
-          data-autofocus={autoFocus}
           label={label}
           leftSection={
             loading ? (
-              <Loader size="xs" />
+              <Loader size='xs' />
             ) : (
               <IconSearch style={{ height: rem(searchIconSize || 16), width: rem(searchIconSize || 16) }} />
             )
@@ -94,14 +91,14 @@ export default function DebouncedSearch({
             setSearch(e.currentTarget.value)
           }}
           onKeyDown={(e) => {
-            if (enterRedirects && e.key === "Enter") {
-              router.push(`/${isClans ? "clan" : "player"}/search?name=${search}`)
+            if (enterRedirects && e.key === 'Enter') {
+              router.push(`/${isClans ? 'clan' : 'player'}/search?name=${search}`)
             }
           }}
-          placeholder={placeholder || `Search ${isClans ? "clans" : "players"}...`}
+          placeholder={placeholder || `Search ${isClans ? 'clans' : 'players'}...`}
           ref={inputRef}
           required={required}
-          size={size || "md"}
+          size={size || 'md'}
           value={search}
         />
       </Combobox.Target>
@@ -110,23 +107,23 @@ export default function DebouncedSearch({
         <Combobox.Dropdown>
           <Combobox.Options>
             {results.length === 0 ? (
-              <Combobox.Empty c="white" fw="600">
+              <Combobox.Empty c='white' fw='600'>
                 No Results
               </Combobox.Empty>
             ) : (
               results.map((r) => (
                 <Combobox.Option
                   component={Group}
-                  justify="space-between"
+                  justify='space-between'
                   key={r.tag}
                   onClick={() => inputRef.current.blur()}
                   value={r.tag}
-                  wrap="nowrap"
+                  wrap='nowrap'
                 >
-                  <Group gap="xs">
+                  <Group gap='xs'>
                     {isClans && (
                       <Image
-                        alt="Clan Badge"
+                        alt='Clan Badge'
                         height={clanBadgePx}
                         src={`/assets/badges/${getClanBadgeFileName(r.badgeId, r.clanWarTrophies)}.webp`}
                         unoptimized
@@ -134,7 +131,7 @@ export default function DebouncedSearch({
                     )}
                     <Text fw={600}>{r.name}</Text>
                   </Group>
-                  <Text c="gray.1" miw="fit-content" size="sm">
+                  <Text c='gray.1' miw='fit-content' size='sm'>
                     {isClans ? r.tag : r.clanName}
                   </Text>
                 </Combobox.Option>
@@ -142,11 +139,11 @@ export default function DebouncedSearch({
             )}
           </Combobox.Options>
           {showMoreResults && results.length >= 5 && (
-            <Combobox.Footer fw="600">
+            <Combobox.Footer fw='600'>
               <Link
-                className="pinkText"
-                href={`/${isClans ? "clan" : "player"}/search?name=${debounced}`}
-                w="fit-content"
+                className='pinkText'
+                href={`/${isClans ? 'clan' : 'player'}/search?name=${debounced}`}
+                w='fit-content'
               >
                 View all results...
               </Link>

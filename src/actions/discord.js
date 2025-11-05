@@ -243,38 +243,6 @@ export async function getAllGuildUsers(id, mapResponse = false) {
   }
 }
 
-export async function setDailyWarReport(tag, enabled = true) {
-  try {
-    const db = client.db("General")
-    const linkedClans = db.collection("Linked Clans")
-
-    linkedClans.updateOne({ tag }, { $set: { warReportEnabled: enabled } })
-
-    return { status: 200, success: true }
-  } catch (err) {
-    const log = new Logger()
-    log.warn("setDailyWarReport Error", err)
-
-    return { error: "Unexpected error. Please try again.", status: 500 }
-  }
-}
-
-export async function setSeasonalReport(tag, enabled = true) {
-  try {
-    const db = client.db("General")
-    const linkedClans = db.collection("Linked Clans")
-
-    linkedClans.updateOne({ tag }, { $set: { seasonalReportEnabled: enabled } })
-
-    return { status: 200, success: true }
-  } catch (err) {
-    const log = new Logger()
-    log.warn("setSeasonalReport Error", err)
-
-    return { error: "Unexpected error. Please try again.", status: 500 }
-  }
-}
-
 export async function updateDiscordNickname({ guildId, nickname, userId }) {
   try {
     const res = await fetch(`https://discord.com/api/v10/guilds/${guildId}/members/${userId}`, {
