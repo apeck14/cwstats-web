@@ -91,7 +91,8 @@ export default function SpyContent() {
             title='Temporarily Unavailable'
             variant='light'
           >
-            Deck Spy is temporarily unavailable, but will be back soon.
+            Deck Spy player search is temporarily unavailable, but will be back soon. You can use &apos;Search By
+            Clan&apos; in the meantime.
           </Alert>
 
           {(player || showSkeleton) && (
