@@ -1,16 +1,16 @@
-import { Button, Group, Modal, ScrollArea, Select, Stack, Text, Title } from "@mantine/core"
-import { useDisclosure, useMediaQuery } from "@mantine/hooks"
-import { notifications } from "@mantine/notifications"
-import { IconCheck } from "@tabler/icons-react"
-import { useMemo, useState } from "react"
+import { Button, Group, Modal, ScrollArea, Select, Stack, Text, Title } from '@mantine/core'
+import { useDisclosure, useMediaQuery } from '@mantine/hooks'
+import { notifications } from '@mantine/notifications'
+import { IconCheck } from '@tabler/icons-react'
+import { useMemo, useState } from 'react'
 
-import { bulkLinkAccounts, getUnlinkedPlayersByClan } from "@/actions/server"
-import { sendLogWebhook } from "@/actions/upgrade"
-import { getClanBadgeFileName } from "@/lib/functions/utils"
-import { embedColors } from "@/static/colors"
+import { bulkLinkAccounts, getUnlinkedPlayersByClan } from '@/actions/server'
+import { sendLogWebhook } from '@/actions/upgrade'
+import { getClanBadgeFileName } from '@/lib/functions/utils'
+import { embedColors } from '@/static/colors'
 
-import DebouncedSearch from "../../ui/debounced-search"
-import Image from "../../ui/image"
+import DebouncedSearch from '../../ui/debounced-search'
+import Image from '../../ui/image'
 
 export default function BulkLinkModal({
   guildID,
@@ -18,7 +18,7 @@ export default function BulkLinkModal({
   linksRemaining,
   setLinkedAccounts,
   updateNicknames,
-  users,
+  users
 }) {
   const [unlinkedMembers, setUnlinkedMembers] = useState([])
   const [clan, setClan] = useState(null)
@@ -27,7 +27,7 @@ export default function BulkLinkModal({
   const [linksLeft, setLinksLeft] = useState(linksRemaining)
   const [showButton, setShowButton] = useState(false)
   const [opened, { close, open }] = useDisclosure(false)
-  const isTablet = useMediaQuery("(max-width: 48em)")
+  const isTablet = useMediaQuery('(max-width: 48em)')
 
   const usersToAdd = unlinkedMembers.filter((m) => m?.username?.trim())
 
@@ -50,16 +50,21 @@ export default function BulkLinkModal({
     }
   }
 
-  const handleChange = (e, tag) => {
-    const selectedUsername = e?.substring(0, e.lastIndexOf("__")) || e // remove suffix
-    const newLinksLeft = linksLeft - (e ? 1 : -1)
+  const parseSelectedUsername = (val) => (typeof val === 'string' && /__\d+$/.test(val) ? val.replace(/__\d+$/, '') : val)
+
+  const handleChange = (val, tag) => {
+    const selectedUsername = parseSelectedUsername(val)
+    const newLinksLeft = linksLeft - (val ? 1 : -1)
 
     setLinksLeft(newLinksLeft)
     setShowButton(newLinksLeft !== linksRemaining)
 
     const newUnlinkedMembers = [...unlinkedMembers]
-    newUnlinkedMembers.find((m) => m.tag === tag).username = selectedUsername
-    setUnlinkedMembers(newUnlinkedMembers)
+    const member = newUnlinkedMembers.find((m) => m.tag === tag)
+    if (member) {
+      member.username = selectedUsername || ''
+      setUnlinkedMembers(newUnlinkedMembers)
+    }
   }
 
   const handleSubmit = async () => {
@@ -86,9 +91,9 @@ export default function BulkLinkModal({
       setLinkedAccounts([...linkedAccounts, ...playersAdded])
       notifications.show({
         autoClose: 7000,
-        color: "green",
+        color: 'green',
         message: `${playersAdded.length} player(s) were successfully linked.`,
-        title: "Player(s) linked!",
+        title: 'Player(s) linked!'
       })
     }
 
@@ -99,9 +104,9 @@ export default function BulkLinkModal({
         details: `**${playersAdded.length}** player(s) linked.`,
         guild: guildID,
         tag: clan.tag,
-        title: "Bulk Link Used",
+        title: 'Bulk Link Used'
       },
-      true,
+      true
     )
 
     setLinksLeft(linksRemaining - playersAdded.length)
@@ -118,7 +123,7 @@ export default function BulkLinkModal({
 
       return {
         label: username,
-        value: count === 0 ? username : `${username}__${count}`, // suffix to make it unique
+        value: count === 0 ? username : `${username}__${count}` // suffix to make it unique
       }
     })
   }, [users])
@@ -127,11 +132,11 @@ export default function BulkLinkModal({
 
   return (
     <>
-      <Modal centered={!isTablet} onClose={handleClose} opened={opened} title={<Title fz="1.25rem">Bulk Link</Title>}>
+      <Modal centered={!isTablet} onClose={handleClose} opened={opened} title={<Title fz='1.25rem'>Bulk Link</Title>}>
         {clan ? (
-          <Group fw={600} gap="xs">
+          <Group fw={600} gap='xs'>
             <Image
-              alt="Clan Badge"
+              alt='Clan Badge'
               height={26}
               src={`/assets/badges/${getClanBadgeFileName(clan.badgeId, clan.clanWarTrophies)}.webp`}
               unoptimized
@@ -139,44 +144,44 @@ export default function BulkLinkModal({
             {clan?.name}
           </Group>
         ) : (
-          <Stack gap="xs">
-            <Text c="dimmed" size="sm">
+          <Stack gap='xs'>
+            <Text c='dimmed' size='sm'>
               Quickly find and link unlinked players by clan.
             </Text>
-            <DebouncedSearch checkIfTag isClans label="Clan Name" onSelect={handleClanSelect} required />
+            <DebouncedSearch checkIfTag isClans label='Clan Name' onSelect={handleClanSelect} required />
           </Stack>
         )}
 
         {!clan || clanLoading ? null : clan && !unlinkedMembers.length ? (
-          <Group gap="xs" mt="md">
-            <IconCheck color="var(--mantine-color-green-6)" size="1.25rem" stroke={2} />
-            <Text c="dimmed">All players from this clan are linked!</Text>
+          <Group gap='xs' mt='md'>
+            <IconCheck color='var(--mantine-color-green-6)' size='1.25rem' stroke={2} />
+            <Text c='dimmed'>All players from this clan are linked!</Text>
           </Group>
         ) : (
-          <Stack mt="md">
-            <Stack gap="0">
-              <Text c="dimmed" size="sm">
-                Links Remaining: <span style={{ color: "var(--mantine-color-green-6)" }}>{linksLeft}</span>
+          <Stack mt='md'>
+            <Stack gap='0'>
+              <Text c='dimmed' size='sm'>
+                Links Remaining: <span style={{ color: 'var(--mantine-color-green-6)' }}>{linksLeft}</span>
               </Text>
-              <Text c="dimmed" size="sm">
-                Unlinked Members: <span style={{ color: "var(--mantine-color-red-6)" }}>{unlinkedMemberCount}</span>
+              <Text c='dimmed' size='sm'>
+                Unlinked Members: <span style={{ color: 'var(--mantine-color-red-6)' }}>{unlinkedMemberCount}</span>
               </Text>
             </Stack>
 
-            <ScrollArea h="50vh" type="always">
-              <Stack gap="0.25rem">
+            <ScrollArea h='50vh' type='always'>
+              <Stack gap='0.25rem'>
                 {unlinkedMembers.map((m) => (
-                  <Group bg="gray.8" justify="space-between" key={m.tag} p="xs">
-                    <Text size="sm">{m.name}</Text>
+                  <Group bg='gray.8' justify='space-between' key={m.tag} p='xs'>
+                    <Text size='sm'>{m.name}</Text>
                     <Select
                       data={allUsernames}
                       error={m.error}
                       limit={3}
-                      maw="8.5rem"
+                      maw='8.5rem'
                       onChange={(e) => handleChange(e, m.tag)}
-                      placeholder="Discord Username"
+                      placeholder='Discord Username'
                       searchable
-                      size="xs"
+                      size='xs'
                     />
                   </Group>
                 ))}
@@ -185,17 +190,17 @@ export default function BulkLinkModal({
             <Button
               disabled={!showButton || linksLeft < 0}
               loading={loading}
-              miw="3.5rem"
+              miw='3.5rem'
               onClick={handleSubmit}
-              px="xs"
-              style={{ alignSelf: "flex-end" }}
+              px='xs'
+              style={{ alignSelf: 'flex-end' }}
             >
-              Link {usersToAdd.length ? `(${usersToAdd.length})` : ""}
+              Link {usersToAdd.length ? `(${usersToAdd.length})` : ''}
             </Button>
           </Stack>
         )}
       </Modal>
-      <Button color="green" onClick={open} size="xs" variant="light">
+      <Button color='green' onClick={open} size='xs' variant='light'>
         Bulk Link
       </Button>
     </>
