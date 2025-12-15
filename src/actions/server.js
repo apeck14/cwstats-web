@@ -500,7 +500,7 @@ export async function linkClanToServer(id, tag) {
 
 export async function getLinkedClans(id, plusOnly = false) {
   try {
-    const db = client.db('Test') // TODO
+    const db = client.db('General')
     const linkedClans = db.collection('Linked Clans')
 
     let serverLinkedClans = await linkedClans.find({ guildID: id }).toArray()
