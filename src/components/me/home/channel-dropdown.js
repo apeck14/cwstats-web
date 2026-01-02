@@ -1,20 +1,20 @@
-"use client"
+'use client'
 
-import { Combobox, InputBase, Text, useCombobox } from "@mantine/core"
-import { IconHash } from "@tabler/icons-react"
-import { useMemo, useState } from "react"
+import { Combobox, InputBase, Text, useCombobox } from '@mantine/core'
+import { IconHash } from '@tabler/icons-react'
+import { useMemo, useState } from 'react'
 
 export default function ChannelDropdown({
   channels,
   error,
   initialId,
-  label = "Channel",
+  label = 'Channel',
   noneAsOption = false,
-  placeholder = "Select channel",
-  setChannel,
+  placeholder = 'Select channel',
+  setChannel
 }) {
   const combobox = useCombobox()
-  const [search, setSearch] = useState(channels.find((c) => c.id === initialId)?.name || "")
+  const [search, setSearch] = useState(channels.find((c) => c.id === initialId)?.name || '')
 
   const textChannels = useMemo(() => {
     const channelComponents = channels
@@ -23,19 +23,19 @@ export default function ChannelDropdown({
       .map((c) => ({
         component: (
           <Text>
-            <span style={{ color: "var(--mantine-color-orange-5)", marginRight: "0.25rem" }}>#</span>
+            <span style={{ color: 'var(--mantine-color-orange-5)', marginRight: '0.25rem' }}>#</span>
             {c.name}
           </Text>
         ),
         id: c.id,
-        name: c.name,
+        name: c.name
       }))
 
     if (noneAsOption)
       channelComponents.unshift({
         component: <Text>None</Text>,
-        id: "none",
-        name: "",
+        id: 'none',
+        name: ''
       })
 
     return channelComponents
@@ -70,7 +70,7 @@ export default function ChannelDropdown({
         <InputBase
           error={error}
           leftSection={<IconHash />}
-          leftSectionPointerEvents="none"
+          leftSectionPointerEvents='none'
           onBlur={() => {
             combobox.closeDropdown()
           }}
@@ -81,22 +81,22 @@ export default function ChannelDropdown({
             combobox.updateSelectedOptionIndex()
 
             if (!val && noneAsOption) {
-              handleOptionSelect("none")
+              handleOptionSelect('none')
             }
           }}
           onClick={() => combobox.openDropdown()}
           onFocus={() => combobox.openDropdown()}
           placeholder={placeholder}
           rightSection={<Combobox.Chevron />}
-          rightSectionPointerEvents="none"
-          size="md"
+          rightSectionPointerEvents='none'
+          size='md'
           value={search}
         />
       </Combobox.Target>
 
       <Combobox.Dropdown>
-        <Combobox.Options mah={200} style={{ overflowY: "auto" }}>
-          {options.length > 0 ? options : <Combobox.Empty c="gray.1">Nothing found</Combobox.Empty>}
+        <Combobox.Options mah={200} style={{ overflowY: 'auto' }}>
+          {options.length > 0 ? options : <Combobox.Empty c='gray.1'>Nothing found</Combobox.Empty>}
         </Combobox.Options>
       </Combobox.Dropdown>
     </Combobox>

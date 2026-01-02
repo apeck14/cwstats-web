@@ -85,12 +85,12 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans, we
     )
   }
 
-  const handleReportUpdate = async (type, enabled) => {
+  const handleReportUpdate = async (type, enabled, channelId) => {
     const setEnabled = type === 'seasonal' ? setSeasonalReportEnabled : setWarReportEnabled
     const postFn = type === 'seasonal' ? postSeasonalReport : postDailyWarReport
 
     setEnabled(enabled)
-    const { error } = await postFn({ enabled, guildId: id, tag: clan.tag })
+    const { error } = await postFn({ channelId, enabled, guildId: id, tag: clan.tag })
 
     if (!error) {
       const label = type === 'seasonal' ? 'Seasonal Report' : 'War Report'
@@ -191,7 +191,9 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans, we
                   <ReportModal
                     channels={channels}
                     clan={clan}
-                    handleReportUpdate={(enabled) => handleReportUpdate('seasonal', enabled)}
+                    handleReportUpdate={(enabled, selectedChannelId) =>
+                      handleReportUpdate('seasonal', enabled, selectedChannelId)
+                    }
                     isPlus={isPlus}
                     type='seasonal'
                   />
@@ -218,7 +220,9 @@ export default function LinkedClanCard({ channels, clan, clans, id, setClans, we
                   <ReportModal
                     channels={channels}
                     clan={clan}
-                    handleReportUpdate={(enabled) => handleReportUpdate('war', enabled)}
+                    handleReportUpdate={(enabled, selectedChannelId) =>
+                      handleReportUpdate('war', enabled, selectedChannelId)
+                    }
                     isPlus={isPlus}
                     type='war'
                   />

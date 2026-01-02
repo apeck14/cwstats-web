@@ -1082,9 +1082,9 @@ export const setGuildTimezone = async (id, timezone) =>
     .then(handleAPISuccess)
     .catch(handleAPIFailure)
 
-export const postSeasonalReport = async ({ enabled, guildId, tag }) =>
+export const postSeasonalReport = async ({ channelId, enabled, guildId, tag }) =>
   fetch(`${API_BASE_URL}/plus/seasonal-report`, {
-    body: JSON.stringify({ enabled, guildId, tag: formatTag(tag, false) }),
+    body: JSON.stringify({ channelId, enabled, guildId, tag: formatTag(tag, false) }),
     headers: {
       Authorization: `Bearer ${INTERNAL_API_KEY}`,
       'Content-Type': 'application/json'
@@ -1094,9 +1094,9 @@ export const postSeasonalReport = async ({ enabled, guildId, tag }) =>
     .then(handleAPISuccess)
     .catch(handleAPIFailure)
 
-export const postDailyWarReport = async ({ enabled, guildId, tag }) =>
+export const postDailyWarReport = async ({ channelId, enabled, guildId, tag }) =>
   fetch(`${API_BASE_URL}/plus/war-report`, {
-    body: JSON.stringify({ enabled, guildId, tag: formatTag(tag, false) }),
+    body: JSON.stringify({ channelId, enabled, guildId, tag: formatTag(tag, false) }),
     headers: {
       Authorization: `Bearer ${INTERNAL_API_KEY}`,
       'Content-Type': 'application/json'
